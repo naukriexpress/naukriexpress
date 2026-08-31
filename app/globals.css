@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-paper text-ink-900 font-body antialiased;
+}
+
+* {
+  @apply border-ink-900/10;
+}
+
+::selection {
+  @apply bg-brand-200 text-ink-900;
+}
+
+:focus-visible {
+  outline: 2px solid #1E63A8;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.container-page {
+  @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+
+.chip {
+  @apply inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors;
+}
+
+.chip-inactive {
+  @apply border-ink-900/15 bg-white text-ink-700 hover:border-brand-400 hover:text-brand-600;
+}
+
+.chip-active {
+  @apply border-brand-600 bg-brand-600 text-white;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media print {
+  header, footer, .no-print { display: none !important; }
+}
+
+/* Ticker Running Animation */
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.animate-marquee {
+  animation: marquee 18s linear infinite;
+}
