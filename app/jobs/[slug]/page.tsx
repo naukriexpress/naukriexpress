@@ -6,6 +6,7 @@ import { CATEGORY_LABELS, QUALIFICATION_LABELS, JOB_TYPE_LABELS } from "@/lib/ty
 import StatusBadge from "@/components/StatusBadge";
 import ShareButtons from "@/components/ShareButtons";
 import JobCard from "@/components/JobCard";
+import { effectiveLastDate } from "@/lib/deadlines";
 
 export const dynamic = "force-dynamic";
 
@@ -21,9 +22,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   if (!job) return { title: "Job Not Found" };
 
   const title = job.seo.title || `${job.title} | Apply Online, Eligibility, Last Date`;
-  const description =
-    job.seo.metaDescription ||
-    `${job.title} at ${job.organization}. ${job.totalVacancies} vacancies. Check eligibility, age limit and last date to apply.`;
+  const description = job.seo.metaDescription || (job.jobType === "scholarship"
+    ? `${job.title} by ${job.organization}. Check eligibility, application deadline and official apply link.`
+    : `${job.title} at ${job.organization}. ${job.totalVacancies} vacancies. Check eligibility, age limit and last date to apply.`);
 
   return {
     title,
@@ -49,6 +50,7 @@ export default async function JobDetailsPage({ params }: { params: { slug: strin
     pageSize: 3,
   });
   const relatedJobs = related.filter((j) => j.id !== job.id).slice(0, 3);
+  const isScholarship = job.jobType === "scholarship";
 
   const jobPostingSchema = {
     "@context": "https://schema.org",
@@ -61,7 +63,7 @@ export default async function JobDetailsPage({ params }: { params: { slug: strin
       value: job.advertisementNumber,
     },
     datePosted: job.createdAt,
-    validThrough: new Date(job.dates.lastDate).toISOString(),
+    validThrough: new Date(effectiveLastDate(job)).toISOString(),
     employmentType:
       job.jobType === "government" || job.jobType === "private"
         ? "FULL_TIME"
@@ -89,11 +91,11 @@ export default async function JobDetailsPage({ params }: { params: { slug: strin
 
   return (
     <div className="container-page py-8">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jobPostingSchema) }} />
+      {!isScholarship && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jobPostingSchema) }} />}
 
       <nav className="mb-4 text-xs text-ink-700/60">
         <Link href="/" className="hover:underline">Home</Link> /{" "}
-        <Link href="/jobs" className="hover:underline">Jobs</Link> /{" "}
+        <Link href={isScholarship ? "/scholarships" : job.jobType === "apprenticeship" ? "/apprenticeships" : "/jobs"} className="hover:underline">{isScholarship ? "Scholarships" : job.jobType === "apprenticeship" ? "Apprenticeships" : "Jobs"}</Link> /{" "}
         <span className="text-ink-900">{job.title}</span>
       </nav>
 
@@ -115,10 +117,10 @@ export default async function JobDetailsPage({ params }: { params: { slug: strin
                 <p className="text-xs text-ink-700/60">Advt. No.</p>
                 <p className="font-semibold text-ink-900 text-sm">{job.advertisementNumber}</p>
               </div>
-              <div>
+              {!isScholarship && <div>
                 <p className="text-xs text-ink-700/60">Total Vacancies</p>
                 <p className="font-semibold text-ink-900 text-sm">{job.totalVacancies.toLocaleString("en-IN")}</p>
-              </div>
+              </div>}
               <div>
                 <p className="text-xs text-ink-700/60">Job Type</p>
                 <p className="font-semibold text-ink-900 text-sm">{JOB_TYPE_LABELS[job.jobType]}</p>
@@ -139,7 +141,7 @@ export default async function JobDetailsPage({ params }: { params: { slug: strin
           </div>
 
           {/* Post-wise / category-wise vacancy details */}
-          <section className="mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 sm:p-7 shadow-card">
+          {!isScholarship && job.vacancyBreakdown.length > 0 && <section className="mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 sm:p-7 shadow-card">
             <h2 className="font-display text-lg font-bold text-ink-900 mb-3">Post-wise &amp; Category-wise Vacancy Details</h2>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
@@ -161,7 +163,7 @@ export default async function JobDetailsPage({ params }: { params: { slug: strin
                 </tbody>
               </table>
             </div>
-          </section>
+          </section>}
 
           {/* Eligibility */}
           <section className="mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 sm:p-7 shadow-card">
@@ -171,18 +173,18 @@ export default async function JobDetailsPage({ params }: { params: { slug: strin
                 <p className="text-xs text-ink-700/60">Eligible Gender</p>
                 <p className="font-semibold text-ink-900 text-sm capitalize">{job.eligibility.genders.join(" & ")}</p>
               </div>
-              <div>
+              {job.eligibility.qualifications.length > 0 && <div>
                 <p className="text-xs text-ink-700/60">Qualification</p>
                 <p className="font-semibold text-ink-900 text-sm">
                   {job.eligibility.qualifications.map((q) => QUALIFICATION_LABELS[q]).join(", ")}
                 </p>
-              </div>
-              <div>
+              </div>}
+              {!isScholarship && (job.eligibility.minAge !== undefined || job.eligibility.maxAge !== undefined) && <div>
                 <p className="text-xs text-ink-700/60">Age Limit</p>
                 <p className="font-semibold text-ink-900 text-sm">
                   {job.eligibility.minAge ?? "—"} – {job.eligibility.maxAge ?? "—"} years
                 </p>
-              </div>
+              </div>}
             </div>
             {job.eligibility.ageRelaxation && (
               <p className="text-sm text-ink-700 mb-4"><strong>Age Relaxation:</strong> {job.eligibility.ageRelaxation}</p>
@@ -198,10 +200,11 @@ export default async function JobDetailsPage({ params }: { params: { slug: strin
             <h2 className="font-display text-lg font-bold text-ink-900 mb-3">Important Dates &amp; Fee</h2>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
               <div><p className="text-xs text-ink-700/60">Application Start</p><p className="font-semibold text-ink-900 text-sm">{formatDate(job.dates.startDate)}</p></div>
-              <div><p className="text-xs text-ink-700/60">Last Date</p><p className="font-semibold text-saffron-600 text-sm">{formatDate(job.dates.lastDate)}</p></div>
-              <div><p className="text-xs text-ink-700/60">Exam Date</p><p className="font-semibold text-ink-900 text-sm">{formatDate(job.dates.examDate)}</p></div>
+              <div><p className="text-xs text-ink-700/60">{job.dates.extendedLastDate ? "Original Last Date" : "Last Date"}</p><p className="font-semibold text-saffron-600 text-sm">{formatDate(job.dates.lastDate)}</p></div>
+              {job.dates.extendedLastDate && <div><p className="text-xs text-ink-700/60">Extended Last Date</p><p className="font-semibold text-leaf-600 text-sm">{formatDate(job.dates.extendedLastDate)}</p></div>}
+              {!isScholarship && <div><p className="text-xs text-ink-700/60">Exam Date</p><p className="font-semibold text-ink-900 text-sm">{formatDate(job.dates.examDate)}</p></div>}
               <div><p className="text-xs text-ink-700/60">Application Fee</p><p className="font-semibold text-ink-900 text-sm">{job.applicationFee || "As per notification"}</p></div>
-              <div><p className="text-xs text-ink-700/60">Salary / Pay Scale</p><p className="font-semibold text-ink-900 text-sm">{job.salary || "As per rules"}</p></div>
+              {!isScholarship && <div><p className="text-xs text-ink-700/60">Salary / Pay Scale</p><p className="font-semibold text-ink-900 text-sm">{job.salary || "As per rules"}</p></div>}
             </div>
           </section>
 
@@ -234,7 +237,7 @@ export default async function JobDetailsPage({ params }: { params: { slug: strin
 
           {/* Share */}
           <section className="mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 sm:p-7 shadow-card">
-            <h2 className="font-display text-lg font-bold text-ink-900 mb-3">Share this Job</h2>
+            <h2 className="font-display text-lg font-bold text-ink-900 mb-3">Share this {isScholarship ? "Scholarship" : "Job"}</h2>
             <ShareButtons title={job.title} url={`${SITE_URL}/jobs/${job.slug}`} />
           </section>
         </div>
@@ -243,30 +246,30 @@ export default async function JobDetailsPage({ params }: { params: { slug: strin
         <aside>
           <div className="sticky top-24 space-y-3">
             <div className="rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card">
-              <a
+              {job.links.applyOnline && <a
                 href={job.links.applyOnline || "#"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block w-full rounded-lg bg-brand-600 px-4 py-3 text-center text-sm font-semibold text-white hover:bg-brand-700 transition-colors"
               >
                 Apply Online
-              </a>
-              <a
+              </a>}
+              {job.links.officialNotification && <a
                 href={job.links.officialNotification || "#"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-2.5 block w-full rounded-lg bg-saffron-500 px-4 py-3 text-center text-sm font-semibold text-white hover:bg-saffron-600 transition-colors"
               >
                 Official Notification (PDF)
-              </a>
-              <a
+              </a>}
+              {job.links.officialWebsite && <a
                 href={job.links.officialWebsite || "#"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-2.5 block w-full rounded-lg border border-ink-900/15 px-4 py-3 text-center text-sm font-semibold text-ink-800 hover:bg-ink-900/5 transition-colors"
               >
                 Official Website
-              </a>
+              </a>}
               {job.youtubeUrl && (
                 <a
                   href={job.youtubeUrl}

@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import { nanoid } from "nanoid";
 import type { JobFilters, JobPosting } from "./types";
+import { effectiveLastDate } from "./deadlines";
 
 // NOTE: This is a file-backed store used so the site works immediately with
 // zero external setup. Every read/write is centralized here and all
@@ -49,7 +50,7 @@ function resolveEffectiveStatus(job: JobPosting): JobPosting["status"] {
   if (job.status === "scheduled") {
     if (job.publishAt && new Date(job.publishAt) > now) return "scheduled";
   }
-  const lastDate = new Date(job.dates.lastDate);
+  const lastDate = new Date(effectiveLastDate(job));
   // Treat "expired" as end-of-day on the last date.
   lastDate.setHours(23, 59, 59, 999);
   if (lastDate < now) return "expired";
@@ -179,7 +180,7 @@ export function queryJobs(filters: JobFilters): {
     endOfMonth.setMonth(endOfMonth.getMonth() + 1);
 
     jobs = jobs.filter((j) => {
-      const ld = new Date(j.dates.lastDate);
+      const ld = new Date(effectiveLastDate(j));
       if (filters.lastDate === "today") return ld >= startOfToday && ld <= endOfToday;
       if (filters.lastDate === "week") return ld >= startOfToday && ld <= endOfWeek;
       if (filters.lastDate === "month") return ld >= startOfToday && ld <= endOfMonth;
@@ -192,7 +193,7 @@ export function queryJobs(filters: JobFilters): {
   const sort = filters.sort ?? "latest";
   jobs.sort((a, b) => {
     if (sort === "closing_soon") {
-      return new Date(a.dates.lastDate).getTime() - new Date(b.dates.lastDate).getTime();
+      return new Date(effectiveLastDate(a)).getTime() - new Date(effectiveLastDate(b)).getTime();
     }
     if (sort === "most_viewed") {
       return (b.views ?? 0) - (a.views ?? 0);
@@ -218,7 +219,7 @@ export function getStats() {
   const mostViewed = [...jobs].sort((a, b) => (b.views ?? 0) - (a.views ?? 0)).slice(0, 5);
   const endingSoon = jobs
     .filter((j) => j.status === "published")
-    .sort((a, b) => new Date(a.dates.lastDate).getTime() - new Date(b.dates.lastDate).getTime())
+    .sort((a, b) => new Date(effectiveLastDate(a)).getTime() - new Date(effectiveLastDate(b)).getTime())
     .slice(0, 5);
   const totalVisitors = jobs.reduce((sum, j) => sum + (j.views ?? 0), 0) + 18342; // baseline demo traffic
 

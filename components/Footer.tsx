@@ -29,6 +29,8 @@ export default function Footer() {
             <li><Link href="/jobs" className="hover:text-white">Latest Jobs</Link></li>
             <li><Link href="/jobs?jobType=government" className="hover:text-white">Government Jobs</Link></li>
             <li><Link href="/jobs?state=Maharashtra" className="hover:text-white">Maharashtra Jobs</Link></li>
+            <li><Link href="/apprenticeships" className="hover:text-white">Apprenticeships</Link></li>
+            <li><Link href="/scholarships" className="hover:text-white">Scholarships</Link></li>
             <li><Link href="/admit-card" className="hover:text-white">Admit Card</Link></li>
             <li><Link href="/results" className="hover:text-white">Results</Link></li>
           </ul>

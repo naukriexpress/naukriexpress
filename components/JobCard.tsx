@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { JobPosting } from "@/lib/types";
 import { CATEGORY_LABELS, QUALIFICATION_LABELS } from "@/lib/types";
 import StatusBadge from "./StatusBadge";
+import { effectiveLastDate } from "@/lib/deadlines";
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
@@ -42,35 +43,35 @@ export default function JobCard({ job }: { job: JobPosting }) {
       </div>
 
       <dl className="mt-4 grid grid-cols-2 gap-x-3 gap-y-2 text-sm">
-        <div>
+        {job.jobType !== "scholarship" && <div>
           <dt className="text-xs text-ink-700/60">Total Vacancies</dt>
           <dd className="font-semibold text-ink-900">{job.totalVacancies.toLocaleString("en-IN")}</dd>
-        </div>
+        </div>}
         <div>
           <dt className="text-xs text-ink-700/60">Location</dt>
           <dd className="font-medium text-ink-900 truncate">
             {job.location.allIndia ? "All India" : job.location.district || job.location.state}
           </dd>
         </div>
-        <div>
+        {job.eligibility.qualifications.length > 0 && <div>
           <dt className="text-xs text-ink-700/60">Qualification</dt>
           <dd className="font-medium text-ink-900 truncate">
             {job.eligibility.qualifications.map((q) => QUALIFICATION_LABELS[q]).join(", ")}
           </dd>
-        </div>
+        </div>}
         <div>
           <dt className="text-xs text-ink-700/60">Eligible Gender</dt>
           <dd className="font-medium text-ink-900">{genderLabel(job.eligibility.genders)}</dd>
         </div>
-        <div>
+        {job.jobType !== "scholarship" && (job.eligibility.minAge !== undefined || job.eligibility.maxAge !== undefined) && <div>
           <dt className="text-xs text-ink-700/60">Age Limit</dt>
           <dd className="font-medium text-ink-900">
             {job.eligibility.minAge ?? "—"}–{job.eligibility.maxAge ?? "—"} yrs
           </dd>
-        </div>
+        </div>}
         <div>
           <dt className="text-xs text-ink-700/60">Last Date</dt>
-          <dd className="font-semibold text-saffron-600">{formatDate(job.dates.lastDate)}</dd>
+          <dd className="font-semibold text-saffron-600">{formatDate(effectiveLastDate(job))}{job.dates.extendedLastDate ? " (Extended)" : ""}</dd>
         </div>
       </dl>
 
@@ -89,22 +90,22 @@ export default function JobCard({ job }: { job: JobPosting }) {
         >
           View Details
         </Link>
-        <a
+        {job.links.applyOnline && <a
           href={job.links.applyOnline || "#"}
           target="_blank"
           rel="noopener noreferrer"
           className="rounded-lg bg-brand-600 px-2 py-2 text-center text-xs font-semibold text-white hover:bg-brand-700 transition-colors"
         >
           Apply Online
-        </a>
-        <a
+        </a>}
+        {job.links.officialNotification && <a
           href={job.links.officialNotification || "#"}
           target="_blank"
           rel="noopener noreferrer"
           className="rounded-lg bg-saffron-500 px-2 py-2 text-center text-xs font-semibold text-white hover:bg-saffron-600 transition-colors"
         >
           Notification
-        </a>
+        </a>}
       </div>
 
       {job.youtubeUrl && (

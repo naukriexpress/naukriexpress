@@ -8,6 +8,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
     { url: `${SITE_URL}/`, changeFrequency: "daily", priority: 1 },
     { url: `${SITE_URL}/jobs`, changeFrequency: "daily", priority: 0.9 },
+    { url: `${SITE_URL}/scholarships`, changeFrequency: "daily", priority: 0.8 },
+    { url: `${SITE_URL}/apprenticeships`, changeFrequency: "daily", priority: 0.8 },
     { url: `${SITE_URL}/admit-card`, changeFrequency: "daily", priority: 0.7 },
     { url: `${SITE_URL}/results`, changeFrequency: "daily", priority: 0.7 },
     { url: `${SITE_URL}/answer-key`, changeFrequency: "daily", priority: 0.7 },

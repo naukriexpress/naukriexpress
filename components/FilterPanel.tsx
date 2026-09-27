@@ -17,7 +17,7 @@ const CATEGORIES: Category[] = ["open", "obc", "sc", "st", "ews"];
 const QUALIFICATIONS: Qualification[] = [
   "10th", "12th", "iti", "diploma", "graduate", "post_graduate", "engineering", "law", "medical", "any_graduate",
 ];
-const JOB_TYPES: JobType[] = ["government", "private", "contract", "apprenticeship", "internship"];
+const JOB_TYPES: JobType[] = ["government", "private", "contract", "apprenticeship", "scholarship", "internship"];
 
 export default async function FilterPanel({ searchParams, id = "filters" }: { searchParams: SP; id?: string }) {
   const gender = str(searchParams.gender) || "all";

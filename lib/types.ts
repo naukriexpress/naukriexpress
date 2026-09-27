@@ -16,6 +16,7 @@ export type JobType =
   | "private"
   | "contract"
   | "apprenticeship"
+  | "scholarship"
   | "internship";
 export type JobStatus = "draft" | "scheduled" | "published" | "expired";
 
@@ -60,6 +61,7 @@ export interface JobPosting {
   dates: {
     startDate?: string; // ISO date
     lastDate: string; // ISO date
+    extendedLastDate?: string; // ISO date, when officially extended
     examDate?: string;
   };
 
@@ -171,5 +173,6 @@ export const JOB_TYPE_LABELS: Record<JobType, string> = {
   private: "Private Job",
   contract: "Contract Job",
   apprenticeship: "Apprenticeship",
+  scholarship: "Scholarship",
   internship: "Internship",
 };

@@ -7,6 +7,8 @@ const NAV_LINKS = [
   { href: "/jobs", label: "Latest Jobs" },
   { href: "/jobs?jobType=government", label: "Government Jobs" },
   { href: "/jobs?state=Maharashtra", label: "Maharashtra Jobs" },
+  { href: "/apprenticeships", label: "Apprenticeships" },
+  { href: "/scholarships", label: "Scholarships" },
   { href: "/admit-card", label: "Admit Card" },
   { href: "/results", label: "Results" },
   { href: "/answer-key", label: "Answer Key" },
@@ -16,8 +18,8 @@ const NAV_LINKS = [
 
 export default async function Header() {
   const [{ total: closingToday }, { total: liveJobs }] = await Promise.all([
-    queryJobs({ lastDate: "today", pageSize: 1 }),
-    queryJobs({ pageSize: 1 }),
+    queryJobs({ lastDate: "today", jobType: ["government", "private", "contract", "apprenticeship", "internship"], pageSize: 1 }),
+    queryJobs({ jobType: ["government", "private", "contract", "apprenticeship", "internship"], pageSize: 1 }),
   ]);
 
   return (
@@ -36,7 +38,7 @@ export default async function Header() {
         </div>
       </div>
 
-      <div className="container-page flex items-center justify-between py-3">
+      <div className="container-page flex flex-wrap items-center justify-between py-2">
         <Link href="/" className="flex items-center gap-2.5 shrink-0">
           <span className="grid h-10 w-10 place-items-center rounded-xl2 bg-brand-700 font-display text-lg font-bold text-white">
             BGi
@@ -52,7 +54,7 @@ export default async function Header() {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-1 text-sm font-medium">
+        <nav className="order-3 hidden w-full lg:flex flex-wrap items-center justify-center gap-0.5 border-t border-ink-900/10 mt-2 pt-1 text-xs font-medium">
           {NAV_LINKS.map((l) => {
             if (l.label === "Admit Card") {
               return <AdmitCardButton key={l.label} />;
@@ -61,7 +63,7 @@ export default async function Header() {
               <Link
                 key={l.label}
                 href={l.href}
-                className="rounded-md px-3 py-2 text-ink-700 hover:bg-brand-50 hover:text-brand-700 transition-colors"
+                className="rounded-md px-2 py-2 whitespace-nowrap text-ink-700 hover:bg-brand-50 hover:text-brand-700 transition-colors"
               >
                 {l.label}
               </Link>

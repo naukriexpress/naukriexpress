@@ -65,6 +65,11 @@ function parseVacancyRows(formData: FormData): VacancyRow[] {
 }
 
 function buildJobFromForm(formData: FormData) {
+  const lastDate = String(formData.get("lastDate") || "");
+  const extendedLastDate = String(formData.get("extendedLastDate") || "");
+  if (extendedLastDate && extendedLastDate <= lastDate) {
+    throw new Error("Extended last date must be after the original last date.");
+  }
   const genders = parseCheckboxList<Gender>(formData, "gender");
   const categories = parseCheckboxList<Category>(formData, "category");
   const qualifications = parseCheckboxList<Qualification>(formData, "qualification");
@@ -104,7 +109,8 @@ function buildJobFromForm(formData: FormData) {
     applicationFee: String(formData.get("applicationFee") || "") || undefined,
     dates: {
       startDate: String(formData.get("startDate") || "") || undefined,
-      lastDate: String(formData.get("lastDate") || new Date().toISOString().slice(0, 10)),
+      lastDate: lastDate || new Date().toISOString().slice(0, 10),
+      extendedLastDate: extendedLastDate || undefined,
       examDate: String(formData.get("examDate") || "") || undefined,
     },
     links: {
@@ -148,6 +154,8 @@ export async function createJobAction(formData: FormData) {
   const created = await createJob(job);
   revalidatePath("/admin/jobs");
   revalidatePath("/jobs");
+  revalidatePath("/scholarships");
+  revalidatePath("/apprenticeships");
   revalidatePath("/");
   redirect(`/admin/jobs?created=${created.slug}`);
 }
@@ -157,6 +165,8 @@ export async function updateJobAction(id: string, formData: FormData) {
   await updateJob(id, job);
   revalidatePath("/admin/jobs");
   revalidatePath("/jobs");
+  revalidatePath("/scholarships");
+  revalidatePath("/apprenticeships");
   revalidatePath("/");
   redirect(`/admin/jobs?updated=${id}`);
 }
@@ -166,6 +176,8 @@ export async function deleteJobAction(formData: FormData) {
   if (id) await deleteJob(id);
   revalidatePath("/admin/jobs");
   revalidatePath("/jobs");
+  revalidatePath("/scholarships");
+  revalidatePath("/apprenticeships");
   revalidatePath("/");
 }
 

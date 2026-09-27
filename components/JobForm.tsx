@@ -10,7 +10,7 @@ const CATEGORIES: Category[] = ["open", "obc", "sc", "st", "ews"];
 const QUALIFICATIONS: Qualification[] = [
   "10th", "12th", "iti", "diploma", "graduate", "post_graduate", "engineering", "law", "medical", "any_graduate",
 ];
-const JOB_TYPES: JobType[] = ["government", "private", "contract", "apprenticeship", "internship"];
+const JOB_TYPES: JobType[] = ["government", "private", "contract", "apprenticeship", "scholarship", "internship"];
 const STATES = [
   "Maharashtra", "All India", "Delhi", "Uttar Pradesh", "Karnataka", "Tamil Nadu",
   "Gujarat", "Rajasthan", "West Bengal", "Madhya Pradesh", "Bihar", "Punjab", "Telangana",
@@ -65,8 +65,8 @@ export default function JobForm({
           <Field label="Advertisement Number">
             <input name="advertisementNumber" defaultValue={job?.advertisementNumber} placeholder="e.g. MAHA-POL/2026/07" className={inputCls} />
           </Field>
-          <Field label="Total Vacancies" required>
-            <input name="totalVacancies" type="number" min={0} defaultValue={job?.totalVacancies} required placeholder="e.g. 8200" className={inputCls} />
+          <Field label="Total Vacancies (use 0 for scholarships)">
+            <input name="totalVacancies" type="number" min={0} defaultValue={job?.totalVacancies} placeholder="e.g. 8200" className={inputCls} />
           </Field>
           <Field label="Job Type">
             <select name="jobType" defaultValue={job?.jobType || "government"} className={inputCls}>
@@ -176,6 +176,9 @@ export default function JobForm({
           <Field label="Last Date to Apply" required>
             <input name="lastDate" type="date" defaultValue={job?.dates.lastDate} required className={inputCls} />
           </Field>
+          <Field label="Extended Last Date (only if officially extended)">
+            <input name="extendedLastDate" type="date" min={job?.dates.lastDate} defaultValue={job?.dates.extendedLastDate} className={inputCls} />
+          </Field>
           <Field label="Exam Date">
             <input name="examDate" type="date" defaultValue={job?.dates.examDate} className={inputCls} />
           </Field>
@@ -219,7 +222,7 @@ export default function JobForm({
 
       {/* Content */}
       <Section title="Content" hint="Use the formatting toolbar — no HTML knowledge needed.">
-        <RichTextEditor name="content_eligibility" label="Eligibility Details" defaultValue={job?.content.eligibility} placeholder="Describe eligibility in detail..." />
+        <RichTextEditor name="content_eligibility" label="Description & Eligibility Details" defaultValue={job?.content.eligibility} placeholder="Describe the opportunity and eligibility in detail..." />
         <RichTextEditor name="content_vacancyDetails" label="Vacancy Details" defaultValue={job?.content.vacancyDetails} placeholder="Additional vacancy notes..." />
         <RichTextEditor name="content_selectionProcess" label="Selection Process" defaultValue={job?.content.selectionProcess} placeholder="e.g. 1. Written test 2. Interview..." />
         <RichTextEditor name="content_howToApply" label="How to Apply" defaultValue={job?.content.howToApply} placeholder="Step-by-step application instructions..." />

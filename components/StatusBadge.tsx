@@ -1,4 +1,5 @@
 import type { JobPosting } from "@/lib/types";
+import { effectiveLastDate } from "@/lib/deadlines";
 
 function computeBadge(job: Pick<JobPosting, "createdAt" | "dates" | "status">) {
   if (job.status === "expired") return { label: "Expired", className: "bg-ink-900/10 text-ink-700" };
@@ -7,9 +8,10 @@ function computeBadge(job: Pick<JobPosting, "createdAt" | "dates" | "status">) {
   const created = new Date(job.createdAt);
   const daysSincePosted = (now.getTime() - created.getTime()) / 86400000;
 
-  const lastDate = new Date(job.dates.lastDate);
+  const lastDate = new Date(effectiveLastDate(job));
   const daysToClose = (lastDate.getTime() - now.getTime()) / 86400000;
 
+  if (job.dates.extendedLastDate) return { label: "Date Extended", className: "bg-leaf-100 text-leaf-600" };
   if (daysToClose <= 3) return { label: "Last Date Soon", className: "bg-saffron-100 text-saffron-600" };
   if (daysSincePosted <= 5) return { label: "New", className: "bg-leaf-100 text-leaf-600" };
   return { label: "Open", className: "bg-brand-100 text-brand-700" };

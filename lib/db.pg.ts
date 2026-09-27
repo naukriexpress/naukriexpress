@@ -6,7 +6,7 @@ const RESOLVED_STATUS_SQL = `
   CASE
     WHEN status = 'draft' THEN 'draft'
     WHEN status = 'scheduled' AND publish_at IS NOT NULL AND publish_at > now() THEN 'scheduled'
-    WHEN last_date < CURRENT_DATE THEN 'expired'
+    WHEN coalesce(extended_last_date, last_date) < CURRENT_DATE THEN 'expired'
     ELSE 'published'
   END
 `;
@@ -51,6 +51,7 @@ function mapJobRow(row: any, vacancyRows: VacancyRow[]): JobPosting {
     dates: {
       startDate: row.start_date ? toIsoDate(row.start_date) : undefined,
       lastDate: toIsoDate(row.last_date),
+      extendedLastDate: row.extended_last_date ? toIsoDate(row.extended_last_date) : undefined,
       examDate: row.exam_date ? toIsoDate(row.exam_date) : undefined,
     },
     links: {
@@ -221,13 +222,13 @@ export async function queryJobs(
   }
 
   if (filters.lastDate === "today") {
-    conditions.push(`last_date = CURRENT_DATE`);
+    conditions.push(`coalesce(extended_last_date, last_date) = CURRENT_DATE`);
   } else if (filters.lastDate === "week") {
-    conditions.push(`last_date >= CURRENT_DATE AND last_date <= CURRENT_DATE + interval '7 days'`);
+    conditions.push(`coalesce(extended_last_date, last_date) >= CURRENT_DATE AND coalesce(extended_last_date, last_date) <= CURRENT_DATE + interval '7 days'`);
   } else if (filters.lastDate === "month") {
-    conditions.push(`last_date >= CURRENT_DATE AND last_date <= CURRENT_DATE + interval '1 month'`);
+    conditions.push(`coalesce(extended_last_date, last_date) >= CURRENT_DATE AND coalesce(extended_last_date, last_date) <= CURRENT_DATE + interval '1 month'`);
   } else if (filters.lastDate === "upcoming") {
-    conditions.push(`last_date > CURRENT_DATE + interval '1 month'`);
+    conditions.push(`coalesce(extended_last_date, last_date) > CURRENT_DATE + interval '1 month'`);
   }
 
   const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
@@ -235,7 +236,7 @@ export async function queryJobs(
   const sort = filters.sort ?? "latest";
   const orderBy =
     sort === "closing_soon"
-      ? "last_date ASC"
+      ? "coalesce(extended_last_date, last_date) ASC"
       : sort === "most_viewed"
       ? "views DESC"
       : "created_at DESC";
@@ -286,7 +287,7 @@ export async function getStats() {
   const { rows: endingSoonRows } = await pool.query(
     `select *, ${RESOLVED_STATUS_SQL} as effective_status from jobs
      where ${RESOLVED_STATUS_SQL} = 'published'
-     order by last_date asc limit 5`
+     order by coalesce(extended_last_date, last_date) asc limit 5`
   );
   const endingSoonMap = await fetchVacancyRowsForJobs(endingSoonRows.map((r) => r.id));
   const endingSoon = endingSoonRows.map((r) => mapJobRow(r, endingSoonMap.get(r.id) || []));
@@ -319,7 +320,7 @@ export async function createJob(
       content_how_to_apply, content_important_instructions,
       seo_title, seo_meta_description,
       youtube_url,
-      featured, status, publish_at
+      featured, status, publish_at, extended_last_date
     ) values (
       $1,$2,$3,$4,$5,$6,
       $7,$8,$9,$10,
@@ -331,7 +332,7 @@ export async function createJob(
       $29,$30,
       $31,$32,
       $33,
-      $34,$35,$36
+      $34,$35,$36,$37
     ) returning *, ${RESOLVED_STATUS_SQL} as effective_status`,
     [
       slug, input.title, input.organization, input.department || null, input.advertisementNumber || null, input.logoUrl || null,
@@ -345,7 +346,7 @@ export async function createJob(
       input.content.howToApply || null, input.content.importantInstructions || null,
       input.seo.title || null, input.seo.metaDescription || null,
       input.youtubeUrl || null,
-      input.featured, input.status, input.publishAt || null,
+      input.featured, input.status, input.publishAt || null, input.dates.extendedLastDate || null,
     ]
   );
 
@@ -406,7 +407,7 @@ export async function updateJob(
       content_how_to_apply=$29, content_important_instructions=$30,
       seo_title=$31, seo_meta_description=$32,
       youtube_url=$33,
-      featured=$34, status=$35, publish_at=$36
+      featured=$34, status=$35, publish_at=$36, extended_last_date=$38
     where id = $37
     returning *, ${RESOLVED_STATUS_SQL} as effective_status`,
     [
@@ -422,7 +423,7 @@ export async function updateJob(
       merged.seo.title || null, merged.seo.metaDescription || null,
       merged.youtubeUrl || null,
       merged.featured, merged.status, merged.publishAt || null,
-      id,
+      id, merged.dates.extendedLastDate || null,
     ]
   );
 

@@ -8,8 +8,8 @@ import EligibilityFinder from "@/components/EligibilityFinder";
 
 export default async function HomePage() {
   const [{ results: latestJobs }, { results: featuredJobs }, states] = await Promise.all([
-    queryJobs({ sort: "latest", pageSize: 6 }),
-    queryJobs({ featuredOnly: true, pageSize: 4 }),
+    queryJobs({ sort: "latest", jobType: ["government", "private", "contract", "apprenticeship", "internship"], pageSize: 6 }),
+    queryJobs({ featuredOnly: true, jobType: ["government", "private", "contract", "apprenticeship", "internship"], pageSize: 4 }),
     getDistinctStates(),
   ]);
   const categories: Category[] = ["open", "obc", "sc", "st", "ews"];
@@ -18,7 +18,7 @@ export default async function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-ink-900 via-brand-800 to-brand-700 pb-24 pt-14 sm:pt-20">
+      <section className="relative overflow-hidden bg-gradient-to-br from-ink-900 via-brand-800 to-brand-700 pb-14 pt-10 sm:pt-12">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 opacity-[0.07]"
@@ -40,7 +40,7 @@ export default async function HomePage() {
             gender, category, qualification and location so you only see
             jobs you're actually eligible for.
           </p>
-          <div className="mt-8">
+          <div className="mt-6">
             <HeroSearch />
           </div>
         </div>
@@ -143,6 +143,8 @@ export default async function HomePage() {
               { label: "Syllabus", href: "/syllabus" },
               { label: "Government Jobs", href: "/jobs?jobType=government" },
               { label: "Maharashtra Jobs", href: "/jobs?state=Maharashtra" },
+              { label: "Apprenticeships", href: "/apprenticeships" },
+              { label: "Scholarships", href: "/scholarships" },
               { label: "Jobs Closing Today", href: "/jobs?lastDate=today" },
               { label: "Contact Us", href: "/contact" },
             ].map((l) => (

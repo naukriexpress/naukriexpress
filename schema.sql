@@ -9,7 +9,7 @@ create type qualification_t as enum (
   '10th', '12th', 'iti', 'diploma', 'graduate', 'post_graduate',
   'engineering', 'law', 'medical', 'any_graduate'
 );
-create type job_type_t as enum ('government', 'private', 'contract', 'apprenticeship', 'internship');
+create type job_type_t as enum ('government', 'private', 'contract', 'apprenticeship', 'scholarship', 'internship');
 create type job_status_t as enum ('draft', 'scheduled', 'published', 'expired');
 
 create table admins (
@@ -48,6 +48,7 @@ create table jobs (
 
   start_date date,
   last_date date not null,
+  extended_last_date date,
   exam_date date,
 
   apply_online_url text,
