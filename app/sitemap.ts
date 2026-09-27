@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 import type { MetadataRoute } from "next";
 import { getAllJobsRaw } from "@/lib/db";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.naukriexpress.in";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.naukriexpress.space";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [

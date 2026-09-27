@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import RunningTicker from "@/components/RunningTicker";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.naukriexpress.in";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.naukriexpress.space";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

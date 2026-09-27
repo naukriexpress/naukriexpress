@@ -9,7 +9,7 @@ import JobCard from "@/components/JobCard";
 
 export const dynamic = "force-dynamic";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.naukriexpress.in";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.naukriexpress.space";
 
 function formatDate(iso?: string) {
   if (!iso) return "—";
