@@ -23,7 +23,7 @@ export default async function Header() {
   ]);
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-ink-900/10">
+    <header className="sticky top-0 z-40 bg-white border-b border-ink-900/10">
       <div className="bg-ink-900 text-white text-xs sm:text-sm">
         <div className="container-page flex items-center gap-2 py-1.5 overflow-x-auto whitespace-nowrap">
           <span className="inline-flex items-center gap-1 font-semibold text-saffron-400">
@@ -91,9 +91,9 @@ export default async function Header() {
             <path d="M2.5 5h15M2.5 10h15M2.5 15h15" stroke="#0B1E33" strokeWidth="1.6" strokeLinecap="round" />
           </svg>
         </label>
-        <div className="fixed inset-0 z-50 hidden peer-checked:block lg:hidden">
+        <div className="fixed inset-0 z-50 h-[100dvh] hidden peer-checked:block lg:hidden">
           <label htmlFor="mobile-nav-toggle" className="absolute inset-0 bg-ink-900/40" />
-          <div className="absolute right-0 top-0 h-full w-[82%] max-w-sm bg-white shadow-xl p-5 overflow-y-auto">
+          <div className="absolute right-0 top-0 h-full w-[82%] max-w-sm bg-white shadow-xl p-5 overflow-y-auto overscroll-contain">
             <div className="flex items-center justify-between mb-4">
               <span className="font-display font-bold text-ink-900">Menu</span>
               <label htmlFor="mobile-nav-toggle" className="grid h-9 w-9 place-items-center rounded-lg border border-ink-900/15 cursor-pointer">
