@@ -2,81 +2,193 @@
 
 import { useState, useEffect } from "react";
 
+type AdmitCardLink = {
+  id: number;
+  title: string;
+  url: string;
+};
+
 export default function AdminAdmitCardPage() {
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
-  const [links, setLinks] = useState<any[]>([]);
+  const [links, setLinks] = useState<AdmitCardLink[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState("");
+
+  async function loadLinks() {
+    try {
+      const response = await fetch("/api/admit-cards", {
+        cache: "no-store",
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Links load nahi hue");
+      }
+
+      setLinks(data.links || []);
+    } catch (error) {
+      setMessage(
+        error instanceof Error ? error.message : "Links load nahi hue"
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
 
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("adminAdmitCards") || "[]");
-    setLinks(saved);
+    void loadLinks();
   }, []);
 
-  const handleAdd = (e: React.FormEvent) => {
+  async function handleAdd(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!title || !url) return;
-    const newLinks = [{ title, url }, ...links];
-    setLinks(newLinks);
-    localStorage.setItem("adminAdmitCards", JSON.stringify(newLinks));
-    setTitle("");
-    setUrl("");
-  };
+    setSaving(true);
+    setMessage("");
 
-  const handleDelete = (index: number) => {
-    const newLinks = links.filter((_, i) => i !== index);
-    setLinks(newLinks);
-    localStorage.setItem("adminAdmitCards", JSON.stringify(newLinks));
-  };
+    try {
+      const response = await fetch("/api/admit-cards", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, url }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Link save nahi hua");
+      }
+
+      setLinks((current) => [data.link, ...current]);
+      setTitle("");
+      setUrl("");
+      setMessage("Admit Card link successfully save ho gaya!");
+    } catch (error) {
+      setMessage(
+        error instanceof Error ? error.message : "Link save nahi hua"
+      );
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function handleDelete(id: number) {
+    if (!window.confirm("Kya aap is Admit Card link ko delete karna chahte hain?")) {
+      return;
+    }
+
+    setMessage("");
+
+    try {
+      const response = await fetch(`/api/admit-cards?id=${id}`, {
+        method: "DELETE",
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Link delete nahi hua");
+      }
+
+      setLinks((current) => current.filter((item) => item.id !== id));
+      setMessage("Admit Card link delete ho gaya.");
+    } catch (error) {
+      setMessage(
+        error instanceof Error ? error.message : "Delete nahi hua"
+      );
+    }
+  }
 
   return (
-    <div className="p-6 max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6 text-gray-900">Manage Admit Card Links</h1>
-      
-      <form onSubmit={handleAdd} className="bg-white p-4 rounded-xl shadow-sm border mb-6 space-y-4">
+    <div className="mx-auto max-w-2xl p-6">
+      <h1 className="mb-6 text-2xl font-bold text-gray-900">
+        Manage Admit Card Links
+      </h1>
+
+      <form
+        onSubmit={handleAdd}
+        className="mb-6 space-y-4 rounded-xl border bg-white p-4 shadow-sm"
+      >
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Admit Card Title</label>
+          <label className="mb-1 block text-sm font-medium text-gray-700">
+            Admit Card Title
+          </label>
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="e.g. Bombay High Court Clerk Admit Card 2026"
-            className="w-full p-2 border rounded-lg text-gray-900"
+            maxLength={300}
+            className="w-full rounded-lg border p-2 text-gray-900"
             required
           />
         </div>
+
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Admit Card Link (URL)</label>
+          <label className="mb-1 block text-sm font-medium text-gray-700">
+            Admit Card Link (URL)
+          </label>
           <input
             type="url"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             placeholder="https://example.com/admit-card"
-            className="w-full p-2 border rounded-lg text-gray-900"
+            className="w-full rounded-lg border p-2 text-gray-900"
             required
           />
         </div>
-        <button type="submit" className="bg-saffron-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-saffron-700">
-          Add Admit Card Link
+
+        <button
+          type="submit"
+          disabled={saving}
+          className="rounded-lg bg-saffron-600 px-4 py-2 font-semibold text-white hover:bg-saffron-700 disabled:opacity-60"
+        >
+          {saving ? "Saving..." : "Add Admit Card Link"}
         </button>
       </form>
 
-      <div className="bg-white p-4 rounded-xl shadow-sm border">
-        <h3 className="font-bold text-lg mb-4 text-gray-800">Active Admit Cards</h3>
-        {links.length === 0 ? (
-          <p className="text-gray-500 text-sm">No admit cards added yet.</p>
+      {message && (
+        <p className="mb-4 rounded-lg bg-gray-100 p-3 text-sm text-gray-800">
+          {message}
+        </p>
+      )}
+
+      <div className="rounded-xl border bg-white p-4 shadow-sm">
+        <h2 className="mb-4 text-lg font-bold text-gray-800">
+          Active Admit Cards
+        </h2>
+
+        {loading ? (
+          <p className="text-sm text-gray-500">Loading...</p>
+        ) : links.length === 0 ? (
+          <p className="text-sm text-gray-500">
+            No admit cards added yet.
+          </p>
         ) : (
           <div className="space-y-3">
-            {links.map((item, index) => (
-              <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border">
-                <div>
-                  <p className="font-semibold text-gray-900">{item.title}</p>
-                  <a href={item.url} target="_blank" className="text-sm text-blue-600 underline truncate max-w-xs block">
+            {links.map((item) => (
+              <div
+                key={item.id}
+                className="flex items-center justify-between gap-3 rounded-lg border bg-gray-50 p-3"
+              >
+                <div className="min-w-0">
+                  <p className="break-words font-semibold text-gray-900">
+                    {item.title}
+                  </p>
+                  <a
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block break-all text-sm text-blue-600 underline"
+                  >
                     {item.url}
                   </a>
                 </div>
+
                 <button
-                  onClick={() => handleDelete(index)}
-                  className="text-red-500 hover:text-red-700 font-bold px-3 py-1 text-sm border border-red-200 rounded cursor-pointer"
+                  type="button"
+                  onClick={() => void handleDelete(item.id)}
+                  className="shrink-0 rounded border border-red-200 px-3 py-1 text-sm font-bold text-red-600 hover:text-red-800"
                 >
                   Delete
                 </button>
