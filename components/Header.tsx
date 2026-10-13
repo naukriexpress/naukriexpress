@@ -13,6 +13,7 @@ const NAV_LINKS = [
   { href: "/results", label: "Results" },
   { href: "/answer-key", label: "Answer Key" },
   { href: "/syllabus", label: "Syllabus" },
+  { href: "/scholarship", label: "Scholarship" },
   { href: "/contact", label: "Contact Us" },
 ];
 
