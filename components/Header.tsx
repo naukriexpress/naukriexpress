@@ -1,4 +1,4 @@
-```tsx
+tsx
 import Link from "next/link";
 import { queryJobs } from "@/lib/db";
 import AdmitCardButton from "./AdmitCardButton";
@@ -178,4 +178,3 @@ export default async function Header() {
     </header>
   );
 }
-```
