@@ -2,53 +2,83 @@
 
 import { useState, useEffect } from "react";
 
+type AdmitCardLink = {
+  title: string;
+  url: string;
+};
+
 export default function AdmitCardButton() {
   const [isOpen, setIsOpen] = useState(false);
-  const [links, setLinks] = useState<any[]>([]);
+  const [links, setLinks] = useState<AdmitCardLink[]>([]);
 
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("adminAdmitCards") || "[]");
-    setLinks(saved);
-  }, [isOpen]);
+    try {
+      const saved = JSON.parse(
+        localStorage.getItem("adminAdmitCards") || "[]"
+      );
+
+      if (Array.isArray(saved)) {
+        setLinks(saved);
+      }
+    } catch {
+      setLinks([]);
+    }
+  }, []);
 
   if (links.length === 0) return null;
 
   return (
     <>
-      {/* Floating Button jo mobile aur desktop dono par dikhega */}
       <button
+        type="button"
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-4 sm:right-6 z-50 bg-brand-600 hover:bg-brand-700 text-white px-4 py-3 rounded-full shadow-xl font-bold flex items-center gap-2 text-sm sm:text-base cursor-pointer transition-transform active:scale-95"
+        className="fixed bottom-6 right-4 z-40 flex items-center gap-2 rounded-full bg-brand-600 px-4 py-3 text-sm font-bold text-white shadow-xl transition-transform hover:bg-brand-700 active:scale-95 sm:right-6"
       >
         <span>📄 Admit Card Updates</span>
-        <span className="bg-white text-brand-700 rounded-full px-2 py-0.5 text-xs font-extrabold">
+        <span className="rounded-full bg-white px-2 py-0.5 text-xs font-extrabold text-brand-700">
           {links.length}
         </span>
       </button>
 
-      {/* Mobile Friendly Modal Popup */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-xs">
-          <div className="bg-white w-full max-w-md rounded-2xl p-5 shadow-2xl relative max-h-[85vh] flex flex-col border border-gray-100">
-            <div className="flex items-center justify-between mb-4 border-b pb-3">
-              <h3 className="text-lg font-bold text-gray-900">Latest Admit Cards</h3>
+        <div
+          className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 p-4"
+          onClick={() => setIsOpen(false)}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="admit-card-title"
+            className="relative flex max-h-[85dvh] w-full max-w-md flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white p-5 shadow-2xl"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="mb-4 flex shrink-0 items-center justify-between border-b pb-3">
+              <h2
+                id="admit-card-title"
+                className="text-lg font-bold text-gray-900"
+              >
+                Latest Admit Cards
+              </h2>
+
               <button
+                type="button"
                 onClick={() => setIsOpen(false)}
-                className="text-gray-500 hover:text-red-600 font-bold text-xl px-2 py-1 rounded-lg transition-colors cursor-pointer"
+                aria-label="Close admit cards"
+                className="rounded-lg px-3 py-1 text-xl font-bold text-gray-600 hover:bg-gray-100 hover:text-red-600"
               >
                 ✕
               </button>
             </div>
-            
-            {/* Scrollable list taaki mobile par lambi list bhi aasani se dikhe */}
-            <div className="overflow-y-auto space-y-3 pr-1 flex-1">
+
+            <div className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain pr-1">
               {links.map((item, index) => (
                 <a
-                  key={index}
+                  key={`${item.url}-${index}`}
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block p-3.5 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded-xl transition-all text-gray-900 font-semibold text-sm sm:text-base shadow-xs"
+                  onClick={() => setIsOpen(false)}
+                  className="block rounded-xl border border-amber-200 bg-amber-50 p-3.5 text-sm font-semibold text-gray-900 transition-colors hover:bg-amber-100 sm:text-base"
                 >
                   👉 {item.title}
                 </a>
@@ -56,8 +86,9 @@ export default function AdmitCardButton() {
             </div>
 
             <button
+              type="button"
               onClick={() => setIsOpen(false)}
-              className="mt-4 w-full bg-gray-100 hover:bg-gray-200 text-gray-800 py-3 rounded-xl font-bold text-sm transition-colors cursor-pointer"
+              className="mt-4 w-full shrink-0 rounded-xl bg-gray-100 py-3 text-sm font-bold text-gray-800 hover:bg-gray-200"
             >
               Close
             </button>
