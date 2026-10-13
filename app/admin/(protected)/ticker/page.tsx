@@ -1,50 +1,121 @@
+
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+
+const DEFAULT_TEXT =
+  "🔥 Welcome to NaukriExpress - Latest Government Job Updates!";
 
 export default function AdminTickerPage() {
   const [tickerText, setTickerText] = useState("");
-  const [savedText, setSavedText] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
-    const current = localStorage.getItem("siteTickerText") || "🔥 Welcome to NaukriExpress - Latest Government Job Updates!";
-    setTickerText(current);
-    setSavedText(current);
+    async function loadTicker() {
+      try {
+        const response = await fetch("/api/ticker", {
+          cache: "no-store",
+        });
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || "Ticker load failed");
+        }
+
+        setTickerText(data.text || DEFAULT_TEXT);
+      } catch {
+        setMessage("Ticker load nahi hua. Page refresh karke dekhein.");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadTicker();
   }, []);
 
-  const handleSave = (e: React.FormEvent) => {
+  async function handleSave(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    localStorage.setItem("siteTickerText", tickerText);
-    setSavedText(tickerText);
-    alert("Ticker updated successfully!");
-  };
+    setSaving(true);
+    setMessage("");
+
+    try {
+      const response = await fetch("/api/ticker", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: tickerText }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Save failed");
+      }
+
+      setTickerText(data.text);
+      setMessage("Ticker successfully save ho gaya!");
+    } catch (error) {
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : "Ticker save nahi hua."
+      );
+    } finally {
+      setSaving(false);
+    }
+  }
 
   return (
-    <div className="p-6 max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6 text-gray-900">Manage Running Ticker Line</h1>
-      
-      <form onSubmit={handleSave} className="bg-white p-4 rounded-xl shadow-sm border mb-6 space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Ticker / Running Text Update</label>
-          <textarea
-            value={tickerText}
-            onChange={(e) => setTickerText(e.target.value)}
-            rows={3}
-            placeholder="Enter latest update text here..."
-            className="w-full p-3 border rounded-lg text-gray-900 focus:ring-2 focus:ring-amber-500"
-            required
-          />
-        </div>
-        <button type="submit" className="bg-amber-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-amber-700 cursor-pointer">
-          Update Running Line
+    <div className="mx-auto max-w-3xl space-y-6 p-4">
+      <h1 className="text-2xl font-bold">Manage Ticker</h1>
+
+      <form onSubmit={handleSave} className="space-y-4">
+        <label
+          htmlFor="tickerText"
+          className="block font-medium"
+        >
+          Website Running Ticker Text
+        </label>
+
+        <textarea
+          id="tickerText"
+          value={tickerText}
+          onChange={(e) => setTickerText(e.target.value)}
+          placeholder="Enter ticker announcement..."
+          rows={5}
+          maxLength={2000}
+          required
+          disabled={loading || saving}
+          className="w-full rounded-lg border border-gray-300 bg-white p-3 text-gray-900"
+        />
+
+        <p className="text-sm text-gray-500">
+          {tickerText.length}/2000 characters
+        </p>
+
+        <button
+          type="submit"
+          disabled={loading || saving || !tickerText.trim()}
+          className="rounded-lg bg-amber-600 px-5 py-3 font-semibold text-white disabled:opacity-50"
+        >
+          {loading
+            ? "Loading..."
+            : saving
+              ? "Saving..."
+              : "Save Ticker"}
         </button>
+
+        {message && (
+          <p role="status" className="text-sm font-medium">
+            {message}
+          </p>
+        )}
       </form>
 
-      <div className="bg-white p-4 rounded-xl shadow-sm border">
-        <h3 className="font-bold text-lg mb-2 text-gray-800">Current Live Preview:</h3>
-        <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-amber-900 font-medium">
-          {savedText}
-        </div>
+      <div className="rounded-lg border p-4">
+        <h2 className="mb-2 font-semibold">Preview</h2>
+        <p className="break-words">{tickerText || DEFAULT_TEXT}</p>
       </div>
     </div>
   );
