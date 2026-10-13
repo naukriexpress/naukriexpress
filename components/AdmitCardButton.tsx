@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 type AdmitCardLink = {
+  id: number;
   title: string;
   url: string;
 };
@@ -10,35 +11,87 @@ type AdmitCardLink = {
 export default function AdmitCardButton() {
   const [isOpen, setIsOpen] = useState(false);
   const [links, setLinks] = useState<AdmitCardLink[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  async function loadLinks() {
+    try {
+      const response = await fetch("/api/admit-cards", {
+        cache: "no-store",
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Admit Cards load nahi hue");
+      }
+
+      setLinks(data.links || []);
+      setError("");
+    } catch {
+      setError("Admit Card updates abhi load nahi ho rahe.");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   useEffect(() => {
-    try {
-      const saved = JSON.parse(
-        localStorage.getItem("adminAdmitCards") || "[]"
-      );
+    let active = true;
 
-      if (Array.isArray(saved)) {
-        setLinks(saved);
+    async function refresh() {
+      try {
+        const response = await fetch("/api/admit-cards", {
+          cache: "no-store",
+        });
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error("Load failed");
+        }
+
+        if (active) {
+          setLinks(data.links || []);
+          setError("");
+        }
+      } catch {
+        if (active) {
+          setError("Admit Card updates abhi load nahi ho rahe.");
+        }
+      } finally {
+        if (active) setLoading(false);
       }
-    } catch {
-      setLinks([]);
     }
-  }, []);
 
-  if (links.length === 0) return null;
+    setLoading(true);
+    void refresh();
+
+    const timer = window.setInterval(() => {
+      void refresh();
+    }, 30000);
+
+    return () => {
+      active = false;
+      window.clearInterval(timer);
+    };
+  }, []);
 
   return (
     <>
-      <button
-        type="button"
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-4 z-40 flex items-center gap-2 rounded-full bg-brand-600 px-4 py-3 text-sm font-bold text-white shadow-xl transition-transform hover:bg-brand-700 active:scale-95 sm:right-6"
-      >
-        <span>📄 Admit Card Updates</span>
-        <span className="rounded-full bg-white px-2 py-0.5 text-xs font-extrabold text-brand-700">
-          {links.length}
-        </span>
-      </button>
+      {links.length > 0 && (
+        <button
+          type="button"
+          onClick={() => {
+            setIsOpen(true);
+            void loadLinks();
+          }}
+          className="fixed bottom-6 right-4 z-40 flex items-center gap-2 rounded-full bg-brand-600 px-4 py-3 text-sm font-bold text-white shadow-xl hover:bg-brand-700 active:scale-95 sm:right-6"
+        >
+          <span>📄 Admit Card Updates</span>
+          <span className="rounded-full bg-white px-2 py-0.5 text-xs font-extrabold text-brand-700">
+            {links.length}
+          </span>
+        </button>
+      )}
 
       {isOpen && (
         <div
@@ -49,7 +102,7 @@ export default function AdmitCardButton() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="admit-card-title"
-            className="relative flex max-h-[85dvh] w-full max-w-md flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white p-5 shadow-2xl"
+            className="flex max-h-[85dvh] w-full max-w-md flex-col overflow-hidden rounded-2xl bg-white p-5 shadow-2xl"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="mb-4 flex shrink-0 items-center justify-between border-b pb-3">
@@ -63,22 +116,36 @@ export default function AdmitCardButton() {
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                aria-label="Close admit cards"
-                className="rounded-lg px-3 py-1 text-xl font-bold text-gray-600 hover:bg-gray-100 hover:text-red-600"
+                aria-label="Close Admit Cards"
+                className="rounded-lg px-3 py-1 text-xl font-bold text-gray-600 hover:bg-gray-100"
               >
                 ✕
               </button>
             </div>
 
-            <div className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain pr-1">
-              {links.map((item, index) => (
+            <div className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain">
+              {loading && (
+                <p className="text-sm text-gray-500">Loading updates...</p>
+              )}
+
+              {error && (
+                <p className="text-sm text-red-600">{error}</p>
+              )}
+
+              {!loading && !error && links.length === 0 && (
+                <p className="text-sm text-gray-600">
+                  Abhi koi Admit Card update available nahi hai.
+                </p>
+              )}
+
+              {links.map((item) => (
                 <a
-                  key={`${item.url}-${index}`}
+                  key={item.id}
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setIsOpen(false)}
-                  className="block rounded-xl border border-amber-200 bg-amber-50 p-3.5 text-sm font-semibold text-gray-900 transition-colors hover:bg-amber-100 sm:text-base"
+                  className="block break-words rounded-xl border border-amber-200 bg-amber-50 p-3.5 text-sm font-semibold text-gray-900 hover:bg-amber-100 sm:text-base"
                 >
                   👉 {item.title}
                 </a>
