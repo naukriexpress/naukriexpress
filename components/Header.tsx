@@ -121,6 +121,13 @@ export default async function Header() {
                   <Link
                     key={item.label}
                     href={item.href}
+                    onClick={() => {
+                      const checkbox = document.getElementById(
+                        "mobile-nav-toggle"
+                      ) as HTMLInputElement | null;
+
+                      if (checkbox) checkbox.checked = false;
+                    }}
                     className="block w-full rounded-lg px-4 py-3 text-base font-medium text-ink-800 hover:bg-brand-50 hover:text-brand-700"
                   >
                     {item.label}
@@ -130,6 +137,13 @@ export default async function Header() {
 
               <Link
                 href="/jobs"
+                onClick={() => {
+                  const checkbox = document.getElementById(
+                    "mobile-nav-toggle"
+                  ) as HTMLInputElement | null;
+
+                  if (checkbox) checkbox.checked = false;
+                }}
                 className="mb-4 mt-3 block w-full rounded-lg bg-saffron-500 px-4 py-3 text-center text-sm font-semibold text-white"
               >
                 Find My Eligible Jobs
