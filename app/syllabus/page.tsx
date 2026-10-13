@@ -1,17 +1,25 @@
 import type { Metadata } from "next";
-import InfoListingPage from "@/components/InfoListingPage";
+import PublicUpdatesList from "@/components/PublicUpdatesList";
 
 export const metadata: Metadata = {
-  title: "Syllabus - Exam Syllabus & Pattern",
-  description: "Download the latest exam syllabus and exam pattern for government job recruitment exams.",
+  title: "Syllabus - Government Exam Syllabus",
+  description:
+    "Check the latest government exam syllabus, exam patterns and official syllabus links.",
 };
 
 export default function SyllabusPage() {
   return (
-    <InfoListingPage
-      title="Syllabus &amp; Exam Pattern"
-      description="Detailed syllabus and exam pattern for each recruitment, sourced from the official notification."
-      ctaLabel="View Details"
-    />
+    <main className="container-page py-10">
+      <h1 className="font-display text-2xl font-bold text-ink-900 sm:text-3xl">
+        Syllabus
+      </h1>
+
+      <p className="mt-2 max-w-2xl text-sm text-ink-700/70">
+        Latest government exam syllabus, exam patterns and official syllabus
+        links.
+      </p>
+
+      <PublicUpdatesList category="syllabus" />
+    </main>
   );
 }
