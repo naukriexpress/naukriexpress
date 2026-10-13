@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import { queryJobs } from "@/lib/db";
 import AdmitCardButton from "./AdmitCardButton";
@@ -24,7 +25,7 @@ export default async function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-ink-900/10 bg-white/95 backdrop-blur">
-      {/* Live Updates */}
+      {/* Live jobs bar */}
       <div className="bg-ink-900 text-xs text-white sm:text-sm">
         <div className="container-page flex items-center gap-2 overflow-x-auto whitespace-nowrap py-1.5">
           <span className="inline-flex items-center gap-1 font-semibold text-saffron-400">
@@ -44,7 +45,7 @@ export default async function Header() {
         </div>
       </div>
 
-      {/* Header Navigation */}
+      {/* Main header */}
       <div className="container-page flex items-center justify-between gap-3 py-3">
         {/* Logo */}
         <Link
@@ -66,8 +67,11 @@ export default async function Header() {
           </span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden items-center gap-1 text-sm font-medium lg:flex">
+        {/* Desktop navigation */}
+        <nav
+          aria-label="Main navigation"
+          className="hidden items-center gap-1 text-sm font-medium lg:flex"
+        >
           {NAV_LINKS.map((item) =>
             item.label === "Admit Card" ? (
               <AdmitCardButton key={item.label} />
@@ -83,19 +87,28 @@ export default async function Header() {
           )}
         </nav>
 
-        {/* Desktop Button */}
+        {/* Desktop call-to-action */}
         <div className="hidden items-center gap-2 lg:flex">
           <Link
             href="/jobs"
-            className="rounded-lg bg-saffron-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-saffron-600"
+            className="rounded-lg bg-saffron-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-saffron-600"
           >
             Find My Eligible Jobs
           </Link>
         </div>
 
-        {/* Mobile Navigation: Client Component handles opening and closing */}
-        <div className="lg:hidden">
-          <MobileNav />
+        {/* Mobile navigation menu */}
+        <div className="shrink-0 lg:hidden">
+          <Suspense
+            fallback={
+              <div
+                className="h-10 w-10 rounded-lg border border-ink-900/15 bg-white"
+                aria-hidden="true"
+              />
+            }
+          >
+            <MobileNav />
+          </Suspense>
         </div>
       </div>
     </header>
