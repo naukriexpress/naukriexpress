@@ -1,10 +1,10 @@
-
 "use client";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { usePathname, useSearchParams } from "next/navigation";
+import AdmitCardButton from "./AdmitCardButton";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -21,6 +21,7 @@ const NAV_LINKS = [
 export default function MobileNav() {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentQuery = searchParams.toString();
@@ -53,13 +54,19 @@ export default function MobileNav() {
 
   return (
     <>
+      {/* Mobile Admit Card Updates popup button */}
+      <div className="lg:hidden">
+        <AdmitCardButton />
+      </div>
+
+      {/* Hamburger button */}
       <button
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Open navigation menu"
         aria-expanded={open}
         aria-controls="mobile-navigation"
-        className="lg:hidden grid h-10 w-10 place-items-center rounded-lg border border-ink-900/15 bg-white"
+        className="grid h-10 w-10 place-items-center rounded-lg border border-ink-900/15 bg-white lg:hidden"
       >
         <svg
           width="22"
@@ -77,75 +84,75 @@ export default function MobileNav() {
         </svg>
       </button>
 
-      {mounted && open && createPortal(
-        <div
-          className="fixed inset-0 z-[9999] lg:hidden"
-          role="presentation"
-        >
-          <button
-            type="button"
-            onClick={() => setOpen(false)}
-            className="absolute inset-0 h-full w-full bg-black/60"
-            aria-label="Close navigation menu"
-          />
+      {/* Mobile navigation drawer */}
+      {mounted &&
+        open &&
+        createPortal(
+          <div className="fixed inset-0 z-[9999] lg:hidden">
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              className="absolute inset-0 h-full w-full bg-black/60"
+              aria-label="Close navigation menu"
+            />
 
-          <div
-            id="mobile-navigation"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Mobile navigation"
-            className="absolute right-0 top-0 flex h-full w-[85%] max-w-sm flex-col bg-white shadow-2xl"
-            style={{ height: "100dvh" }}
-          >
-            <div className="flex shrink-0 items-center justify-between border-b border-gray-200 px-5 py-5">
-              <div>
-                <h2 className="text-xl font-bold text-ink-900">
-                  Menu
-                </h2>
-                <p className="text-xs text-gray-500">
-                  NaukriExpress
-                </p>
+            <div
+              id="mobile-navigation"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Mobile navigation"
+              className="absolute right-0 top-0 flex h-full w-[85%] max-w-sm flex-col bg-white shadow-2xl"
+              style={{ height: "100dvh" }}
+            >
+              <div className="flex shrink-0 items-center justify-between border-b border-gray-200 px-5 py-5">
+                <div>
+                  <h2 className="text-xl font-bold text-ink-900">
+                    Menu
+                  </h2>
+                  <p className="text-xs text-gray-500">
+                    NaukriExpress
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setOpen(false)}
+                  className="grid h-10 w-10 place-items-center rounded-lg border border-gray-200 text-xl text-ink-900"
+                  aria-label="Close menu"
+                >
+                  ✕
+                </button>
               </div>
 
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                className="grid h-10 w-10 place-items-center rounded-lg border border-gray-200 text-xl text-ink-900"
-                aria-label="Close menu"
-              >
-                ✕
-              </button>
-            </div>
+              <nav className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4">
+                <div className="flex flex-col gap-1">
+                  {NAV_LINKS.map((item) => (
+                    <Link
+                      key={item.label}
+                      href={item.href}
+                      onClick={() => setOpen(false)}
+                      className="flex items-center justify-between rounded-xl px-4 py-3.5 text-sm font-semibold text-ink-800 transition-colors hover:bg-brand-50 hover:text-brand-700"
+                    >
+                      <span>{item.label}</span>
+                      <span className="text-gray-400">›</span>
+                    </Link>
+                  ))}
+                </div>
+              </nav>
 
-            <nav className="flex-1 overflow-y-auto overscroll-contain px-4 py-4">
-              <div className="flex flex-col gap-1">
-                {NAV_LINKS.map((item) => (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    onClick={() => setOpen(false)}
-                    className="flex items-center justify-between rounded-xl px-4 py-3.5 text-sm font-semibold text-ink-800 transition-colors hover:bg-brand-50 hover:text-brand-700"
-                  >
-                    <span>{item.label}</span>
-                    <span className="text-gray-400">›</span>
-                  </Link>
-                ))}
+              <div className="shrink-0 border-t border-gray-200 bg-white p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+                <Link
+                  href="/jobs"
+                  onClick={() => setOpen(false)}
+                  className="block rounded-xl bg-saffron-500 px-4 py-3 text-center text-sm font-bold text-white hover:bg-saffron-600"
+                >
+                  Find My Eligible Jobs
+                </Link>
               </div>
-            </nav>
-
-            <div className="shrink-0 border-t border-gray-200 bg-white p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
-              <Link
-                href="/jobs"
-                onClick={() => setOpen(false)}
-                className="block rounded-xl bg-saffron-500 px-4 py-3 text-center text-sm font-bold text-white hover:bg-saffron-600"
-              >
-                Find My Eligible Jobs
-              </Link>
             </div>
-          </div>
-        </div>,
-        document.body
-      )}
+          </div>,
+          document.body
+        )}
     </>
   );
 }
