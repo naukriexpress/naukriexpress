@@ -1,17 +1,25 @@
 import type { Metadata } from "next";
-import InfoListingPage from "@/components/InfoListingPage";
+import PublicUpdatesList from "@/components/PublicUpdatesList";
 
 export const metadata: Metadata = {
-  title: "Answer Key - Provisional & Final Answer Keys",
-  description: "Access provisional and final answer keys for recent government recruitment exams.",
+  title: "Answer Key - Government Exam Answer Keys",
+  description:
+    "Check the latest government exam answer keys, official answer key links and objection details.",
 };
 
 export default function AnswerKeyPage() {
   return (
-    <InfoListingPage
-      title="Answer Key"
-      description="Provisional and final answer keys are published here once released by the exam-conducting body."
-      ctaLabel="View Details"
-    />
+    <main className="container-page py-10">
+      <h1 className="font-display text-2xl font-bold text-ink-900 sm:text-3xl">
+        Answer Key
+      </h1>
+
+      <p className="mt-2 max-w-2xl text-sm text-ink-700/70">
+        Latest government exam answer keys, official answer key links and
+        objection details.
+      </p>
+
+      <PublicUpdatesList category="answer-key" />
+    </main>
   );
 }
