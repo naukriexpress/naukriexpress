@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 type AdmitCardLink = {
   id: number;
@@ -9,9 +10,10 @@ type AdmitCardLink = {
 };
 
 export default function AdmitCardButton() {
+  const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [links, setLinks] = useState<AdmitCardLink[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   async function loadLinks() {
@@ -36,46 +38,37 @@ export default function AdmitCardButton() {
   }
 
   useEffect(() => {
-    let active = true;
-
-    async function refresh() {
-      try {
-        const response = await fetch("/api/admit-cards", {
-          cache: "no-store",
-        });
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error("Load failed");
-        }
-
-        if (active) {
-          setLinks(data.links || []);
-          setError("");
-        }
-      } catch {
-        if (active) {
-          setError("Admit Card updates abhi load nahi ho rahe.");
-        }
-      } finally {
-        if (active) setLoading(false);
-      }
-    }
-
-    setLoading(true);
-    void refresh();
+    setMounted(true);
+    void loadLinks();
 
     const timer = window.setInterval(() => {
-      void refresh();
+      void loadLinks();
     }, 30000);
 
-    return () => {
-      active = false;
-      window.clearInterval(timer);
-    };
+    return () => window.clearInterval(timer);
   }, []);
 
-  return (
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") setIsOpen(false);
+    }
+
+    window.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [isOpen]);
+
+  if (!mounted) return null;
+
+  return createPortal(
     <>
       {links.length > 0 && (
         <button
@@ -84,7 +77,7 @@ export default function AdmitCardButton() {
             setIsOpen(true);
             void loadLinks();
           }}
-          className="fixed bottom-6 right-4 z-40 flex items-center gap-2 rounded-full bg-brand-600 px-4 py-3 text-sm font-bold text-white shadow-xl hover:bg-brand-700 active:scale-95 sm:right-6"
+          className="fixed bottom-6 right-4 z-[9998] flex items-center gap-2 rounded-full bg-brand-600 px-4 py-3 text-sm font-bold text-white shadow-xl hover:bg-brand-700 active:scale-95 sm:right-6"
         >
           <span>📄 Admit Card Updates</span>
           <span className="rounded-full bg-white px-2 py-0.5 text-xs font-extrabold text-brand-700">
@@ -95,14 +88,14 @@ export default function AdmitCardButton() {
 
       {isOpen && (
         <div
-          className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 p-4"
+          className="fixed inset-0 z-[9999] flex items-center justify-center overflow-y-auto bg-black/60 p-4"
           onClick={() => setIsOpen(false)}
         >
           <div
             role="dialog"
             aria-modal="true"
             aria-labelledby="admit-card-title"
-            className="flex max-h-[85dvh] w-full max-w-md flex-col overflow-hidden rounded-2xl bg-white p-5 shadow-2xl"
+            className="my-auto flex max-h-[calc(100dvh-2rem)] w-full max-w-md flex-col overflow-hidden rounded-2xl bg-white p-5 shadow-2xl"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="mb-4 flex shrink-0 items-center justify-between border-b pb-3">
@@ -125,7 +118,9 @@ export default function AdmitCardButton() {
 
             <div className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain">
               {loading && (
-                <p className="text-sm text-gray-500">Loading updates...</p>
+                <p className="text-sm text-gray-500">
+                  Loading updates...
+                </p>
               )}
 
               {error && (
@@ -162,6 +157,7 @@ export default function AdmitCardButton() {
           </div>
         </div>
       )}
-    </>
+    </>,
+    document.body
   );
 }
