@@ -1,17 +1,24 @@
 import type { Metadata } from "next";
-import InfoListingPage from "@/components/InfoListingPage";
+import PublicUpdatesList from "@/components/PublicUpdatesList";
 
 export const metadata: Metadata = {
   title: "Results - Check Exam & Recruitment Results",
-  description: "Check the latest results for government exams and recruitment drives across India.",
+  description:
+    "Check the latest government exam results, merit lists and official result links.",
 };
 
 export default function ResultsPage() {
   return (
-    <InfoListingPage
-      title="Results"
-      description="Track results for recruitment exams. Click a job to see the full recruitment timeline and official links."
-      ctaLabel="View Details"
-    />
+    <main className="container-page py-10">
+      <h1 className="font-display text-2xl font-bold text-ink-900 sm:text-3xl">
+        Results
+      </h1>
+
+      <p className="mt-2 max-w-2xl text-sm text-ink-700/70">
+        Government exam results, merit lists and official result links.
+      </p>
+
+      <PublicUpdatesList category="results" />
+    </main>
   );
 }
