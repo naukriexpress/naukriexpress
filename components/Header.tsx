@@ -22,27 +22,33 @@ export default async function Header() {
   ]);
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-ink-900/10">
-      <div className="bg-ink-900 text-white text-xs sm:text-sm">
-        <div className="container-page flex items-center gap-2 py-1.5 overflow-x-auto whitespace-nowrap">
+    <header className="sticky top-0 z-40 border-b border-ink-900/10 bg-white/95 backdrop-blur">
+      {/* Live Updates */}
+      <div className="bg-ink-900 text-xs text-white sm:text-sm">
+        <div className="container-page flex items-center gap-2 overflow-x-auto whitespace-nowrap py-1.5">
           <span className="inline-flex items-center gap-1 font-semibold text-saffron-400">
-            <span className="h-1.5 w-1.5 rounded-full bg-saffron-400 animate-pulse" aria-hidden />
+            <span
+              className="h-1.5 w-1.5 animate-pulse rounded-full bg-saffron-400"
+              aria-hidden="true"
+            />
             LIVE
           </span>
           <span>{liveJobs} open recruitments tracked</span>
           <span className="opacity-40">•</span>
-          <span className="text-leaf-400 font-medium">
+          <span className="font-medium text-leaf-400">
             {closingToday} closing today — apply now
           </span>
         </div>
       </div>
 
-      <div className="container-page flex items-center justify-between py-3">
-        <Link href="/" className="flex items-center gap-2.5 shrink-0">
-          <span className="grid h-10 w-10 place-items-center rounded-xl2 bg-brand-700 font-display text-lg font-bold text-white">
+      <div className="container-page flex items-center justify-between gap-3 py-3">
+        {/* Logo */}
+        <Link href="/" className="flex min-w-0 shrink items-center gap-2.5">
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl2 bg-brand-700 font-display text-lg font-bold text-white">
             BGi
           </span>
-          <span className="flex flex-col leading-tight">
+
+          <span className="flex min-w-0 flex-col leading-tight">
             <span className="font-display text-lg font-bold text-ink-900">
               NaukriExpress
             </span>
@@ -53,44 +59,47 @@ export default async function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-1 text-sm font-medium">
-          {NAV_LINKS.map((l) => {
-            if (l.label === "Admit Card") {
-              return <AdmitCardButton key={l.label} />;
+        <nav className="hidden items-center gap-1 text-sm font-medium lg:flex">
+          {NAV_LINKS.map((item) => {
+            if (item.label === "Admit Card") {
+              return <AdmitCardButton key={item.label} />;
             }
 
             return (
               <Link
-                key={l.label}
-                href={l.href}
-                className="rounded-md px-3 py-2 text-ink-700 hover:bg-brand-50 hover:text-brand-700 transition-colors"
+                key={item.label}
+                href={item.href}
+                className="rounded-md px-3 py-2 text-ink-700 transition-colors hover:bg-brand-50 hover:text-brand-700"
               >
-                {l.label}
+                {item.label}
               </Link>
             );
           })}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-2">
+        {/* Desktop CTA */}
+        <div className="hidden items-center gap-2 lg:flex">
           <Link
             href="/jobs"
-            className="rounded-lg bg-saffron-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-saffron-600 transition-colors"
+            className="rounded-lg bg-saffron-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-saffron-600"
           >
             Find My Eligible Jobs
           </Link>
         </div>
 
-        {/* Mobile Menu Toggle */}
+        {/* Mobile Menu Checkbox */}
         <input
           type="checkbox"
           id="mobile-nav-toggle"
           className="peer sr-only"
+          aria-label="Toggle mobile menu"
         />
 
+        {/* Hamburger Button */}
         <label
           htmlFor="mobile-nav-toggle"
-          className="lg:hidden grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-ink-900/15 cursor-pointer"
-          aria-label="Open menu"
+          className="grid h-10 w-10 shrink-0 cursor-pointer place-items-center rounded-lg border border-ink-900/15 lg:hidden"
+          aria-label="Open or close menu"
         >
           <svg
             width="22"
@@ -110,13 +119,15 @@ export default async function Header() {
 
         {/* Mobile Menu Overlay */}
         <div className="fixed inset-0 z-[100] hidden peer-checked:block lg:hidden">
+          {/* Tap outside to close */}
           <label
             htmlFor="mobile-nav-toggle"
             className="absolute inset-0 bg-black/50"
             aria-label="Close menu"
           />
 
-          <div className="absolute right-0 top-0 flex h-full h-[100dvh] w-[min(88vw,360px)] flex-col overflow-hidden bg-white shadow-2xl">
+          {/* Menu Panel */}
+          <div className="absolute right-0 top-0 flex h-full w-[min(88vw,360px)] flex-col overflow-hidden bg-white shadow-2xl">
             {/* Menu Header */}
             <div className="flex shrink-0 items-center justify-between border-b border-ink-900/10 px-5 py-4">
               <span className="font-display text-lg font-bold text-ink-900">
@@ -132,12 +143,12 @@ export default async function Header() {
               </label>
             </div>
 
-            {/* Scrollable Menu Links */}
+            {/* Scrollable Links */}
             <nav className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-3">
-              {NAV_LINKS.map((l) => {
-                if (l.label === "Admit Card") {
+              {NAV_LINKS.map((item) => {
+                if (item.label === "Admit Card") {
                   return (
-                    <div key={l.label} className="mb-1">
+                    <div key={item.label} className="mb-1">
                       <AdmitCardButton />
                     </div>
                   );
@@ -145,32 +156,18 @@ export default async function Header() {
 
                 return (
                   <Link
-                    key={l.label}
-                    href={l.href}
-                    onClick={() => {
-                      const checkbox = document.getElementById(
-                        "mobile-nav-toggle"
-                      ) as HTMLInputElement | null;
-
-                      if (checkbox) checkbox.checked = false;
-                    }}
+                    key={item.label}
+                    href={item.href}
                     className="mb-1 block w-full rounded-lg px-4 py-3 text-base font-medium text-ink-800 transition-colors hover:bg-brand-50 hover:text-brand-700"
                   >
-                    {l.label}
+                    {item.label}
                   </Link>
                 );
               })}
 
               <Link
                 href="/jobs"
-                onClick={() => {
-                  const checkbox = document.getElementById(
-                    "mobile-nav-toggle"
-                  ) as HTMLInputElement | null;
-
-                  if (checkbox) checkbox.checked = false;
-                }}
-                className="mt-3 mb-4 block w-full rounded-lg bg-saffron-500 px-4 py-3 text-center text-sm font-semibold text-white"
+                className="mb-4 mt-3 block w-full rounded-lg bg-saffron-500 px-4 py-3 text-center text-sm font-semibold text-white"
               >
                 Find My Eligible Jobs
               </Link>
