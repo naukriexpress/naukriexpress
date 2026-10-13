@@ -199,6 +199,7 @@ export default async function JobDetailsPage({ params }: { params: { slug: strin
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
               <div><p className="text-xs text-ink-700/60">Application Start</p><p className="font-semibold text-ink-900 text-sm">{formatDate(job.dates.startDate)}</p></div>
               <div><p className="text-xs text-ink-700/60">Last Date</p><p className="font-semibold text-saffron-600 text-sm">{formatDate(job.dates.lastDate)}</p></div>
+              {job.dates.extendedLastDate && <div><p className="text-xs text-ink-700/60">Extended Last Date</p><p className="font-semibold text-green-700 text-sm">{formatDate(job.dates.extendedLastDate)} (Date Extended)</p></div>}
               <div><p className="text-xs text-ink-700/60">Exam Date</p><p className="font-semibold text-ink-900 text-sm">{formatDate(job.dates.examDate)}</p></div>
               <div><p className="text-xs text-ink-700/60">Application Fee</p><p className="font-semibold text-ink-900 text-sm">{job.applicationFee || "As per notification"}</p></div>
               <div><p className="text-xs text-ink-700/60">Salary / Pay Scale</p><p className="font-semibold text-ink-900 text-sm">{job.salary || "As per rules"}</p></div>

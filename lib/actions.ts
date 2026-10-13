@@ -94,6 +94,8 @@ function buildJobFromForm(formData: FormData) {
       startDate: String(formData.get("startDate") || "") || undefined,
       lastDate: String(formData.get("lastDate") || new Date().toISOString().slice(0, 10)),
       examDate: String(formData.get("examDate") || "") || undefined,
+      isDateExtended: Boolean(String(formData.get("extendedLastDate") || "")),
+      extendedLastDate: String(formData.get("extendedLastDate") || "") || undefined,
     },
     links: {
       applyOnline: String(formData.get("applyOnline") || "") || undefined,

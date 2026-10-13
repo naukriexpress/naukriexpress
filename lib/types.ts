@@ -1,5 +1,8 @@
+
 export type Gender = "male" | "female";
+
 export type Category = "open" | "obc" | "sc" | "st" | "ews";
+
 export type Qualification =
   | "10th"
   | "12th"
@@ -11,17 +14,24 @@ export type Qualification =
   | "law"
   | "medical"
   | "any_graduate";
+
 export type JobType =
   | "government"
   | "private"
   | "contract"
   | "apprenticeship"
-  | "internship";
-export type JobStatus = "draft" | "scheduled" | "published" | "expired";
+  | "internship"
+  | "scholarship";
+
+export type JobStatus =
+  | "draft"
+  | "scheduled"
+  | "published"
+  | "expired";
 
 export interface VacancyRow {
   post: string;
-  category: string; // free text, e.g. "Open: 40, OBC: 20 ..."
+  category: string;
   count: number;
 }
 
@@ -38,14 +48,14 @@ export interface JobPosting {
   vacancyBreakdown: VacancyRow[];
 
   location: {
-    state: string; // "Maharashtra" | "All India" | other state
+    state: string;
     district?: string;
     allIndia: boolean;
   };
 
   eligibility: {
-    genders: Gender[]; // which genders are eligible
-    categories: Category[]; // which categories are eligible
+    genders: Gender[];
+    categories: Category[];
     qualifications: Qualification[];
     minAge?: number;
     maxAge?: number;
@@ -58,9 +68,13 @@ export interface JobPosting {
   applicationFee?: string;
 
   dates: {
-    startDate?: string; // ISO date
-    lastDate: string; // ISO date
+    startDate?: string;
+    lastDate: string;
     examDate?: string;
+
+    // Extended Last Date
+    isDateExtended?: boolean;
+    extendedLastDate?: string;
   };
 
   links: {
@@ -70,7 +84,7 @@ export interface JobPosting {
   };
 
   content: {
-    eligibility?: string; // rich text (HTML)
+    eligibility?: string;
     vacancyDetails?: string;
     selectionProcess?: string;
     howToApply?: string;
@@ -84,7 +98,7 @@ export interface JobPosting {
 
   featured: boolean;
   status: JobStatus;
-  publishAt?: string; // for scheduled publishing
+  publishAt?: string;
   createdAt: string;
   updatedAt: string;
   views: number;
@@ -116,7 +130,10 @@ export const CATEGORY_LABELS: Record<Category, string> = {
   ews: "EWS",
 };
 
-export const QUALIFICATION_LABELS: Record<Qualification, string> = {
+export const QUALIFICATION_LABELS: Record<
+  Qualification,
+  string
+> = {
   "10th": "10th Pass",
   "12th": "12th Pass",
   iti: "ITI",
@@ -135,4 +152,5 @@ export const JOB_TYPE_LABELS: Record<JobType, string> = {
   contract: "Contract Job",
   apprenticeship: "Apprenticeship",
   internship: "Internship",
+  scholarship: "Scholarship",
 };

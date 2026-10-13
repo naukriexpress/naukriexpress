@@ -9,7 +9,7 @@ const CATEGORIES: Category[] = ["open", "obc", "sc", "st", "ews"];
 const QUALIFICATIONS: Qualification[] = [
   "10th", "12th", "iti", "diploma", "graduate", "post_graduate", "engineering", "law", "medical", "any_graduate",
 ];
-const JOB_TYPES: JobType[] = ["government", "private", "contract", "apprenticeship", "internship"];
+const JOB_TYPES: JobType[] = ["government", "private", "contract", "apprenticeship", "internship", "scholarship"];
 const STATES = [
   "Maharashtra", "All India", "Delhi", "Uttar Pradesh", "Karnataka", "Tamil Nadu",
   "Gujarat", "Rajasthan", "West Bengal", "Madhya Pradesh", "Bihar", "Punjab", "Telangana",
@@ -174,6 +174,9 @@ export default function JobForm({
           </Field>
           <Field label="Last Date to Apply" required>
             <input name="lastDate" type="date" defaultValue={job?.dates.lastDate} required className={inputCls} />
+          </Field>
+          <Field label="Extended Last Date (if applicable)">
+            <input name="extendedLastDate" type="date" min={job?.dates.lastDate} defaultValue={job?.dates.extendedLastDate} className={inputCls} />
           </Field>
           <Field label="Exam Date">
             <input name="examDate" type="date" defaultValue={job?.dates.examDate} className={inputCls} />
