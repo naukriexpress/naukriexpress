@@ -71,6 +71,11 @@ export default function JobCard({ job }: { job: JobPosting }) {
         <div>
           <dt className="text-xs text-ink-700/60">Last Date</dt>
           <dd className="font-semibold text-saffron-600">{formatDate(job.dates.lastDate)}</dd>
+          {job.content.importantInstructions?.includes("[[LAST_DATE_EXTENDED]]") && (
+            <span className="mt-1 inline-block rounded-full bg-orange-100 px-2 py-0.5 text-[11px] font-bold text-orange-800">
+              Last Date Extended
+            </span>
+          )}
         </div>
       </dl>
 
