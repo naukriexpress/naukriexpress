@@ -5,15 +5,14 @@ const NAV = [
   { href: "/admin/dashboard", label: "Dashboard", icon: "📊" },
   { href: "/admin/jobs", label: "Manage Jobs", icon: "🗂️" },
   { href: "/admin/jobs/new", label: "Add New Job", icon: "➕" },
+  { href: "/admin/apprentice", label: "Manage Apprentice", icon: "🛠️" },
+  { href: "/admin/apprentice/new", label: "Add Apprentice", icon: "➕" },
   { href: "/admin/admit-card", label: "Manage Admit Card", icon: "📄" },
   { href: "/admin/ticker", label: "Manage Ticker", icon: "⚡" },
-
-  // New options
   { href: "/admin/results", label: "Manage Results", icon: "🏆" },
   { href: "/admin/answer-key", label: "Manage Answer Key", icon: "📝" },
   { href: "/admin/syllabus", label: "Manage Syllabus", icon: "📚" },
   { href: "/admin/scholarship", label: "Manage Scholarship", icon: "🎓" },
-  { href: "/admin/apprentice", label: "Manage Apprentice", icon: "🛠️" },
 ];
 
 export default function AdminLayout({
@@ -31,15 +30,10 @@ export default function AdminLayout({
                 NX
               </span>
               <div>
-                <p className="text-sm font-bold text-ink-900">
-                  Admin Panel
-                </p>
-                <p className="text-[11px] text-ink-700/50">
-                  NaukriExpress
-                </p>
+                <p className="text-sm font-bold text-ink-900">Admin Panel</p>
+                <p className="text-[11px] text-ink-700/50">NaukriExpress</p>
               </div>
             </div>
-
             <nav className="flex flex-row gap-1 overflow-x-auto lg:flex-col lg:overflow-visible">
               {NAV.map((item) => (
                 <Link
@@ -52,11 +46,7 @@ export default function AdminLayout({
                 </Link>
               ))}
             </nav>
-
-            <form
-              action={logoutAction}
-              className="mt-3 border-t border-ink-900/10 pt-3"
-            >
+            <form action={logoutAction} className="mt-3 border-t border-ink-900/10 pt-3">
               <button
                 type="submit"
                 className="w-full rounded-lg px-3 py-2.5 text-left text-sm font-medium text-red-600 transition-colors hover:bg-red-50"
@@ -64,7 +54,6 @@ export default function AdminLayout({
                 🚪 Logout
               </button>
             </form>
-
             <Link
               href="/"
               className="mt-1 block px-3 py-2 text-xs text-ink-700/50 hover:text-brand-600"
@@ -73,7 +62,6 @@ export default function AdminLayout({
             </Link>
           </div>
         </aside>
-
         <div className="min-w-0">{children}</div>
       </div>
     </div>
