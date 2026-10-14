@@ -68,7 +68,7 @@ export async function POST(request: Request) {
 
     const body = await request.json();
     const hasItems = Array.isArray(body.items);
-    const items = hasItems
+    const items: string[] = hasItems
       ? body.items
           .filter((item: unknown): item is string => typeof item === "string")
           .map((item: string) => item.trim())
