@@ -13,6 +13,7 @@ const NAV = [
   { href: "/admin/answer-key", label: "Manage Answer Key", icon: "📝" },
   { href: "/admin/syllabus", label: "Manage Syllabus", icon: "📚" },
   { href: "/admin/scholarship", label: "Manage Scholarship", icon: "🎓" },
+  { href: "/admin/apprentice", label: "Manage Apprentice", icon: "🛠️" },
 ];
 
 export default function AdminLayout({
