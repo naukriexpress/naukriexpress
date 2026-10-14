@@ -32,7 +32,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const job = await getJobBySlug(params.slug);
 
-  if (!job) return { title: "Job Not Found" };
+  if (!job || !["published", "expired"].includes(job.status)) {
+    return {
+      title: "Job Not Found",
+      robots: { index: false, follow: false },
+    };
+  }
 
   const noticePending = Boolean(
     job.content.importantInstructions?.includes(SSC_GD_NOTICE_PENDING_MARKER)
@@ -81,7 +86,7 @@ export default async function JobDetailsPage({
 }) {
   const job = await getJobBySlug(params.slug);
 
-  if (!job) notFound();
+  if (!job || !["published", "expired"].includes(job.status)) notFound();
 
   const noticePending = Boolean(
     job.content.importantInstructions?.includes(SSC_GD_NOTICE_PENDING_MARKER)
@@ -150,7 +155,8 @@ export default async function JobDetailsPage({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jobPostingSchema),
+            // Escape "<" so user-controlled text cannot break out of this script tag.
+            __html: JSON.stringify(jobPostingSchema).replace(/</g, "\\u003c"),
           }}
         />
       )}

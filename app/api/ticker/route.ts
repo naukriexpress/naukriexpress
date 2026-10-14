@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getPool } from "@/lib/pgClient";
 import { getSession } from "@/lib/auth";
+import { isSameOriginMutation } from "@/lib/security";
 
 export const dynamic = "force-dynamic";
 
@@ -56,10 +57,13 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  if (!isSameOriginMutation(request)) {
+    return NextResponse.json({ error: "Invalid request origin" }, { status: 403 });
+  }
   try {
     const session = await getSession();
 
-    if (!session) {
+    if (session?.role !== "admin") {
       return NextResponse.json(
         { error: "Unauthorized" },
         { status: 401 }
