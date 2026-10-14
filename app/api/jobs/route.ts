@@ -5,7 +5,18 @@ import { isSameOriginMutation } from "@/lib/security";
 import type { Category, JobFilters, JobType, Qualification } from "@/lib/types";
 
 function parseList<T extends string>(sp: URLSearchParams, key: string): T[] {
-  return sp.getAll(key) as T[];
+  return sp.getAll(key).slice(0, 30) as T[];
+}
+
+function parseBoundedPositiveInt(
+  value: string | null,
+  fallback: number,
+  maximum: number
+): number {
+  if (!value) return fallback;
+  const parsed = Number(value);
+  if (!Number.isSafeInteger(parsed) || parsed < 1) return fallback;
+  return Math.min(parsed, maximum);
 }
 
 export async function GET(req: NextRequest) {
@@ -24,21 +35,21 @@ export async function GET(req: NextRequest) {
   }
 
   const filters: JobFilters = {
-    q: sp.get("q") || undefined,
+    q: (sp.get("q") || "").slice(0, 200) || undefined,
     gender: (sp.get("gender") as JobFilters["gender"]) || "all",
     categories: parseList<Category>(sp, "categories"),
     qualifications: parseList<Qualification>(sp, "qualifications"),
     jobType: parseList<JobType>(sp, "jobType"),
     state: sp.get("state") || undefined,
     district: sp.get("district") || undefined,
-    minAge: sp.get("minAge") ? Number(sp.get("minAge")) : undefined,
-    maxAge: sp.get("maxAge") ? Number(sp.get("maxAge")) : undefined,
+    minAge: sp.get("minAge") ? parseBoundedPositiveInt(sp.get("minAge"), 0, 120) : undefined,
+    maxAge: sp.get("maxAge") ? parseBoundedPositiveInt(sp.get("maxAge"), 0, 120) : undefined,
     lastDate: (sp.get("lastDate") as JobFilters["lastDate"]) || undefined,
     featuredOnly: sp.get("featured") === "true",
     status: (sp.get("status") as JobFilters["status"]) || "published",
     sort: (sp.get("sort") as JobFilters["sort"]) || "latest",
-    page: sp.get("page") ? Number(sp.get("page")) : 1,
-    pageSize: sp.get("pageSize") ? Number(sp.get("pageSize")) : 12,
+    page: parseBoundedPositiveInt(sp.get("page"), 1, 10000),
+    pageSize: parseBoundedPositiveInt(sp.get("pageSize"), 12, 50),
   };
 
   const { results, total } = await queryJobs(filters);
