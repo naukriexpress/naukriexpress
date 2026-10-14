@@ -432,7 +432,7 @@ export default async function JobDetailsPage({
           )}
 
           {/* Important Instructions */}
-          {job.content.importantInstructions && (
+          {job.content.importantInstructions?.replace("[[LAST_DATE_EXTENDED]]", "").trim() && (
             <section className="mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7">
               <h2 className="mb-3 font-display text-lg font-bold text-ink-900">
                 Required Documents &amp; Important Instructions
