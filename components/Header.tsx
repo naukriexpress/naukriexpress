@@ -21,8 +21,8 @@ const NAV_LINKS = [
 export default async function Header() {
   const [{ total: closingToday }, { total: liveJobs }] =
     await Promise.all([
-      queryJobs({ lastDate: "today", pageSize: 1 }),
-      queryJobs({ pageSize: 1 }),
+      queryJobs({ lastDate: "today", pageSize: 1, jobType: ["government", "private", "contract", "internship"] }),
+      queryJobs({ pageSize: 1, jobType: ["government", "private", "contract", "internship"] }),
     ]);
 
   return (
