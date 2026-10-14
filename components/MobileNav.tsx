@@ -57,7 +57,7 @@ export default function MobileNav() {
         aria-label="Open navigation menu"
         aria-expanded={open}
         aria-controls="mobile-navigation"
-        className="grid h-10 w-10 place-items-center rounded-lg border border-ink-900/15 bg-white lg:hidden"
+        className="grid h-10 w-10 place-items-center rounded-lg border border-ink-900/15 bg-white 2xl:hidden"
       >
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path
@@ -72,7 +72,7 @@ export default function MobileNav() {
       {mounted &&
         open &&
         createPortal(
-          <div className="fixed inset-0 z-[9999] lg:hidden">
+          <div className="fixed inset-0 z-[9999] 2xl:hidden">
             <button
               type="button"
               onClick={() => setOpen(false)}
