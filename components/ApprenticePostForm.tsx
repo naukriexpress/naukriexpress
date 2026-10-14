@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { createJobAction } from "@/lib/actions";
+import { JOB_LOCATION_OPTIONS } from "@/lib/locations";
 
 type Trade = {
   id: number;
@@ -347,14 +348,9 @@ export default function ApprenticePostForm() {
           <label className="space-y-1.5">
             <span className="block text-sm font-semibold">State</span>
             <select name="state" defaultValue="Maharashtra" className={inputClass}>
-              <option value="Maharashtra">Maharashtra</option>
-              <option value="All India">All India</option>
-              <option value="Madhya Pradesh">Madhya Pradesh</option>
-              <option value="Gujarat">Gujarat</option>
-              <option value="Delhi">Delhi</option>
-              <option value="Uttar Pradesh">Uttar Pradesh</option>
-              <option value="Karnataka">Karnataka</option>
-              <option value="Other">Other</option>
+              {JOB_LOCATION_OPTIONS.map((state) => (
+                <option key={state} value={state}>{state}</option>
+              ))}
             </select>
           </label>
 
