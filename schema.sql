@@ -84,7 +84,8 @@ create table job_vacancy_rows (
   post text not null,
   category text, -- free-text breakup e.g. "Open: 40, OBC: 20"
   count integer not null default 0,
-  sort_order integer not null default 0
+  sort_order integer not null default 0,
+  apply_online_url text
 );
 
 -- Indexes tuned for the filter combinations used by lib/db.ts::queryJobs
