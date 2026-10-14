@@ -34,7 +34,7 @@ async function getLoginRateLimitPool(): Promise<Pool> {
       throw error;
     });
   }
-  return loginRateLimitPool;
+  return loginRateLimitPool!;
 }
 
 function getRateLimitKey(req: NextRequest): string {
