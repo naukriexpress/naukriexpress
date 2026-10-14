@@ -21,9 +21,11 @@ export default async function ManageJobsPage({
   searchParams: { created?: string; updated?: string };
 }) {
   const [allJobs, stats] = await Promise.all([getAllJobsRaw(), getStats()]);
-  const jobs = allJobs.sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-  );
+  const jobs = allJobs
+    .filter((job) => job.jobType !== "apprenticeship")
+    .sort(
+      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
 
   return (
     <div>
@@ -110,6 +112,13 @@ export default async function ManageJobsPage({
                 </td>
               </tr>
             ))}
+            {jobs.length === 0 && (
+              <tr>
+                <td colSpan={6} className="px-4 py-10 text-center text-sm text-ink-700/70">
+                  No regular job posts yet. Apprentice posts are available under Manage Apprentice.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
