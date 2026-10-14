@@ -50,6 +50,11 @@ export async function getStats() {
   return local.getStats();
 }
 
+export async function recordSiteVisit(): Promise<void> {
+  if (usePg()) return (await import("./db.pg")).recordSiteVisit();
+  local.recordSiteVisit();
+}
+
 export async function createJob(
   input: Omit<JobPosting, "id" | "slug" | "createdAt" | "updatedAt" | "views">
 ): Promise<JobPosting> {
