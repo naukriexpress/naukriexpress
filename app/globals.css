@@ -81,12 +81,12 @@ html[data-theme="dark"] .bg-paper {
   background-color: #111d2e;
 }
 
-html[data-theme="dark"] .bg-white\/95 {
+html[data-theme="dark"] [class~="bg-white/95"] {
   background-color: rgb(17 29 46 / 95%);
 }
 
 html[data-theme="dark"] .bg-brand-50,
-html[data-theme="dark"] .hover\\:bg-brand-50:hover {
+html[data-theme="dark"] [class~="hover:bg-brand-50"]:hover {
   background-color: #172b43;
 }
 
@@ -140,22 +140,22 @@ html[data-theme="dark"] .bg-gray-100 {
 }
 
 html[data-theme="dark"] .bg-gray-200,
-html[data-theme="dark"] .hover\\:bg-gray-200:hover {
+html[data-theme="dark"] [class~="hover:bg-gray-200"]:hover {
   background-color: #273b54;
 }
 
-html[data-theme="dark"] .hover\\:bg-gray-100:hover {
+html[data-theme="dark"] [class~="hover:bg-gray-100"]:hover {
   background-color: #1a2a3f;
 }
 
 
 /* Improve muted job-card labels in both color modes */
-.text-ink-700\\/60,
-.text-ink-700\\/70 {
+[class~="text-ink-700/60"],
+[class~="text-ink-700/70"]
   color: #53677d;
 }
 
-html[data-theme="dark"] .text-ink-700\\/60,
-html[data-theme="dark"] .text-ink-700\\/70 {
+html[data-theme="dark"] [class~="text-ink-700/60"],
+html[data-theme="dark"] [class~="text-ink-700/70"]
   color: #b2c5dc;
 }
