@@ -8,7 +8,7 @@ import SiteVisitTracker from "@/components/SiteVisitTracker";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ||
-  "https://www.naukriexpress.space";
+  "https://www.naukriexpress.in";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
