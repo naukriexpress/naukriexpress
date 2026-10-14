@@ -267,6 +267,15 @@ export async function queryJobs(
   return { results, total };
 }
 
+export async function recordSiteVisit(): Promise<void> {
+  const pool = getPool();
+  await pool.query(
+    `insert into site_stats (id, total_visitors) values (1, 1)
+     on conflict (id) do update
+     set total_visitors = site_stats.total_visitors + 1`
+  );
+}
+
 export async function getStats() {
   const pool = getPool();
 
@@ -298,7 +307,16 @@ export async function getStats() {
   const { rows: totals } = await pool.query(
     `select coalesce(sum(views),0)::int as total_views, count(*)::int as total_jobs from jobs`
   );
-  const totalVisitors = (totals[0]?.total_views || 0) + 18342;
+  let totalVisitors = 0;
+  try {
+    const { rows: visitorRows } = await pool.query(
+      `select total_visitors from site_stats where id = 1`
+    );
+    totalVisitors = Number(visitorRows[0]?.total_visitors ?? 0);
+  } catch (error) {
+    // Keep the admin dashboard available until the visitor-count migration is applied.
+    if ((error as { code?: string })?.code !== "42P01") throw error;
+  }
   const totalJobs = totals[0]?.total_jobs || 0;
 
   return { totalPublished, active, expired, draft, mostViewed, endingSoon, totalVisitors, totalJobs };
