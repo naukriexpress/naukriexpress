@@ -62,6 +62,8 @@ function parseVacancyRows(formData: FormData): VacancyRow[] {
   return rows;
 }
 
+const LAST_DATE_EXTENDED_MARKER = "[[LAST_DATE_EXTENDED]]";
+
 function buildJobFromForm(formData: FormData) {
   const genders = parseCheckboxList<Gender>(formData, "gender");
   const categories = parseCheckboxList<Category>(formData, "category");
@@ -149,9 +151,16 @@ function buildJobFromForm(formData: FormData) {
         String(formData.get("content_selectionProcess") || "") || undefined,
       howToApply:
         String(formData.get("content_howToApply") || "") || undefined,
-      importantInstructions:
-        String(formData.get("content_importantInstructions") || "") ||
-        undefined,
+      importantInstructions: (() => {
+        const instructions = String(formData.get("content_importantInstructions") || "")
+          .replace(LAST_DATE_EXTENDED_MARKER, "")
+          .trim();
+        const extended = formData.get("lastDateExtended") === "on";
+        const saved = [instructions, extended ? LAST_DATE_EXTENDED_MARKER : ""]
+          .filter(Boolean)
+          .join("\n");
+        return saved || undefined;
+      })(),
     },
 
     seo: {
