@@ -6,32 +6,30 @@ import type { Pool } from "pg";
 
 export const dynamic = "force-dynamic";
 
-async function getAdmitCardTable() {
-let admit_card_linksReady: Promise<Pool> | null = null;
+let admitCardLinksReady: Promise<Pool> | null = null;
 
 async function getAdmitCardTable(): Promise<Pool> {
-  if (!admit_card_linksReady) {
-    admit_card_linksReady = (async () => {
+  if (!admitCardLinksReady) {
+    admitCardLinksReady = (async () => {
       const pool = getPool();
-          await pool.query(`
-            CREATE TABLE IF NOT EXISTS admit_card_links (
-              id BIGSERIAL PRIMARY KEY,
-              title TEXT NOT NULL,
-              url TEXT NOT NULL,
-              created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-            )
-          `);
-          await pool.query("ALTER TABLE public.admit_card_links ENABLE ROW LEVEL SECURITY");
-          await pool.query("REVOKE ALL PRIVILEGES ON TABLE public.admit_card_links FROM anon, authenticated");
-          return pool;
+      await pool.query(`
+        CREATE TABLE IF NOT EXISTS admit_card_links (
+          id BIGSERIAL PRIMARY KEY,
+          title TEXT NOT NULL,
+          url TEXT NOT NULL,
+          created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )
+      `);
+      await pool.query("ALTER TABLE public.admit_card_links ENABLE ROW LEVEL SECURITY");
+      await pool.query("REVOKE ALL PRIVILEGES ON TABLE public.admit_card_links FROM anon, authenticated");
+      return pool;
     })().catch((error) => {
-      admit_card_linksReady = null;
+      admitCardLinksReady = null;
       throw error;
     });
   }
 
-  return admit_card_linksReady;
-}
+  return admitCardLinksReady;
 }
 
 // Sabhi visitors live Admit Card links dekh sakte hain
