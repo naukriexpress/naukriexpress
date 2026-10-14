@@ -92,12 +92,12 @@ async function fetchVacancyRowsForJobs(jobIds: string[]): Promise<Map<string, Va
   if (jobIds.length === 0) return map;
   const pool = getPool();
   const { rows } = await pool.query(
-    `select job_id, post, category, count from job_vacancy_rows where job_id = any($1::uuid[]) order by sort_order asc, post asc`,
+    `select job_id, post, category, count, apply_online_url from job_vacancy_rows where job_id = any($1::uuid[]) order by sort_order asc, post asc`,
     [jobIds]
   );
   for (const r of rows) {
     const list = map.get(r.job_id) || [];
-    list.push({ post: r.post, category: r.category || "", count: r.count });
+    list.push({ post: r.post, category: r.category || "", count: r.count, applyOnline: r.apply_online_url || "" });
     map.set(r.job_id, list);
   }
   return map;
@@ -363,8 +363,8 @@ async function insertVacancyRows(jobId: string, rows: VacancyRow[]) {
   for (const row of rows) {
     if (!row.post?.trim()) continue;
     await pool.query(
-      `insert into job_vacancy_rows (job_id, post, category, count, sort_order) values ($1,$2,$3,$4,$5)`,
-      [jobId, row.post, row.category || "", row.count || 0, i]
+      `insert into job_vacancy_rows (job_id, post, category, count, sort_order, apply_online_url) values ($1,$2,$3,$4,$5,$6)`,
+      [jobId, row.post, row.category || "", row.count || 0, i, row.applyOnline || null]
     );
     i++;
   }
