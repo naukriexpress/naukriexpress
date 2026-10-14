@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getAllJobsRaw } from "@/lib/db";
+import { getAllJobsRaw, getStats } from "@/lib/db";
 import { deleteJobAction, toggleExpiredAction, toggleFeaturedAction } from "@/lib/actions";
 
 export const metadata: Metadata = { title: "Manage Jobs", robots: { index: false, follow: false } };
@@ -20,7 +20,7 @@ export default async function ManageJobsPage({
 }: {
   searchParams: { created?: string; updated?: string };
 }) {
-  const allJobs = await getAllJobsRaw();
+  const [allJobs, stats] = await Promise.all([getAllJobsRaw(), getStats()]);
   const jobs = allJobs.sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   );
@@ -32,9 +32,17 @@ export default async function ManageJobsPage({
           <h1 className="font-display text-2xl font-bold text-ink-900">Manage Jobs</h1>
           <p className="text-sm text-ink-700/70 mt-1">{jobs.length} total job postings</p>
         </div>
-        <Link href="/admin/jobs/new" className="rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-700">
-          + Add New Job
-        </Link>
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="rounded-lg border border-ink-900/10 bg-white px-3 py-2 shadow-card">
+            <p className="text-[11px] font-semibold text-ink-700/70">Total Website Visitors</p>
+            <p className="font-display text-lg font-bold leading-tight text-ink-900">
+              {stats.totalVisitors.toLocaleString("en-IN")}
+            </p>
+          </div>
+          <Link href="/admin/jobs/new" className="rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-700">
+            + Add New Job
+          </Link>
+        </div>
       </div>
 
       {(searchParams.created || searchParams.updated) && (
