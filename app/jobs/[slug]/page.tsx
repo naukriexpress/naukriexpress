@@ -146,12 +146,14 @@ export default async function JobDetailsPage({
 
   return (
     <div className="container-page py-8">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jobPostingSchema),
-        }}
-      />
+      {!noticePending && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jobPostingSchema),
+          }}
+        />
+      )}
 
       <nav className="mb-4 text-xs text-ink-700/60">
         <Link href="/" className="hover:underline">
@@ -329,17 +331,20 @@ export default async function JobDetailsPage({
 
               <div>
                 <p className="text-xs text-ink-700/60">
-                  Qualification
+                  {noticePending ? "Qualification (tentative)" : "Qualification"}
                 </p>
                 <p className="text-sm font-semibold text-ink-900">
                   {job.eligibility.qualifications
                     .map((q) => QUALIFICATION_LABELS[q])
                     .join(", ")}
+                  {noticePending ? " (previous-cycle pattern; confirm in 2027 notice)" : ""}
                 </p>
               </div>
 
               <div>
-                <p className="text-xs text-ink-700/60">Age Limit</p>
+                <p className="text-xs text-ink-700/60">
+                  {noticePending ? "Age Limit (tentative)" : "Age Limit"}
+                </p>
                 <p className="text-sm font-semibold text-ink-900">
                   {job.eligibility.minAge ?? "—"} –{" "}
                   {job.eligibility.maxAge ?? "—"} years
@@ -413,7 +418,9 @@ export default async function JobDetailsPage({
                   Salary / Pay Scale
                 </p>
                 <p className="text-sm font-semibold text-ink-900">
-                  {job.salary || "As per rules"}
+                  {noticePending
+                    ? "Previous-cycle pay: ₹21,700–₹69,100; 2027 pay scale awaited"
+                    : job.salary || "As per rules"}
                 </p>
               </div>
             </div>
