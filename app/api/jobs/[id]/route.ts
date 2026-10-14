@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { deleteJob, getJobById, updateJob } from "@/lib/db";
 import { getSession } from "@/lib/auth";
+import { isSameOriginMutation } from "@/lib/security";
 
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
   const [job, session] = await Promise.all([getJobById(params.id), getSession()]);
@@ -18,6 +19,9 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
 }
 
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+  if (!isSameOriginMutation(req)) {
+    return NextResponse.json({ error: "Invalid request origin" }, { status: 403 });
+  }
   const session = await getSession();
   if (session?.role !== "admin") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -39,6 +43,9 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 }
 
 export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
+  if (!isSameOriginMutation(_req)) {
+    return NextResponse.json({ error: "Invalid request origin" }, { status: 403 });
+  }
   const session = await getSession();
   if (session?.role !== "admin") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
