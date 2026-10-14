@@ -16,7 +16,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <EligibilityFinder />
+      <EligibilityFinder states={states} />
 
 
       {/* Latest Jobs */}
