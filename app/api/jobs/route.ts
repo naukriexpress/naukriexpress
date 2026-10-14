@@ -9,6 +9,19 @@ function parseList<T extends string>(sp: URLSearchParams, key: string): T[] {
 
 export async function GET(req: NextRequest) {
   const sp = req.nextUrl.searchParams;
+  const requestedStatus = sp.get("status");
+  const session = await getSession();
+
+  // Drafts and scheduled jobs are for admins only. Published and expired
+  // entries are public; an omitted status always defaults to published.
+  if (
+    requestedStatus &&
+    !["published", "expired"].includes(requestedStatus) &&
+    session?.role !== "admin"
+  ) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
   const filters: JobFilters = {
     q: sp.get("q") || undefined,
     gender: (sp.get("gender") as JobFilters["gender"]) || "all",
@@ -40,12 +53,21 @@ export async function GET(req: NextRequest) {
 // primary way to add jobs; this endpoint exists for scripted / bulk imports.
 export async function POST(req: NextRequest) {
   const session = await getSession();
-  if (!session) {
+  if (session?.role !== "admin") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const body = await req.json();
+
+  let body: unknown;
   try {
-    const job = await createJob(body);
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON request" }, { status: 400 });
+  }
+  try {
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      return NextResponse.json({ error: "Invalid job payload" }, { status: 400 });
+    }
+    const job = await createJob(body as Parameters<typeof createJob>[0]);
     return NextResponse.json({ data: job }, { status: 201 });
   } catch (err) {
     return NextResponse.json({ error: "Invalid job payload" }, { status: 400 });
