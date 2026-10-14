@@ -1,7 +1,16 @@
 import type { JobPosting } from "@/lib/types";
+import { SSC_GD_NOTICE_PENDING_MARKER } from "@/lib/jobMarkers";
 
-function computeBadge(job: Pick<JobPosting, "createdAt" | "dates" | "status">) {
-  if (job.status === "expired") return { label: "Expired", className: "bg-ink-900/10 text-ink-700" };
+function computeBadge(
+  job: Pick<JobPosting, "createdAt" | "dates" | "status" | "content">
+) {
+  if (job.content.importantInstructions?.includes(SSC_GD_NOTICE_PENDING_MARKER)) {
+    return { label: "Notice Awaited", className: "bg-saffron-100 text-saffron-700" };
+  }
+
+  if (job.status === "expired") {
+    return { label: "Expired", className: "bg-ink-900/10 text-ink-700" };
+  }
 
   const now = new Date();
   const created = new Date(job.createdAt);
@@ -15,7 +24,11 @@ function computeBadge(job: Pick<JobPosting, "createdAt" | "dates" | "status">) {
   return { label: "Open", className: "bg-brand-100 text-brand-700" };
 }
 
-export default function StatusBadge({ job }: { job: Pick<JobPosting, "createdAt" | "dates" | "status"> }) {
+export default function StatusBadge({
+  job,
+}: {
+  job: Pick<JobPosting, "createdAt" | "dates" | "status" | "content">;
+}) {
   const badge = computeBadge(job);
   return (
     <span className={`chip ${badge.className} border-transparent py-1 px-2.5 text-xs font-semibold`}>
