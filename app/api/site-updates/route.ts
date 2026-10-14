@@ -47,7 +47,7 @@ async function getUpdatesTable(): Promise<Pool> {
     });
   }
 
-  return siteUpdatesReady;
+  return siteUpdatesReady!;
 }
 
 function validOptionalUrl(value: unknown) {
