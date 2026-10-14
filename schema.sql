@@ -16,6 +16,15 @@ create type qualification_t as enum (
 create type job_type_t as enum ('government', 'private', 'contract', 'apprenticeship', 'internship');
 create type job_status_t as enum ('draft', 'scheduled', 'published', 'expired');
 
+create table site_stats (
+  id smallint primary key check (id = 1),
+  total_visitors bigint not null default 0
+);
+
+insert into site_stats (id, total_visitors)
+values (1, 0)
+on conflict (id) do nothing;
+
 create table admins (
   id uuid primary key default gen_random_uuid(),
   username text unique not null,
