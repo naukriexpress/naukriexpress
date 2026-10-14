@@ -182,7 +182,9 @@ export async function createJobAction(formData: FormData) {
   revalidatePath("/apprentice");
   revalidatePath("/");
 
-  redirect(`/admin/jobs?created=${created.slug}`);
+  const adminPath =
+    job.jobType === "apprenticeship" ? "/admin/apprentice" : "/admin/jobs";
+  redirect(`${adminPath}?created=${created.slug}`);
 }
 
 export async function updateJobAction(id: string, formData: FormData) {
@@ -195,7 +197,9 @@ export async function updateJobAction(id: string, formData: FormData) {
   revalidatePath("/apprentice");
   revalidatePath("/");
 
-  redirect(`/admin/jobs?updated=${id}`);
+  const adminPath =
+    job.jobType === "apprenticeship" ? "/admin/apprentice" : "/admin/jobs";
+  redirect(`${adminPath}?updated=${id}`);
 }
 
 export async function deleteJobAction(formData: FormData) {
@@ -219,6 +223,7 @@ export async function toggleFeaturedAction(formData: FormData) {
   }
 
   revalidatePath("/admin/jobs");
+  revalidatePath("/admin/apprentice");
   revalidatePath("/");
 }
 
@@ -233,6 +238,7 @@ export async function toggleExpiredAction(formData: FormData) {
   }
 
   revalidatePath("/admin/jobs");
+  revalidatePath("/admin/apprentice");
   revalidatePath("/jobs");
   revalidatePath("/");
 }
