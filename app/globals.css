@@ -159,3 +159,14 @@ html[data-theme="dark"] [class~="text-ink-700/60"],
 html[data-theme="dark"] [class~="text-ink-700/70"] {
   color: #b2c5dc;
 }
+
+
+/* Keep Admit Card titles readable on their light amber cards in dark mode */
+html[data-theme="dark"] .bg-amber-50.text-gray-900 {
+  color: #172033;
+}
+
+html[data-theme="dark"] [class~="hover:bg-amber-100"]:hover {
+  background-color: #fde68a;
+  color: #172033;
+}
