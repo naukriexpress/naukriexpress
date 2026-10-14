@@ -56,7 +56,7 @@ export async function generateMetadata({
       `Apply for ${job.title} at ${job.organization} in ${location}.`,
       `${job.totalVacancies} ${JOB_TYPE_LABELS[job.jobType].toLowerCase()} openings`,
       qualifications ? `for ${qualifications} candidates` : "",
-      `Last date: ${noticePending ? "October 2026 (tentative; exact day awaited)" : formatDate(job.dates.lastDate)}.`,
+      `Last date: ${formatDate(job.dates.lastDate)}.`,
     ]
       .filter(Boolean)
       .join(" "));
@@ -383,7 +383,7 @@ export default async function JobDetailsPage({
               <div>
                 <p className="text-xs text-ink-700/60">Last Date</p>
                 <p className="text-sm font-semibold text-saffron-600">
-                  {formatDate(job.dates.lastDate)}
+                  {noticePending ? "October 2026 (tentative; exact day awaited)" : formatDate(job.dates.lastDate)}
                 </p>
                 {job.content.importantInstructions?.includes("[[LAST_DATE_EXTENDED]]") && (
                   <span className="mt-1 inline-block rounded-full bg-orange-100 px-2 py-0.5 text-xs font-bold text-orange-800">
