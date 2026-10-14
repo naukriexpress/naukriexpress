@@ -369,6 +369,10 @@ export default function ApprenticePostForm() {
           <label className="space-y-1.5">
             <span className="block text-sm font-semibold">Last Date *</span>
             <input name="lastDate" type="date" required className={inputClass} />
+            <label className="flex items-center gap-2 rounded-lg border border-orange-200 bg-orange-50 px-3 py-2 text-sm font-semibold text-orange-800">
+              <input type="checkbox" name="lastDateExtended" className="h-4 w-4" />
+              Last Date Extended
+            </label>
           </label>
 
           <label className="space-y-1.5">
