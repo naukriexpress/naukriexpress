@@ -1,6 +1,6 @@
 import { createHmac } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
-import { Pool } from "pg";
+import type { Pool } from "pg";
 import { getPool } from "@/lib/pgClient";
 import {
   createSession,
@@ -11,6 +11,7 @@ import {
 const MAX_FAILED_ATTEMPTS = 8;
 const ATTEMPT_WINDOW_MINUTES = 15;
 let loginRateLimitPool: Promise<Pool> | null = null;
+let loginRequestCount = 0;
 
 async function getLoginRateLimitPool(): Promise<Pool> {
   if (!loginRateLimitPool) {
@@ -55,30 +56,40 @@ async function loadRateLimitState(ipHash: string) {
   const pool = await getLoginRateLimitPool();
   const result = await pool.query(
     `
-      INSERT INTO public.admin_login_attempts
+      INSERT INTO public.admin_login_attempts AS attempt
         (ip_hash, window_started_at, failure_count, blocked_until, updated_at)
       VALUES ($1, NOW(), 0, NULL, NOW())
       ON CONFLICT (ip_hash) DO UPDATE SET
         window_started_at = CASE
-          WHEN public.admin_login_attempts.window_started_at < NOW() - INTERVAL '15 minutes'
+          WHEN attempt.window_started_at < NOW() - INTERVAL '15 minutes'
+            AND (attempt.blocked_until IS NULL OR attempt.blocked_until <= NOW())
           THEN NOW()
-          ELSE public.admin_login_attempts.window_started_at
+          ELSE attempt.window_started_at
         END,
         failure_count = CASE
-          WHEN public.admin_login_attempts.window_started_at < NOW() - INTERVAL '15 minutes'
+          WHEN attempt.window_started_at < NOW() - INTERVAL '15 minutes'
+            AND (attempt.blocked_until IS NULL OR attempt.blocked_until <= NOW())
           THEN 0
-          ELSE public.admin_login_attempts.failure_count
+          ELSE attempt.failure_count
         END,
         blocked_until = CASE
-          WHEN public.admin_login_attempts.window_started_at < NOW() - INTERVAL '15 minutes'
+          WHEN attempt.window_started_at < NOW() - INTERVAL '15 minutes'
+            AND (attempt.blocked_until IS NULL OR attempt.blocked_until <= NOW())
           THEN NULL
-          ELSE public.admin_login_attempts.blocked_until
+          ELSE attempt.blocked_until
         END,
         updated_at = NOW()
       RETURNING failure_count, blocked_until
     `,
     [ipHash]
   );
+
+  loginRequestCount += 1;
+  if (loginRequestCount % 100 === 0) {
+    await pool.query(
+      "DELETE FROM public.admin_login_attempts WHERE updated_at < NOW() - INTERVAL '2 days'"
+    );
+  }
 
   const row = result.rows[0];
   const blockedUntil = row?.blocked_until
