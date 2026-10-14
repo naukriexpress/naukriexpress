@@ -5,7 +5,10 @@ const COOKIE_NAME = "bgi_admin_session";
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
 const configuredSecret = process.env.ADMIN_SESSION_SECRET;
 const secretIsMisconfigured =
-  IS_PRODUCTION && (!configuredSecret || configuredSecret.length < 32);
+  IS_PRODUCTION &&
+  (!configuredSecret ||
+    configuredSecret.length < 32 ||
+    /(change-this|replace-with|dev-only|example-secret)/i.test(configuredSecret));
 const SECRET = new TextEncoder().encode(
   configuredSecret || (IS_PRODUCTION ? "" : "dev-only-secret-change-in-production-please")
 );
