@@ -8,8 +8,8 @@ import EligibilityFinder from "@/components/EligibilityFinder";
 
 export default async function HomePage() {
   const [{ results: latestJobs }, { results: featuredJobs }, states] = await Promise.all([
-    queryJobs({ sort: "latest", pageSize: 6 }),
-    queryJobs({ featuredOnly: true, pageSize: 4 }),
+    queryJobs({ sort: "latest", pageSize: 6, jobType: ["government", "private", "contract", "internship"] }),
+    queryJobs({ featuredOnly: true, pageSize: 4, jobType: ["government", "private", "contract", "internship"] }),
     getDistinctStates(),
   ]);
   const categories: Category[] = ["open", "obc", "sc", "st", "ews"];
