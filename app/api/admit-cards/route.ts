@@ -29,7 +29,7 @@ async function getAdmitCardTable(): Promise<Pool> {
     });
   }
 
-  return admitCardLinksReady;
+  return admitCardLinksReady!;
 }
 
 // Sabhi visitors live Admit Card links dekh sakte hain
