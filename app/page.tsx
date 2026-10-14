@@ -3,12 +3,11 @@ import { queryJobs, getDistinctStates } from "@/lib/db";
 import { CATEGORY_LABELS, QUALIFICATION_LABELS } from "@/lib/types";
 import type { Category, Qualification } from "@/lib/types";
 import JobCard from "@/components/JobCard";
-import HeroSearch from "@/components/HeroSearch";
 import EligibilityFinder from "@/components/EligibilityFinder";
 
 export default async function HomePage() {
   const [{ results: latestJobs }, { results: featuredJobs }, states] = await Promise.all([
-    queryJobs({ sort: "latest", pageSize: 6, jobType: ["government", "private", "contract", "internship"] }),
+    queryJobs({ sort: "latest", pageSize: 12, jobType: ["government", "private", "contract", "internship"] }),
     queryJobs({ featuredOnly: true, pageSize: 4, jobType: ["government", "private", "contract", "internship"] }),
     getDistinctStates(),
   ]);
@@ -17,39 +16,11 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-ink-900 via-brand-800 to-brand-700 pb-24 pt-14 sm:pt-20">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-[0.07]"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 2px 2px, white 1px, transparent 0)",
-            backgroundSize: "28px 28px",
-          }}
-        />
-        <div className="container-page relative text-center">
-          <span className="chip chip-inactive mx-auto mb-5 border-white/20 bg-white/10 text-white backdrop-blur">
-            Updated daily • {latestJobs.length > 0 ? "New vacancies added regularly" : "Sample data"}
-          </span>
-          <h1 className="font-display text-3xl font-bold leading-tight text-white sm:text-5xl">
-            Find the Right Job.<br className="hidden sm:block" /> Faster, and Filtered for You.
-          </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-sm text-brand-100 sm:text-base">
-            Government &amp; private job updates across India — filtered by
-            gender, category, qualification and location so you only see
-            jobs you're actually eligible for.
-          </p>
-          <div className="mt-8">
-            <HeroSearch />
-          </div>
-        </div>
-      </section>
-
       <EligibilityFinder />
 
+
       {/* Latest Jobs */}
-      <section className="container-page mt-16">
+      <section className="container-page mt-10">
         <div className="flex items-end justify-between mb-5">
           <div>
             <h2 className="font-display text-2xl font-bold text-ink-900">Latest Job Updates</h2>
