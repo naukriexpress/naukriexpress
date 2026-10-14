@@ -305,7 +305,7 @@ export async function getStats() {
   const endingSoon = endingSoonRows.map((r) => mapJobRow(r, endingSoonMap.get(r.id) || []));
 
   const { rows: totals } = await pool.query(
-    `select coalesce(sum(views),0)::int as total_views, count(*)::int as total_jobs from jobs`
+    `select count(*)::int as total_jobs from jobs`
   );
   let totalVisitors = 0;
   try {
