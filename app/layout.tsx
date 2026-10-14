@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import RunningTicker from "@/components/RunningTicker";
+import SiteVisitTracker from "@/components/SiteVisitTracker";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ||
@@ -85,6 +86,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
+        <SiteVisitTracker />
         <Script
           id="theme-init"
           strategy="beforeInteractive"
