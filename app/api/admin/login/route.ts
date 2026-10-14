@@ -157,32 +157,37 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  let rateLimitKey: string;
-  let pool: Pool;
-  try {
-    rateLimitKey = getRateLimitKey(req);
-    const limitState = await loadRateLimitState(rateLimitKey);
-    pool = limitState.pool;
-    if (limitState.blocked) {
+  let rateLimitKey = "";
+  let pool: Pool | null = null;
+
+  // Production uses a database-backed limiter that is shared across serverless instances.
+  // Local development keeps working with the demo JSON store and no database.
+  if (process.env.NODE_ENV === "production") {
+    try {
+      rateLimitKey = getRateLimitKey(req);
+      const limitState = await loadRateLimitState(rateLimitKey);
+      pool = limitState.pool;
+      if (limitState.blocked) {
+        return NextResponse.json(
+          { error: "Too many login attempts. Try again in 15 minutes." },
+          { status: 429, headers: { "Retry-After": String(ATTEMPT_WINDOW_MINUTES * 60) } }
+        );
+      }
+    } catch (error) {
+      // Fail closed rather than leave production admin login without rate limiting.
+      console.error("Admin login rate limiter unavailable:", error);
       return NextResponse.json(
-        { error: "Too many login attempts. Try again in 15 minutes." },
-        { status: 429, headers: { "Retry-After": String(ATTEMPT_WINDOW_MINUTES * 60) } }
+        { error: "Admin login is temporarily unavailable." },
+        { status: 503 }
       );
     }
-  } catch (error) {
-    // Fail closed rather than leave production admin login without rate limiting.
-    console.error("Admin login rate limiter unavailable:", error);
-    return NextResponse.json(
-      { error: "Admin login is temporarily unavailable." },
-      { status: 503 }
-    );
   }
 
   let body: unknown;
   try {
     body = await req.json();
   } catch {
-    await recordFailedAttempt(pool, rateLimitKey);
+    if (pool && rateLimitKey) await recordFailedAttempt(pool, rateLimitKey);
     return NextResponse.json({ error: "Invalid JSON request" }, { status: 400 });
   }
 
@@ -210,7 +215,7 @@ export async function POST(req: NextRequest) {
 
   try {
     await createSession(data.username);
-    await clearFailedAttempts(pool, rateLimitKey);
+    if (pool && rateLimitKey) await clearFailedAttempts(pool, rateLimitKey);
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Admin session creation failed:", error);
