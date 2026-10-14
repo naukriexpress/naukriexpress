@@ -1,6 +1,7 @@
 import { CATEGORY_LABELS, QUALIFICATION_LABELS } from "@/lib/types";
 import type { Category, Qualification } from "@/lib/types";
 import { getDistinctStates } from "@/lib/db";
+import HeroSearch from "./HeroSearch";
 
 const CATEGORIES: Category[] = ["open", "obc", "sc", "st", "ews"];
 const QUALIFICATIONS: Qualification[] = [
@@ -11,15 +12,18 @@ export default async function EligibilityFinder() {
   const states = await getDistinctStates();
 
   return (
-    <section className="container-page -mt-10 sm:-mt-14 relative z-10">
+    <section className="container-page pt-6 sm:pt-8">
       <div className="rounded-xl2 border border-ink-900/10 bg-white p-5 sm:p-8 shadow-cardHover">
         <div className="mb-5">
-          <h2 className="font-display text-xl sm:text-2xl font-bold text-ink-900">
+          <h1 className="font-display text-xl sm:text-2xl font-bold text-ink-900">
             Find Jobs According to Your Eligibility
-          </h2>
+          </h1>
           <p className="mt-1 text-sm text-ink-700">
             Pick your gender, category, qualification and location — we'll show only the vacancies you qualify for.
           </p>
+          <div className="mt-4">
+            <HeroSearch />
+          </div>
         </div>
 
         <form method="get" action="/jobs" className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
