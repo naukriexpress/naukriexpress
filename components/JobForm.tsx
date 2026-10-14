@@ -5,6 +5,7 @@ import type { Category, JobPosting, JobType, Qualification } from "@/lib/types";
 import RichTextEditor from "./RichTextEditor";
 import VacancyRowsEditor from "./VacancyRowsEditor";
 import { JOB_LOCATION_OPTIONS } from "@/lib/locations";
+import { SSC_GD_NOTICE_PENDING_MARKER } from "@/lib/jobMarkers";
 
 const CATEGORIES: Category[] = ["open", "obc", "sc", "st", "ews"];
 const QUALIFICATIONS: Qualification[] = [
@@ -167,6 +168,17 @@ export default function JobForm({
 
       {/* Important details */}
       <Section title="Important Details">
+        <label className="flex items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-3 text-sm text-amber-900">
+          <input
+            type="checkbox"
+            name="noticeDetailsPending"
+            defaultChecked={Boolean(job?.content.importantInstructions?.includes(SSC_GD_NOTICE_PENDING_MARKER))}
+            className="mt-0.5 h-4 w-4"
+          />
+          <span>
+            Official notice details are pending (hide placeholder dates and vacancy count until confirmed).
+          </span>
+        </label>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           <Field label="Application Start Date">
             <input name="startDate" type="date" defaultValue={job?.dates.startDate} className={inputCls} />
@@ -218,7 +230,7 @@ export default function JobForm({
         <RichTextEditor name="content_vacancyDetails" label="Vacancy Details" defaultValue={job?.content.vacancyDetails} placeholder="Additional vacancy notes..." />
         <RichTextEditor name="content_selectionProcess" label="Selection Process" defaultValue={job?.content.selectionProcess} placeholder="e.g. 1. Written test 2. Interview..." />
         <RichTextEditor name="content_howToApply" label="How to Apply" defaultValue={job?.content.howToApply} placeholder="Step-by-step application instructions..." />
-        <RichTextEditor name="content_importantInstructions" label="Required Documents & Important Instructions" defaultValue={job?.content.importantInstructions?.replace(LAST_DATE_EXTENDED_MARKER, "").trim()} placeholder="List required documents and instructions..." />
+        <RichTextEditor name="content_importantInstructions" label="Required Documents & Important Instructions" defaultValue={job?.content.importantInstructions?.replace(LAST_DATE_EXTENDED_MARKER, "").replace(SSC_GD_NOTICE_PENDING_MARKER, "").trim()} placeholder="List required documents and instructions..." />
       </Section>
 
       {/* SEO */}

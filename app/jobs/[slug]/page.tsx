@@ -9,6 +9,7 @@ import {
 } from "@/lib/types";
 import StatusBadge from "@/components/StatusBadge";
 import ShareButtons from "@/components/ShareButtons";
+import { SSC_GD_NOTICE_PENDING_MARKER } from "@/lib/jobMarkers";
 
 export const dynamic = "force-dynamic";
 
@@ -33,6 +34,9 @@ export async function generateMetadata({
 
   if (!job) return { title: "Job Not Found" };
 
+  const noticePending = Boolean(
+    job.content.importantInstructions?.includes(SSC_GD_NOTICE_PENDING_MARKER)
+  );
   const location = job.location.allIndia
     ? "All India"
     : [job.location.district, job.location.state].filter(Boolean).join(", ") ||
@@ -46,14 +50,16 @@ export async function generateMetadata({
     `${job.title} in ${location} | Apply Online`;
   const description =
     job.seo.metaDescription ||
-    [
+    (noticePending
+      ? "Upcoming SSC GD Constable Recruitment 2027. Official vacancy count, exact dates and application link are awaiting confirmation from SSC."
+      : [
       `Apply for ${job.title} at ${job.organization} in ${location}.`,
       `${job.totalVacancies} ${JOB_TYPE_LABELS[job.jobType].toLowerCase()} openings`,
       qualifications ? `for ${qualifications} candidates` : "",
       `Last date: ${formatDate(job.dates.lastDate)}.`,
     ]
       .filter(Boolean)
-      .join(" ");
+      .join(" "));
 
   return {
     title,
@@ -77,6 +83,10 @@ export default async function JobDetailsPage({
 
   if (!job) notFound();
 
+  const noticePending = Boolean(
+    job.content.importantInstructions?.includes(SSC_GD_NOTICE_PENDING_MARKER)
+  );
+
   await incrementViews(job.id);
 
   const { results: related } = await queryJobs({
@@ -92,15 +102,16 @@ export default async function JobDetailsPage({
     "@context": "https://schema.org",
     "@type": "JobPosting",
     title: job.title,
-    description:
-      job.content.eligibility?.replace(/<[^>]+>/g, "") || job.title,
+    description: noticePending
+      ? "Upcoming SSC GD Constable Recruitment 2027. Official vacancies and exact application dates are awaiting confirmation."
+      : job.content.eligibility?.replace(/<[^>]+>/g, "") || job.title,
     identifier: {
       "@type": "PropertyValue",
       name: job.organization,
       value: job.advertisementNumber,
     },
     datePosted: job.createdAt,
-    validThrough: new Date(job.dates.lastDate).toISOString(),
+    validThrough: noticePending ? undefined : new Date(job.dates.lastDate).toISOString(),
     employmentType:
       job.jobType === "government" || job.jobType === "private"
         ? "FULL_TIME"
@@ -120,7 +131,7 @@ export default async function JobDetailsPage({
         addressCountry: "IN",
       },
     },
-    totalJobOpenings: job.totalVacancies,
+    totalJobOpenings: noticePending ? undefined : job.totalVacancies,
     baseSalary: job.salary
       ? {
           "@type": "MonetaryAmount",
@@ -188,7 +199,7 @@ export default async function JobDetailsPage({
                   Total Vacancies
                 </p>
                 <p className="text-sm font-semibold text-ink-900">
-                  {job.totalVacancies.toLocaleString("en-IN")}
+                  {noticePending ? "Awaiting SSC notice" : job.totalVacancies.toLocaleString("en-IN")}
                 </p>
               </div>
 
@@ -227,68 +238,77 @@ export default async function JobDetailsPage({
               Post-wise &amp; Category-wise Vacancy Details
             </h2>
 
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-ink-900/10 text-left text-ink-700/60">
-                    <th className="py-2 pr-4 font-medium">Post</th>
-                    <th className="py-2 pr-4 font-medium">
-                      Category-wise Breakup
-                    </th>
-                    <th className="py-2 pr-4 text-right font-medium">
-                      Vacancies
-                    </th>
-                    <th className="py-2 font-medium">Apply Online</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {job.vacancyBreakdown.map((row, i) => {
-                    const tradeLink =
-                      ("applyOnline" in row &&
-                      typeof row.applyOnline === "string"
-                        ? row.applyOnline.trim()
-                        : "") || job.links.applyOnline;
-
-                    return (
-                      <tr
-                        key={i}
-                        className="border-b border-ink-900/5"
-                      >
-                        <td className="py-2.5 pr-4 font-medium text-ink-900">
-                          {row.post}
-                        </td>
-
-                        <td className="py-2.5 pr-4 text-ink-700">
-                          {row.category || "—"}
-                        </td>
-
-                        <td className="py-2.5 pr-4 text-right font-semibold text-ink-900">
-                          {row.count.toLocaleString("en-IN")}
-                        </td>
-
-                        <td className="py-2.5">
-                          {tradeLink ? (
-                            <a
-                              href={tradeLink}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-block whitespace-nowrap rounded-lg bg-green-600 px-3 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-green-700"
-                            >
-                              Apply Online
-                            </a>
-                          ) : (
-                            <span className="text-xs text-ink-700/60">
-                              Link not added
-                            </span>
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+            {noticePending ? (
+              <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-4 text-sm text-amber-950">
+                <p className="font-semibold">Official vacancy details are awaited.</p>
+                <p className="mt-1">
+                  SSC has not yet provided a verified 2027 force-wise and category-wise vacancy breakup that we can cite here. The total number of vacancies will be updated after the official SSC notice is published.
+                </p>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-ink-900/10 text-left text-ink-700/60">
+                      <th className="py-2 pr-4 font-medium">Post</th>
+                      <th className="py-2 pr-4 font-medium">
+                        Category-wise Breakup
+                      </th>
+                      <th className="py-2 pr-4 text-right font-medium">
+                        Vacancies
+                      </th>
+                      <th className="py-2 font-medium">Apply Online</th>
+                    </tr>
+                  </thead>
+  
+                  <tbody>
+                    {job.vacancyBreakdown.map((row, i) => {
+                      const tradeLink =
+                        ("applyOnline" in row &&
+                        typeof row.applyOnline === "string"
+                          ? row.applyOnline.trim()
+                          : "") || job.links.applyOnline;
+  
+                      return (
+                        <tr
+                          key={i}
+                          className="border-b border-ink-900/5"
+                        >
+                          <td className="py-2.5 pr-4 font-medium text-ink-900">
+                            {row.post}
+                          </td>
+  
+                          <td className="py-2.5 pr-4 text-ink-700">
+                            {row.category || "—"}
+                          </td>
+  
+                          <td className="py-2.5 pr-4 text-right font-semibold text-ink-900">
+                            {row.count.toLocaleString("en-IN")}
+                          </td>
+  
+                          <td className="py-2.5">
+                            {tradeLink ? (
+                              <a
+                                href={tradeLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-block whitespace-nowrap rounded-lg bg-green-600 px-3 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-green-700"
+                              >
+                                Apply Online
+                              </a>
+                            ) : (
+                              <span className="text-xs text-ink-700/60">
+                                Link not added
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </section>
 
           {/* Eligibility */}
@@ -356,14 +376,14 @@ export default async function JobDetailsPage({
                   Application Start
                 </p>
                 <p className="text-sm font-semibold text-ink-900">
-                  {formatDate(job.dates.startDate)}
+                  {noticePending ? "Awaiting official notification" : formatDate(job.dates.startDate)}
                 </p>
               </div>
 
               <div>
                 <p className="text-xs text-ink-700/60">Last Date</p>
                 <p className="text-sm font-semibold text-saffron-600">
-                  {formatDate(job.dates.lastDate)}
+                  {noticePending ? "October 2026 (tentative; exact day awaited)" : formatDate(job.dates.lastDate)}
                 </p>
                 {job.content.importantInstructions?.includes("[[LAST_DATE_EXTENDED]]") && (
                   <span className="mt-1 inline-block rounded-full bg-orange-100 px-2 py-0.5 text-xs font-bold text-orange-800">
@@ -375,7 +395,7 @@ export default async function JobDetailsPage({
               <div>
                 <p className="text-xs text-ink-700/60">Exam Date</p>
                 <p className="text-sm font-semibold text-ink-900">
-                  {formatDate(job.dates.examDate)}
+                  {noticePending ? "January–March 2027 (tentative)" : formatDate(job.dates.examDate)}
                 </p>
               </div>
 
@@ -432,7 +452,7 @@ export default async function JobDetailsPage({
           )}
 
           {/* Important Instructions */}
-          {job.content.importantInstructions?.replace("[[LAST_DATE_EXTENDED]]", "").trim() && (
+          {job.content.importantInstructions?.replace("[[LAST_DATE_EXTENDED]]", "").replace(SSC_GD_NOTICE_PENDING_MARKER, "").trim() && (
             <section className="mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7">
               <h2 className="mb-3 font-display text-lg font-bold text-ink-900">
                 Required Documents &amp; Important Instructions
@@ -441,7 +461,7 @@ export default async function JobDetailsPage({
               <div
                 className="prose-sm text-ink-800 [&_ul]:list-disc [&_ul]:pl-5 [&_li]:mb-1"
                 dangerouslySetInnerHTML={{
-                  __html: job.content.importantInstructions.replace("[[LAST_DATE_EXTENDED]]", "").trim(),
+                  __html: job.content.importantInstructions.replace("[[LAST_DATE_EXTENDED]]", "").replace(SSC_GD_NOTICE_PENDING_MARKER, "").trim(),
                 }}
               />
             </section>
