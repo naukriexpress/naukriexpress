@@ -7,11 +7,19 @@ const IS_PRODUCTION = process.env.NODE_ENV === "production";
 const DEV_SECRET = "dev-only-secret-change-in-production-please";
 const DEV_PASSWORD_HASH = IS_PRODUCTION ? "" : bcrypt.hashSync("BgiAdmin@123", 10);
 
+function hasStrongProductionSecret(value: string | undefined): value is string {
+  return Boolean(
+    value &&
+      value.length >= 32 &&
+      !/(change-this|replace-with|dev-only|example-secret)/i.test(value)
+  );
+}
+
 function getSessionSecret(): Uint8Array | null {
   const configured = process.env.ADMIN_SESSION_SECRET;
 
-  // Never use a predictable fallback signing key in production.
-  if (IS_PRODUCTION && (!configured || configured.length < 32)) {
+  // Never use a predictable or documented placeholder signing key in production.
+  if (IS_PRODUCTION && !hasStrongProductionSecret(configured)) {
     return null;
   }
 
@@ -21,11 +29,15 @@ function getSessionSecret(): Uint8Array | null {
 export function isAdminAuthConfigured(): boolean {
   if (!IS_PRODUCTION) return true;
 
+  const username = process.env.ADMIN_USERNAME?.trim();
+  const passwordHash = process.env.ADMIN_PASSWORD_HASH;
+
   return Boolean(
-    process.env.ADMIN_USERNAME?.trim() &&
-      process.env.ADMIN_PASSWORD_HASH &&
-      process.env.ADMIN_SESSION_SECRET &&
-      process.env.ADMIN_SESSION_SECRET.length >= 32
+    username &&
+      username !== "change-this-admin-username" &&
+      passwordHash &&
+      /^\$2[aby]\$\d{2}\$[./A-Za-z0-9]{53}$/.test(passwordHash) &&
+      hasStrongProductionSecret(process.env.ADMIN_SESSION_SECRET)
   );
 }
 
