@@ -1,22 +1,37 @@
 import { NextResponse } from "next/server";
 import { getPool } from "@/lib/pgClient";
 import { getSession } from "@/lib/auth";
+import { isSameOriginMutation } from "@/lib/security";
+import type { Pool } from "pg";
 
 export const dynamic = "force-dynamic";
 
 async function getAdmitCardTable() {
-  const pool = getPool();
+let admit_card_linksReady: Promise<Pool> | null = null;
 
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS admit_card_links (
-      id BIGSERIAL PRIMARY KEY,
-      title TEXT NOT NULL,
-      url TEXT NOT NULL,
-      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-    )
-  `);
+async function getAdmitCardTable(): Promise<Pool> {
+  if (!admit_card_linksReady) {
+    admit_card_linksReady = (async () => {
+      const pool = getPool();
+          await pool.query(`
+            CREATE TABLE IF NOT EXISTS admit_card_links (
+              id BIGSERIAL PRIMARY KEY,
+              title TEXT NOT NULL,
+              url TEXT NOT NULL,
+              created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+            )
+          `);
+          await pool.query("ALTER TABLE public.admit_card_links ENABLE ROW LEVEL SECURITY");
+          await pool.query("REVOKE ALL PRIVILEGES ON TABLE public.admit_card_links FROM anon, authenticated");
+          return pool;
+    })().catch((error) => {
+      admit_card_linksReady = null;
+      throw error;
+    });
+  }
 
-  return pool;
+  return admit_card_linksReady;
+}
 }
 
 // Sabhi visitors live Admit Card links dekh sakte hain
@@ -46,6 +61,9 @@ export async function GET() {
 
 // Sirf logged-in admin link add kar sakta hai
 export async function POST(request: Request) {
+  if (!isSameOriginMutation(request)) {
+    return NextResponse.json({ error: "Invalid request origin" }, { status: 403 });
+  }
   const session = await getSession();
 
   if (!session || session.role !== "admin") {
@@ -108,6 +126,9 @@ export async function POST(request: Request) {
 
 // Sirf logged-in admin link delete kar sakta hai
 export async function DELETE(request: Request) {
+  if (!isSameOriginMutation(request)) {
+    return NextResponse.json({ error: "Invalid request origin" }, { status: 403 });
+  }
   const session = await getSession();
 
   if (!session || session.role !== "admin") {
