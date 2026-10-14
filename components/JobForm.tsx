@@ -4,16 +4,14 @@ import { CATEGORY_LABELS, JOB_TYPE_LABELS, QUALIFICATION_LABELS } from "@/lib/ty
 import type { Category, JobPosting, JobType, Qualification } from "@/lib/types";
 import RichTextEditor from "./RichTextEditor";
 import VacancyRowsEditor from "./VacancyRowsEditor";
+import { JOB_LOCATION_OPTIONS } from "@/lib/locations";
 
 const CATEGORIES: Category[] = ["open", "obc", "sc", "st", "ews"];
 const QUALIFICATIONS: Qualification[] = [
   "10th", "12th", "iti", "diploma", "graduate", "post_graduate", "engineering", "law", "medical", "any_graduate",
 ];
 const JOB_TYPES: JobType[] = ["government", "private", "contract", "apprenticeship", "internship"];
-const STATES = [
-  "Maharashtra", "All India", "Delhi", "Uttar Pradesh", "Karnataka", "Tamil Nadu",
-  "Gujarat", "Rajasthan", "West Bengal", "Madhya Pradesh", "Bihar", "Punjab", "Telangana",
-];
+const STATES = JOB_LOCATION_OPTIONS;
 
 function Section({ title, children, hint }: { title: string; children: React.ReactNode; hint?: string }) {
   return (
