@@ -4,11 +4,17 @@ import { jwtVerify } from "jose";
 const COOKIE_NAME = "bgi_admin_session";
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
 const configuredSecret = process.env.ADMIN_SESSION_SECRET;
+const configuredUsername = process.env.ADMIN_USERNAME?.trim();
+const configuredPasswordHash = process.env.ADMIN_PASSWORD_HASH;
 const secretIsMisconfigured =
   IS_PRODUCTION &&
   (!configuredSecret ||
     configuredSecret.length < 32 ||
-    /(change-this|replace-with|dev-only|example-secret)/i.test(configuredSecret));
+    /(change-this|replace-with|dev-only|example-secret)/i.test(configuredSecret) ||
+    !configuredUsername ||
+    configuredUsername === "change-this-admin-username" ||
+    !configuredPasswordHash ||
+    !/^\\$2[aby]\\$\\d{2}\\$[./A-Za-z0-9]{53}$/.test(configuredPasswordHash));
 const SECRET = new TextEncoder().encode(
   configuredSecret || (IS_PRODUCTION ? "" : "dev-only-secret-change-in-production-please")
 );
