@@ -12,8 +12,7 @@ import ShareButtons from "@/components/ShareButtons";
 
 export const dynamic = "force-dynamic";
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://www.naukriexpress.in";
+const SITE_URL = "https://www.naukriexpress.space";
 
 function formatDate(iso?: string) {
   if (!iso) return "—";
@@ -34,12 +33,27 @@ export async function generateMetadata({
 
   if (!job) return { title: "Job Not Found" };
 
+  const location = job.location.allIndia
+    ? "All India"
+    : [job.location.district, job.location.state].filter(Boolean).join(", ") ||
+      "India";
+  const qualifications = job.eligibility.qualifications
+    .map((qualification) => QUALIFICATION_LABELS[qualification])
+    .filter(Boolean)
+    .join(", ");
   const title =
-    job.seo.title || `${job.title} | Apply Online, Eligibility, Last Date`;
-
+    job.seo.title ||
+    `${job.title} in ${location} | Apply Online`;
   const description =
     job.seo.metaDescription ||
-    `${job.title} at ${job.organization}. ${job.totalVacancies} vacancies. Check eligibility, age limit and last date to apply.`;
+    [
+      `Apply for ${job.title} at ${job.organization} in ${location}.`,
+      `${job.totalVacancies} ${JOB_TYPE_LABELS[job.jobType].toLowerCase()} openings`,
+      qualifications ? `for ${qualifications} candidates` : "",
+      `Last date: ${formatDate(job.dates.lastDate)}.`,
+    ]
+      .filter(Boolean)
+      .join(" ");
 
   return {
     title,
