@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createJob, queryJobs } from "@/lib/db";
 import { getSession } from "@/lib/auth";
+import { isSameOriginMutation } from "@/lib/security";
 import type { Category, JobFilters, JobType, Qualification } from "@/lib/types";
 
 function parseList<T extends string>(sp: URLSearchParams, key: string): T[] {
@@ -52,6 +53,9 @@ export async function GET(req: NextRequest) {
 // Admin-only programmatic job creation. Public /admin/jobs/new form is the
 // primary way to add jobs; this endpoint exists for scripted / bulk imports.
 export async function POST(req: NextRequest) {
+  if (!isSameOriginMutation(req)) {
+    return NextResponse.json({ error: "Invalid request origin" }, { status: 403 });
+  }
   const session = await getSession();
   if (session?.role !== "admin") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
