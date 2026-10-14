@@ -365,6 +365,11 @@ export default async function JobDetailsPage({
                 <p className="text-sm font-semibold text-saffron-600">
                   {formatDate(job.dates.lastDate)}
                 </p>
+                {job.content.importantInstructions?.includes("[[LAST_DATE_EXTENDED]]") && (
+                  <span className="mt-1 inline-block rounded-full bg-orange-100 px-2 py-0.5 text-xs font-bold text-orange-800">
+                    Last Date Extended
+                  </span>
+                )}
               </div>
 
               <div>
@@ -436,7 +441,7 @@ export default async function JobDetailsPage({
               <div
                 className="prose-sm text-ink-800 [&_ul]:list-disc [&_ul]:pl-5 [&_li]:mb-1"
                 dangerouslySetInnerHTML={{
-                  __html: job.content.importantInstructions,
+                  __html: job.content.importantInstructions.replace("[[LAST_DATE_EXTENDED]]", "").trim(),
                 }}
               />
             </section>
