@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { JobPosting } from "@/lib/types";
 import { CATEGORY_LABELS, QUALIFICATION_LABELS } from "@/lib/types";
+import { SSC_GD_NOTICE_PENDING_MARKER } from "@/lib/jobMarkers";
 import StatusBadge from "./StatusBadge";
 
 function formatDate(iso: string) {
@@ -21,6 +22,9 @@ export default function JobCard({ job }: { job: JobPosting }) {
     .map((w) => w[0])
     .join("")
     .toUpperCase();
+  const noticePending = Boolean(
+    job.content.importantInstructions?.includes(SSC_GD_NOTICE_PENDING_MARKER)
+  );
 
   return (
     <div className="group flex flex-col rounded-xl2 border border-ink-900/10 bg-white p-4 sm:p-5 shadow-card hover:shadow-cardHover transition-shadow">
@@ -44,7 +48,9 @@ export default function JobCard({ job }: { job: JobPosting }) {
       <dl className="mt-4 grid grid-cols-2 gap-x-3 gap-y-2 text-sm">
         <div>
           <dt className="text-xs text-ink-700/60">Total Vacancies</dt>
-          <dd className="font-semibold text-ink-900">{job.totalVacancies.toLocaleString("en-IN")}</dd>
+          <dd className="font-semibold text-ink-900">
+            {noticePending ? "Awaiting SSC notice" : job.totalVacancies.toLocaleString("en-IN")}
+          </dd>
         </div>
         <div>
           <dt className="text-xs text-ink-700/60">Location</dt>
@@ -55,7 +61,9 @@ export default function JobCard({ job }: { job: JobPosting }) {
         <div>
           <dt className="text-xs text-ink-700/60">Qualification</dt>
           <dd className="font-medium text-ink-900 truncate">
-            {job.eligibility.qualifications.map((q) => QUALIFICATION_LABELS[q]).join(", ")}
+            {noticePending
+              ? "10th Pass (tentative)"
+              : job.eligibility.qualifications.map((q) => QUALIFICATION_LABELS[q]).join(", ")}
           </dd>
         </div>
         <div>
@@ -66,12 +74,15 @@ export default function JobCard({ job }: { job: JobPosting }) {
           <dt className="text-xs text-ink-700/60">Age Limit</dt>
           <dd className="font-medium text-ink-900">
             {job.eligibility.minAge ?? "—"}–{job.eligibility.maxAge ?? "—"} yrs
+            {noticePending ? " (previous-cycle pattern)" : ""}
           </dd>
         </div>
         <div>
-          <dt className="text-xs text-ink-700/60">Last Date</dt>
-          <dd className="font-semibold text-saffron-600">{formatDate(job.dates.lastDate)}</dd>
-          {job.content.importantInstructions?.includes("[[LAST_DATE_EXTENDED]]") && (
+          <dt className="text-xs text-ink-700/60">{noticePending ? "Closing Month (Tentative)" : "Last Date"}</dt>
+          <dd className="font-semibold text-saffron-600">
+            {noticePending ? "October 2026 (exact date awaited)" : formatDate(job.dates.lastDate)}
+          </dd>
+          {!noticePending && job.content.importantInstructions?.includes("[[LAST_DATE_EXTENDED]]") && (
             <span className="mt-1 inline-block rounded-full bg-orange-100 px-2 py-0.5 text-[11px] font-bold text-orange-800">
               Last Date Extended
             </span>
@@ -94,21 +105,27 @@ export default function JobCard({ job }: { job: JobPosting }) {
         >
           View Details
         </Link>
+        {noticePending ? (
+          <span className="rounded-lg bg-ink-900/5 px-2 py-2 text-center text-xs font-semibold text-ink-700">
+            Apply Link Awaited
+          </span>
+        ) : (
+          <a
+            href={job.links.applyOnline || "#"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-lg bg-brand-600 px-2 py-2 text-center text-xs font-semibold text-white hover:bg-brand-700 transition-colors"
+          >
+            Apply Online
+          </a>
+        )}
         <a
-          href={job.links.applyOnline || "#"}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded-lg bg-brand-600 px-2 py-2 text-center text-xs font-semibold text-white hover:bg-brand-700 transition-colors"
-        >
-          Apply Online
-        </a>
-        <a
-          href={job.links.officialNotification || "#"}
+          href={noticePending ? (job.links.officialWebsite || "https://ssc.gov.in/") : (job.links.officialNotification || "#")}
           target="_blank"
           rel="noopener noreferrer"
           className="rounded-lg bg-saffron-500 px-2 py-2 text-center text-xs font-semibold text-white hover:bg-saffron-600 transition-colors"
         >
-          Notification
+          {noticePending ? "SSC Updates" : "Notification"}
         </a>
       </div>
     </div>
