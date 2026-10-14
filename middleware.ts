@@ -14,7 +14,7 @@ const secretIsMisconfigured =
     !configuredUsername ||
     configuredUsername === "change-this-admin-username" ||
     !configuredPasswordHash ||
-    !/^\\$2[aby]\\$\\d{2}\\$[./A-Za-z0-9]{53}$/.test(configuredPasswordHash));
+    !/^\$2[aby]\$\d{2}\$[./A-Za-z0-9]{53}$/.test(configuredPasswordHash));
 const SECRET = new TextEncoder().encode(
   configuredSecret || (IS_PRODUCTION ? "" : "dev-only-secret-change-in-production-please")
 );
