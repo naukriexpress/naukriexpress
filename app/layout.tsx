@@ -11,19 +11,15 @@ const SITE_URL =
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-
   other: {
     "google-adsense-account": "ca-pub-7337308462039392",
   },
-
   title: {
     default: "NaukriExpress - Latest Government Jobs, Private Jobs & Apprenticeship",
     template: "%s | NaukriExpress",
   },
-
   description:
     "NaukriExpress brings you the latest government jobs, private jobs, Maharashtra jobs, apprenticeship vacancies, admit cards, results, answer keys and syllabus. Find recruitment updates, eligibility details and application links.",
-
   keywords: [
     "job update",
     "government jobs",
@@ -39,24 +35,20 @@ export const metadata: Metadata = {
     "syllabus",
     "NaukriExpress",
   ],
-
   openGraph: {
     type: "website",
     siteName: "NaukriExpress",
-    title:
-      "NaukriExpress - Latest Government Jobs, Private Jobs & Apprenticeship",
+    title: "NaukriExpress - Latest Government Jobs, Private Jobs & Apprenticeship",
     description:
       "Find government jobs, private jobs, apprenticeship vacancies, admit cards, results and recruitment updates across India.",
     url: SITE_URL,
   },
-
   twitter: {
     card: "summary_large_image",
     title: "NaukriExpress",
     description:
       "Latest government jobs, private jobs and apprenticeship vacancies across India.",
   },
-
   robots: {
     index: true,
     follow: true,
@@ -68,6 +60,13 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
 };
+
+const themeInitScript = `try {
+  var savedTheme = localStorage.getItem("naukriexpress-theme");
+  document.documentElement.dataset.theme = savedTheme === "dark" ? "dark" : "light";
+} catch (_) {
+  document.documentElement.dataset.theme = "light";
+}`;
 
 export default function RootLayout({
   children,
@@ -84,8 +83,13 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
+        <Script
+          id="theme-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: themeInitScript }}
+        />
         <Script
           id="google-adsense"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7337308462039392"
