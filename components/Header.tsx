@@ -65,7 +65,7 @@ export default async function Header() {
 
         <nav
           aria-label="Main navigation"
-          className="hidden items-center gap-1 text-sm font-medium lg:flex"
+          className="hidden items-center gap-1 text-sm font-medium 2xl:flex"
         >
           {NAV_LINKS.map((item) =>
             item.label === "Admit Card" ? (
@@ -86,13 +86,13 @@ export default async function Header() {
           <ThemeToggle />
           <Link
             href="/jobs"
-            className="rounded-lg bg-saffron-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-saffron-600"
+            className="hidden rounded-lg bg-saffron-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-saffron-600 2xl:inline-flex"
           >
             Find My Eligible Jobs
           </Link>
         </div>
 
-        <div className="shrink-0 lg:hidden">
+        <div className="shrink-0 2xl:hidden">
           <Suspense
             fallback={
               <div
