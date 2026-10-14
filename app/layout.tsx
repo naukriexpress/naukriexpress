@@ -1,4 +1,3 @@
-
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import "./globals.css";
@@ -13,42 +12,55 @@ const SITE_URL =
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
 
-  // Google AdSense Meta Verification
   other: {
     "google-adsense-account": "ca-pub-7337308462039392",
   },
 
   title: {
-    default: "NaukriExpress - Latest Government & Private Job Vacancies in India",
+    default: "NaukriExpress - Latest Government Jobs, Private Jobs & Apprenticeship",
     template: "%s | NaukriExpress",
   },
+
   description:
-    "NaukriExpress brings you the latest government jobs, Maharashtra jobs, admit cards, results, answer keys and syllabus. Filter jobs by gender, category, qualification and location to find vacancies you're eligible for.",
+    "NaukriExpress brings you the latest government jobs, private jobs, Maharashtra jobs, apprenticeship vacancies, admit cards, results, answer keys and syllabus. Find recruitment updates, eligibility details and application links.",
+
   keywords: [
     "job update",
     "government jobs",
+    "private jobs",
     "maharashtra jobs",
     "sarkari naukri",
+    "apprenticeship jobs",
+    "apprentice recruitment",
+    "ITI apprentice jobs",
     "admit card",
     "results",
     "answer key",
     "syllabus",
     "NaukriExpress",
   ],
+
   openGraph: {
     type: "website",
     siteName: "NaukriExpress",
-    title: "NaukriExpress - Latest Government & Private Job Vacancies in India",
+    title:
+      "NaukriExpress - Latest Government Jobs, Private Jobs & Apprenticeship",
     description:
-      "Find government and private job vacancies in India filtered by your gender, category, qualification and location.",
+      "Find government jobs, private jobs, apprenticeship vacancies, admit cards, results and recruitment updates across India.",
     url: SITE_URL,
   },
+
   twitter: {
     card: "summary_large_image",
     title: "NaukriExpress",
-    description: "Latest government & private job vacancies across India.",
+    description:
+      "Latest government jobs, private jobs and apprenticeship vacancies across India.",
   },
-  robots: { index: true, follow: true },
+
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export const viewport: Viewport = {
@@ -68,13 +80,12 @@ export default function RootLayout({
     name: "NaukriExpress",
     url: SITE_URL,
     description:
-      "NaukriExpress - Latest government and private job vacancies across India, filterable by eligibility.",
+      "NaukriExpress provides government jobs, private jobs, apprenticeship vacancies and recruitment updates across India.",
   };
 
   return (
     <html lang="en">
       <body>
-        {/* Google AdSense Script */}
         <Script
           id="google-adsense"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7337308462039392"
@@ -82,7 +93,6 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
 
-        {/* Organization Schema */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
