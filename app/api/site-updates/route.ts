@@ -13,43 +13,41 @@ const CATEGORIES = [
   "scholarship",
 ] as const;
 
-async function getUpdatesTable() {
-let site_updatesReady: Promise<Pool> | null = null;
+let siteUpdatesReady: Promise<Pool> | null = null;
 
 async function getUpdatesTable(): Promise<Pool> {
-  if (!site_updatesReady) {
-    site_updatesReady = (async () => {
+  if (!siteUpdatesReady) {
+    siteUpdatesReady = (async () => {
       const pool = getPool();
-          await pool.query(`
-            CREATE TABLE IF NOT EXISTS site_updates (
-              id BIGSERIAL PRIMARY KEY,
-              category TEXT NOT NULL CHECK (
-                category IN ('results', 'answer-key', 'syllabus', 'scholarship')
-              ),
-              title TEXT NOT NULL,
-              organization TEXT,
-              description TEXT,
-              publish_date DATE,
-              amount TEXT,
-              eligibility TEXT,
-              last_date DATE,
-              item_url TEXT,
-              objection_url TEXT,
-              apply_url TEXT,
-              created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-            )
-          `);
-          await pool.query("ALTER TABLE public.site_updates ENABLE ROW LEVEL SECURITY");
-          await pool.query("REVOKE ALL PRIVILEGES ON TABLE public.site_updates FROM anon, authenticated");
-          return pool;
+      await pool.query(`
+        CREATE TABLE IF NOT EXISTS site_updates (
+          id BIGSERIAL PRIMARY KEY,
+          category TEXT NOT NULL CHECK (
+            category IN ('results', 'answer-key', 'syllabus', 'scholarship')
+          ),
+          title TEXT NOT NULL,
+          organization TEXT,
+          description TEXT,
+          publish_date DATE,
+          amount TEXT,
+          eligibility TEXT,
+          last_date DATE,
+          item_url TEXT,
+          objection_url TEXT,
+          apply_url TEXT,
+          created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )
+      `);
+      await pool.query("ALTER TABLE public.site_updates ENABLE ROW LEVEL SECURITY");
+      await pool.query("REVOKE ALL PRIVILEGES ON TABLE public.site_updates FROM anon, authenticated");
+      return pool;
     })().catch((error) => {
-      site_updatesReady = null;
+      siteUpdatesReady = null;
       throw error;
     });
   }
 
-  return site_updatesReady;
-}
+  return siteUpdatesReady;
 }
 
 function validOptionalUrl(value: unknown) {
