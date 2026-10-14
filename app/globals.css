@@ -147,3 +147,15 @@ html[data-theme="dark"] .hover\\:bg-gray-200:hover {
 html[data-theme="dark"] .hover\\:bg-gray-100:hover {
   background-color: #1a2a3f;
 }
+
+
+/* Improve muted job-card labels in both color modes */
+.text-ink-700\\/60,
+.text-ink-700\\/70 {
+  color: #53677d;
+}
+
+html[data-theme="dark"] .text-ink-700\\/60,
+html[data-theme="dark"] .text-ink-700\\/70 {
+  color: #b2c5dc;
+}
