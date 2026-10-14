@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createSession, destroySession, verifyCredentials } from "./auth";
+import { SSC_GD_NOTICE_PENDING_MARKER } from "./jobMarkers";
 import { createJob, deleteJob, getJobById, updateJob } from "./db";
 import type {
   Category,
@@ -154,9 +155,15 @@ function buildJobFromForm(formData: FormData) {
       importantInstructions: (() => {
         const instructions = String(formData.get("content_importantInstructions") || "")
           .replace(LAST_DATE_EXTENDED_MARKER, "")
+          .replace(SSC_GD_NOTICE_PENDING_MARKER, "")
           .trim();
         const extended = formData.get("lastDateExtended") === "on";
-        const saved = [instructions, extended ? LAST_DATE_EXTENDED_MARKER : ""]
+        const noticeDetailsPending = formData.get("noticeDetailsPending") === "on";
+        const saved = [
+          instructions,
+          extended ? LAST_DATE_EXTENDED_MARKER : "",
+          noticeDetailsPending ? SSC_GD_NOTICE_PENDING_MARKER : "",
+        ]
           .filter(Boolean)
           .join("\n");
         return saved || undefined;
