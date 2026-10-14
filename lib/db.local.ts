@@ -12,6 +12,24 @@ import type { JobFilters, JobPosting } from "./types";
 // See schema.sql for the equivalent relational schema + indexes.
 
 const DATA_FILE = path.join(process.cwd(), "data", "jobs.json");
+const VISITOR_COUNT_FILE = path.join(process.cwd(), "data", "site-visitors.json");
+
+function readVisitorCount(): number {
+  try {
+    if (!fs.existsSync(VISITOR_COUNT_FILE)) return 0;
+    const stored = JSON.parse(fs.readFileSync(VISITOR_COUNT_FILE, "utf-8"));
+    const count = Number(stored.totalVisitors);
+    return Number.isSafeInteger(count) && count >= 0 ? count : 0;
+  } catch {
+    return 0;
+  }
+}
+
+export function recordSiteVisit(): number {
+  const totalVisitors = readVisitorCount() + 1;
+  fs.writeFileSync(VISITOR_COUNT_FILE, JSON.stringify({ totalVisitors }), "utf-8");
+  return totalVisitors;
+}
 
 function readAll(): JobPosting[] {
   const raw = fs.readFileSync(DATA_FILE, "utf-8");
@@ -220,7 +238,7 @@ export function getStats() {
     .filter((j) => j.status === "published")
     .sort((a, b) => new Date(a.dates.lastDate).getTime() - new Date(b.dates.lastDate).getTime())
     .slice(0, 5);
-  const totalVisitors = jobs.reduce((sum, j) => sum + (j.views ?? 0), 0) + 18342; // baseline demo traffic
+  const totalVisitors = readVisitorCount();
 
   return { totalPublished, active, expired, draft, mostViewed, endingSoon, totalVisitors, totalJobs: jobs.length };
 }
