@@ -2,8 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 
 const COOKIE_NAME = "bgi_admin_session";
+const IS_PRODUCTION = process.env.NODE_ENV === "production";
+const configuredSecret = process.env.ADMIN_SESSION_SECRET;
+const secretIsMisconfigured =
+  IS_PRODUCTION && (!configuredSecret || configuredSecret.length < 32);
 const SECRET = new TextEncoder().encode(
-  process.env.ADMIN_SESSION_SECRET || "dev-only-secret-change-in-production-please"
+  configuredSecret || (IS_PRODUCTION ? "" : "dev-only-secret-change-in-production-please")
 );
 
 export async function middleware(req: NextRequest) {
@@ -15,11 +19,15 @@ export async function middleware(req: NextRequest) {
   if (!isAdminPath && !isAdminApi) return NextResponse.next();
 
   const token = req.cookies.get(COOKIE_NAME)?.value;
-  if (!token) {
+  if (!token || secretIsMisconfigured) {
     return redirectOrDeny(req, isAdminApi);
   }
+
   try {
-    await jwtVerify(token, SECRET);
+    const { payload } = await jwtVerify(token, SECRET, { algorithms: ["HS256"] });
+    if (payload.role !== "admin" || typeof payload.username !== "string") {
+      return redirectOrDeny(req, isAdminApi);
+    }
     return NextResponse.next();
   } catch {
     return redirectOrDeny(req, isAdminApi);
