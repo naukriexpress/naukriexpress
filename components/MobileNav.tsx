@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { usePathname, useSearchParams } from "next/navigation";
 import AdmitCardButton from "./AdmitCardButton";
+import ThemeToggle from "./ThemeToggle";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -22,7 +23,6 @@ const NAV_LINKS = [
 export default function MobileNav() {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentQuery = searchParams.toString();
@@ -37,16 +37,12 @@ export default function MobileNav() {
 
   useEffect(() => {
     if (!open) return;
-
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-
     const onEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") setOpen(false);
     };
-
     window.addEventListener("keydown", onEscape);
-
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", onEscape);
@@ -55,7 +51,6 @@ export default function MobileNav() {
 
   return (
     <>
-      {/* Mobile navigation button */}
       <button
         type="button"
         onClick={() => setOpen(true)}
@@ -64,23 +59,16 @@ export default function MobileNav() {
         aria-controls="mobile-navigation"
         className="grid h-10 w-10 place-items-center rounded-lg border border-ink-900/15 bg-white lg:hidden"
       >
-        <svg
-          width="22"
-          height="22"
-          viewBox="0 0 24 24"
-          fill="none"
-          aria-hidden="true"
-        >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path
             d="M4 6h16M4 12h16M4 18h16"
-            stroke="#0B1E33"
+            stroke="currentColor"
             strokeWidth="2"
             strokeLinecap="round"
           />
         </svg>
       </button>
 
-      {/* Mobile navigation drawer */}
       {mounted &&
         open &&
         createPortal(
@@ -91,7 +79,6 @@ export default function MobileNav() {
               className="absolute inset-0 h-full w-full bg-black/60"
               aria-label="Close navigation menu"
             />
-
             <div
               id="mobile-navigation"
               role="dialog"
@@ -100,17 +87,11 @@ export default function MobileNav() {
               className="absolute right-0 top-0 flex h-full w-[85%] max-w-sm flex-col bg-white shadow-2xl"
               style={{ height: "100dvh" }}
             >
-              {/* Menu header */}
               <div className="flex shrink-0 items-center justify-between border-b border-gray-200 px-5 py-5">
                 <div>
-                  <h2 className="text-xl font-bold text-ink-900">
-                    Menu
-                  </h2>
-                  <p className="text-xs text-gray-500">
-                    NaukriExpress
-                  </p>
+                  <h2 className="text-xl font-bold text-ink-900">Menu</h2>
+                  <p className="text-xs text-gray-500">NaukriExpress</p>
                 </div>
-
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
@@ -121,7 +102,6 @@ export default function MobileNav() {
                 </button>
               </div>
 
-              {/* Navigation links */}
               <nav className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4">
                 <div className="flex flex-col gap-1">
                   {NAV_LINKS.slice(0, 4).map((item) => (
@@ -135,12 +115,9 @@ export default function MobileNav() {
                       <span className="text-gray-400">›</span>
                     </Link>
                   ))}
-
-                  {/* Admit Card popup */}
                   <div className="rounded-xl px-4 py-3">
                     <AdmitCardButton />
                   </div>
-
                   {NAV_LINKS.slice(4).map((item) => (
                     <Link
                       key={item.label}
@@ -155,8 +132,10 @@ export default function MobileNav() {
                 </div>
               </nav>
 
-              {/* Bottom action */}
               <div className="shrink-0 border-t border-gray-200 bg-white p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+                <div className="mb-3">
+                  <ThemeToggle />
+                </div>
                 <Link
                   href="/jobs"
                   onClick={() => setOpen(false)}
