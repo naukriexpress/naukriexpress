@@ -151,11 +151,11 @@ html[data-theme="dark"] [class~="hover:bg-gray-100"]:hover {
 
 /* Improve muted job-card labels in both color modes */
 [class~="text-ink-700/60"],
-[class~="text-ink-700/70"]
+[class~="text-ink-700/70"] {
   color: #53677d;
 }
 
 html[data-theme="dark"] [class~="text-ink-700/60"],
-html[data-theme="dark"] [class~="text-ink-700/70"]
+html[data-theme="dark"] [class~="text-ink-700/70"] {
   color: #b2c5dc;
 }
