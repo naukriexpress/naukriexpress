@@ -21,4 +21,6 @@ export default function ResultsPage() {
       <PublicUpdatesList category="results" />
     </main>
   );
+
+export const dynamic = "force-dynamic";
 }
