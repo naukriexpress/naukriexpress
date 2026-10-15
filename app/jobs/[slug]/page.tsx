@@ -446,36 +446,59 @@ export default async function JobDetailsPage({
           </section>
 
           {/* Selection Process */}
-          {job.content.selectionProcess && (
-            <section className="mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7">
-              <h2 className="mb-3 font-display text-lg font-bold text-ink-900">
-                Selection Process
-              </h2>
+          <section className="mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7">
+            <h2 className="mb-3 font-display text-lg font-bold text-ink-900">
+              Selection Process
+            </h2>
 
+            {job.content.selectionProcess ? (
               <div
                 className="prose-sm text-ink-800 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:mb-1"
                 dangerouslySetInnerHTML={{
                   __html: job.content.selectionProcess,
                 }}
               />
-            </section>
-          )}
+            ) : (
+              <p className="text-sm leading-relaxed text-ink-800">
+                A verified, recruitment-specific selection-stage summary is not
+                available in this listing. Check the official notification for
+                the exact examination, skill or physical tests, interview,
+                merit-list and document-verification requirements. Only rely on
+                stages specified by the recruiting authority.
+              </p>
+            )}
+          </section>
 
           {/* How to Apply */}
-          {job.content.howToApply && (
-            <section className="mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7">
-              <h2 className="mb-3 font-display text-lg font-bold text-ink-900">
-                How to Apply
-              </h2>
+          <section className="mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7">
+            <h2 className="mb-3 font-display text-lg font-bold text-ink-900">
+              How to Apply
+            </h2>
 
+            {job.content.howToApply ? (
               <div
                 className="prose-sm text-ink-800 [&_p]:mb-2"
                 dangerouslySetInnerHTML={{
                   __html: job.content.howToApply,
                 }}
               />
-            </section>
-          )}
+            ) : (
+              <div className="prose-sm space-y-2 text-ink-800">
+                <p>
+                  Read the official notification and confirm your eligibility,
+                  application dates, fee, required documents and instructions
+                  before starting an application.
+                </p>
+                <p>
+                  Use the application link or official website shown on this
+                  page when available. If a link is not listed, visit the
+                  recruiting authority's official site to confirm whether the
+                  application window is open. Save your submission receipt and
+                  pay fees only through the official application process.
+                </p>
+              </div>
+            )}
+          </section>
 
           {/* Important Instructions */}
           {job.content.importantInstructions?.replace("[[LAST_DATE_EXTENDED]]", "").replace(SSC_GD_NOTICE_PENDING_MARKER, "").trim() && (
