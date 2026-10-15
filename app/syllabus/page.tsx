@@ -22,4 +22,6 @@ export default function SyllabusPage() {
       <PublicUpdatesList category="syllabus" />
     </main>
   );
+
+export const dynamic = "force-dynamic";
 }
