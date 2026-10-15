@@ -78,7 +78,7 @@ export default function MobileNav() {
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="absolute inset-0 h-full w-full bg-black/60"
+              className="mobile-menu-backdrop absolute inset-0 h-full w-full bg-black/60"
               aria-label="Close navigation menu"
             />
             <div
@@ -86,7 +86,7 @@ export default function MobileNav() {
               role="dialog"
               aria-modal="true"
               aria-label="Mobile navigation"
-              className="absolute right-0 top-0 flex h-full w-[85%] max-w-sm flex-col bg-white shadow-2xl"
+              className="mobile-menu-panel absolute right-0 top-0 flex h-full w-[85%] max-w-sm flex-col bg-white shadow-2xl"
               style={{ height: "100dvh" }}
             >
               <div className="flex shrink-0 items-center justify-between border-b border-gray-200 px-5 py-5">
