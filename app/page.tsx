@@ -3,7 +3,6 @@ import { queryJobs, getDistinctStates } from "@/lib/db";
 import { CATEGORY_LABELS, QUALIFICATION_LABELS } from "@/lib/types";
 import type { Category, Qualification } from "@/lib/types";
 import JobCard from "@/components/JobCard";
-import EligibilityFinder from "@/components/EligibilityFinder";
 
 export default async function HomePage() {
   const [{ results: latestJobs }, { results: featuredJobs }, states] = await Promise.all([
@@ -16,9 +15,6 @@ export default async function HomePage() {
 
   return (
     <>
-      <EligibilityFinder states={states} />
-
-
       {/* Latest Jobs */}
       <section className="container-page mt-10">
         <div className="flex items-end justify-between mb-5">
