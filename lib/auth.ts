@@ -1,6 +1,7 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import bcrypt from "bcryptjs";
+import { getPool } from "./pgClient";
 
 const COOKIE_NAME = "bgi_admin_session";
 
@@ -17,19 +18,63 @@ function getSecret() {
   return new TextEncoder().encode(configured || "local-development-secret-not-for-production");
 }
 
+/**
+ * The environment hash bootstraps admin login. After a password is changed,
+ * the DB-stored hash takes precedence so future changes need no redeployment.
+ */
+async function getAdminPasswordHash(username: string): Promise<string | null> {
+  if (process.env.DATABASE_URL) {
+    try {
+      const { rows } = await getPool().query(
+        "select password_hash from public.admins where username = $1 limit 1",
+        [username]
+      );
+
+      if (rows.length > 0) {
+        const storedHash = rows[0]?.password_hash;
+        return typeof storedHash === "string" && storedHash.length > 0
+          ? storedHash
+          : null;
+      }
+      return process.env.ADMIN_PASSWORD_HASH || null;
+    } catch {
+      // Fail closed if the credential store cannot be checked.
+      return null;
+    }
+  }
+
+  return process.env.ADMIN_PASSWORD_HASH || null;
+}
+
 export async function verifyCredentials(username: string, password: string) {
   const adminUsername = process.env.ADMIN_USERNAME;
-  const passwordHash = process.env.ADMIN_PASSWORD_HASH;
 
-  // Fail closed. Never ship a default username or password.
-  if (!adminUsername || !passwordHash || !username || !password) return false;
-  if (username !== adminUsername) return false;
+  if (!adminUsername || !username || !password || username !== adminUsername) {
+    return false;
+  }
+
+  const passwordHash = await getAdminPasswordHash(username);
+  if (!passwordHash) return false;
 
   try {
     return await bcrypt.compare(password, passwordHash);
   } catch {
     return false;
   }
+}
+
+export async function updateAdminPasswordHash(username: string, passwordHash: string) {
+  if (!process.env.DATABASE_URL) {
+    throw new Error("Password changes require the database-backed production configuration.");
+  }
+
+  await getPool().query(
+    `insert into public.admins (username, password_hash)
+     values ($1, $2)
+     on conflict (username) do update
+     set password_hash = excluded.password_hash`,
+    [username, passwordHash]
+  );
 }
 
 export async function createSession(username: string) {
