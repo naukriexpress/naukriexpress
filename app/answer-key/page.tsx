@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import PublicUpdatesList from "@/components/PublicUpdatesList";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Answer Key - Government Exam Answer Keys",
   description:
@@ -22,6 +24,4 @@ export default function AnswerKeyPage() {
       <PublicUpdatesList category="answer-key" />
     </main>
   );
-
-export const dynamic = "force-dynamic";
 }
