@@ -22,4 +22,6 @@ export default function ScholarshipPage() {
       <PublicUpdatesList category="scholarship" />
     </main>
   );
+
+export const dynamic = "force-dynamic";
 }
