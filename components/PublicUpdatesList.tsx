@@ -115,11 +115,11 @@ export default function PublicUpdatesList({
 
               <dl className="mt-4 grid flex-1 grid-cols-1 gap-3 border-t border-ink-900/10 pt-4 text-sm">
                 {item.amount && (
-                  <div className="rounded-lg bg-brand-50/70 p-3">
-                    <dt className="text-xs font-medium text-ink-700/70">
+                  <div className="scholarship-benefit-box rounded-lg p-3">
+                    <dt className="scholarship-benefit-label text-xs font-medium">
                       Scholarship Amount / Benefits
                     </dt>
-                    <dd className="mt-1 break-words font-semibold text-ink-900">
+                    <dd className="scholarship-benefit-value mt-1 break-words font-semibold">
                       {item.amount}
                     </dd>
                   </div>

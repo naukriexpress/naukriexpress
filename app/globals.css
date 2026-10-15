@@ -261,3 +261,29 @@ html[data-theme="dark"] .last-date-soon-badge {
     animation: none !important;
   }
 }
+
+
+/* Keep scholarship benefit panels readable in light and dark themes */
+.scholarship-benefit-box {
+  background-color: #eff6ff;
+}
+
+.scholarship-benefit-label {
+  color: #53677d;
+}
+
+.scholarship-benefit-value {
+  color: #172033;
+}
+
+html[data-theme="dark"] .scholarship-benefit-box {
+  background-color: #203851;
+}
+
+html[data-theme="dark"] .scholarship-benefit-label {
+  color: #c5d7eb;
+}
+
+html[data-theme="dark"] .scholarship-benefit-value {
+  color: #f1f5f9;
+}
