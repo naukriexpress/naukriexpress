@@ -59,7 +59,7 @@ export default async function InfoListingPage({
             >
               <div className="min-w-0">
                 <p className="font-medium text-ink-900">{item.title}</p>
-                <p className="text-xs text-ink-700/60">Official admit card / hall ticket link</p>
+                <p className="text-xs text-ink-700/60">Admit card / hall ticket link</p>
               </div>
               <span className="shrink-0 rounded-lg border border-brand-600 px-3 py-1.5 text-xs font-semibold text-brand-700">
                 {ctaLabel}
