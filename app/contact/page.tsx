@@ -31,7 +31,9 @@ export default function ContactPage() {
           Send Message
         </button>
         <p className="text-xs text-ink-700/50">
-          This is a demo form. Wire it up to an email service or API route before going live.
+          Messages are submitted through our contact form service. Please include
+          the job page and official notification link when reporting a correction,
+          and do not include passwords or sensitive personal information.
         </p>
       </form>
 
