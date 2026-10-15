@@ -244,22 +244,26 @@ export async function queryJobs(
       ? "views DESC"
       : "created_at DESC";
 
-  const countResult = await pool.query(
-    `select count(*)::int as total from jobs ${whereClause}`,
-    values
-  );
-  const total = countResult.rows[0]?.total ?? 0;
-
   const page = filters.page ?? 1;
   const pageSize = filters.pageSize ?? 12;
   const offset = (page - 1) * pageSize;
 
   const dataValues = [...values, pageSize, offset];
-  const { rows } = await pool.query(
-    `select *, ${RESOLVED_STATUS_SQL} as effective_status from jobs ${whereClause}
-     order by ${orderBy} limit $${dataValues.length - 1} offset $${dataValues.length}`,
-    dataValues
-  );
+  // Run the total-count and page-data queries concurrently. They use the
+  // same filters but are independent, so slow database round trips overlap.
+  const [countResult, dataResult] = await Promise.all([
+    pool.query(
+      `select count(*)::int as total from jobs ${whereClause}`,
+      values
+    ),
+    pool.query(
+      `select *, ${RESOLVED_STATUS_SQL} as effective_status from jobs ${whereClause}
+       order by ${orderBy} limit ${dataValues.length - 1} offset ${dataValues.length}`,
+      dataValues
+    ),
+  ]);
+  const total = countResult.rows[0]?.total ?? 0;
+  const { rows } = dataResult;
 
   const vacancyMap = await fetchVacancyRowsForJobs(rows.map((r) => r.id));
   const results = rows.map((r) => mapJobRow(r, vacancyMap.get(r.id) || []));
