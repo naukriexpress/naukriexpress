@@ -25,6 +25,13 @@ function formatDate(iso?: string) {
   });
 }
 
+function ageLimitLabel(minAge?: number, maxAge?: number) {
+  if (minAge !== undefined && maxAge !== undefined) return `${minAge}–${maxAge} years`;
+  if (minAge !== undefined) return `${minAge}+ years`;
+  if (maxAge !== undefined) return `Up to ${maxAge} years`;
+  return "As per official notification";
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -45,6 +52,9 @@ export async function generateMetadata({
     .map((qualification) => QUALIFICATION_LABELS[qualification])
     .filter(Boolean)
     .join(", ");
+  const vacancySummary = job.totalVacancies > 0
+    ? `${job.totalVacancies} ${JOB_TYPE_LABELS[job.jobType].toLowerCase()} openings`
+    : "Vacancy details should be confirmed from the official notification";
   const title =
     job.seo.title ||
     `${job.title} in ${location} | Apply Online`;
@@ -54,7 +64,7 @@ export async function generateMetadata({
       ? "Upcoming SSC GD Constable Recruitment 2027. Official vacancy count, exact dates and application link are awaiting confirmation from SSC."
       : [
       `Apply for ${job.title} at ${job.organization} in ${location}.`,
-      `${job.totalVacancies} ${JOB_TYPE_LABELS[job.jobType].toLowerCase()} openings`,
+      vacancySummary,
       qualifications ? `for ${qualifications} candidates` : "",
       `Last date: ${formatDate(job.dates.lastDate)}.`,
     ]
@@ -201,7 +211,11 @@ export default async function JobDetailsPage({
                   Total Vacancies
                 </p>
                 <p className="text-sm font-semibold text-ink-900">
-                  {noticePending ? "Awaiting SSC notice" : job.totalVacancies.toLocaleString("en-IN")}
+                  {noticePending
+                    ? "Awaiting SSC notice"
+                    : job.totalVacancies > 0
+                      ? job.totalVacancies.toLocaleString("en-IN")
+                      : "Check official notification"}
                 </p>
               </div>
 
@@ -264,7 +278,13 @@ export default async function JobDetailsPage({
                   </thead>
   
                   <tbody>
-                    {job.vacancyBreakdown.map((row, i) => {
+                    {job.vacancyBreakdown.length === 0 ? (
+                      <tr>
+                        <td colSpan={4} className="py-3 text-sm text-ink-700">
+                          A post-wise vacancy breakdown is not available in this listing. Please check the official notification for the verified post and category-wise figures.
+                        </td>
+                      </tr>
+                    ) : job.vacancyBreakdown.map((row, i) => {
                       const tradeLink =
                         ("applyOnline" in row &&
                         typeof row.applyOnline === "string"
@@ -325,7 +345,7 @@ export default async function JobDetailsPage({
                   Eligible Gender
                 </p>
                 <p className="text-sm font-semibold capitalize text-ink-900">
-                  {job.eligibility.genders.join(" & ")}
+{job.eligibility.genders.length ? job.eligibility.genders.join(" & ") : "As per official notification"}
                 </p>
               </div>
 
@@ -336,7 +356,7 @@ export default async function JobDetailsPage({
                 <p className="text-sm font-semibold text-ink-900">
                   {job.eligibility.qualifications
                     .map((q) => QUALIFICATION_LABELS[q])
-                    .join(", ")}
+                    .join(", ") || "As per official notification"}
                   {noticePending ? " (previous-cycle pattern; confirm in 2027 notice)" : ""}
                 </p>
               </div>
@@ -346,8 +366,7 @@ export default async function JobDetailsPage({
                   {noticePending ? "Age Limit (tentative)" : "Age Limit"}
                 </p>
                 <p className="text-sm font-semibold text-ink-900">
-                  {job.eligibility.minAge ?? "—"} –{" "}
-                  {job.eligibility.maxAge ?? "—"} years
+{ageLimitLabel(job.eligibility.minAge, job.eligibility.maxAge)}
                 </p>
               </div>
             </div>
