@@ -8,6 +8,13 @@ function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
 }
 
+function ageLimitLabel(minAge?: number, maxAge?: number) {
+  if (minAge !== undefined && maxAge !== undefined) return `${minAge}–${maxAge} yrs`;
+  if (minAge !== undefined) return `${minAge}+ yrs`;
+  if (maxAge !== undefined) return `Up to ${maxAge} yrs`;
+  return "As per notification";
+}
+
 function genderLabel(genders: JobPosting["eligibility"]["genders"]) {
   if (genders.includes("male") && genders.includes("female")) return "Male & Female";
   if (genders.includes("male")) return "Male only";
@@ -49,7 +56,11 @@ export default function JobCard({ job }: { job: JobPosting }) {
         <div>
           <dt className="text-xs text-ink-700/60">Total Vacancies</dt>
           <dd className="font-semibold text-ink-900">
-            {noticePending ? "Awaiting SSC notice" : job.totalVacancies.toLocaleString("en-IN")}
+            {noticePending
+              ? "Awaiting SSC notice"
+              : job.totalVacancies > 0
+                ? job.totalVacancies.toLocaleString("en-IN")
+                : "Check notification"}
           </dd>
         </div>
         <div>
@@ -63,7 +74,7 @@ export default function JobCard({ job }: { job: JobPosting }) {
           <dd className="font-medium text-ink-900 truncate">
             {noticePending
               ? "10th Pass (tentative)"
-              : job.eligibility.qualifications.map((q) => QUALIFICATION_LABELS[q]).join(", ")}
+              : job.eligibility.qualifications.map((q) => QUALIFICATION_LABELS[q]).join(", ") || "As per notification"}
           </dd>
         </div>
         <div>
@@ -73,7 +84,7 @@ export default function JobCard({ job }: { job: JobPosting }) {
         <div>
           <dt className="text-xs text-ink-700/60">Age Limit</dt>
           <dd className="font-medium text-ink-900">
-            {job.eligibility.minAge ?? "—"}–{job.eligibility.maxAge ?? "—"} yrs
+            {ageLimitLabel(job.eligibility.minAge, job.eligibility.maxAge)}
             {noticePending ? " (previous-cycle pattern)" : ""}
           </dd>
         </div>
@@ -109,24 +120,52 @@ export default function JobCard({ job }: { job: JobPosting }) {
           <span className="rounded-lg bg-ink-900/5 px-2 py-2 text-center text-xs font-semibold text-ink-700">
             Apply Link Awaited
           </span>
-        ) : (
+        ) : job.links.applyOnline ? (
           <a
-            href={job.links.applyOnline || "#"}
+            href={job.links.applyOnline}
             target="_blank"
             rel="noopener noreferrer"
             className="rounded-lg bg-brand-600 px-2 py-2 text-center text-xs font-semibold text-white hover:bg-brand-700 transition-colors"
           >
             Apply Online
           </a>
+        ) : (
+          <span className="rounded-lg bg-brand-600 px-2 py-2 text-center text-xs font-semibold text-white opacity-70">
+            Apply Link Awaited
+          </span>
         )}
-        <a
-          href={noticePending ? (job.links.officialWebsite || "https://ssc.gov.in/") : (job.links.officialNotification || "#")}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded-lg bg-saffron-500 px-2 py-2 text-center text-xs font-semibold text-white hover:bg-saffron-600 transition-colors"
-        >
-          {noticePending ? "SSC Updates" : "Notification"}
-        </a>
+        {noticePending ? (
+          <a
+            href={job.links.officialWebsite || "https://ssc.gov.in/"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-lg bg-saffron-500 px-2 py-2 text-center text-xs font-semibold text-white hover:bg-saffron-600 transition-colors"
+          >
+            SSC Updates
+          </a>
+        ) : job.links.officialNotification ? (
+          <a
+            href={job.links.officialNotification}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-lg bg-saffron-500 px-2 py-2 text-center text-xs font-semibold text-white hover:bg-saffron-600 transition-colors"
+          >
+            Notification
+          </a>
+        ) : job.links.officialWebsite ? (
+          <a
+            href={job.links.officialWebsite}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-lg bg-saffron-500 px-2 py-2 text-center text-xs font-semibold text-white hover:bg-saffron-600 transition-colors"
+          >
+            Official Website
+          </a>
+        ) : (
+          <span className="rounded-lg bg-saffron-500 px-2 py-2 text-center text-xs font-semibold text-white opacity-70">
+            Notice Awaited
+          </span>
+        )}
       </div>
     </div>
   );
