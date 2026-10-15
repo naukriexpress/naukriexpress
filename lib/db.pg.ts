@@ -258,7 +258,7 @@ export async function queryJobs(
     ),
     pool.query(
       `select *, ${RESOLVED_STATUS_SQL} as effective_status from jobs ${whereClause}
-       order by ${orderBy} limit ${dataValues.length - 1} offset ${dataValues.length}`,
+       order by ${orderBy} limit $${dataValues.length - 1} offset $${dataValues.length}`,
       dataValues
     ),
   ]);
