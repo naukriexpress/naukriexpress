@@ -54,7 +54,7 @@ export default async function PublicUpdatesList({
       <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {items.map((item) => {
           const initials = (item.organization || item.title)
-            .split(/\\s+/)
+            .split(/\s+/)
             .slice(0, 2)
             .map((word) => word[0] || "")
             .join("")
