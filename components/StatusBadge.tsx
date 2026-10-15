@@ -5,7 +5,7 @@ function computeBadge(
   job: Pick<JobPosting, "createdAt" | "dates" | "status" | "content">
 ) {
   if (job.content.importantInstructions?.includes(SSC_GD_NOTICE_PENDING_MARKER)) {
-    return { label: "Notice Awaited", className: "bg-saffron-100 text-saffron-700" };
+    return { label: "Notice Awaited", className: "notice-awaited-badge" };
   }
 
   if (job.status === "expired") {
