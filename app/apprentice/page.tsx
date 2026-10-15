@@ -182,7 +182,7 @@ export default async function ApprenticePage() {
                   </Link>
                   {(hasTradeLinks || job.links.applyOnline) ? (
                     <a
-                      href={(hasTradeLinks ? trades.find((trade) => trade.applyOnline?.trim())?.applyOnline : job.links.applyOnline) || job.links.applyOnline || "/apprentice"}
+                      href={(hasTradeLinks ? trades.find((trade) => trade.applyOnline?.trim())?.applyOnline : job.links.applyOnline) || job.links.applyOnline || ""}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="rounded-lg bg-brand-600 px-2 py-2 text-center text-xs font-semibold text-white hover:bg-brand-700"
