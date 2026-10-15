@@ -22,4 +22,6 @@ export default function AnswerKeyPage() {
       <PublicUpdatesList category="answer-key" />
     </main>
   );
+
+export const dynamic = "force-dynamic";
 }
