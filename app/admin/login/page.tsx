@@ -45,7 +45,7 @@ export default function AdminLoginPage({
         </form>
 
         <p className="mt-5 text-center text-[11px] text-ink-700/50">
-          Demo credentials: <code className="font-mono">boss</code> / <code className="font-mono">welcome</code>
+          Authorized administrators only.
         </p>
       </div>
     </div>
