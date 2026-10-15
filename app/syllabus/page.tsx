@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import PublicUpdatesList from "@/components/PublicUpdatesList";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Syllabus - Government Exam Syllabus",
   description:

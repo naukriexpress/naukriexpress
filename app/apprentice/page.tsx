@@ -15,6 +15,13 @@ function formatDate(iso?: string) {
   });
 }
 
+function ageLimitLabel(minAge?: number, maxAge?: number) {
+  if (minAge !== undefined && maxAge !== undefined) return `${minAge}–${maxAge} yrs`;
+  if (minAge !== undefined) return `${minAge}+ yrs`;
+  if (maxAge !== undefined) return `Up to ${maxAge} yrs`;
+  return "As per notification";
+}
+
 function genderLabel(job: JobPosting) {
   const genders = job.eligibility.genders;
   if (genders.includes("male") && genders.includes("female")) return "Male & Female";
@@ -90,7 +97,7 @@ export default async function ApprenticePage() {
                   <div>
                     <dt className="text-xs text-ink-700/60">Total Vacancies</dt>
                     <dd className="font-semibold text-ink-900">
-                      {job.totalVacancies.toLocaleString("en-IN")}
+                      {job.totalVacancies > 0 ? job.totalVacancies.toLocaleString("en-IN") : "Check notification"}
                     </dd>
                   </div>
                   <div>
@@ -112,7 +119,7 @@ export default async function ApprenticePage() {
                   <div>
                     <dt className="text-xs text-ink-700/60">Age Limit</dt>
                     <dd className="font-medium text-ink-900">
-                      {job.eligibility.minAge ?? "—"}–{job.eligibility.maxAge ?? "—"} yrs
+                      {ageLimitLabel(job.eligibility.minAge, job.eligibility.maxAge)}
                     </dd>
                   </div>
                   <div>
@@ -173,22 +180,43 @@ export default async function ApprenticePage() {
                   >
                     View Details
                   </Link>
-                  <a
-                    href={(hasTradeLinks ? trades.find((trade) => trade.applyOnline?.trim())?.applyOnline : job.links.applyOnline) || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-lg bg-brand-600 px-2 py-2 text-center text-xs font-semibold text-white hover:bg-brand-700"
-                  >
-                    Apply Online
-                  </a>
-                  <a
-                    href={job.links.officialNotification || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-lg bg-saffron-500 px-2 py-2 text-center text-xs font-semibold text-white hover:bg-saffron-600"
-                  >
-                    Notification
-                  </a>
+                  {(hasTradeLinks || job.links.applyOnline) ? (
+                    <a
+                      href={(hasTradeLinks ? trades.find((trade) => trade.applyOnline?.trim())?.applyOnline : job.links.applyOnline) || job.links.applyOnline || ""}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded-lg bg-brand-600 px-2 py-2 text-center text-xs font-semibold text-white hover:bg-brand-700"
+                    >
+                      Apply Online
+                    </a>
+                  ) : (
+                    <span className="rounded-lg bg-brand-600 px-2 py-2 text-center text-xs font-semibold text-white opacity-70">
+                      Apply Link Awaited
+                    </span>
+                  )}
+                  {job.links.officialNotification ? (
+                    <a
+                      href={job.links.officialNotification}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded-lg bg-saffron-500 px-2 py-2 text-center text-xs font-semibold text-white hover:bg-saffron-600"
+                    >
+                      Notification
+                    </a>
+                  ) : job.links.officialWebsite ? (
+                    <a
+                      href={job.links.officialWebsite}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded-lg bg-saffron-500 px-2 py-2 text-center text-xs font-semibold text-white hover:bg-saffron-600"
+                    >
+                      Official Website
+                    </a>
+                  ) : (
+                    <span className="rounded-lg bg-saffron-500 px-2 py-2 text-center text-xs font-semibold text-white opacity-70">
+                      Notice Awaited
+                    </span>
+                  )}
                 </div>
               </article>
             );
