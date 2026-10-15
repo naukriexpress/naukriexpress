@@ -5,7 +5,7 @@ const SITE_URL = "https://www.naukriexpress.space";
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
-      { userAgent: "*", allow: "/", disallow: ["/admin/", "/api/admin/"] },
+      { userAgent: "*", allow: "/", disallow: ["/admin", "/api/admin/"] },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,
   };
