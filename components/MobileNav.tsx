@@ -7,6 +7,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import AdmitCardButton from "./AdmitCardButton";
 import ThemeToggle from "./ThemeToggle";
 import HeroSearch from "./HeroSearch";
+import EligibilityFinder from "./EligibilityFinder";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -21,7 +22,7 @@ const NAV_LINKS = [
   { href: "/contact", label: "Contact Us" },
 ];
 
-export default function MobileNav() {
+export default function MobileNav({ states }: { states: string[] }) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
@@ -142,13 +143,9 @@ export default function MobileNav() {
                 <div className="mb-3">
                   <ThemeToggle />
                 </div>
-                <Link
-                  href="/jobs"
-                  onClick={() => setOpen(false)}
-                  className="block rounded-xl bg-saffron-500 px-4 py-3 text-center text-sm font-bold text-white hover:bg-saffron-600"
-                >
-                  Find My Eligible Jobs
-                </Link>
+                <div className="mt-3">
+                  <EligibilityFinder states={states} variant="menu" />
+                </div>
               </div>
             </div>
           </div>,
