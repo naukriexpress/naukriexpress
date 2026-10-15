@@ -13,7 +13,7 @@ export default function AdmitCardPage() {
     <InfoListingPage
       title="Admit Card / Hall Ticket"
       description="Check exam dates and download your admit card for these recruitment drives once released by the respective board."
-      ctaLabel="View Details"
+      ctaLabel="View / Download"
     />
   );
 }
