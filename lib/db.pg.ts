@@ -244,22 +244,26 @@ export async function queryJobs(
       ? "views DESC"
       : "created_at DESC";
 
-  const countResult = await pool.query(
-    `select count(*)::int as total from jobs ${whereClause}`,
-    values
-  );
-  const total = countResult.rows[0]?.total ?? 0;
-
   const page = filters.page ?? 1;
   const pageSize = filters.pageSize ?? 12;
   const offset = (page - 1) * pageSize;
 
   const dataValues = [...values, pageSize, offset];
-  const { rows } = await pool.query(
-    `select *, ${RESOLVED_STATUS_SQL} as effective_status from jobs ${whereClause}
-     order by ${orderBy} limit $${dataValues.length - 1} offset $${dataValues.length}`,
-    dataValues
-  );
+  // Run the total-count and page-data queries concurrently. They use the
+  // same filters but are independent, so slow database round trips overlap.
+  const [countResult, dataResult] = await Promise.all([
+    pool.query(
+      `select count(*)::int as total from jobs ${whereClause}`,
+      values
+    ),
+    pool.query(
+      `select *, ${RESOLVED_STATUS_SQL} as effective_status from jobs ${whereClause}
+       order by ${orderBy} limit $${dataValues.length - 1} offset $${dataValues.length}`,
+      dataValues
+    ),
+  ]);
+  const total = countResult.rows[0]?.total ?? 0;
+  const { rows } = dataResult;
 
   const vacancyMap = await fetchVacancyRowsForJobs(rows.map((r) => r.id));
   const results = rows.map((r) => mapJobRow(r, vacancyMap.get(r.id) || []));
@@ -465,4 +469,43 @@ export async function getDistinctStates(): Promise<string[]> {
     `select distinct state from jobs where all_india = false order by state asc`
   );
   return rows.map((r) => r.state);
+}
+
+export async function getHeaderData(): Promise<{
+  closingToday: number;
+  liveJobs: number;
+  states: string[];
+}> {
+  const pool = getPool();
+  const { rows } = await pool.query(
+    `SELECT
+       COUNT(*) FILTER (
+         WHERE ${RESOLVED_STATUS_SQL} = 'published'
+       )::int AS live_jobs,
+       COUNT(*) FILTER (
+         WHERE ${RESOLVED_STATUS_SQL} = 'published'
+           AND last_date = CURRENT_DATE
+       )::int AS closing_today,
+       (
+         SELECT COALESCE(
+           array_agg(state ORDER BY state),
+           ARRAY[]::text[]
+         )
+         FROM (
+           SELECT DISTINCT state
+           FROM jobs
+           WHERE all_india = false
+         ) AS distinct_states
+       ) AS states
+     FROM jobs
+     WHERE job_type = ANY($1::job_type_t[])`,
+    [["government", "private", "contract", "internship"]]
+  );
+
+  const row = rows[0];
+  return {
+    closingToday: Number(row?.closing_today ?? 0),
+    liveJobs: Number(row?.live_jobs ?? 0),
+    states: row?.states ?? [],
+  };
 }

@@ -79,3 +79,29 @@ export async function getDistinctStates(): Promise<string[]> {
   if (usePg()) return (await import("./db.pg")).getDistinctStates();
   return local.getDistinctStates();
 }
+
+export async function getHeaderData(): Promise<{
+  closingToday: number;
+  liveJobs: number;
+  states: string[];
+}> {
+  if (usePg()) return (await import("./db.pg")).getHeaderData();
+
+  const jobTypes = ["government", "private", "contract", "internship"] as const;
+  const [{ total: closingToday }, { total: liveJobs }, states] = await Promise.all([
+    local.queryJobs({
+      status: "published",
+      lastDate: "today",
+      pageSize: 1,
+      jobType: [...jobTypes],
+    }),
+    local.queryJobs({
+      status: "published",
+      pageSize: 1,
+      jobType: [...jobTypes],
+    }),
+    Promise.resolve(local.getDistinctStates()),
+  ]);
+
+  return { closingToday, liveJobs, states };
+}

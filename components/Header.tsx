@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { getDistinctStates, queryJobs } from "@/lib/db";
+import { getHeaderData } from "@/lib/db";
 import AdmitCardButton from "./AdmitCardButton";
 import HeroSearch from "./HeroSearch";
 import MobileNav from "./MobileNav";
@@ -21,11 +21,7 @@ const NAV_LINKS = [
 ];
 
 export default async function Header() {
-  const [{ total: closingToday }, { total: liveJobs }, states] = await Promise.all([
-    queryJobs({ lastDate: "today", pageSize: 1, jobType: ["government", "private", "contract", "internship"] }),
-    queryJobs({ pageSize: 1, jobType: ["government", "private", "contract", "internship"] }),
-    getDistinctStates(),
-  ]);
+  const { closingToday, liveJobs, states } = await getHeaderData();
 
   return (
     <header className="sticky top-0 z-40 border-b border-ink-900/10 bg-white/95 backdrop-blur">
