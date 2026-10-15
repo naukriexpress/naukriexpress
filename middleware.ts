@@ -2,9 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 
 const COOKIE_NAME = "bgi_admin_session";
-const SECRET = new TextEncoder().encode(
-  process.env.ADMIN_SESSION_SECRET || "dev-only-secret-change-in-production-please"
-);
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -15,11 +12,23 @@ export async function middleware(req: NextRequest) {
   if (!isAdminPath && !isAdminApi) return NextResponse.next();
 
   const token = req.cookies.get(COOKIE_NAME)?.value;
-  if (!token) {
+  if (!token) return redirectOrDeny(req, isAdminApi);
+
+  // No hardcoded production secret: if configuration is missing, deny access.
+  const configuredSecret = process.env.ADMIN_SESSION_SECRET;
+  if (!configuredSecret || (process.env.NODE_ENV === "production" && configuredSecret.length < 32)) {
     return redirectOrDeny(req, isAdminApi);
   }
+
   try {
-    await jwtVerify(token, SECRET);
+    const { payload } = await jwtVerify(
+      token,
+      new TextEncoder().encode(configuredSecret),
+      { algorithms: ["HS256"] }
+    );
+    if (payload.role !== "admin" || typeof payload.username !== "string") {
+      return redirectOrDeny(req, isAdminApi);
+    }
     return NextResponse.next();
   } catch {
     return redirectOrDeny(req, isAdminApi);
