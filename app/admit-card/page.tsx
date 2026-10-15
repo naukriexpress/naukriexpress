@@ -14,4 +14,6 @@ export default function AdmitCardPage() {
       ctaLabel="View Details"
     />
   );
+
+export const dynamic = "force-dynamic";
 }
