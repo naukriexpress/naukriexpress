@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { queryJobs } from "@/lib/db";
+import { getDistinctStates, queryJobs } from "@/lib/db";
 import AdmitCardButton from "./AdmitCardButton";
 import HeroSearch from "./HeroSearch";
 import MobileNav from "./MobileNav";
@@ -21,9 +21,10 @@ const NAV_LINKS = [
 ];
 
 export default async function Header() {
-  const [{ total: closingToday }, { total: liveJobs }] = await Promise.all([
+  const [{ total: closingToday }, { total: liveJobs }, states] = await Promise.all([
     queryJobs({ lastDate: "today", pageSize: 1, jobType: ["government", "private", "contract", "internship"] }),
     queryJobs({ pageSize: 1, jobType: ["government", "private", "contract", "internship"] }),
+    getDistinctStates(),
   ]);
 
   return (
@@ -65,7 +66,7 @@ export default async function Header() {
 
         <div className="shrink-0 2xl:hidden">
           <Suspense fallback={<div className="h-10 w-10 rounded-lg border border-ink-900/15 bg-white" aria-hidden="true" />}>
-            <MobileNav />
+            <MobileNav states={states} />
           </Suspense>
         </div>
       </div>
