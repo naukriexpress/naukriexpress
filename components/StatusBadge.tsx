@@ -19,9 +19,9 @@ function computeBadge(
   const lastDate = new Date(job.dates.lastDate);
   const daysToClose = (lastDate.getTime() - now.getTime()) / 86400000;
 
-  if (daysToClose <= 3) return { label: "Last Date Soon", className: "bg-saffron-100 text-saffron-600" };
-  if (daysSincePosted <= 5) return { label: "New", className: "bg-leaf-100 text-leaf-600" };
-  return { label: "Open", className: "bg-brand-100 text-brand-700" };
+  if (daysToClose <= 3) return { label: "Last Date Soon", className: "last-date-soon-badge" };
+  if (daysSincePosted <= 5) return { label: "New", className: "new-status-badge" };
+  return { label: "Open", className: "open-status-badge" };
 }
 
 export default function StatusBadge({
