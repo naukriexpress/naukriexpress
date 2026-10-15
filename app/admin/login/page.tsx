@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "Admin Login", robots: { index: false
 export default function AdminLoginPage({
   searchParams,
 }: {
-  searchParams: { error?: string; next?: string };
+  searchParams: { error?: string; next?: string; passwordChanged?: string };
 }) {
   const next = searchParams.next || "/admin/dashboard";
 
@@ -20,6 +20,12 @@ export default function AdminLoginPage({
           <h1 className="font-display text-xl font-bold text-ink-900">Admin Login</h1>
           <p className="mt-1 text-xs text-ink-700/60">Sign in to manage job postings</p>
         </div>
+
+        {searchParams.passwordChanged && (
+          <p className="mb-4 rounded-lg bg-leaf-50 px-3 py-2 text-sm text-leaf-600">
+            Password changed successfully. Please sign in with your new password.
+          </p>
+        )}
 
         {searchParams.error && (
           <p className="mb-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
