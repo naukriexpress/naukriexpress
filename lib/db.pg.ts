@@ -470,3 +470,42 @@ export async function getDistinctStates(): Promise<string[]> {
   );
   return rows.map((r) => r.state);
 }
+
+export async function getHeaderData(): Promise<{
+  closingToday: number;
+  liveJobs: number;
+  states: string[];
+}> {
+  const pool = getPool();
+  const { rows } = await pool.query(
+    `SELECT
+       COUNT(*) FILTER (
+         WHERE ${RESOLVED_STATUS_SQL} = 'published'
+       )::int AS live_jobs,
+       COUNT(*) FILTER (
+         WHERE ${RESOLVED_STATUS_SQL} = 'published'
+           AND last_date = CURRENT_DATE
+       )::int AS closing_today,
+       (
+         SELECT COALESCE(
+           array_agg(state ORDER BY state),
+           ARRAY[]::text[]
+         )
+         FROM (
+           SELECT DISTINCT state
+           FROM jobs
+           WHERE all_india = false
+         ) AS distinct_states
+       ) AS states
+     FROM jobs
+     WHERE job_type = ANY($1::job_type_t[])`,
+    [["government", "private", "contract", "internship"]]
+  );
+
+  const row = rows[0];
+  return {
+    closingToday: Number(row?.closing_today ?? 0),
+    liveJobs: Number(row?.live_jobs ?? 0),
+    states: row?.states ?? [],
+  };
+}
