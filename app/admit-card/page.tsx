@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import InfoListingPage from "@/components/InfoListingPage";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Admit Card - Download Hall Tickets",
   description: "Download admit cards / hall tickets for upcoming government exams and recruitment tests.",
@@ -14,6 +16,4 @@ export default function AdmitCardPage() {
       ctaLabel="View Details"
     />
   );
-
-export const dynamic = "force-dynamic";
 }
