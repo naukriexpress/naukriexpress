@@ -93,7 +93,7 @@ export default function RootLayout({
         <Script
           id="google-adsense"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7337308462039392"
-          strategy="afterInteractive"
+          strategy="beforeInteractive"
           crossOrigin="anonymous"
         />
 
