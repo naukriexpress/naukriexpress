@@ -11,7 +11,13 @@ const QUALIFICATIONS: Qualification[] = [
   "10th", "12th", "iti", "diploma", "graduate", "post_graduate", "engineering", "law", "medical", "any_graduate",
 ];
 
-export default function EligibilityFinder({ states }: { states: string[] }) {
+export default function EligibilityFinder({
+  states,
+  variant = "home",
+}: {
+  states: string[];
+  variant?: "home" | "menu";
+}) {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -32,28 +38,40 @@ export default function EligibilityFinder({ states }: { states: string[] }) {
 
   return (
     <>
-      <section className="container-page pt-6 sm:pt-8">
-        <h1 className="sr-only">Find Jobs According to Your Eligibility</h1>
+{variant === "menu" ? (
         <button
           type="button"
           onClick={() => setIsOpen(true)}
           aria-haspopup="dialog"
           aria-expanded={isOpen}
-          className="flex w-full items-center justify-between gap-4 rounded-xl2 border border-ink-900/10 bg-white p-5 text-left shadow-card transition-shadow hover:shadow-cardHover sm:p-6"
+          className="block w-full rounded-xl bg-saffron-500 px-4 py-3 text-center text-sm font-bold text-white transition-colors hover:bg-saffron-600"
         >
-          <span>
-            <span className="block font-display text-lg font-bold text-ink-900 sm:text-xl">
-              Find Jobs According to Your Eligibility
-            </span>
-            <span className="mt-1 block text-sm text-ink-700">
-              Choose your details to see matching vacancies.
-            </span>
-          </span>
-          <span className="shrink-0 rounded-lg bg-brand-700 px-4 py-2.5 text-sm font-semibold text-white">
-            Open
-          </span>
+          Find Jobs According to Your Eligibility
         </button>
-      </section>
+      ) : (
+        <section className="container-page pt-6 sm:pt-8">
+          <h1 className="sr-only">Find Jobs According to Your Eligibility</h1>
+          <button
+            type="button"
+            onClick={() => setIsOpen(true)}
+            aria-haspopup="dialog"
+            aria-expanded={isOpen}
+            className="flex w-full items-center justify-between gap-4 rounded-xl2 border border-ink-900/10 bg-white p-5 text-left shadow-card transition-shadow hover:shadow-cardHover sm:p-6"
+          >
+            <span>
+              <span className="block font-display text-lg font-bold text-ink-900 sm:text-xl">
+                Find Jobs According to Your Eligibility
+              </span>
+              <span className="mt-1 block text-sm text-ink-700">
+                Choose your details to see matching vacancies.
+              </span>
+            </span>
+            <span className="shrink-0 rounded-lg bg-brand-700 px-4 py-2.5 text-sm font-semibold text-white">
+              Open
+            </span>
+          </button>
+        </section>
+      )}
 
       {isOpen &&
         createPortal(
