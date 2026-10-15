@@ -170,3 +170,17 @@ html[data-theme="dark"] [class~="hover:bg-amber-100"]:hover {
   background-color: #fde68a;
   color: #172033;
 }
+
+
+/* High-contrast Notice Awaited status badge in both themes */
+.notice-awaited-badge {
+  background-color: #ffedd5;
+  color: #9a3412;
+  border-color: #fdba74;
+}
+
+html[data-theme="dark"] .notice-awaited-badge {
+  background-color: #633b16;
+  color: #fff7ed;
+  border-color: #f59e0b;
+}
