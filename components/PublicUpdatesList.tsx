@@ -1,6 +1,4 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import { getPool } from "@/lib/pgClient";
 
 type UpdateItem = {
   id: number;
@@ -16,53 +14,29 @@ type UpdateItem = {
   apply_url: string | null;
 };
 
-export default function PublicUpdatesList({
+export default async function PublicUpdatesList({
   category,
 }: {
   category: "results" | "answer-key" | "syllabus" | "scholarship";
 }) {
-  const [items, setItems] = useState<UpdateItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  let items: UpdateItem[] = [];
 
-  useEffect(() => {
-    async function loadItems() {
-      try {
-        const response = await fetch(
-          `/api/site-updates?category=${category}`,
-          { cache: "no-store" }
-        );
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.error || "Updates load nahi hue");
-        }
-
-        setItems(data.updates || []);
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "Updates load nahi hue"
-        );
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    void loadItems();
-  }, [category]);
-
-  if (loading) {
-    return (
-      <p className="mt-8 rounded-xl border bg-white p-5 text-sm text-gray-600">
-        Loading...
-      </p>
+  try {
+    const pool = getPool();
+    const result = await pool.query(
+      `SELECT id, title, organization, description, publish_date,
+              amount, eligibility, last_date, item_url, objection_url, apply_url
+       FROM site_updates
+       WHERE category = $1
+       ORDER BY created_at DESC`,
+      [category]
     );
-  }
-
-  if (error) {
+    items = result.rows as UpdateItem[];
+  } catch (error) {
+    console.error("Public updates page load error:", error);
     return (
       <p role="alert" className="mt-8 rounded-xl border bg-white p-5 text-sm text-red-600">
-        {error}
+        Updates are temporarily unavailable. Please check back later.
       </p>
     );
   }
@@ -80,7 +54,7 @@ export default function PublicUpdatesList({
       <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {items.map((item) => {
           const initials = (item.organization || item.title)
-            .split(/\s+/)
+            .split(/\\s+/)
             .slice(0, 2)
             .map((word) => word[0] || "")
             .join("")
@@ -250,9 +224,9 @@ export default function PublicUpdatesList({
                 href={item.apply_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex rounded-lg bg-green-700 px-4 py-2 text-sm font-semibold text-white hover:bg-green-800"
+                className="inline-flex rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700"
               >
-                Apply Online
+                Apply / Official Portal
               </a>
             )}
           </div>
