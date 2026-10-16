@@ -46,9 +46,6 @@ export async function generateMetadata({
     totalVacancies: job.totalVacancies,
     vacancyBreakdownLength: job.vacancyBreakdown.length,
   });
-  const noticeDetailsPending =
-    Boolean(job.content.importantInstructions?.includes(SSC_GD_NOTICE_PENDING_MARKER)) ||
-    Boolean(job.content.importantInstructions?.includes(VACANCY_DETAILS_PENDING_MARKER));
   const location = job.location.allIndia
     ? "All India"
     : [job.location.district, job.location.state].filter(Boolean).join(", ") ||
@@ -63,18 +60,17 @@ export async function generateMetadata({
   const title =
     job.seo.title ||
     `${job.title} in ${location} | Apply Online`;
-  const description =
-    job.seo.metaDescription ||
-    (vacancyDetailsPending
-      ? "Official vacancy details and key recruitment dates are awaiting confirmation from the recruiting authority. Please check the official notification for verified information."
-      : [
-      `Apply for ${job.title} at ${job.organization} in ${location}.`,
-      vacancySummary,
-      qualifications ? `for ${qualifications} candidates` : "",
-      `Last date: ${formatDate(job.dates.lastDate)}.`,
-    ]
-      .filter(Boolean)
-      .join(" "));
+  const description = vacancyDetailsPending
+    ? "Official vacancy details are awaited. The recruiting authority has not yet provided a verified post-wise and category-wise vacancy breakdown that we can cite here. The total number of vacancies will be updated after the official notification is published."
+    : job.seo.metaDescription ||
+      [
+        `Apply for ${job.title} at ${job.organization} in ${location}.`,
+        vacancySummary,
+        qualifications ? `for ${qualifications} candidates` : "",
+        `Last date: ${formatDate(job.dates.lastDate)}.`,
+      ]
+        .filter(Boolean)
+        .join(" ");
 
   return {
     title,
