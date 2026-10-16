@@ -1,17 +1,12 @@
 import Link from "next/link";
-import { queryJobs, getDistinctStates } from "@/lib/db";
-import { CATEGORY_LABELS, QUALIFICATION_LABELS } from "@/lib/types";
-import type { Category, Qualification } from "@/lib/types";
+import { queryJobs } from "@/lib/db";
 import JobCard from "@/components/JobCard";
 
 export default async function HomePage() {
-  const [{ results: latestJobs }, { results: featuredJobs }, states] = await Promise.all([
+  const [{ results: latestJobs }, { results: featuredJobs }] = await Promise.all([
     queryJobs({ sort: "latest", pageSize: 12, jobType: ["government", "private", "contract", "internship"] }),
     queryJobs({ featuredOnly: true, pageSize: 4, jobType: ["government", "private", "contract", "internship"] }),
-    getDistinctStates(),
   ]);
-  const categories: Category[] = ["open", "obc", "sc", "st", "ews"];
-  const qualifications: Qualification[] = ["10th", "12th", "iti", "diploma", "graduate", "engineering"];
 
   return (
     <>
@@ -50,53 +45,6 @@ export default async function HomePage() {
           </div>
         </section>
       )}
-
-      {/* State-wise Jobs */}
-      <section className="container-page mt-16">
-        <h2 className="font-display text-2xl font-bold text-ink-900 mb-5">Browse Jobs by State</h2>
-        <div className="flex flex-wrap gap-2">
-          <Link href="/jobs" className="chip chip-inactive">All India</Link>
-          {states.map((s) => (
-            <Link key={s} href={`/jobs?state=${encodeURIComponent(s)}`} className="chip chip-inactive">
-              {s}
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* Qualification-wise */}
-      <section className="container-page mt-10">
-        <h2 className="font-display text-2xl font-bold text-ink-900 mb-5">Browse Jobs by Qualification</h2>
-        <div className="flex flex-wrap gap-2">
-          {qualifications.map((q) => (
-            <Link key={q} href={`/jobs?qualifications=${q}`} className="chip chip-inactive">
-              {QUALIFICATION_LABELS[q]}
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* Category-wise */}
-      <section className="container-page mt-10">
-        <h2 className="font-display text-2xl font-bold text-ink-900 mb-5">Browse Jobs by Category</h2>
-        <div className="flex flex-wrap gap-2">
-          {categories.map((c) => (
-            <Link key={c} href={`/jobs?categories=${c}`} className="chip chip-inactive">
-              {CATEGORY_LABELS[c]}
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* Gender-wise */}
-      <section className="container-page mt-10">
-        <h2 className="font-display text-2xl font-bold text-ink-900 mb-5">Browse Jobs by Gender Eligibility</h2>
-        <div className="flex flex-wrap gap-2">
-          <Link href="/jobs?gender=male" className="chip chip-inactive">Male</Link>
-          <Link href="/jobs?gender=female" className="chip chip-inactive">Female</Link>
-          <Link href="/jobs?gender=both" className="chip chip-inactive">Male &amp; Female</Link>
-        </div>
-      </section>
 
       {/* Important Links */}
       <section className="container-page mt-16 mb-16">
