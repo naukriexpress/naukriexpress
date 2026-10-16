@@ -6,7 +6,7 @@ import JobCard from "@/components/JobCard";
 const SITE_URL = "https://www.naukriexpress.space";
 
 export const metadata: Metadata = {
-  title: "NaukriExpress | Latest Government & Private Jobs in India",
+  title: { absolute: "NaukriExpress | Latest Government & Private Jobs in India" },
   description:
     "NaukriExpress is an independent job update portal for government jobs, private jobs, Maharashtra vacancies, apprenticeships, admit cards, results and recruitment alerts across India.",
   alternates: {
