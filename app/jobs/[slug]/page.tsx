@@ -44,7 +44,7 @@ export async function generateMetadata({
   const vacancyDetailsPending = hasPendingVacancyDetails({
     importantInstructions: job.content.importantInstructions,
     totalVacancies: job.totalVacancies,
-    vacancyBreakdownLength: job.vacancyBreakdown.length,
+    vacancyBreakdownCounts: job.vacancyBreakdown.map((row) => row.count),
   });
   const location = job.location.allIndia
     ? "All India"
@@ -97,7 +97,7 @@ export default async function JobDetailsPage({
   const vacancyDetailsPending = hasPendingVacancyDetails({
     importantInstructions: job.content.importantInstructions,
     totalVacancies: job.totalVacancies,
-    vacancyBreakdownLength: job.vacancyBreakdown.length,
+    vacancyBreakdownCounts: job.vacancyBreakdown.map((row) => row.count),
   });
   const noticeDetailsPending =
     Boolean(job.content.importantInstructions?.includes(SSC_GD_NOTICE_PENDING_MARKER)) ||
