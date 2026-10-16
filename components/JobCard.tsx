@@ -99,7 +99,7 @@ export default function JobCard({ job }: { job: JobPosting }) {
           <dd className="font-semibold text-saffron-600">
             {noticeDetailsPending ? "Awaiting official notification" : formatDate(job.dates.lastDate)}
           </dd>
-          {!vacancyDetailsPending && job.content.importantInstructions?.includes("[[LAST_DATE_EXTENDED]]") && (
+          {!noticeDetailsPending && job.content.importantInstructions?.includes("[[LAST_DATE_EXTENDED]]") && (
             <span className="mt-1 inline-block rounded-full bg-orange-100 px-2 py-0.5 text-[11px] font-bold text-orange-800">
               Last Date Extended
             </span>
