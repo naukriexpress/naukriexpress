@@ -13,7 +13,7 @@ export default function PrivacyPolicyPage() {
         Privacy Policy
       </h1>
       <div className="space-y-4 text-sm leading-relaxed text-ink-800">
-        <p>Last updated: 15 October 2026</p>
+        <p>Last updated: 16 October 2026</p>
         <p>
           This Privacy Policy explains how NaukriExpress, operated by BGI
           Cybercafe, handles information when you use this website. We provide
