@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { getPool } from "@/lib/pgClient";
 import { getSession } from "@/lib/auth";
 
@@ -177,6 +178,7 @@ export async function POST(request: Request) {
         textField(body.apply_url),
       ]
     );
+    revalidateTag("public-site-updates");
 
     return NextResponse.json(
       { update: result.rows[0] },
@@ -225,6 +227,7 @@ export async function DELETE(request: Request) {
         { status: 404 }
       );
     }
+    revalidateTag("public-site-updates");
 
     return NextResponse.json({ success: true });
   } catch (error) {

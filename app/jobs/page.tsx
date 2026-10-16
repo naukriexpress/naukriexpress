@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { queryJobs } from "@/lib/db";
+import { getCachedPublicJobs } from "@/lib/public-cache";
 import type { Category, JobFilters, JobType, Qualification } from "@/lib/types";
 import JobCard from "@/components/JobCard";
 import FilterPanel from "@/components/FilterPanel";
@@ -57,7 +57,7 @@ function pageHref(searchParams: SP, page: number) {
 
 export default async function JobsPage({ searchParams }: { searchParams: SP }) {
   const filters = buildFilters(searchParams);
-  const { results, total } = await queryJobs(filters);
+  const { results, total } = await getCachedPublicJobs(filters);
   const pageSize = filters.pageSize || 9;
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   const currentPage = filters.page || 1;

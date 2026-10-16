@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { deleteJob, getJobById, updateJob } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 
@@ -15,6 +16,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   const body = await req.json();
   const updated = await updateJob(params.id, body);
   if (!updated) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  revalidateTag("public-jobs");
   return NextResponse.json({ data: updated });
 }
 
@@ -24,5 +26,6 @@ export async function DELETE(_req: NextRequest, { params }: { params: { id: stri
 
   const ok = await deleteJob(params.id);
   if (!ok) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  revalidateTag("public-jobs");
   return NextResponse.json({ success: true });
 }

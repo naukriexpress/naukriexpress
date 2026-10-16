@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { createSession, destroySession, verifyCredentials } from "./auth";
 import { SSC_GD_NOTICE_PENDING_MARKER } from "./jobMarkers";
 import { createJob, deleteJob, getJobById, updateJob } from "./db";
@@ -61,6 +61,10 @@ function parseVacancyRows(formData: FormData): VacancyRow[] {
   }
 
   return rows;
+}
+
+function revalidatePublicJobs() {
+  revalidateTag("public-jobs");
 }
 
 const LAST_DATE_EXTENDED_MARKER = "[[LAST_DATE_EXTENDED]]";
@@ -191,12 +195,9 @@ function buildJobFromForm(formData: FormData) {
 export async function createJobAction(formData: FormData) {
   const job = buildJobFromForm(formData);
   const created = await createJob(job);
+  revalidatePublicJobs();
 
-  revalidatePath("/admin/jobs");
-  revalidatePath("/admin/apprentice");
-  revalidatePath("/jobs");
-  revalidatePath("/apprentice");
-  revalidatePath("/");
+
 
   const adminPath =
     job.jobType === "apprenticeship" ? "/admin/apprentice" : "/admin/jobs";
@@ -205,13 +206,10 @@ export async function createJobAction(formData: FormData) {
 
 export async function updateJobAction(id: string, formData: FormData) {
   const job = buildJobFromForm(formData);
-  await updateJob(id, job);
+  const updated = await updateJob(id, job);
+  if (updated) revalidatePublicJobs();
 
-  revalidatePath("/admin/jobs");
-  revalidatePath("/admin/apprentice");
-  revalidatePath("/jobs");
-  revalidatePath("/apprentice");
-  revalidatePath("/");
+
 
   const adminPath =
     job.jobType === "apprenticeship" ? "/admin/apprentice" : "/admin/jobs";
@@ -221,13 +219,10 @@ export async function updateJobAction(id: string, formData: FormData) {
 export async function deleteJobAction(formData: FormData) {
   const id = String(formData.get("id") || "");
 
-  if (id) await deleteJob(id);
+  const deleted = id ? await deleteJob(id) : false;
+  if (deleted) revalidatePublicJobs();
 
-  revalidatePath("/admin/jobs");
-  revalidatePath("/admin/apprentice");
-  revalidatePath("/jobs");
-  revalidatePath("/apprentice");
-  revalidatePath("/");
+
 }
 
 export async function toggleFeaturedAction(formData: FormData) {
@@ -235,12 +230,10 @@ export async function toggleFeaturedAction(formData: FormData) {
   const job = await getJobById(id);
 
   if (job) {
-    await updateJob(id, { featured: !job.featured });
+    const updated = await updateJob(id, { featured: !job.featured });
+    if (updated) revalidatePublicJobs();
   }
 
-  revalidatePath("/admin/jobs");
-  revalidatePath("/admin/apprentice");
-  revalidatePath("/");
 }
 
 export async function toggleExpiredAction(formData: FormData) {
@@ -248,13 +241,10 @@ export async function toggleExpiredAction(formData: FormData) {
   const job = await getJobById(id);
 
   if (job) {
-    await updateJob(id, {
+    const updated = await updateJob(id, {
       status: job.status === "expired" ? "published" : "expired",
     });
+    if (updated) revalidatePublicJobs();
   }
 
-  revalidatePath("/admin/jobs");
-  revalidatePath("/admin/apprentice");
-  revalidatePath("/jobs");
-  revalidatePath("/");
 }

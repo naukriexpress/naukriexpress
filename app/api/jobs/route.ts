@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { createJob, queryJobs } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import type { Category, JobFilters, JobType, Qualification } from "@/lib/types";
@@ -46,6 +47,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   try {
     const job = await createJob(body);
+    revalidateTag("public-jobs");
     return NextResponse.json({ data: job }, { status: 201 });
   } catch (err) {
     return NextResponse.json({ error: "Invalid job payload" }, { status: 400 });
