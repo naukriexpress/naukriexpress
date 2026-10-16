@@ -1,6 +1,32 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { queryJobs } from "@/lib/db";
 import JobCard from "@/components/JobCard";
+
+const SITE_URL = "https://www.naukriexpress.space";
+
+export const metadata: Metadata = {
+  title: "NaukriExpress | Latest Government & Private Jobs in India",
+  description:
+    "NaukriExpress is an independent job update portal for government jobs, private jobs, Maharashtra vacancies, apprenticeships, admit cards, results and recruitment alerts across India.",
+  alternates: {
+    canonical: `${SITE_URL}/`,
+  },
+  openGraph: {
+    type: "website",
+    siteName: "NaukriExpress",
+    title: "NaukriExpress | Latest Government & Private Jobs in India",
+    description:
+      "Explore government jobs, private vacancies, Maharashtra recruitment, apprenticeships, admit cards and results on NaukriExpress.",
+    url: `${SITE_URL}/`,
+  },
+  twitter: {
+    card: "summary",
+    title: "NaukriExpress | Latest Government & Private Jobs in India",
+    description:
+      "Government jobs, private vacancies, apprenticeships, admit cards and recruitment updates across India.",
+  },
+};
 
 export default async function HomePage() {
   const [{ results: latestJobs }, { results: featuredJobs }] = await Promise.all([
@@ -8,8 +34,20 @@ export default async function HomePage() {
     queryJobs({ featuredOnly: true, pageSize: 4, jobType: ["government", "private", "contract", "internship"] }),
   ]);
 
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "NaukriExpress",
+    alternateName: ["Naukri Express", "naukriexpress.space"],
+    url: `${SITE_URL}/`,
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
       {/* Latest Jobs */}
       <section className="container-page mt-10">
         <div className="flex items-end justify-between mb-5">
