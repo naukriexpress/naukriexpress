@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { queryJobs } from "@/lib/db";
+import { getCachedPublicJobs } from "@/lib/public-cache";
 import JobCard from "@/components/JobCard";
 
 export default async function HomePage() {
   const [{ results: latestJobs }, { results: featuredJobs }] = await Promise.all([
-    queryJobs({ sort: "latest", pageSize: 12, jobType: ["government", "private", "contract", "internship"] }),
-    queryJobs({ featuredOnly: true, pageSize: 4, jobType: ["government", "private", "contract", "internship"] }),
+    getCachedPublicJobs({ sort: "latest", pageSize: 12, jobType: ["government", "private", "contract", "internship"] }),
+    getCachedPublicJobs({ featuredOnly: true, pageSize: 4, jobType: ["government", "private", "contract", "internship"] }),
   ]);
 
   return (

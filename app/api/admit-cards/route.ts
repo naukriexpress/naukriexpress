@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { getPool } from "@/lib/pgClient";
 import { getSession } from "@/lib/auth";
 
@@ -91,6 +92,7 @@ export async function POST(request: Request) {
        RETURNING id, title, url`,
       [title, parsedUrl.toString()]
     );
+    revalidateTag("public-admit-cards");
 
     return NextResponse.json(
       { link: result.rows[0] },
@@ -140,6 +142,7 @@ export async function DELETE(request: Request) {
         { status: 404 }
       );
     }
+    revalidateTag("public-admit-cards");
 
     return NextResponse.json({ success: true });
   } catch (error) {

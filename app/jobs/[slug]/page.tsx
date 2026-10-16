@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getJobBySlug, incrementViews, queryJobs } from "@/lib/db";
+import { incrementViews } from "@/lib/db";
+import { getCachedPublicJob, getCachedPublicJobs } from "@/lib/public-cache";
 import {
   CATEGORY_LABELS,
   QUALIFICATION_LABELS,
@@ -37,7 +38,7 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const job = await getJobBySlug(params.slug);
+  const job = await getCachedPublicJob(params.slug);
 
   if (!job) return { title: "Job Not Found" };
 
@@ -90,7 +91,7 @@ export default async function JobDetailsPage({
 }: {
   params: { slug: string };
 }) {
-  const job = await getJobBySlug(params.slug);
+  const job = await getCachedPublicJob(params.slug);
 
   if (!job) notFound();
 
@@ -105,7 +106,7 @@ export default async function JobDetailsPage({
 
   await incrementViews(job.id);
 
-  const { results: related } = await queryJobs({
+  const { results: related } = await getCachedPublicJobs({
     state: job.location.allIndia ? undefined : job.location.state,
     pageSize: 3,
   });

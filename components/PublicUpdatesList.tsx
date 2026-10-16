@@ -1,37 +1,16 @@
-import { getPool } from "@/lib/pgClient";
+import { getCachedPublicUpdates, type PublicUpdateItem } from "@/lib/public-cache";
 
-type UpdateItem = {
-  id: number;
-  title: string;
-  organization: string | null;
-  description: string | null;
-  publish_date: string | null;
-  amount: string | null;
-  eligibility: string | null;
-  last_date: string | null;
-  item_url: string | null;
-  objection_url: string | null;
-  apply_url: string | null;
-};
+
 
 export default async function PublicUpdatesList({
   category,
 }: {
   category: "results" | "answer-key" | "syllabus" | "scholarship";
 }) {
-  let items: UpdateItem[] = [];
+  let items: PublicUpdateItem[] = [];
 
   try {
-    const pool = getPool();
-    const result = await pool.query(
-      `SELECT id, title, organization, description, publish_date,
-              amount, eligibility, last_date, item_url, objection_url, apply_url
-       FROM site_updates
-       WHERE category = $1
-       ORDER BY created_at DESC`,
-      [category]
-    );
-    items = result.rows as UpdateItem[];
+    items = await getCachedPublicUpdates(category);
   } catch (error) {
     console.error("Public updates page load error:", error);
     return (

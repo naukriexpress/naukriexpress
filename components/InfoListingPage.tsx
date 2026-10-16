@@ -1,10 +1,6 @@
-import { getPool } from "@/lib/pgClient";
+import { getCachedAdmitCardLinks, type AdmitCardLink } from "@/lib/public-cache";
 
-type AdmitCardLink = {
-  id: number;
-  title: string;
-  url: string;
-};
+
 
 export default async function InfoListingPage({
   title,
@@ -18,13 +14,7 @@ export default async function InfoListingPage({
   let links: AdmitCardLink[] = [];
 
   try {
-    const pool = getPool();
-    const result = await pool.query(
-      `SELECT id, title, url
-       FROM admit_card_links
-       ORDER BY created_at DESC`
-    );
-    links = result.rows as AdmitCardLink[];
+    links = await getCachedAdmitCardLinks();
   } catch (error) {
     console.error("Admit card listing load error:", error);
     return (
