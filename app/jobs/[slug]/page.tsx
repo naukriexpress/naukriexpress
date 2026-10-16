@@ -9,7 +9,7 @@ import {
 } from "@/lib/types";
 import StatusBadge from "@/components/StatusBadge";
 import ShareButtons from "@/components/ShareButtons";
-import { hasPendingVacancyDetails, SSC_GD_NOTICE_PENDING_MARKER } from "@/lib/jobMarkers";
+import { hasPendingVacancyDetails, SSC_GD_NOTICE_PENDING_MARKER, VACANCY_DETAILS_PENDING_MARKER } from "@/lib/jobMarkers";
 
 export const dynamic = "force-dynamic";
 
@@ -46,6 +46,9 @@ export async function generateMetadata({
     totalVacancies: job.totalVacancies,
     vacancyBreakdownLength: job.vacancyBreakdown.length,
   });
+  const noticeDetailsPending =
+    Boolean(job.content.importantInstructions?.includes(SSC_GD_NOTICE_PENDING_MARKER)) ||
+    Boolean(job.content.importantInstructions?.includes(VACANCY_DETAILS_PENDING_MARKER));
   const location = job.location.allIndia
     ? "All India"
     : [job.location.district, job.location.state].filter(Boolean).join(", ") ||
@@ -100,6 +103,9 @@ export default async function JobDetailsPage({
     totalVacancies: job.totalVacancies,
     vacancyBreakdownLength: job.vacancyBreakdown.length,
   });
+  const noticeDetailsPending =
+    Boolean(job.content.importantInstructions?.includes(SSC_GD_NOTICE_PENDING_MARKER)) ||
+    Boolean(job.content.importantInstructions?.includes(VACANCY_DETAILS_PENDING_MARKER));
 
   await incrementViews(job.id);
 
@@ -355,10 +361,10 @@ export default async function JobDetailsPage({
 
               <div>
                 <p className="text-xs text-ink-700/60">
-                  {vacancyDetailsPending ? "Qualification (tentative)" : "Qualification"}
+                  Qualification
                 </p>
                 <p className="text-sm font-semibold text-ink-900">
-                  {vacancyDetailsPending
+                  {noticeDetailsPending
                     ? "As per official notification"
                     : job.eligibility.qualifications
                         .map((q) => QUALIFICATION_LABELS[q])
@@ -368,10 +374,10 @@ export default async function JobDetailsPage({
 
               <div>
                 <p className="text-xs text-ink-700/60">
-                  {vacancyDetailsPending ? "Age Limit (tentative)" : "Age Limit"}
+                  Age Limit
                 </p>
                 <p className="text-sm font-semibold text-ink-900">
-{vacancyDetailsPending
+{noticeDetailsPending
                     ? "As per official notification"
                     : ageLimitLabel(job.eligibility.minAge, job.eligibility.maxAge)}
                 </p>
@@ -407,14 +413,14 @@ export default async function JobDetailsPage({
                   Application Start
                 </p>
                 <p className="text-sm font-semibold text-ink-900">
-                  {vacancyDetailsPending ? "Awaiting official notification" : formatDate(job.dates.startDate)}
+                  {noticeDetailsPending ? "Awaiting official notification" : formatDate(job.dates.startDate)}
                 </p>
               </div>
 
               <div>
                 <p className="text-xs text-ink-700/60">Last Date</p>
                 <p className="text-sm font-semibold text-saffron-600">
-                  {vacancyDetailsPending ? "Awaiting official notification" : formatDate(job.dates.lastDate)}
+                  {noticeDetailsPending ? "Awaiting official notification" : formatDate(job.dates.lastDate)}
                 </p>
                 {job.content.importantInstructions?.includes("[[LAST_DATE_EXTENDED]]") && (
                   <span className="mt-1 inline-block rounded-full bg-orange-100 px-2 py-0.5 text-xs font-bold text-orange-800">
@@ -426,7 +432,7 @@ export default async function JobDetailsPage({
               <div>
                 <p className="text-xs text-ink-700/60">Exam Date</p>
                 <p className="text-sm font-semibold text-ink-900">
-                  {vacancyDetailsPending ? "Awaiting official notification" : formatDate(job.dates.examDate)}
+                  {noticeDetailsPending ? "Awaiting official notification" : formatDate(job.dates.examDate)}
                 </p>
               </div>
 
@@ -444,7 +450,7 @@ export default async function JobDetailsPage({
                   Salary / Pay Scale
                 </p>
                 <p className="text-sm font-semibold text-ink-900">
-                  {vacancyDetailsPending
+                  {noticeDetailsPending
                     ? "To be confirmed in official notification"
                     : job.salary || "As per official notification"}
                 </p>
@@ -508,7 +514,7 @@ export default async function JobDetailsPage({
           </section>
 
           {/* Important Instructions */}
-          {job.content.importantInstructions?.replace("[[LAST_DATE_EXTENDED]]", "").replace(SSC_GD_NOTICE_PENDING_MARKER, "").trim() && (
+          {job.content.importantInstructions?.replace("[[LAST_DATE_EXTENDED]]", "").replace(SSC_GD_NOTICE_PENDING_MARKER, "").replace(VACANCY_DETAILS_PENDING_MARKER, "").trim() && (
             <section className="mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7">
               <h2 className="mb-3 font-display text-lg font-bold text-ink-900">
                 Required Documents &amp; Important Instructions
@@ -517,7 +523,7 @@ export default async function JobDetailsPage({
               <div
                 className="prose-sm text-ink-800 [&_ul]:list-disc [&_ul]:pl-5 [&_li]:mb-1"
                 dangerouslySetInnerHTML={{
-                  __html: job.content.importantInstructions.replace("[[LAST_DATE_EXTENDED]]", "").replace(SSC_GD_NOTICE_PENDING_MARKER, "").trim(),
+                  __html: job.content.importantInstructions.replace("[[LAST_DATE_EXTENDED]]", "").replace(SSC_GD_NOTICE_PENDING_MARKER, "").replace(VACANCY_DETAILS_PENDING_MARKER, "").trim(),
                 }}
               />
             </section>
