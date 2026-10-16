@@ -91,7 +91,7 @@ export default async function JobDetailsPage({
 }: {
   params: { slug: string };
 }) {
-  const job = await getJobBySlug(params.slug);
+  const job = await getCachedPublicJob(params.slug);
 
   if (!job) notFound();
 
