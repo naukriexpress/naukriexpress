@@ -3,6 +3,7 @@ import { getJobBySlug, queryJobs } from "@/lib/db";
 import { getPool } from "@/lib/pgClient";
 import type { JobFilters } from "@/lib/types";
 
+// These tagged wrappers are only used by public pages; admin reads stay uncached.
 const cachedJobQuery = unstable_cache(
   async (filters: JobFilters) => queryJobs(filters),
   ["public-job-query-v1"],
