@@ -9,7 +9,7 @@ import {
 } from "@/lib/types";
 import StatusBadge from "@/components/StatusBadge";
 import ShareButtons from "@/components/ShareButtons";
-import { SSC_GD_NOTICE_PENDING_MARKER } from "@/lib/jobMarkers";
+import { hasPendingVacancyDetails, SSC_GD_NOTICE_PENDING_MARKER } from "@/lib/jobMarkers";
 
 export const dynamic = "force-dynamic";
 
@@ -41,9 +41,11 @@ export async function generateMetadata({
 
   if (!job) return { title: "Job Not Found" };
 
-  const noticePending = Boolean(
-    job.content.importantInstructions?.includes(SSC_GD_NOTICE_PENDING_MARKER)
-  );
+  const vacancyDetailsPending = hasPendingVacancyDetails({
+    importantInstructions: job.content.importantInstructions,
+    totalVacancies: job.totalVacancies,
+    vacancyBreakdownLength: job.vacancyBreakdown.length,
+  });
   const location = job.location.allIndia
     ? "All India"
     : [job.location.district, job.location.state].filter(Boolean).join(", ") ||
@@ -60,8 +62,8 @@ export async function generateMetadata({
     `${job.title} in ${location} | Apply Online`;
   const description =
     job.seo.metaDescription ||
-    (noticePending
-      ? "Upcoming SSC GD Constable Recruitment 2027. Official vacancy count, exact dates and application link are awaiting confirmation from SSC."
+    (vacancyDetailsPending
+      ? "Official vacancy details and key recruitment dates are awaiting confirmation from the recruiting authority. Please check the official notification for verified information."
       : [
       `Apply for ${job.title} at ${job.organization} in ${location}.`,
       vacancySummary,
@@ -93,9 +95,11 @@ export default async function JobDetailsPage({
 
   if (!job) notFound();
 
-  const noticePending = Boolean(
-    job.content.importantInstructions?.includes(SSC_GD_NOTICE_PENDING_MARKER)
-  );
+  const vacancyDetailsPending = hasPendingVacancyDetails({
+    importantInstructions: job.content.importantInstructions,
+    totalVacancies: job.totalVacancies,
+    vacancyBreakdownLength: job.vacancyBreakdown.length,
+  });
 
   await incrementViews(job.id);
 
@@ -112,8 +116,8 @@ export default async function JobDetailsPage({
     "@context": "https://schema.org",
     "@type": "JobPosting",
     title: job.title,
-    description: noticePending
-      ? "Upcoming SSC GD Constable Recruitment 2027. Official vacancies and exact application dates are awaiting confirmation."
+    description: vacancyDetailsPending
+      ? "Official vacancy details and key recruitment dates are awaiting confirmation from the recruiting authority. Please check the official notification for verified information."
       : job.content.eligibility?.replace(/<[^>]+>/g, "") || job.title,
     identifier: {
       "@type": "PropertyValue",
@@ -121,7 +125,7 @@ export default async function JobDetailsPage({
       value: job.advertisementNumber,
     },
     datePosted: job.createdAt,
-    validThrough: noticePending ? undefined : new Date(job.dates.lastDate).toISOString(),
+    validThrough: vacancyDetailsPending ? undefined : new Date(job.dates.lastDate).toISOString(),
     employmentType:
       job.jobType === "government" || job.jobType === "private"
         ? "FULL_TIME"
@@ -141,7 +145,7 @@ export default async function JobDetailsPage({
         addressCountry: "IN",
       },
     },
-    totalJobOpenings: noticePending ? undefined : job.totalVacancies,
+    totalJobOpenings: vacancyDetailsPending ? undefined : job.totalVacancies,
     baseSalary: job.salary
       ? {
           "@type": "MonetaryAmount",
@@ -156,7 +160,7 @@ export default async function JobDetailsPage({
 
   return (
     <div className="container-page py-8">
-      {!noticePending && (
+      {!vacancyDetailsPending && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -211,8 +215,8 @@ export default async function JobDetailsPage({
                   Total Vacancies
                 </p>
                 <p className="text-sm font-semibold text-ink-900">
-                  {noticePending
-                    ? "Awaiting SSC notice"
+                  {vacancyDetailsPending
+                    ? "Awaiting confirmation"
                     : job.totalVacancies > 0
                       ? job.totalVacancies.toLocaleString("en-IN")
                       : "Check official notification"}
@@ -254,11 +258,11 @@ export default async function JobDetailsPage({
               Post-wise &amp; Category-wise Vacancy Details
             </h2>
 
-            {noticePending ? (
+            {vacancyDetailsPending ? (
               <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-4 text-sm text-amber-950">
                 <p className="font-semibold">Official vacancy details are awaited.</p>
                 <p className="mt-1">
-                  SSC has not yet provided a verified 2027 force-wise and category-wise vacancy breakup that we can cite here. The total number of vacancies will be updated after the official SSC notice is published.
+                  The recruiting authority has not yet provided a verified post-wise and category-wise vacancy breakdown that we can cite here. The total number of vacancies will be updated after the official notification is published.
                 </p>
               </div>
             ) : (
@@ -351,22 +355,25 @@ export default async function JobDetailsPage({
 
               <div>
                 <p className="text-xs text-ink-700/60">
-                  {noticePending ? "Qualification (tentative)" : "Qualification"}
+                  {vacancyDetailsPending ? "Qualification (tentative)" : "Qualification"}
                 </p>
                 <p className="text-sm font-semibold text-ink-900">
-                  {job.eligibility.qualifications
-                    .map((q) => QUALIFICATION_LABELS[q])
-                    .join(", ") || "As per official notification"}
-                  {noticePending ? " (previous-cycle pattern; confirm in 2027 notice)" : ""}
+                  {vacancyDetailsPending
+                    ? "As per official notification"
+                    : job.eligibility.qualifications
+                        .map((q) => QUALIFICATION_LABELS[q])
+                        .join(", ") || "As per official notification"}
                 </p>
               </div>
 
               <div>
                 <p className="text-xs text-ink-700/60">
-                  {noticePending ? "Age Limit (tentative)" : "Age Limit"}
+                  {vacancyDetailsPending ? "Age Limit (tentative)" : "Age Limit"}
                 </p>
                 <p className="text-sm font-semibold text-ink-900">
-{ageLimitLabel(job.eligibility.minAge, job.eligibility.maxAge)}
+{vacancyDetailsPending
+                    ? "As per official notification"
+                    : ageLimitLabel(job.eligibility.minAge, job.eligibility.maxAge)}
                 </p>
               </div>
             </div>
@@ -400,14 +407,14 @@ export default async function JobDetailsPage({
                   Application Start
                 </p>
                 <p className="text-sm font-semibold text-ink-900">
-                  {noticePending ? "Awaiting official notification" : formatDate(job.dates.startDate)}
+                  {vacancyDetailsPending ? "Awaiting official notification" : formatDate(job.dates.startDate)}
                 </p>
               </div>
 
               <div>
                 <p className="text-xs text-ink-700/60">Last Date</p>
                 <p className="text-sm font-semibold text-saffron-600">
-                  {noticePending ? "October 2026 (tentative; exact day awaited)" : formatDate(job.dates.lastDate)}
+                  {vacancyDetailsPending ? "Awaiting official notification" : formatDate(job.dates.lastDate)}
                 </p>
                 {job.content.importantInstructions?.includes("[[LAST_DATE_EXTENDED]]") && (
                   <span className="mt-1 inline-block rounded-full bg-orange-100 px-2 py-0.5 text-xs font-bold text-orange-800">
@@ -419,7 +426,7 @@ export default async function JobDetailsPage({
               <div>
                 <p className="text-xs text-ink-700/60">Exam Date</p>
                 <p className="text-sm font-semibold text-ink-900">
-                  {noticePending ? "January–March 2027 (tentative)" : formatDate(job.dates.examDate)}
+                  {vacancyDetailsPending ? "Awaiting official notification" : formatDate(job.dates.examDate)}
                 </p>
               </div>
 
@@ -437,9 +444,9 @@ export default async function JobDetailsPage({
                   Salary / Pay Scale
                 </p>
                 <p className="text-sm font-semibold text-ink-900">
-                  {noticePending
-                    ? "Previous-cycle pay: ₹21,700–₹69,100; 2027 pay scale awaited"
-                    : job.salary || "As per rules"}
+                  {vacancyDetailsPending
+                    ? "To be confirmed in official notification"
+                    : job.salary || "As per official notification"}
                 </p>
               </div>
             </div>
