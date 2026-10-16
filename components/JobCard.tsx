@@ -32,7 +32,7 @@ export default function JobCard({ job }: { job: JobPosting }) {
   const vacancyDetailsPending = hasPendingVacancyDetails({
     importantInstructions: job.content.importantInstructions,
     totalVacancies: job.totalVacancies,
-    vacancyBreakdownLength: job.vacancyBreakdown.length,
+    vacancyBreakdownCounts: job.vacancyBreakdown.map((row) => row.count),
   });
   const noticeDetailsPending =
     Boolean(job.content.importantInstructions?.includes(SSC_GD_NOTICE_PENDING_MARKER)) ||
