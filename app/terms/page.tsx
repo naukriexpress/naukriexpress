@@ -1,9 +1,23 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms & Conditions | NaukriExpress",
-  description:
-    "Review the terms for using NaukriExpress, an independent job information website providing recruitment summaries and links to official sources.",
+  title: "Terms & Conditions",
+  description: "Review the terms for using NaukriExpress, an independent job information website providing recruitment summaries and links to official sources.",
+  alternates: {
+    canonical: "https://www.naukriexpress.space/terms",
+  },
+  openGraph: {
+    type: "website",
+    siteName: "NaukriExpress",
+    title: "Terms & Conditions | NaukriExpress",
+    description: "Review the terms for using NaukriExpress, an independent job information website providing recruitment summaries and links to official sources.",
+    url: "https://www.naukriexpress.space/terms",
+  },
+  twitter: {
+    card: "summary",
+    title: "Terms & Conditions | NaukriExpress",
+    description: "Review the terms for using NaukriExpress, an independent job information website providing recruitment summaries and links to official sources.",
+  },
 };
 
 export default function TermsPage() {
