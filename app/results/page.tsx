@@ -4,9 +4,23 @@ import PublicUpdatesList from "@/components/PublicUpdatesList";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Results - Check Exam & Recruitment Results",
-  description:
-    "Check the latest government exam results, merit lists and official result links.",
+  title: "Latest Government Exam Results",
+  description: "Check the latest government exam results, scorecards and merit lists. Find result status and official result links for recruitment and competitive exams.",
+  alternates: {
+    canonical: "https://www.naukriexpress.space/results",
+  },
+  openGraph: {
+    type: "website",
+    siteName: "NaukriExpress",
+    title: "Latest Government Exam Results | NaukriExpress",
+    description: "Check the latest government exam results, scorecards and merit lists. Find result status and official result links for recruitment and competitive exams.",
+    url: "https://www.naukriexpress.space/results",
+  },
+  twitter: {
+    card: "summary",
+    title: "Latest Government Exam Results | NaukriExpress",
+    description: "Check the latest government exam results, scorecards and merit lists. Find result status and official result links for recruitment and competitive exams.",
+  },
 };
 
 export default function ResultsPage() {
