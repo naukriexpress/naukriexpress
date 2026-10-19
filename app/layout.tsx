@@ -62,9 +62,14 @@ export const viewport: Viewport = {
 
 const themeInitScript = `try {
   var savedTheme = localStorage.getItem("naukriexpress-theme");
-  document.documentElement.dataset.theme = savedTheme === "dark" ? "dark" : "light";
+  var systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  var initialTheme = savedTheme === "dark" || savedTheme === "light"
+    ? savedTheme
+    : systemPrefersDark ? "dark" : "light";
+  document.documentElement.dataset.theme = initialTheme;
 } catch (_) {
-  document.documentElement.dataset.theme = "light";
+  document.documentElement.dataset.theme =
+    window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }`;
 
 export default function RootLayout({
