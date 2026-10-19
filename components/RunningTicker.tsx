@@ -44,8 +44,8 @@ export default function RunningTicker() {
   if (!text) return null;
 
   return (
-    <div className="flex items-center overflow-hidden bg-amber-600 px-4 py-2 text-sm font-medium text-white shadow-inner">
-      <span className="mr-3 shrink-0 rounded bg-white px-2 py-0.5 text-xs font-bold uppercase text-amber-700">
+    <div className="flex items-center overflow-hidden bg-[#eaf2f8] px-4 py-2 text-sm font-medium text-[#385873] shadow-sm">
+      <span className="mr-3 shrink-0 rounded-md border border-[#d5e3ef] bg-white px-2 py-0.5 text-xs font-bold uppercase text-[#4d7190]">
         Latest Update
       </span>
 
