@@ -51,7 +51,7 @@ export default function JobCard({ job }: { job: JobPosting }) {
     : null;
 
   return (
-    <div className="group flex flex-col rounded-xl2 border border-[#e2eaf2] bg-white p-4 shadow-card transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-cardHover sm:p-5">
+    <div className="group flex flex-col rounded-xl2 border border-ink-900/10 bg-white p-4 shadow-card transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-cardHover sm:p-5">
       {deadlineAlert && (
         <div role="alert" className="-mx-4 -mt-4 mb-4 flex items-center gap-2 rounded-t-xl2 bg-red-600 px-4 py-2.5 text-white sm:-mx-5 sm:-mt-5 sm:px-5">
           <span aria-hidden="true">🚨</span>
