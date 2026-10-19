@@ -2,8 +2,22 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description:
-    "Learn how NaukriExpress handles contact messages, browser storage, site visits and Google advertising technologies.",
+  description: "Learn how NaukriExpress handles contact messages, browser storage, site visits and Google advertising technologies.",
+  alternates: {
+    canonical: "https://www.naukriexpress.space/privacy-policy",
+  },
+  openGraph: {
+    type: "website",
+    siteName: "NaukriExpress",
+    title: "Privacy Policy | NaukriExpress",
+    description: "Learn how NaukriExpress handles contact messages, browser storage, site visits and Google advertising technologies.",
+    url: "https://www.naukriexpress.space/privacy-policy",
+  },
+  twitter: {
+    card: "summary",
+    title: "Privacy Policy | NaukriExpress",
+    description: "Learn how NaukriExpress handles contact messages, browser storage, site visits and Google advertising technologies.",
+  },
 };
 
 export default function PrivacyPolicyPage() {
