@@ -288,3 +288,26 @@ html[data-theme="dark"] .scholarship-benefit-label {
 html[data-theme="dark"] .scholarship-benefit-value {
   color: #f1f5f9;
 }
+
+
+/* Soft update ticker palette with a matching dark-mode treatment. */
+.site-update-ticker {
+  background-color: #eaf2f8;
+  color: #385873;
+}
+
+.site-update-label {
+  border-color: #d5e3ef;
+  color: #4d7190;
+}
+
+html[data-theme="dark"] .site-update-ticker {
+  background-color: #172b43;
+  color: #dbe9f6;
+}
+
+html[data-theme="dark"] .site-update-label {
+  background-color: #203851;
+  border-color: #35536f;
+  color: #c5d7eb;
+}
