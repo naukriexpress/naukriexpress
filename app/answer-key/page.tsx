@@ -4,9 +4,23 @@ import PublicUpdatesList from "@/components/PublicUpdatesList";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Answer Key - Government Exam Answer Keys",
-  description:
-    "Check the latest government exam answer keys, official answer key links and objection details.",
+  title: "Latest Government Exam Answer Keys",
+  description: "Check the latest government exam answer keys, response sheets and objection details, with links to official recruitment-board notices.",
+  alternates: {
+    canonical: "https://www.naukriexpress.space/answer-key",
+  },
+  openGraph: {
+    type: "website",
+    siteName: "NaukriExpress",
+    title: "Latest Government Exam Answer Keys | NaukriExpress",
+    description: "Check the latest government exam answer keys, response sheets and objection details, with links to official recruitment-board notices.",
+    url: "https://www.naukriexpress.space/answer-key",
+  },
+  twitter: {
+    card: "summary",
+    title: "Latest Government Exam Answer Keys | NaukriExpress",
+    description: "Check the latest government exam answer keys, response sheets and objection details, with links to official recruitment-board notices.",
+  },
 };
 
 export default function AnswerKeyPage() {
