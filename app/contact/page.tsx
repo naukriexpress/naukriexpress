@@ -2,7 +2,22 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Contact Us",
-  description: "Get in touch with the NaukriExpress team for queries, corrections or advertisement requests.",
+  description: "Contact the NaukriExpress team for job-listing corrections, recruitment information queries or advertisement requests. Include the relevant page and official source when reporting an issue.",
+  alternates: {
+    canonical: "https://www.naukriexpress.space/contact",
+  },
+  openGraph: {
+    type: "website",
+    siteName: "NaukriExpress",
+    title: "Contact Us | NaukriExpress",
+    description: "Contact the NaukriExpress team for job-listing corrections, recruitment information queries or advertisement requests. Include the relevant page and official source when reporting an issue.",
+    url: "https://www.naukriexpress.space/contact",
+  },
+  twitter: {
+    card: "summary",
+    title: "Contact Us | NaukriExpress",
+    description: "Contact the NaukriExpress team for job-listing corrections, recruitment information queries or advertisement requests. Include the relevant page and official source when reporting an issue.",
+  },
 };
 
 export default function ContactPage() {
