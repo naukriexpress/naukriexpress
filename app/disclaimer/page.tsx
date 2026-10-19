@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Disclaimer" };
+export const metadata: Metadata = {
+  title: "Disclaimer | NaukriExpress",
+  description:
+    "Read the NaukriExpress disclaimer about recruitment information, eligibility, deadlines and the need to verify details on official notifications before applying.",
+};
 
 export default function DisclaimerPage() {
   return (
