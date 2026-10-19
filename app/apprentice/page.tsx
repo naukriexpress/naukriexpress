@@ -3,6 +3,8 @@ import { queryJobs } from "@/lib/db";
 import { CATEGORY_LABELS, QUALIFICATION_LABELS } from "@/lib/types";
 import type { JobPosting } from "@/lib/types";
 import StatusBadge from "@/components/StatusBadge";
+import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
+import { SSC_GD_NOTICE_PENDING_MARKER, VACANCY_DETAILS_PENDING_MARKER } from "@/lib/jobMarkers";
 
 export const dynamic = "force-dynamic";
 
@@ -68,12 +70,34 @@ export default async function ApprenticePage() {
               .toUpperCase();
             const trades = job.vacancyBreakdown || [];
             const hasTradeLinks = trades.some((trade) => trade.applyOnline?.trim());
+            const instructions = job.content.importantInstructions || "";
+            const noticeDetailsPending =
+              instructions.includes(SSC_GD_NOTICE_PENDING_MARKER) ||
+              instructions.includes(VACANCY_DETAILS_PENDING_MARKER);
+            const daysToDeadline =
+              noticeDetailsPending || job.status === "expired"
+                ? null
+                : getDaysUntilDate(job.dates.lastDate, getIndiaTodayDate());
+            const deadlineAlert =
+              daysToDeadline !== null && daysToDeadline >= 0 && daysToDeadline <= 7
+                ? daysToDeadline === 0
+                  ? "LAST DATE TODAY — APPLY NOW"
+                  : daysToDeadline === 1
+                    ? "LAST DATE TOMORROW — APPLY NOW"
+                    : `LAST DATE IN ${daysToDeadline} DAYS — APPLY NOW`
+                : null;
 
             return (
               <article
                 key={job.id}
                 className="group flex flex-col rounded-xl2 border border-ink-900/10 bg-white p-4 shadow-card transition-shadow hover:shadow-cardHover sm:p-5"
               >
+                {deadlineAlert && (
+                  <div role="alert" className="-mx-4 -mt-4 mb-4 flex items-center gap-2 rounded-t-xl2 bg-red-600 px-4 py-2.5 text-white sm:-mx-5 sm:-mt-5 sm:px-5">
+                    <span aria-hidden="true">🚨</span>
+                    <span className="text-xs font-extrabold tracking-wide sm:text-sm">{deadlineAlert}</span>
+                  </div>
+                )}
                 <div className="flex items-start gap-3">
                   <div className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-brand-50 font-display text-sm font-bold text-brand-700">
                     {initials || "AP"}
@@ -85,7 +109,7 @@ export default async function ApprenticePage() {
                           {job.title}
                         </h2>
                       </Link>
-                      <StatusBadge job={job} />
+                      {!deadlineAlert && <StatusBadge job={job} />}
                     </div>
                     <p className="mt-0.5 text-sm text-ink-700">
                       {job.organization}
@@ -147,28 +171,13 @@ export default async function ApprenticePage() {
                   <div className="mt-3 rounded-lg bg-gray-50 p-3">
                     <p className="mb-2 text-xs font-semibold text-ink-700">Trade / Post Details</p>
                     <div className="space-y-2">
-                      {trades.map((trade, index) => {
-                        const applyLink = trade.applyOnline?.trim() || job.links.applyOnline || "";
-                        return (
-                          <div key={`${job.id}-trade-${index}`} className="flex items-center justify-between gap-2 text-sm">
-                            <span className="min-w-0 flex-1 text-ink-900">
-                              {trade.post} <span className="text-xs text-ink-700/70">({Number(trade.count || 0).toLocaleString("en-IN")})</span>
-                            </span>
-                            {applyLink ? (
-                              <a
-                                href={applyLink}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="shrink-0 rounded-md bg-brand-600 px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-brand-700"
-                              >
-                                Apply
-                              </a>
-                            ) : (
-                              <span className="shrink-0 text-xs text-ink-700/50">Link unavailable</span>
-                            )}
-                          </div>
-                        );
-                      })}
+                      {trades.map((trade, index) => (
+                        <div key={`${job.id}-trade-${index}`} className="flex items-center gap-2 text-sm">
+                          <span className="min-w-0 flex-1 text-ink-900">
+                            {trade.post} <span className="text-xs text-ink-700/70">({Number(trade.count || 0).toLocaleString("en-IN")})</span>
+                          </span>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 )}
