@@ -1,9 +1,23 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Disclaimer | NaukriExpress",
-  description:
-    "Read the NaukriExpress disclaimer about recruitment information, eligibility, deadlines and the need to verify details on official notifications before applying.",
+  title: "Disclaimer",
+  description: "Read the NaukriExpress disclaimer about recruitment information, eligibility, deadlines and the need to verify details on official notifications before applying.",
+  alternates: {
+    canonical: "https://www.naukriexpress.space/disclaimer",
+  },
+  openGraph: {
+    type: "website",
+    siteName: "NaukriExpress",
+    title: "Disclaimer | NaukriExpress",
+    description: "Read the NaukriExpress disclaimer about recruitment information, eligibility, deadlines and the need to verify details on official notifications before applying.",
+    url: "https://www.naukriexpress.space/disclaimer",
+  },
+  twitter: {
+    card: "summary",
+    title: "Disclaimer | NaukriExpress",
+    description: "Read the NaukriExpress disclaimer about recruitment information, eligibility, deadlines and the need to verify details on official notifications before applying.",
+  },
 };
 
 export default function DisclaimerPage() {
