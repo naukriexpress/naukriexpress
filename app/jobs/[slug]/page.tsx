@@ -91,10 +91,16 @@ export async function generateMetadata({
     description,
     alternates: { canonical: `/jobs/${job.slug}` },
     openGraph: {
-      title,
+      title: `${title} | NaukriExpress`,
       description,
       url: `${SITE_URL}/jobs/${job.slug}`,
+      siteName: "NaukriExpress",
       type: "article",
+    },
+    twitter: {
+      card: "summary",
+      title: `${title} | NaukriExpress`,
+      description,
     },
   };
 }
