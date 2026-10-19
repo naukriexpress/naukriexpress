@@ -35,14 +35,14 @@ function ageLimitLabel(minAge?: number, maxAge?: number) {
 
 function htmlToPlainText(value?: string) {
   return (value || "")
-    .replace(/<script\\b[^>]*>[\\s\\S]*?<\\/script>/gi, " ")
-    .replace(/<style\\b[^>]*>[\\s\\S]*?<\\/style>/gi, " ")
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " ")
     .replace(/<[^>]+>/g, " ")
     .replace(/&nbsp;|&#160;/gi, " ")
     .replace(/&amp;/gi, "&")
     .replace(/&quot;/gi, '"')
     .replace(/&#39;|&apos;/gi, "'")
-    .replace(/\\s+/g, " ")
+    .replace(/\s+/g, " ")
     .trim();
 }
 
@@ -156,7 +156,7 @@ export default async function JobDetailsPage({
     0
   );
   const cleanInstructions = (job.content.importantInstructions || "")
-    .replace(/\\[\\[LAST_DATE_EXTENDED\\]\\]/g, "")
+    .replace(/\[\[LAST_DATE_EXTENDED\]\]/g, "")
     .replace(SSC_GD_NOTICE_PENDING_MARKER, "")
     .replace(VACANCY_DETAILS_PENDING_MARKER, "")
     .trim();
@@ -192,7 +192,7 @@ export default async function JobDetailsPage({
   ]
     .filter(Boolean)
     .join(" ")
-    .replace(/\\s+/g, " ")
+    .replace(/\s+/g, " ")
     .trim();
 
   const jobPostingSchema = {
