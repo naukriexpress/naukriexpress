@@ -4,9 +4,23 @@ import PublicUpdatesList from "@/components/PublicUpdatesList";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Syllabus - Government Exam Syllabus",
-  description:
-    "Check the latest government exam syllabus, exam patterns and official syllabus links.",
+  title: "Government Exam Syllabus & Exam Patterns",
+  description: "Check government exam syllabus, exam patterns and official syllabus PDFs for recruitment tests. Find updates and links to relevant notices.",
+  alternates: {
+    canonical: "https://www.naukriexpress.space/syllabus",
+  },
+  openGraph: {
+    type: "website",
+    siteName: "NaukriExpress",
+    title: "Government Exam Syllabus & Exam Patterns | NaukriExpress",
+    description: "Check government exam syllabus, exam patterns and official syllabus PDFs for recruitment tests. Find updates and links to relevant notices.",
+    url: "https://www.naukriexpress.space/syllabus",
+  },
+  twitter: {
+    card: "summary",
+    title: "Government Exam Syllabus & Exam Patterns | NaukriExpress",
+    description: "Check government exam syllabus, exam patterns and official syllabus PDFs for recruitment tests. Find updates and links to relevant notices.",
+  },
 };
 
 export default function SyllabusPage() {
