@@ -53,13 +53,9 @@ function getVerifiedVacancyCount(job: JobPosting): number {
 }
 
 function isClosingSoon(job: JobPosting, today: string): boolean {
+  // A real published deadline should remain high priority even when vacancy
+  // counts are not supplied. Only explicitly notice-pending posts are ignored.
   if (job.status !== "published" || isNoticeAwaited(job)) return false;
-  const pending = hasPendingVacancyDetails({
-    importantInstructions: job.content.importantInstructions,
-    totalVacancies: job.totalVacancies,
-    vacancyBreakdownCounts: job.vacancyBreakdown.map((row) => row.count),
-  });
-  if (pending) return false;
   const days = getDaysUntilDate(job.dates.lastDate, today);
   return days !== null && days >= 0 && days <= 7;
 }
