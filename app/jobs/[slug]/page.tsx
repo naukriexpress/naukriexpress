@@ -10,6 +10,7 @@ import {
 import StatusBadge from "@/components/StatusBadge";
 import ShareButtons from "@/components/ShareButtons";
 import { hasPendingVacancyDetails, SSC_GD_NOTICE_PENDING_MARKER, VACANCY_DETAILS_PENDING_MARKER } from "@/lib/jobMarkers";
+import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
 
 export const dynamic = "force-dynamic";
 
@@ -30,6 +31,19 @@ function ageLimitLabel(minAge?: number, maxAge?: number) {
   if (minAge !== undefined) return `${minAge}+ years`;
   if (maxAge !== undefined) return `Up to ${maxAge} years`;
   return "As per official notification";
+}
+
+function htmlToPlainText(value?: string) {
+  return (value || "")
+    .replace(/<script\\b[^>]*>[\\s\\S]*?<\\/script>/gi, " ")
+    .replace(/<style\\b[^>]*>[\\s\\S]*?<\\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;|&#160;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;|&apos;/gi, "'")
+    .replace(/\\s+/g, " ")
+    .trim();
 }
 
 export async function generateMetadata({
@@ -114,55 +128,158 @@ export default async function JobDetailsPage({
     .filter((j) => j.id !== job.id)
     .slice(0, 3);
 
+  const daysUntilDeadline = getDaysUntilDate(
+    job.dates.lastDate,
+    getIndiaTodayDate()
+  );
+  const hasApplicationLink = Boolean(
+    job.links.applyOnline?.trim() ||
+      job.vacancyBreakdown.some((row) => row.applyOnline?.trim())
+  );
+  const shouldRenderJobPosting =
+    job.status === "published" &&
+    !vacancyDetailsPending &&
+    !noticeDetailsPending &&
+    daysUntilDeadline !== null &&
+    daysUntilDeadline >= 0 &&
+    hasApplicationLink;
+
+  const locationLabel = job.location.allIndia
+    ? "All India"
+    : [job.location.district, job.location.state].filter(Boolean).join(", ");
+  const qualificationsLabel = job.eligibility.qualifications
+    .map((qualification) => QUALIFICATION_LABELS[qualification])
+    .filter(Boolean)
+    .join(", ");
+  const rowVacancyTotal = job.vacancyBreakdown.reduce(
+    (sum, row) => sum + Math.max(0, Number(row.count) || 0),
+    0
+  );
+  const cleanInstructions = (job.content.importantInstructions || "")
+    .replace(/\\[\\[LAST_DATE_EXTENDED\\]\\]/g, "")
+    .replace(SSC_GD_NOTICE_PENDING_MARKER, "")
+    .replace(VACANCY_DETAILS_PENDING_MARKER, "")
+    .trim();
+  const schemaDescription = [
+    job.title,
+    job.organization,
+    job.department,
+    job.advertisementNumber ? `Advertisement Number: ${job.advertisementNumber}.` : "",
+    job.totalVacancies > 0 || rowVacancyTotal > 0
+      ? `Total vacancies: ${Math.max(job.totalVacancies, rowVacancyTotal)}.`
+      : "",
+    `Job type: ${JOB_TYPE_LABELS[job.jobType]}.`,
+    locationLabel ? `Location: ${locationLabel}.` : "",
+    qualificationsLabel ? `Educational qualification: ${qualificationsLabel}.` : "",
+    job.eligibility.genders.length
+      ? `Eligible gender: ${job.eligibility.genders.join(" and ")}.`
+      : "",
+    `Age limit: ${ageLimitLabel(job.eligibility.minAge, job.eligibility.maxAge)}.`,
+    job.eligibility.ageRelaxation ? `Age relaxation: ${job.eligibility.ageRelaxation}.` : "",
+    job.salary ? `Salary / stipend: ${job.salary}.` : "",
+    job.applicationFee ? `Application fee: ${job.applicationFee}.` : "",
+    `Last date to apply: ${formatDate(job.dates.lastDate)}.`,
+    job.vacancyBreakdown.length
+      ? `Post-wise vacancies: ${job.vacancyBreakdown
+          .map((row) => `${row.post}: ${row.count}`)
+          .join("; ")}.`
+      : "",
+    htmlToPlainText(job.content.vacancyDetails),
+    htmlToPlainText(job.content.eligibility),
+    htmlToPlainText(job.content.selectionProcess),
+    htmlToPlainText(job.content.howToApply),
+    htmlToPlainText(cleanInstructions),
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .replace(/\\s+/g, " ")
+    .trim();
+
   const jobPostingSchema = {
     "@context": "https://schema.org",
     "@type": "JobPosting",
     title: job.title,
-    description: vacancyDetailsPending
-      ? "Official vacancy details and key recruitment dates are awaiting confirmation from the recruiting authority. Please check the official notification for verified information."
-      : job.content.eligibility?.replace(/<[^>]+>/g, "") || job.title,
-    identifier: {
-      "@type": "PropertyValue",
-      name: job.organization,
-      value: job.advertisementNumber,
-    },
-    datePosted: job.createdAt,
-    validThrough: vacancyDetailsPending ? undefined : new Date(job.dates.lastDate).toISOString(),
-    employmentType:
-      job.jobType === "government" || job.jobType === "private"
-        ? "FULL_TIME"
-        : job.jobType === "internship"
-          ? "INTERN"
-          : "CONTRACTOR",
+    description: schemaDescription || job.title,
+    ...(job.advertisementNumber
+      ? {
+          identifier: {
+            "@type": "PropertyValue",
+            name: job.organization,
+            value: job.advertisementNumber,
+          },
+        }
+      : {}),
+    datePosted: job.publishAt || job.createdAt,
+    validThrough: job.dates.lastDate.slice(0, 10),
+    ...(job.jobType === "government" || job.jobType === "private"
+      ? { employmentType: "FULL_TIME" }
+      : job.jobType === "internship"
+        ? { employmentType: "INTERN" }
+        : job.jobType === "contract"
+          ? { employmentType: "CONTRACTOR" }
+          : {}),
     hiringOrganization: {
       "@type": "Organization",
       name: job.organization,
-      sameAs: job.links.officialWebsite,
+      ...(job.links.officialWebsite ? { sameAs: job.links.officialWebsite } : {}),
+      ...(job.logoUrl ? { logo: job.logoUrl } : {}),
     },
     jobLocation: {
       "@type": "Place",
       address: {
         "@type": "PostalAddress",
-        addressRegion: job.location.state,
+        ...(!job.location.allIndia && job.location.district
+          ? { addressLocality: job.location.district }
+          : {}),
+        ...(!job.location.allIndia && job.location.state
+          ? { addressRegion: job.location.state }
+          : {}),
         addressCountry: "IN",
       },
     },
-    totalJobOpenings: vacancyDetailsPending ? undefined : job.totalVacancies,
-    baseSalary: job.salary
-      ? {
-          "@type": "MonetaryAmount",
-          currency: "INR",
-          value: {
-            "@type": "QuantitativeValue",
-            value: job.salary,
-          },
-        }
-      : undefined,
+    totalJobOpenings:
+      job.totalVacancies > 0
+        ? job.totalVacancies
+        : rowVacancyTotal > 0
+          ? rowVacancyTotal
+          : undefined,
+    url: `${SITE_URL}/jobs/${job.slug}`,
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: SITE_URL,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Jobs",
+        item: `${SITE_URL}/jobs`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: job.title,
+        item: `${SITE_URL}/jobs/${job.slug}`,
+      },
+    ],
   };
 
   return (
     <div className="container-page py-8">
-      {!vacancyDetailsPending && (
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema),
+        }}
+      />
+      {shouldRenderJobPosting && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
