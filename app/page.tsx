@@ -1,6 +1,9 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { queryJobs } from "@/lib/db";
+import type { JobPosting } from "@/lib/types";
+import { hasPendingVacancyDetails, SSC_GD_NOTICE_PENDING_MARKER, VACANCY_DETAILS_PENDING_MARKER } from "@/lib/jobMarkers";
+import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
 import JobCard from "@/components/JobCard";
 
 const SITE_URL = "https://www.naukriexpress.space";
@@ -28,11 +31,70 @@ export const metadata: Metadata = {
   },
 };
 
+function isNoticeAwaited(job: JobPosting): boolean {
+  const instructions = job.content.importantInstructions || "";
+  return instructions.includes(SSC_GD_NOTICE_PENDING_MARKER) ||
+    instructions.includes(VACANCY_DETAILS_PENDING_MARKER);
+}
+
+function getVerifiedVacancyCount(job: JobPosting): number {
+  const pending = hasPendingVacancyDetails({
+    importantInstructions: job.content.importantInstructions,
+    totalVacancies: job.totalVacancies,
+    vacancyBreakdownCounts: job.vacancyBreakdown.map((row) => row.count),
+  });
+  if (pending || isNoticeAwaited(job)) return 0;
+
+  const rowTotal = job.vacancyBreakdown.reduce(
+    (sum, row) => sum + Math.max(0, Number(row.count) || 0),
+    0
+  );
+  return Math.max(Math.max(0, Number(job.totalVacancies) || 0), rowTotal);
+}
+
+function isClosingSoon(job: JobPosting, today: string): boolean {
+  if (job.status !== "published" || isNoticeAwaited(job)) return false;
+  const pending = hasPendingVacancyDetails({
+    importantInstructions: job.content.importantInstructions,
+    totalVacancies: job.totalVacancies,
+    vacancyBreakdownCounts: job.vacancyBreakdown.map((row) => row.count),
+  });
+  if (pending) return false;
+  const days = getDaysUntilDate(job.dates.lastDate, today);
+  return days !== null && days >= 0 && days <= 7;
+}
+
 export default async function HomePage() {
-  const [{ results: latestJobs }, { results: featuredJobs }] = await Promise.all([
-    queryJobs({ sort: "latest", pageSize: 12, jobType: ["government", "private", "contract", "internship"] }),
-    queryJobs({ featuredOnly: true, pageSize: 4, jobType: ["government", "private", "contract", "internship"] }),
-  ]);
+  const { results: allLiveJobs } = await queryJobs({
+    sort: "latest",
+    status: "published",
+    pageSize: 100,
+    jobType: ["government", "private", "contract", "internship"],
+  });
+  const today = getIndiaTodayDate();
+
+  // Closing-soon recruitments go first (soonest deadline first). Remaining
+  // cards are ordered by verified vacancy count, then newest posting.
+  const latestJobs = [...allLiveJobs]
+    .sort((a, b) => {
+      const urgentA = isClosingSoon(a, today);
+      const urgentB = isClosingSoon(b, today);
+      if (urgentA !== urgentB) return urgentA ? -1 : 1;
+
+      if (urgentA && urgentB) {
+        const daysA = getDaysUntilDate(a.dates.lastDate, today);
+        const daysB = getDaysUntilDate(b.dates.lastDate, today);
+        if (daysA !== null && daysB !== null && daysA !== daysB) {
+          return daysA - daysB;
+        }
+      }
+
+      const vacancyDifference = getVerifiedVacancyCount(b) - getVerifiedVacancyCount(a);
+      if (vacancyDifference !== 0) return vacancyDifference;
+
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    })
+    .slice(0, 30);
 
   const websiteSchema = {
     "@context": "https://schema.org",
@@ -48,41 +110,28 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
       />
-      {/* Latest Jobs */}
+      {/* Latest and priority-sorted jobs */}
       <section className="container-page mt-10">
-        <div className="flex items-end justify-between mb-5">
+        <div className="mb-5 flex items-end justify-between gap-3">
           <div>
             <h2 className="font-display text-2xl font-bold text-ink-900">Latest Job Updates</h2>
-            <p className="text-sm text-ink-700/70 mt-1">Freshly posted vacancies, updated every day.</p>
+            <p className="mt-1 text-sm text-ink-700/70">
+              Last-date alerts first, followed by recruitments with more vacancies.
+            </p>
           </div>
-          <Link href="/jobs" className="hidden sm:inline text-sm font-semibold text-brand-700 hover:underline">
-            View all →
-          </Link>
+          <span className="shrink-0 rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">
+            {latestJobs.length} Jobs
+          </span>
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {latestJobs.map((job) => (
             <JobCard key={job.id} job={job} />
           ))}
         </div>
-        <Link href="/jobs" className="mt-5 block text-center text-sm font-semibold text-brand-700 sm:hidden">
+        <Link href="/jobs" className="mt-6 block rounded-lg border border-brand-600 px-4 py-3 text-center text-sm font-semibold text-brand-700 hover:bg-brand-50">
           View all jobs →
         </Link>
       </section>
-
-      {/* Featured Jobs */}
-      {featuredJobs.length > 0 && (
-        <section className="container-page mt-16">
-          <div className="mb-5">
-            <h2 className="font-display text-2xl font-bold text-ink-900">Featured Jobs</h2>
-            <p className="text-sm text-ink-700/70 mt-1">High-vacancy and high-interest recruitments.</p>
-          </div>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {featuredJobs.map((job) => (
-              <JobCard key={job.id} job={job} />
-            ))}
-          </div>
-        </section>
-      )}
 
       {/* Important Links */}
       <section className="container-page mt-16 mb-16">
