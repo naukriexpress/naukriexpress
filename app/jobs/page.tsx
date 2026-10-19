@@ -9,7 +9,7 @@ type SP = Record<string, string | string[] | undefined>;
 
 const SITE_URL = "https://www.naukriexpress.space";
 const DEFAULT_JOBS_TITLE =
-  "Latest Jobs - Government & Private Vacancies in India | NaukriExpress";
+  "Latest Jobs - Government & Private Vacancies in India";
 const DEFAULT_JOBS_DESCRIPTION =
   "Browse current government and private job vacancies across India. Check verified eligibility, vacancy counts, last dates, official notifications and application links.";
 
@@ -46,29 +46,47 @@ export async function generateMetadata({
   let canonical = `${SITE_URL}/jobs`;
 
   if (facetName === "state") {
-    title = `Latest Jobs in ${facetValue} | NaukriExpress`;
+    title = `Latest Jobs in ${facetValue}`;
     description = `Browse current government and private job vacancies in ${facetValue}. Check eligibility, vacancy details, application deadlines and official links on NaukriExpress.`;
     canonical = `${SITE_URL}/jobs?state=${encodeURIComponent(facetValue)}`;
   } else if (facetName === "jobType" && facetValue === "government") {
-    title = "Latest Government Jobs in India | NaukriExpress";
+    title = "Latest Government Jobs in India";
     description = "Find current government job vacancies in India with eligibility criteria, vacancy counts, important dates, official notifications and application links.";
     canonical = `${SITE_URL}/jobs?jobType=government`;
   } else if (facetName === "jobType" && facetValue === "private") {
-    title = "Latest Private Jobs in India | NaukriExpress";
+    title = "Latest Private Jobs in India";
     description = "Browse current private-sector job vacancies in India with eligibility, location, last dates and application details.";
     canonical = `${SITE_URL}/jobs?jobType=private`;
   } else if (facetName === "jobType" && facetValue !== "apprenticeship") {
     canonical = `${SITE_URL}/jobs?jobType=${encodeURIComponent(facetValue)}`;
-    title = `Latest ${facetValue.charAt(0).toUpperCase() + facetValue.slice(1)} Jobs | NaukriExpress`;
+    title = `Latest ${facetValue.charAt(0).toUpperCase() + facetValue.slice(1)} Jobs`;
   } else if (facetName === "jobType" && facetValue === "apprenticeship") {
+    title = "Latest Apprentice Recruitment";
+    description = "Browse apprentice vacancies, trade-wise positions, eligibility requirements, deadlines and official application links.";
     canonical = `${SITE_URL}/apprentice`;
   }
+
+  const socialTitle = `${title} | NaukriExpress`;
+  const socialMetadata = {
+    type: "website" as const,
+    siteName: "NaukriExpress",
+    title: socialTitle,
+    description,
+    url: canonical,
+  };
+  const twitterMetadata = {
+    card: "summary" as const,
+    title: socialTitle,
+    description,
+  };
 
   if (!isIndexable || (facetName === "jobType" && facetValue === "apprenticeship")) {
     return {
       title,
       description,
       alternates: { canonical },
+      openGraph: socialMetadata,
+      twitter: twitterMetadata,
       robots: { index: false, follow: true },
     };
   }
@@ -77,6 +95,8 @@ export async function generateMetadata({
     title,
     description,
     alternates: { canonical },
+    openGraph: socialMetadata,
+    twitter: twitterMetadata,
     robots: { index: true, follow: true },
   };
 }
