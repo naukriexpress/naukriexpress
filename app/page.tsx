@@ -110,7 +110,7 @@ export default async function HomePage() {
       <section className="container-page mt-10">
         <div className="mb-5 flex items-end justify-between gap-3">
           <div>
-            <h2 className="font-display text-2xl font-bold text-ink-900">Latest Job Updates</h2>
+            <h1 className="font-display text-2xl font-bold text-ink-900">Latest Job Updates</h1>
             <p className="mt-1 text-sm text-ink-700/70">
               Last-date alerts first, followed by recruitments with more vacancies.
             </p>
