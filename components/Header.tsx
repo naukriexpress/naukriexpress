@@ -25,15 +25,15 @@ export default async function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-ink-900/10 bg-white/95 backdrop-blur">
-      <div className="bg-brand-50 text-xs text-ink-800 sm:text-sm">
+      <div className="bg-ink-900 text-xs text-white sm:text-sm">
         <div className="container-page flex items-center gap-2 overflow-x-auto whitespace-nowrap py-1.5">
-          <span className="inline-flex items-center gap-1 font-semibold text-saffron-600">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-leaf-400" aria-hidden="true" />
+          <span className="inline-flex items-center gap-1 font-semibold text-saffron-400">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-saffron-400" aria-hidden="true" />
             LIVE
           </span>
           <span>{liveJobs} open recruitments tracked</span>
           <span className="opacity-40">•</span>
-          <span className="font-medium text-brand-700">{closingToday} closing today — apply now</span>
+          <span className="font-medium text-leaf-400">{closingToday} closing today — apply now</span>
         </div>
       </div>
 
