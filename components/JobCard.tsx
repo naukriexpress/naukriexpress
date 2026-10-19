@@ -133,24 +133,6 @@ export default function JobCard({ job }: { job: JobPosting }) {
         ))}
       </div>
 
-      {job.jobType === "apprenticeship" && job.vacancyBreakdown.length > 0 && (
-        <div className="mt-3 rounded-lg bg-gray-50 p-3">
-          <p className="mb-2 text-xs font-semibold text-ink-700">Trade / Post Details</p>
-          <div className="space-y-2">
-            {job.vacancyBreakdown.map((trade, index) => (
-              <div key={`${job.id}-trade-${index}`} className="flex items-start gap-2 text-sm">
-                <span className="min-w-0 flex-1 text-ink-900">
-                  {trade.post}{" "}
-                  <span className="text-xs text-ink-700/70">
-                    ({Number(trade.count || 0).toLocaleString("en-IN")})
-                  </span>
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
       <div className="mt-4 grid grid-cols-3 gap-2 border-t border-ink-900/10 pt-3.5">
         <Link
           href={`/jobs/${job.slug}`}
