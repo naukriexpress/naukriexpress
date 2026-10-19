@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { JobPosting } from "@/lib/types";
 import { CATEGORY_LABELS, QUALIFICATION_LABELS } from "@/lib/types";
+import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
 import { hasPendingVacancyDetails, SSC_GD_NOTICE_PENDING_MARKER, VACANCY_DETAILS_PENDING_MARKER } from "@/lib/jobMarkers";
 import StatusBadge from "./StatusBadge";
 
@@ -38,8 +39,25 @@ export default function JobCard({ job }: { job: JobPosting }) {
     Boolean(job.content.importantInstructions?.includes(SSC_GD_NOTICE_PENDING_MARKER)) ||
     Boolean(job.content.importantInstructions?.includes(VACANCY_DETAILS_PENDING_MARKER));
 
+  const daysToDeadline = noticeDetailsPending || job.status === "expired"
+    ? null
+    : getDaysUntilDate(job.dates.lastDate, getIndiaTodayDate());
+  const deadlineAlert = daysToDeadline !== null && daysToDeadline >= 0 && daysToDeadline <= 7
+    ? daysToDeadline === 0
+      ? "LAST DATE TODAY — APPLY NOW"
+      : daysToDeadline === 1
+        ? "LAST DATE TOMORROW — APPLY NOW"
+        : `LAST DATE IN ${daysToDeadline} DAYS — APPLY NOW`
+    : null;
+
   return (
     <div className="group flex flex-col rounded-xl2 border border-ink-900/10 bg-white p-4 sm:p-5 shadow-card hover:shadow-cardHover transition-shadow">
+      {deadlineAlert && (
+        <div role="alert" className="-mx-4 -mt-4 mb-4 flex items-center gap-2 rounded-t-xl2 bg-red-600 px-4 py-2.5 text-white sm:-mx-5 sm:-mt-5 sm:px-5">
+          <span aria-hidden="true">🚨</span>
+          <span className="text-xs font-extrabold tracking-wide sm:text-sm">{deadlineAlert}</span>
+        </div>
+      )}
       <div className="flex items-start gap-3">
         <div className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-brand-50 font-display text-sm font-bold text-brand-700">
           {initials}
@@ -51,7 +69,7 @@ export default function JobCard({ job }: { job: JobPosting }) {
                 {job.title}
               </h3>
             </Link>
-            <StatusBadge job={job} />
+            {!deadlineAlert && <StatusBadge job={job} />}
           </div>
           <p className="mt-0.5 text-sm text-ink-700">{job.organization}</p>
         </div>
