@@ -10,6 +10,8 @@ const SITE_URL = "https://www.naukriexpress.space";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+  manifest: "/manifest.json",
+  icons: { icon: "/pwa-icon.svg", shortcut: "/pwa-icon.svg", apple: "/pwa-icon.svg" },
   other: {
     "google-adsense-account": "ca-pub-7337308462039392",
   },
