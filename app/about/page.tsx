@@ -1,9 +1,23 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About NaukriExpress | Recruitment Information Portal",
-  description:
-    "Learn about NaukriExpress, an independent recruitment information portal operated by BGI Cybercafe, and how we compile job notifications, eligibility details and official links.",
+  title: "About Us",
+  description: "Learn about NaukriExpress, an independent recruitment information portal operated by BGI Cybercafe, and how we compile job notifications, eligibility details and official links.",
+  alternates: {
+    canonical: "https://www.naukriexpress.space/about",
+  },
+  openGraph: {
+    type: "website",
+    siteName: "NaukriExpress",
+    title: "About Us | NaukriExpress",
+    description: "Learn about NaukriExpress, an independent recruitment information portal operated by BGI Cybercafe, and how we compile job notifications, eligibility details and official links.",
+    url: "https://www.naukriexpress.space/about",
+  },
+  twitter: {
+    card: "summary",
+    title: "About Us | NaukriExpress",
+    description: "Learn about NaukriExpress, an independent recruitment information portal operated by BGI Cybercafe, and how we compile job notifications, eligibility details and official links.",
+  },
 };
 
 export default function AboutPage() {
