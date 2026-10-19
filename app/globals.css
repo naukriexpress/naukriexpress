@@ -14,6 +14,7 @@ html {
 
 body {
   @apply bg-paper text-ink-900 font-body antialiased;
+  min-height: 100vh;
 }
 
 * {
@@ -21,11 +22,11 @@ body {
 }
 
 ::selection {
-  @apply bg-brand-200 text-ink-900;
+  @apply bg-brand-100 text-ink-900;
 }
 
 :focus-visible {
-  outline: 2px solid #1E63A8;
+  outline: 2px solid #668FB5;
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -39,7 +40,7 @@ body {
 }
 
 .chip-inactive {
-  @apply border-ink-900/15 bg-white text-ink-700 hover:border-brand-400 hover:text-brand-600;
+  @apply border-ink-900/10 bg-white text-ink-700 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700;
 }
 
 .chip-active {
@@ -215,17 +216,17 @@ html[data-theme="dark"] .open-status-badge {
   border-color: #60a5fa;
 }
 
-/* Last Date Soon — red/rose to signal urgency */
+/* Last Date Soon uses a calm blue tint; only the 🚨 deadline alert strip stays red. */
 .last-date-soon-badge {
-  background-color: #ffe4e6;
-  color: #9f1239;
-  border-color: #fda4af;
+  background-color: #eaf2f8;
+  color: #385d7d;
+  border-color: #cadbe9;
 }
 
 html[data-theme="dark"] .last-date-soon-badge {
-  background-color: #881337;
-  color: #fff1f2;
-  border-color: #fb7185;
+  background-color: #203851;
+  color: #dcecff;
+  border-color: #587b9c;
 }
 
 
@@ -286,4 +287,27 @@ html[data-theme="dark"] .scholarship-benefit-label {
 
 html[data-theme="dark"] .scholarship-benefit-value {
   color: #f1f5f9;
+}
+
+
+/* Soft update ticker palette with a matching dark-mode treatment. */
+.site-update-ticker {
+  background-color: #eaf2f8;
+  color: #385873;
+}
+
+.site-update-label {
+  border-color: #d5e3ef;
+  color: #4d7190;
+}
+
+html[data-theme="dark"] .site-update-ticker {
+  background-color: #172b43;
+  color: #dbe9f6;
+}
+
+html[data-theme="dark"] .site-update-label {
+  background-color: #203851;
+  border-color: #35536f;
+  color: #c5d7eb;
 }
