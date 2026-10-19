@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "About Us" };
+export const metadata: Metadata = {
+  title: "About NaukriExpress | Recruitment Information Portal",
+  description:
+    "Learn about NaukriExpress, an independent recruitment information portal operated by BGI Cybercafe, and how we compile job notifications, eligibility details and official links.",
+};
 
 export default function AboutPage() {
   return (

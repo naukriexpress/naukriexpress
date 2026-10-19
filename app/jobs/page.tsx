@@ -5,13 +5,81 @@ import type { Category, JobFilters, JobType, Qualification } from "@/lib/types";
 import JobCard from "@/components/JobCard";
 import FilterPanel from "@/components/FilterPanel";
 
-export const metadata: Metadata = {
-  title: "Latest Jobs - Filter by Gender, Category, Qualification & Location",
-  description:
-    "Browse the latest government and private job vacancies in India. Filter by gender, category (Open/OBC/SC/ST/EWS), qualification, job type, state and last date.",
-};
-
 type SP = Record<string, string | string[] | undefined>;
+
+const SITE_URL = "https://www.naukriexpress.space";
+const DEFAULT_JOBS_TITLE =
+  "Latest Jobs - Government & Private Vacancies in India | NaukriExpress";
+const DEFAULT_JOBS_DESCRIPTION =
+  "Browse current government and private job vacancies across India. Check verified eligibility, vacancy counts, last dates, official notifications and application links.";
+
+function firstValue(value: string | string[] | undefined): string | undefined {
+  return Array.isArray(value) ? value[0] : value;
+}
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: SP;
+}): Promise<Metadata> {
+  const relevantParams = Object.entries(searchParams).filter(([key, value]) => {
+    if (key.startsWith("utm_") || key === "gclid" || key === "fbclid") return false;
+    return (Array.isArray(value) ? value.length > 0 : Boolean(value));
+  });
+  const isPageOneOnly =
+    relevantParams.length === 1 &&
+    relevantParams[0][0] === "page" &&
+    firstValue(relevantParams[0][1]) === "1";
+  const isBaseListing = relevantParams.length === 0 || isPageOneOnly;
+  const isSingleFacet =
+    relevantParams.length === 1 &&
+    ["state", "jobType"].includes(relevantParams[0][0]) &&
+    Boolean(firstValue(relevantParams[0][1]));
+  const facetName = isSingleFacet ? relevantParams[0][0] : "";
+  const facetValue = isSingleFacet
+    ? firstValue(relevantParams[0][1]) || ""
+    : "";
+  const isIndexable = isBaseListing || isSingleFacet;
+
+  let title = DEFAULT_JOBS_TITLE;
+  let description = DEFAULT_JOBS_DESCRIPTION;
+  let canonical = `${SITE_URL}/jobs`;
+
+  if (facetName === "state") {
+    title = `Latest Jobs in ${facetValue} | NaukriExpress`;
+    description = `Browse current government and private job vacancies in ${facetValue}. Check eligibility, vacancy details, application deadlines and official links on NaukriExpress.`;
+    canonical = `${SITE_URL}/jobs?state=${encodeURIComponent(facetValue)}`;
+  } else if (facetName === "jobType" && facetValue === "government") {
+    title = "Latest Government Jobs in India | NaukriExpress";
+    description = "Find current government job vacancies in India with eligibility criteria, vacancy counts, important dates, official notifications and application links.";
+    canonical = `${SITE_URL}/jobs?jobType=government`;
+  } else if (facetName === "jobType" && facetValue === "private") {
+    title = "Latest Private Jobs in India | NaukriExpress";
+    description = "Browse current private-sector job vacancies in India with eligibility, location, last dates and application details.";
+    canonical = `${SITE_URL}/jobs?jobType=private`;
+  } else if (facetName === "jobType" && facetValue !== "apprenticeship") {
+    canonical = `${SITE_URL}/jobs?jobType=${encodeURIComponent(facetValue)}`;
+    title = `Latest ${facetValue.charAt(0).toUpperCase() + facetValue.slice(1)} Jobs | NaukriExpress`;
+  } else if (facetName === "jobType" && facetValue === "apprenticeship") {
+    canonical = `${SITE_URL}/apprentice`;
+  }
+
+  if (!isIndexable || (facetName === "jobType" && facetValue === "apprenticeship")) {
+    return {
+      title,
+      description,
+      alternates: { canonical },
+      robots: { index: false, follow: true },
+    };
+  }
+
+  return {
+    title,
+    description,
+    alternates: { canonical },
+    robots: { index: true, follow: true },
+  };
+}
 
 function arr(v: string | string[] | undefined): string[] {
   if (!v) return [];

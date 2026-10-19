@@ -1,5 +1,15 @@
 import { queryJobs } from "@/lib/db";
 import JobCard from "@/components/JobCard";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Latest Apprentice Recruitment | ITI, Diploma & Graduate Jobs",
+  description:
+    "Browse current apprentice recruitment across India for ITI, Diploma and Graduate candidates. Check eligibility, total vacancies, application deadlines, official notifications and apply links.",
+  alternates: {
+    canonical: "https://www.naukriexpress.space/apprentice",
+  },
+};
 
 export const dynamic = "force-dynamic";
 
