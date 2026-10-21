@@ -8,6 +8,8 @@ import JobCard from "@/components/JobCard";
 
 const SITE_URL = "https://www.naukriexpress.space";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: { absolute: "NaukriExpress | Latest Government & Private Jobs in India" },
   description:
