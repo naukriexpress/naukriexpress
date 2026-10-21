@@ -17,6 +17,8 @@ function firstValue(value: string | string[] | undefined): string | undefined {
   return Array.isArray(value) ? value[0] : value;
 }
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({
   searchParams,
 }: {
