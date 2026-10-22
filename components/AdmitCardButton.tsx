@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 
 type AdmitCardLink = {
@@ -13,8 +13,15 @@ export default function AdmitCardButton() {
   const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [links, setLinks] = useState<AdmitCardLink[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const filteredLinks = useMemo(() => {
+    const query = searchQuery.trim().toLocaleLowerCase();
+    if (!query) return links;
+    return links.filter((item) => item.title.toLocaleLowerCase().includes(query));
+  }, [links, searchQuery]);
 
   async function loadLinks() {
     try {
@@ -75,6 +82,7 @@ export default function AdmitCardButton() {
           type="button"
           onClick={() => {
             setIsOpen(true);
+            setSearchQuery("");
             void loadLinks();
           }}
           className="fixed bottom-6 right-4 z-[9998] flex items-center gap-2 rounded-full bg-brand-600 px-4 py-3 text-sm font-bold text-white shadow-xl hover:bg-brand-700 active:scale-95 sm:right-6"
@@ -98,7 +106,7 @@ export default function AdmitCardButton() {
             className="my-auto flex max-h-[calc(100dvh-2rem)] w-full max-w-md flex-col overflow-hidden rounded-2xl bg-white p-5 shadow-2xl"
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="mb-4 flex shrink-0 items-center justify-between border-b pb-3">
+            <div className="mb-3 flex shrink-0 items-center justify-between border-b pb-3">
               <h2
                 id="admit-card-title"
                 className="text-lg font-bold text-gray-900"
@@ -114,6 +122,27 @@ export default function AdmitCardButton() {
               >
                 ✕
               </button>
+            </div>
+
+            <label htmlFor="admit-card-search" className="sr-only">
+              Search Admit Cards
+            </label>
+            <div className="relative mb-3 shrink-0">
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+              >
+                🔎
+              </span>
+              <input
+                id="admit-card-search"
+                type="search"
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                placeholder="Search admit cards..."
+                autoComplete="off"
+                className="w-full rounded-xl border border-gray-300 bg-white py-3 pl-10 pr-3 text-sm text-gray-900 outline-none placeholder:text-gray-500 focus:border-amber-400 focus:ring-2 focus:ring-amber-100"
+              />
             </div>
 
             <div className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain">
@@ -133,7 +162,13 @@ export default function AdmitCardButton() {
                 </p>
               )}
 
-              {links.map((item) => (
+              {!loading && !error && links.length > 0 && filteredLinks.length === 0 && (
+                <p className="rounded-xl border border-dashed border-gray-300 p-4 text-center text-sm text-gray-600">
+                  No Admit Cards Found. Try another title.
+                </p>
+              )}
+
+              {filteredLinks.map((item) => (
                 <a
                   key={item.id}
                   href={item.url}
