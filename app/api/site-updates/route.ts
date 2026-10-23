@@ -1,52 +1,10 @@
 import { NextResponse } from "next/server";
 import { getPool } from "@/lib/pgClient";
 import { getSession } from "@/lib/auth";
+import { revalidatePath, revalidateTag } from "next/cache";
+import { ensurePublicContentTables, getPublicSiteUpdates, SITE_UPDATE_CATEGORIES, type SiteUpdateCategory } from "@/lib/public-content-cache";
 
 export const dynamic = "force-dynamic";
-
-const CATEGORIES = [
-  "results",
-  "answer-key",
-  "syllabus",
-  "scholarship",
-] as const;
-
-let siteUpdatesTableReady: Promise<void> | null = null;
-
-async function getUpdatesTable() {
-  const pool = getPool();
-
-  // Cache schema initialization for this warm server instance. The previous
-  // implementation executed CREATE TABLE IF NOT EXISTS on every public read,
-  // adding an unnecessary database round trip to each page load.
-  if (!siteUpdatesTableReady) {
-    siteUpdatesTableReady = pool.query(`
-      CREATE TABLE IF NOT EXISTS site_updates (
-        id BIGSERIAL PRIMARY KEY,
-        category TEXT NOT NULL CHECK (
-          category IN ('results', 'answer-key', 'syllabus', 'scholarship')
-        ),
-        title TEXT NOT NULL,
-        organization TEXT,
-        description TEXT,
-        publish_date DATE,
-        amount TEXT,
-        eligibility TEXT,
-        last_date DATE,
-        item_url TEXT,
-        objection_url TEXT,
-        apply_url TEXT,
-        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-      )
-    `).then(() => undefined).catch((error) => {
-      siteUpdatesTableReady = null;
-      throw error;
-    });
-  }
-
-  await siteUpdatesTableReady;
-  return pool;
-}
 
 function validOptionalUrl(value: unknown) {
   if (value === undefined || value === null || value === "") {
@@ -66,38 +24,16 @@ function validOptionalUrl(value: unknown) {
 // Public website par updates dikhane ke liye
 export async function GET(request: Request) {
   try {
-    const pool = await getUpdatesTable();
+    await ensurePublicContentTables();
     const category = new URL(request.url).searchParams.get("category");
-
-    if (category && !CATEGORIES.includes(category as (typeof CATEGORIES)[number])) {
-      return NextResponse.json(
-        { error: "Invalid category" },
-        { status: 400 }
-      );
+    if (category && !SITE_UPDATE_CATEGORIES.includes(category as SiteUpdateCategory)) {
+      return NextResponse.json({ error: "Invalid category" }, { status: 400 });
     }
-
-    const result = category
-      ? await pool.query(
-          `SELECT * FROM site_updates
-           WHERE category = $1
-           ORDER BY created_at DESC`,
-          [category]
-        )
-      : await pool.query(
-          `SELECT * FROM site_updates
-           ORDER BY created_at DESC`
-        );
-
-    return NextResponse.json(
-      { updates: result.rows },
-      { headers: { "Cache-Control": "no-store, max-age=0" } }
-    );
+    const updates = await getPublicSiteUpdates(category ? category as SiteUpdateCategory : undefined);
+    return NextResponse.json({ updates }, { headers: { "Cache-Control": "private, no-store" } });
   } catch (error) {
     console.error("Site updates GET error:", error);
-    return NextResponse.json(
-      { error: "Updates load nahi ho sake" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Updates load nahi ho sake" }, { status: 500 });
   }
 }
 
@@ -121,7 +57,7 @@ export async function POST(request: Request) {
       typeof body.title === "string" ? body.title.trim() : "";
 
     if (
-      !CATEGORIES.includes(category as (typeof CATEGORIES)[number]) ||
+      !SITE_UPDATE_CATEGORIES.includes(category as SiteUpdateCategory) ||
       !title ||
       title.length > 300
     ) {
@@ -151,7 +87,8 @@ export async function POST(request: Request) {
         ? value.trim()
         : null;
 
-    const pool = await getUpdatesTable();
+    await ensurePublicContentTables();
+    const pool = getPool();
 
     const result = await pool.query(
       `INSERT INTO site_updates (
@@ -177,6 +114,11 @@ export async function POST(request: Request) {
         textField(body.apply_url),
       ]
     );
+
+    revalidateTag("site-updates");
+    for (const path of ["/api/site-updates", "/scholarship", "/syllabus", "/answer-key", "/results"]) {
+      revalidatePath(path);
+    }
 
     return NextResponse.json(
       { update: result.rows[0] },
@@ -212,8 +154,13 @@ export async function DELETE(request: Request) {
       );
     }
 
-    const pool = await getUpdatesTable();
-
+    await ensurePublicContentTables();
+    const pool = getPool();
+    const existing = await pool.query("SELECT category FROM site_updates WHERE id = $1", [id]);
+    if (existing.rowCount === 0) {
+      return NextResponse.json({ error: "Update nahi mila" }, { status: 404 });
+    }
+    const category = existing.rows[0].category as SiteUpdateCategory;
     const result = await pool.query(
       "DELETE FROM site_updates WHERE id = $1 RETURNING id",
       [id]
@@ -225,6 +172,10 @@ export async function DELETE(request: Request) {
         { status: 404 }
       );
     }
+
+    revalidateTag("site-updates");
+    revalidatePath(`/${category}`);
+    revalidatePath("/api/site-updates");
 
     return NextResponse.json({ success: true });
   } catch (error) {

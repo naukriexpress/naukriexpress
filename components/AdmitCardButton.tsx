@@ -23,7 +23,8 @@ export default function AdmitCardButton() {
     return links.filter((item) => item.title.toLocaleLowerCase().includes(query));
   }, [links, searchQuery]);
 
-  async function loadLinks() {
+  async function loadLinks(showLoading = false) {
+    if (showLoading) setLoading(true);
     try {
       const response = await fetch("/api/admit-cards", {
         cache: "no-store",
@@ -46,13 +47,9 @@ export default function AdmitCardButton() {
 
   useEffect(() => {
     setMounted(true);
-    void loadLinks();
-
-    const timer = window.setInterval(() => {
-      void loadLinks();
-    }, 30000);
-
-    return () => window.clearInterval(timer);
+    // Load once on mount; refresh quietly when the popup opens.
+    // Avoid polling the API every 30 seconds from every visitor.
+    void loadLinks(true);
   }, []);
 
   useEffect(() => {
@@ -83,7 +80,7 @@ export default function AdmitCardButton() {
           onClick={() => {
             setIsOpen(true);
             setSearchQuery("");
-            void loadLinks();
+            void loadLinks(false);
           }}
           className="fixed bottom-6 right-4 z-[9998] flex items-center gap-2 rounded-full bg-brand-600 px-4 py-3 text-sm font-bold text-white shadow-xl hover:bg-brand-700 active:scale-95 sm:right-6"
         >

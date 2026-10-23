@@ -1,4 +1,4 @@
-import { getPool } from "@/lib/pgClient";
+import { getPublicSiteUpdates } from "@/lib/public-content-cache";
 
 type UpdateItem = {
   id: number;
@@ -22,16 +22,7 @@ export default async function PublicUpdatesList({
   let items: UpdateItem[] = [];
 
   try {
-    const pool = getPool();
-    const result = await pool.query(
-      `SELECT id, title, organization, description, publish_date,
-              amount, eligibility, last_date, item_url, objection_url, apply_url
-       FROM site_updates
-       WHERE category = $1
-       ORDER BY created_at DESC`,
-      [category]
-    );
-    items = result.rows as UpdateItem[];
+    items = await getPublicSiteUpdates(category) as UpdateItem[];
   } catch (error) {
     console.error("Public updates page load error:", error);
     return (

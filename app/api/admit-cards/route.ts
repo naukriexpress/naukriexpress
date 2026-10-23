@@ -1,46 +1,19 @@
 import { NextResponse } from "next/server";
 import { getPool } from "@/lib/pgClient";
 import { getSession } from "@/lib/auth";
+import { revalidatePath, revalidateTag } from "next/cache";
+import { ensurePublicContentTables, getPublicAdmitCardLinks } from "@/lib/public-content-cache";
 
 export const dynamic = "force-dynamic";
-
-async function getAdmitCardTable() {
-  const pool = getPool();
-
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS admit_card_links (
-      id BIGSERIAL PRIMARY KEY,
-      title TEXT NOT NULL,
-      url TEXT NOT NULL,
-      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-    )
-  `);
-
-  return pool;
-}
 
 // Sabhi visitors live Admit Card links dekh sakte hain
 export async function GET() {
   try {
-    const pool = await getAdmitCardTable();
-
-    const result = await pool.query(`
-      SELECT id, title, url
-      FROM admit_card_links
-      ORDER BY created_at DESC
-    `);
-
-    return NextResponse.json(
-      { links: result.rows },
-      { headers: { "Cache-Control": "no-store, max-age=0" } }
-    );
+    const links = await getPublicAdmitCardLinks();
+    return NextResponse.json({ links }, { headers: { "Cache-Control": "private, no-store" } });
   } catch (error) {
     console.error("Admit Card GET error:", error);
-
-    return NextResponse.json(
-      { error: "Admit Cards load nahi ho sake" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Admit Cards load nahi ho sake" }, { status: 500 });
   }
 }
 
@@ -83,7 +56,8 @@ export async function POST(request: Request) {
       );
     }
 
-    const pool = await getAdmitCardTable();
+    await ensurePublicContentTables();
+    const pool = getPool();
 
     const result = await pool.query(
       `INSERT INTO admit_card_links (title, url)
@@ -91,6 +65,10 @@ export async function POST(request: Request) {
        RETURNING id, title, url`,
       [title, parsedUrl.toString()]
     );
+
+    revalidateTag("admit-cards");
+    revalidatePath("/api/admit-cards");
+    revalidatePath("/admit-card");
 
     return NextResponse.json(
       { link: result.rows[0] },
@@ -127,7 +105,8 @@ export async function DELETE(request: Request) {
       );
     }
 
-    const pool = await getAdmitCardTable();
+    await ensurePublicContentTables();
+    const pool = getPool();
 
     const result = await pool.query(
       "DELETE FROM admit_card_links WHERE id = $1 RETURNING id",
@@ -140,6 +119,10 @@ export async function DELETE(request: Request) {
         { status: 404 }
       );
     }
+
+    revalidateTag("admit-cards");
+    revalidatePath("/api/admit-cards");
+    revalidatePath("/admit-card");
 
     return NextResponse.json({ success: true });
   } catch (error) {
