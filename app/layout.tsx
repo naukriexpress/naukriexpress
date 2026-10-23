@@ -88,6 +88,13 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7337308462039392"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body>
         <SiteVisitTracker />
         <Script
@@ -95,13 +102,6 @@ export default function RootLayout({
           strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: themeInitScript }}
         />
-        <Script
-          id="google-adsense"
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7337308462039392"
-          strategy="beforeInteractive"
-          crossOrigin="anonymous"
-        />
-
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
