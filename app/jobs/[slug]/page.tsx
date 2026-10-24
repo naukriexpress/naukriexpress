@@ -436,8 +436,9 @@ export default async function JobDetailsPage({
               <div role="table" aria-label="Post-wise vacancy details" className="space-y-3">
                 <div
                   role="row"
-                  className="vacancy-table-head hidden grid-cols-[minmax(0,1.5fr)_minmax(0,1.35fr)_5rem_auto] gap-4 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-[10px] font-bold uppercase tracking-[0.13em] text-slate-600 lg:grid"
+                  className="vacancy-table-head hidden grid-cols-[3.25rem_minmax(0,1.5fr)_minmax(0,1.35fr)_5rem_auto] gap-4 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-[10px] font-bold uppercase tracking-[0.13em] text-slate-600 lg:grid"
                 >
+                  <div role="columnheader" className="vacancy-column-header vacancy-column-header--serial text-center">Sr. No.</div>
                   <div role="columnheader" className="vacancy-column-header vacancy-column-header--post">Post</div>
                   <div role="columnheader" className="vacancy-column-header vacancy-column-header--qualification">Required Qualification</div>
                   <div role="columnheader" className="vacancy-column-header vacancy-column-header--count text-center">Vacancies</div>
@@ -469,8 +470,15 @@ export default async function JobDetailsPage({
                     <div
                       role="row"
                       key={i}
-                      className={`vacancy-row-card grid grid-cols-1 gap-3 rounded-xl border p-4 shadow-sm transition-all sm:grid-cols-2 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1.35fr)_5rem_auto] lg:items-center lg:gap-4 ${rowTone}`}
+                      className={`vacancy-row-card grid grid-cols-1 gap-3 rounded-xl border p-4 shadow-sm transition-all sm:grid-cols-2 lg:grid-cols-[3.25rem_minmax(0,1.5fr)_minmax(0,1.35fr)_5rem_auto] lg:items-center lg:gap-4 ${rowTone}`}
                     >
+                      <div role="cell" className="min-w-0 lg:text-center">
+                        <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.13em] text-sky-700 lg:hidden">Sr. No.</p>
+                        <span className="vacancy-row-serial inline-flex min-w-9 items-center justify-center rounded-lg border border-sky-200 bg-sky-50 px-2.5 py-1.5 text-sm font-extrabold tabular-nums text-sky-800">
+                          {i + 1}
+                        </span>
+                      </div>
+
                       <div role="cell" className="min-w-0">
                         <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.13em] text-sky-700 lg:hidden">Post</p>
                         <span className="vacancy-post-badge inline-flex max-w-full whitespace-normal break-words rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-sm font-extrabold leading-relaxed text-emerald-800">
