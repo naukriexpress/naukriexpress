@@ -146,7 +146,7 @@ export default function JobCard({ job }: { job: JobPosting }) {
           <div className="min-w-0 flex-1">
             <div className="flex items-start justify-between gap-2">
               <Link
-                href={`/jobs/${job.slug}`}
+                href={`/jobs/${job.slug}`} prefetch={false}
                 aria-label={`View details for ${job.title}`}
                 className="job-card-title-link min-w-0 flex-1 rounded-md focus-visible:outline-offset-4"
               >
@@ -227,7 +227,7 @@ export default function JobCard({ job }: { job: JobPosting }) {
 
         <div className="job-card-actions mt-auto grid grid-cols-3 gap-2 border-t border-slate-200 pt-4 mt-4">
           <Link
-            href={`/jobs/${job.slug}`}
+            href={`/jobs/${job.slug}`} prefetch={false}
             className="job-card-action job-card-action--view inline-flex min-h-10 items-center justify-center rounded-lg border border-blue-600 bg-white px-2 py-2 text-center text-xs font-extrabold text-blue-700 transition-colors hover:bg-blue-50 sm:text-sm"
           >
             View Details
