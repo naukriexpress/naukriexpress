@@ -408,8 +408,8 @@ export default async function JobDetailsPage({
           </div>
 
           {/* Post-wise Vacancy Details and Apply Online Links */}
-          <section className="mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7">
-            <h2 className="mb-3 font-display text-lg font-bold text-ink-900">
+          <section className={`${cardFont.className} mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7`}>
+            <h2 className="mb-4 font-display text-lg font-extrabold tracking-tight text-ink-900">
               Post-wise Vacancy Details
             </h2>
 
