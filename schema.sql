@@ -70,9 +70,9 @@ create table jobs (
 
   content_eligibility text,
   content_vacancy_details text,
-  content_selection_process text,
-  content_how_to_apply text,
-  content_important_instructions text,
+
+  last_date_extended boolean not null default false,
+  notice_details_pending boolean not null default false,
 
   seo_title text,
   seo_meta_description text,
