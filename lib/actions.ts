@@ -3,7 +3,6 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createSession, destroySession, verifyCredentials } from "./auth";
-import { SSC_GD_NOTICE_PENDING_MARKER } from "./jobMarkers";
 import { createJob, deleteJob, getJobById, updateJob } from "./db";
 import type {
   Category,
@@ -64,8 +63,6 @@ function parseVacancyRows(formData: FormData): VacancyRow[] {
 
   return rows;
 }
-
-const LAST_DATE_EXTENDED_MARKER = "[[LAST_DATE_EXTENDED]]";
 
 function buildJobFromForm(formData: FormData) {
   const genders = parseCheckboxList<Gender>(formData, "gender");
