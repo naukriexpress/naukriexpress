@@ -396,6 +396,7 @@ export default async function JobDetailsPage({
                   <thead>
                     <tr className="border-b border-ink-900/10 text-left text-ink-700/60">
                       <th className="py-2 pr-4 font-medium">Post</th>
+                      <th className="py-2 pr-4 font-medium">Required Qualification</th>
                       <th className="py-2 pr-4 font-medium">
                         Category-wise Breakup
                       </th>
@@ -409,7 +410,7 @@ export default async function JobDetailsPage({
                   <tbody>
                     {job.vacancyBreakdown.length === 0 ? (
                       <tr>
-                        <td colSpan={4} className="py-3 text-sm text-ink-700">
+                        <td colSpan={5} className="py-3 text-sm text-ink-700">
                           A post-wise vacancy breakdown is not available in this listing. Please check the official notification for the verified post and category-wise figures.
                         </td>
                       </tr>
@@ -429,6 +430,15 @@ export default async function JobDetailsPage({
                             {row.post}
                           </td>
   
+                          <td className="py-2.5 pr-4 text-ink-700">
+                            {row.qualification?.trim() ||
+                              job.eligibility.qualifications
+                                .map((qualification) => QUALIFICATION_LABELS[qualification])
+                                .filter(Boolean)
+                                .join(", ") ||
+                              "Not specified"}
+                          </td>
+
                           <td className="py-2.5 pr-4 text-ink-700">
                             {row.category || "—"}
                           </td>

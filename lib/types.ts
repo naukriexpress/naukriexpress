@@ -25,6 +25,7 @@ export type JobStatus = "draft" | "scheduled" | "published" | "expired";
 
 export interface VacancyRow {
   post: string;
+  qualification?: string;
   category: string;
   count: number;
   applyOnline?: string;

@@ -46,6 +46,7 @@ function parseVacancyRows(formData: FormData): VacancyRow[] {
   const cats = formData.getAll("vacancy_category").map(String);
   const counts = formData.getAll("vacancy_count").map(String);
   const applyLinks = formData.getAll("vacancy_applyOnline").map(String);
+  const qualifications = formData.getAll("vacancy_qualification").map(String);
 
   const rows: VacancyRow[] = [];
 
@@ -54,6 +55,7 @@ function parseVacancyRows(formData: FormData): VacancyRow[] {
 
     rows.push({
       post: posts[i].trim(),
+      qualification: qualifications[i]?.trim() || "",
       category: cats[i] || "",
       count: Math.max(0, Number(counts[i]) || 0),
       applyOnline: applyLinks[i]?.trim() || "",
