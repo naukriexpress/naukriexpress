@@ -340,23 +340,40 @@ export default async function JobDetailsPage({
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_320px]">
         <div>
           {/* Job Header */}
-          <div className="rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <h1 className="font-display text-xl font-bold leading-snug text-ink-900 sm:text-2xl">
-                  {job.title}
-                </h1>
+          <div className={`${cardFont.className} rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7`}>
+            <div className="job-title-panel relative mb-5 overflow-hidden rounded-xl border border-sky-100 bg-gradient-to-br from-sky-50 via-white to-indigo-50/70 p-4 pl-5 shadow-sm sm:p-5 sm:pl-6">
+              <div
+                aria-hidden="true"
+                className="job-title-accent absolute inset-y-3 left-0 w-1 rounded-r-full bg-gradient-to-b from-sky-500 via-blue-600 to-violet-600"
+              />
+              <div className="relative flex items-start justify-between gap-3">
+                <div className="min-w-0 flex-1">
+                  <div className="mb-2 flex flex-wrap items-center gap-2">
+                    <span className="job-title-eyebrow inline-flex items-center rounded-md border border-sky-200 bg-sky-100/80 px-2 py-1 text-[9px] font-extrabold uppercase tracking-[0.16em] text-sky-800 sm:text-[10px]">
+                      Recruitment
+                    </span>
+                    <span className="job-title-subeyebrow text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-500 sm:text-[10px]">
+                      Official Notice
+                    </span>
+                  </div>
 
-                <p className="mt-1 text-sm font-medium text-brand-700">
-                  {job.organization}
-                </p>
+                  <h1 className="job-main-heading font-display text-2xl font-extrabold leading-tight tracking-tight text-slate-950 sm:text-[2rem] sm:leading-tight">
+                    {job.title}
+                  </h1>
 
-                <p className="text-xs text-ink-700/60">
-                  {job.department}
-                </p>
+                  <p className="job-organization mt-2 text-sm font-bold text-sky-800">
+                    {job.organization}
+                  </p>
+
+                  <p className="job-department mt-0.5 text-xs leading-relaxed text-slate-600">
+                    {job.department}
+                  </p>
+                </div>
+
+                <div className="shrink-0">
+                  <StatusBadge job={job} />
+                </div>
               </div>
-
-              <StatusBadge job={job} />
             </div>
 
             <div className={`${cardFont.className} mt-5 grid grid-cols-2 gap-3 border-t border-slate-200 pt-5 sm:grid-cols-4`}>
