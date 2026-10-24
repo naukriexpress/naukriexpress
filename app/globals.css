@@ -1172,3 +1172,23 @@ html[data-theme="dark"] .vacancy-qualification-badge {
   color: #a7f3d0 !important;
   box-shadow: 0 2px 8px rgb(0 0 0 / 16%);
 }
+
+
+/* Match every vacancy table heading to the gold Apply Online badge style. */
+.vacancy-column-header--post,
+.vacancy-column-header--qualification,
+.vacancy-column-header--count,
+.vacancy-column-header--apply {
+  background: #fff7ed !important;
+  border-color: #fed7aa !important;
+  color: #c2410c !important;
+}
+
+html[data-theme="dark"] .vacancy-column-header--post,
+html[data-theme="dark"] .vacancy-column-header--qualification,
+html[data-theme="dark"] .vacancy-column-header--count,
+html[data-theme="dark"] .vacancy-column-header--apply {
+  background: linear-gradient(135deg, #3b2a13 0%, #29221b 100%) !important;
+  border-color: #b58128 !important;
+  color: #fcd34d !important;
+}
