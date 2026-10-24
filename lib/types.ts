@@ -80,7 +80,6 @@ export interface JobPosting {
 
   content: {
     eligibility?: string;
-    vacancyDetails?: string;
   };
 
   seo: {
