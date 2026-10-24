@@ -1142,6 +1142,23 @@ html[data-theme="dark"] .vacancy-column-header--apply {
   color: #fcd34d !important;
 }
 
+
+/* Keep all four vacancy-table heading labels one consistent color.
+   The header boxes retain their individual blue/green/violet/gold accents. */
+.vacancy-column-header--post,
+.vacancy-column-header--qualification,
+.vacancy-column-header--count,
+.vacancy-column-header--apply {
+  color: #16324f !important;
+}
+
+html[data-theme="dark"] .vacancy-column-header--post,
+html[data-theme="dark"] .vacancy-column-header--qualification,
+html[data-theme="dark"] .vacancy-column-header--count,
+html[data-theme="dark"] .vacancy-column-header--apply {
+  color: #f4f8ff !important;
+}
+
 /* Post and qualification values share the same green badge treatment. */
 .vacancy-post-badge {
   align-items: center;
