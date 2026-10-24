@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { JobPosting } from "@/lib/types";
 import { CATEGORY_LABELS, QUALIFICATION_LABELS } from "@/lib/types";
 import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
-import { hasPendingVacancyDetails, SSC_GD_NOTICE_PENDING_MARKER, VACANCY_DETAILS_PENDING_MARKER } from "@/lib/jobMarkers";
+import { hasPendingVacancyDetails } from "@/lib/jobMarkers";
 import StatusBadge from "./StatusBadge";
 
 function formatDate(iso: string) {
@@ -31,13 +31,11 @@ export default function JobCard({ job }: { job: JobPosting }) {
     .join("")
     .toUpperCase();
   const vacancyDetailsPending = hasPendingVacancyDetails({
-    importantInstructions: job.content.importantInstructions,
+    noticeDetailsPending: job.noticeDetailsPending,
     totalVacancies: job.totalVacancies,
     vacancyBreakdownCounts: job.vacancyBreakdown.map((row) => row.count),
   });
-  const noticeDetailsPending =
-    Boolean(job.content.importantInstructions?.includes(SSC_GD_NOTICE_PENDING_MARKER)) ||
-    Boolean(job.content.importantInstructions?.includes(VACANCY_DETAILS_PENDING_MARKER));
+  const noticeDetailsPending = Boolean(job.noticeDetailsPending);
 
   const daysToDeadline = noticeDetailsPending || job.status === "expired"
     ? null
@@ -117,7 +115,7 @@ export default function JobCard({ job }: { job: JobPosting }) {
           <dd className="font-semibold text-saffron-600">
             {noticeDetailsPending ? "Awaiting official notification" : formatDate(job.dates.lastDate)}
           </dd>
-          {!noticeDetailsPending && job.content.importantInstructions?.includes("[[LAST_DATE_EXTENDED]]") && (
+          {!noticeDetailsPending && job.lastDateExtended && (
             <span className="mt-1 inline-block rounded-full bg-orange-100 px-2 py-0.5 text-[11px] font-bold text-orange-800">
               Last Date Extended
             </span>
