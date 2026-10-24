@@ -423,3 +423,230 @@ html[data-theme="dark"] .job-title-eyebrow {
   border-color: #335a7f !important;
   color: #b9dcff !important;
 }
+
+
+/* Job listing cards — Design 1, with explicit light and dark palettes. */
+.job-listing-card {
+  border-color: #dbe5ef;
+  background-color: #ffffff;
+  color: #102b4e;
+}
+
+.job-listing-card .job-card-title {
+  color: #0f2948;
+}
+
+.job-listing-card .job-card-organization {
+  color: #245a91;
+}
+
+.job-card-detail {
+  min-height: 78px;
+}
+
+.job-card-detail-value {
+  color: #102b4e;
+}
+
+.job-card-detail-icon {
+  line-height: 1;
+}
+
+.job-card-category--sky {
+  background-color: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1d4ed8;
+}
+
+.job-card-category--emerald {
+  background-color: #ecfdf5;
+  border-color: #a7f3d0;
+  color: #047857;
+}
+
+.job-card-category--violet {
+  background-color: #f5f3ff;
+  border-color: #ddd6fe;
+  color: #6d28d9;
+}
+
+.job-card-category--amber {
+  background-color: #fffbeb;
+  border-color: #fde68a;
+  color: #b45309;
+}
+
+.job-card-category--rose {
+  background-color: #fff1f2;
+  border-color: #fecdd3;
+  color: #be123c;
+}
+
+.job-card-action--view {
+  border-color: #1d4ed8;
+  color: #1d4ed8;
+}
+
+.job-card-action--view:hover {
+  background-color: #eff6ff;
+}
+
+html[data-theme="dark"] .job-listing-card {
+  border-color: #2d425b !important;
+  background-color: #0f1c2c !important;
+  color: #e5edf7 !important;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 20%);
+}
+
+html[data-theme="dark"] .job-listing-card:hover {
+  border-color: #3b6389 !important;
+}
+
+html[data-theme="dark"] .job-card-title {
+  color: #f3f7fc !important;
+}
+
+html[data-theme="dark"] .job-card-title:hover {
+  color: #93c5fd !important;
+}
+
+html[data-theme="dark"] .job-card-organization {
+  color: #93c5fd !important;
+}
+
+html[data-theme="dark"] .job-card-logo {
+  background-color: #173451 !important;
+  border-color: #335a7f !important;
+  color: #c2e0ff !important;
+}
+
+html[data-theme="dark"] .job-card-detail {
+  box-shadow: none !important;
+}
+
+html[data-theme="dark"] .job-card-detail--emerald {
+  background-color: #102f2a !important;
+  background-image: none !important;
+  border-color: #2f7b5c !important;
+}
+html[data-theme="dark"] .job-card-detail--emerald .job-card-detail-icon {
+  background-color: #14532d !important;
+  color: #6ee7b7 !important;
+}
+html[data-theme="dark"] .job-card-detail--emerald .job-card-detail-label {
+  color: #86efac !important;
+}
+
+html[data-theme="dark"] .job-card-detail--rose {
+  background-color: #351d2a !important;
+  background-image: none !important;
+  border-color: #85415d !important;
+}
+html[data-theme="dark"] .job-card-detail--rose .job-card-detail-icon {
+  background-color: #5b2338 !important;
+  color: #fda4af !important;
+}
+html[data-theme="dark"] .job-card-detail--rose .job-card-detail-label {
+  color: #fda4af !important;
+}
+
+html[data-theme="dark"] .job-card-detail--violet {
+  background-color: #29213f !important;
+  background-image: none !important;
+  border-color: #6951a5 !important;
+}
+html[data-theme="dark"] .job-card-detail--violet .job-card-detail-icon {
+  background-color: #43316e !important;
+  color: #c4b5fd !important;
+}
+html[data-theme="dark"] .job-card-detail--violet .job-card-detail-label {
+  color: #c4b5fd !important;
+}
+
+html[data-theme="dark"] .job-card-detail--amber {
+  background-color: #342a18 !important;
+  background-image: none !important;
+  border-color: #8b682b !important;
+}
+html[data-theme="dark"] .job-card-detail--amber .job-card-detail-icon {
+  background-color: #59401a !important;
+  color: #fcd34d !important;
+}
+html[data-theme="dark"] .job-card-detail--amber .job-card-detail-label {
+  color: #fcd34d !important;
+}
+
+html[data-theme="dark"] .job-card-detail--sky {
+  background-color: #142b42 !important;
+  background-image: none !important;
+  border-color: #315b80 !important;
+}
+html[data-theme="dark"] .job-card-detail--sky .job-card-detail-icon {
+  background-color: #1e4162 !important;
+  color: #7dd3fc !important;
+}
+html[data-theme="dark"] .job-card-detail--sky .job-card-detail-label {
+  color: #7dd3fc !important;
+}
+
+html[data-theme="dark"] .job-card-detail-value {
+  color: #f3f7fc !important;
+}
+
+html[data-theme="dark"] .job-card-category--sky {
+  background-color: #142f50 !important;
+  border-color: #315b80 !important;
+  color: #bfdbfe !important;
+}
+html[data-theme="dark"] .job-card-category--emerald {
+  background-color: #10372c !important;
+  border-color: #2f7b5c !important;
+  color: #a7f3d0 !important;
+}
+html[data-theme="dark"] .job-card-category--violet {
+  background-color: #30204d !important;
+  border-color: #6951a5 !important;
+  color: #ddd6fe !important;
+}
+html[data-theme="dark"] .job-card-category--amber {
+  background-color: #3b2c14 !important;
+  border-color: #8b682b !important;
+  color: #fde68a !important;
+}
+html[data-theme="dark"] .job-card-category--rose {
+  background-color: #421d2d !important;
+  border-color: #85415d !important;
+  color: #fecdd3 !important;
+}
+
+html[data-theme="dark"] .job-deadline-alert {
+  background-image: linear-gradient(90deg, #b91c1c, #be123c) !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] .job-card-action--view {
+  background-color: #122740 !important;
+  border-color: #60a5fa !important;
+  color: #dbeafe !important;
+}
+html[data-theme="dark"] .job-card-action--view:hover {
+  background-color: #1d3a5b !important;
+}
+
+html[data-theme="dark"] .job-card-action--apply {
+  background-color: #087f5b !important;
+  border-color: #34d399 !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] .job-card-action--notice {
+  background-color: #c2410c !important;
+  border-color: #fb923c !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] .job-card-extended {
+  background-color: #633b16 !important;
+  border-color: #f59e0b !important;
+  color: #fff7ed !important;
+}
