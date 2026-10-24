@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { queryJobs } from "@/lib/db";
 import type { JobPosting } from "@/lib/types";
-import { hasPendingVacancyDetails, SSC_GD_NOTICE_PENDING_MARKER, VACANCY_DETAILS_PENDING_MARKER } from "@/lib/jobMarkers";
+import { hasPendingVacancyDetails } from "@/lib/jobMarkers";
 import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
 import JobCard from "@/components/JobCard";
 
@@ -34,14 +34,12 @@ export const metadata: Metadata = {
 };
 
 function isNoticeAwaited(job: JobPosting): boolean {
-  const instructions = job.content.importantInstructions || "";
-  return instructions.includes(SSC_GD_NOTICE_PENDING_MARKER) ||
-    instructions.includes(VACANCY_DETAILS_PENDING_MARKER);
+  return Boolean(job.noticeDetailsPending);
 }
 
 function getVerifiedVacancyCount(job: JobPosting): number {
   const pending = hasPendingVacancyDetails({
-    importantInstructions: job.content.importantInstructions,
+    noticeDetailsPending: job.noticeDetailsPending,
     totalVacancies: job.totalVacancies,
     vacancyBreakdownCounts: job.vacancyBreakdown.map((row) => row.count),
   });

@@ -3,7 +3,6 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createSession, destroySession, verifyCredentials } from "./auth";
-import { SSC_GD_NOTICE_PENDING_MARKER } from "./jobMarkers";
 import { createJob, deleteJob, getJobById, updateJob } from "./db";
 import type {
   Category,
@@ -64,8 +63,6 @@ function parseVacancyRows(formData: FormData): VacancyRow[] {
 
   return rows;
 }
-
-const LAST_DATE_EXTENDED_MARKER = "[[LAST_DATE_EXTENDED]]";
 
 function buildJobFromForm(formData: FormData) {
   const genders = parseCheckboxList<Gender>(formData, "gender");
@@ -145,31 +142,14 @@ function buildJobFromForm(formData: FormData) {
         String(formData.get("officialWebsite") || "") || undefined,
     },
 
+    lastDateExtended: formData.get("lastDateExtended") === "on",
+    noticeDetailsPending: formData.get("noticeDetailsPending") === "on",
+
     content: {
       eligibility:
         String(formData.get("content_eligibility") || "") || undefined,
       vacancyDetails:
         String(formData.get("content_vacancyDetails") || "") || undefined,
-      selectionProcess:
-        String(formData.get("content_selectionProcess") || "") || undefined,
-      howToApply:
-        String(formData.get("content_howToApply") || "") || undefined,
-      importantInstructions: (() => {
-        const instructions = String(formData.get("content_importantInstructions") || "")
-          .replace(LAST_DATE_EXTENDED_MARKER, "")
-          .replace(SSC_GD_NOTICE_PENDING_MARKER, "")
-          .trim();
-        const extended = formData.get("lastDateExtended") === "on";
-        const noticeDetailsPending = formData.get("noticeDetailsPending") === "on";
-        const saved = [
-          instructions,
-          extended ? LAST_DATE_EXTENDED_MARKER : "",
-          noticeDetailsPending ? SSC_GD_NOTICE_PENDING_MARKER : "",
-        ]
-          .filter(Boolean)
-          .join("\n");
-        return saved || undefined;
-      })(),
     },
 
     seo: {

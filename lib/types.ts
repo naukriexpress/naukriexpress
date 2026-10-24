@@ -62,6 +62,10 @@ export interface JobPosting {
   salary?: string;
   applicationFee?: string;
 
+  /** Operational flags are stored separately from editable page content. */
+  lastDateExtended?: boolean;
+  noticeDetailsPending?: boolean;
+
   dates: {
     startDate?: string;
     lastDate: string;
@@ -77,9 +81,6 @@ export interface JobPosting {
   content: {
     eligibility?: string;
     vacancyDetails?: string;
-    selectionProcess?: string;
-    howToApply?: string;
-    importantInstructions?: string;
   };
 
   seo: {
