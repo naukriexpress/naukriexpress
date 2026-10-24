@@ -374,6 +374,12 @@ html[data-theme="dark"] .vacancy-row-count {
   color: #a7f3d0 !important;
 }
 
+html[data-theme="dark"] .vacancy-qualification-badge {
+  background-color: #123a2c !important;
+  border-color: #2f7b5c !important;
+  color: #a7f3d0 !important;
+}
+
 html[data-theme="dark"] .vacancy-apply-button {
   background-color: #087f5b !important;
   border-color: #34d399 !important;
