@@ -161,7 +161,7 @@ export default function JobForm({
       </Section>
 
       {/* Vacancy breakdown */}
-      <Section title="Vacancy Details" hint="Add one row per post. This also generates the table shown on the job details page.">
+      <Section title="Post-wise Vacancy Table" hint="Add one row per post. This generates the public vacancy table.">
         <VacancyRowsEditor defaultRows={job?.vacancyBreakdown} />
       </Section>
 
@@ -226,7 +226,6 @@ export default function JobForm({
       {/* Content */}
       <Section title="Content" hint="Use the formatting toolbar — no HTML knowledge needed.">
         <RichTextEditor name="content_eligibility" label="Eligibility Details" defaultValue={job?.content.eligibility} placeholder="Describe eligibility in detail..." />
-        <RichTextEditor name="content_vacancyDetails" label="Vacancy Details" defaultValue={job?.content.vacancyDetails} placeholder="Additional vacancy notes..." />
       </Section>
 
       {/* SEO */}
