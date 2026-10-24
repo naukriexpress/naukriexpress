@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function RichTextEditor({
   name,
@@ -15,6 +15,18 @@ export default function RichTextEditor({
 }) {
   const editorRef = useRef<HTMLDivElement>(null);
   const [html, setHtml] = useState(defaultValue || "");
+
+  // Keep the editable DOM separate from React's render cycle. Passing
+  // dangerouslySetInnerHTML on every render resets the user's caret/content
+  // when the hidden form value changes, making typing appear broken.
+  useEffect(() => {
+    const editor = editorRef.current;
+    if (!editor) return;
+
+    const nextHtml = defaultValue || "";
+    if (editor.innerHTML !== nextHtml) editor.innerHTML = nextHtml;
+    setHtml(nextHtml);
+  }, [defaultValue]);
 
   function exec(command: string, value?: string) {
     editorRef.current?.focus();
@@ -51,9 +63,12 @@ export default function RichTextEditor({
           ref={editorRef}
           contentEditable
           suppressContentEditableWarning
-          onInput={(e) => setHtml((e.target as HTMLDivElement).innerHTML)}
+          onInput={(e) => setHtml(e.currentTarget.innerHTML)}
           data-placeholder={placeholder}
-          dangerouslySetInnerHTML={{ __html: defaultValue || "" }}
+          role="textbox"
+          aria-label={label}
+          aria-multiline="true"
+          spellCheck
           className="min-h-[110px] px-3 py-2.5 text-sm text-ink-900 focus:outline-none [&:empty]:before:content-[attr(data-placeholder)] [&:empty]:before:text-ink-700/40"
         />
       </div>
