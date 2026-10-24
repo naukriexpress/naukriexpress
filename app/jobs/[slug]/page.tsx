@@ -184,7 +184,6 @@ export default async function JobDetailsPage({
           .map((row) => `${row.post}: ${row.count}`)
           .join("; ")}.`
       : "",
-    htmlToPlainText(job.content.vacancyDetails),
     htmlToPlainText(job.content.eligibility),
   ]
     .filter(Boolean)
