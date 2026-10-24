@@ -1,3 +1,4 @@
+import { cache } from "react";
 import * as local from "./db.local";
 import type { JobFilters, JobPosting } from "./types";
 
@@ -28,10 +29,11 @@ export async function getJobById(id: string): Promise<JobPosting | undefined> {
   return local.getJobById(id);
 }
 
-export async function getJobBySlug(slug: string): Promise<JobPosting | undefined> {
+// Reuse the same per-request lookup between generateMetadata and the page body.
+export const getJobBySlug = cache(async (slug: string): Promise<JobPosting | undefined> => {
   if (usePg()) return (await import("./db.pg")).getJobBySlug(slug);
   return local.getJobBySlug(slug);
-}
+});
 
 export async function incrementViews(id: string): Promise<void> {
   if (usePg()) return (await import("./db.pg")).incrementViews(id);
