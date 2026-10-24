@@ -431,7 +431,12 @@ export default async function JobDetailsPage({
                           </td>
   
                           <td className="py-2.5 pr-4 text-ink-700">
-                            {row.qualification?.trim() || "Not specified"}
+                            {row.qualification?.trim() ||
+                              job.eligibility.qualifications
+                                .map((qualification) => QUALIFICATION_LABELS[qualification])
+                                .filter(Boolean)
+                                .join(", ") ||
+                              "Not specified"}
                           </td>
 
                           <td className="py-2.5 pr-4 text-ink-700">
