@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { getHeaderData } from "@/lib/db";
 import AdmitCardButton from "./AdmitCardButton";
 import HeroSearch from "./HeroSearch";
+import HeaderLiveStats from "./HeaderLiveStats";
 import MobileNav from "./MobileNav";
 import ThemeToggle from "./ThemeToggle";
 
@@ -20,9 +20,7 @@ const NAV_LINKS = [
   { href: "/contact", label: "Contact Us" },
 ];
 
-export default async function Header() {
-  const { closingToday, liveJobs, states } = await getHeaderData();
-
+export default function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-ink-900/10 bg-white/95 backdrop-blur">
       <div className="bg-ink-900 text-xs text-white sm:text-sm">
@@ -31,9 +29,7 @@ export default async function Header() {
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-saffron-400" aria-hidden="true" />
             LIVE
           </span>
-          <span>{liveJobs} open recruitments tracked</span>
-          <span className="opacity-40">•</span>
-          <span className="font-medium text-leaf-400">{closingToday} closing today — apply now</span>
+          <HeaderLiveStats />
         </div>
       </div>
 
@@ -62,9 +58,13 @@ export default async function Header() {
 
         <div className="shrink-0 2xl:hidden">
           <Suspense fallback={<div className="h-10 w-10 rounded-lg border border-ink-900/15 bg-white" aria-hidden="true" />}>
-            <MobileNav states={states} />
+            <MobileNav states={[]} />
           </Suspense>
         </div>
+      </div>
+
+      <div className="container-page pb-3 lg:hidden">
+        <HeroSearch />
       </div>
 
       <div className="hidden border-t border-ink-900/10 2xl:block">
