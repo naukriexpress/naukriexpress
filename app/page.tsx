@@ -1,14 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { queryJobs } from "@/lib/db";
-import type { JobPosting } from "@/lib/types";
-import { hasPendingVacancyDetails } from "@/lib/jobMarkers";
-import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
-import JobCard from "@/components/JobCard";
+import HomeLatestJobs from "@/components/HomeLatestJobs";
 
 const SITE_URL = "https://www.naukriexpress.space";
-
-export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: { absolute: "NaukriExpress | Latest Government & Private Jobs in India" },
@@ -22,7 +16,7 @@ export const metadata: Metadata = {
     siteName: "NaukriExpress",
     title: "NaukriExpress | Latest Government & Private Jobs in India",
     description:
-      "Explore government jobs, private vacancies, Maharashtra recruitment, apprenticeships, admit cards and results on NaukriExpress.",
+      "Explore government jobs, private vacancies, Maharashtra recruitment, apprenticeships, admit cards, results and recruitment updates on NaukriExpress.",
     url: `${SITE_URL}/`,
   },
   twitter: {
@@ -33,65 +27,7 @@ export const metadata: Metadata = {
   },
 };
 
-function isNoticeAwaited(job: JobPosting): boolean {
-  return Boolean(job.noticeDetailsPending);
-}
-
-function getVerifiedVacancyCount(job: JobPosting): number {
-  const pending = hasPendingVacancyDetails({
-    noticeDetailsPending: job.noticeDetailsPending,
-    totalVacancies: job.totalVacancies,
-    vacancyBreakdownCounts: job.vacancyBreakdown.map((row) => row.count),
-  });
-  if (pending || isNoticeAwaited(job)) return 0;
-
-  const rowTotal = job.vacancyBreakdown.reduce(
-    (sum, row) => sum + Math.max(0, Number(row.count) || 0),
-    0
-  );
-  return Math.max(Math.max(0, Number(job.totalVacancies) || 0), rowTotal);
-}
-
-function isClosingSoon(job: JobPosting, today: string): boolean {
-  // A real published deadline should remain high priority even when vacancy
-  // counts are not supplied. Only explicitly notice-pending posts are ignored.
-  if (job.status !== "published" || isNoticeAwaited(job)) return false;
-  const days = getDaysUntilDate(job.dates.lastDate, today);
-  return days !== null && days >= 0 && days <= 7;
-}
-
-export default async function HomePage() {
-  const { results: allLiveJobs } = await queryJobs({
-    sort: "latest",
-    status: "published",
-    pageSize: 100,
-    jobType: ["government", "private", "contract", "internship"],
-  });
-  const today = getIndiaTodayDate();
-
-  // Closing-soon recruitments go first (soonest deadline first). Remaining
-  // cards are ordered by verified vacancy count, then newest posting.
-  const latestJobs = [...allLiveJobs]
-    .sort((a, b) => {
-      const urgentA = isClosingSoon(a, today);
-      const urgentB = isClosingSoon(b, today);
-      if (urgentA !== urgentB) return urgentA ? -1 : 1;
-
-      if (urgentA && urgentB) {
-        const daysA = getDaysUntilDate(a.dates.lastDate, today);
-        const daysB = getDaysUntilDate(b.dates.lastDate, today);
-        if (daysA !== null && daysB !== null && daysA !== daysB) {
-          return daysA - daysB;
-        }
-      }
-
-      const vacancyDifference = getVerifiedVacancyCount(b) - getVerifiedVacancyCount(a);
-      if (vacancyDifference !== 0) return vacancyDifference;
-
-      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-    })
-    .slice(0, 30);
-
+export default function HomePage() {
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -106,33 +42,14 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
       />
-      {/* Latest and priority-sorted jobs */}
-      <section className="container-page mt-10">
-        <div className="mb-5 flex items-end justify-between gap-3">
-          <div>
-            <h1 className="font-display text-2xl font-bold text-ink-900">Latest Job Updates</h1>
-            <p className="mt-1 text-sm text-ink-700/70">
-              Last-date alerts first, followed by recruitments with more vacancies.
-            </p>
-          </div>
-          <span className="shrink-0 rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">
-            {latestJobs.length} Jobs
-          </span>
-        </div>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {latestJobs.map((job) => (
-            <JobCard key={job.id} job={job} />
-          ))}
-        </div>
-        <Link href="/jobs" className="mt-6 block rounded-lg border border-brand-600 px-4 py-3 text-center text-sm font-semibold text-brand-700 hover:bg-brand-50">
-          View all jobs →
-        </Link>
-      </section>
+
+      {/* Static page shell renders immediately; job data loads in the client feed. */}
+      <HomeLatestJobs />
 
       {/* Important Links */}
       <section className="container-page mt-16 mb-16">
         <div className="rounded-xl2 bg-brand-50 p-6 sm:p-8">
-          <h2 className="font-display text-xl font-bold text-ink-900 mb-4">Important Links</h2>
+          <h2 className="mb-4 font-display text-xl font-bold text-ink-900">Important Links</h2>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             {[
               { label: "Admit Card", href: "/admit-card" },
@@ -143,13 +60,13 @@ export default async function HomePage() {
               { label: "Maharashtra Jobs", href: "/jobs?state=Maharashtra" },
               { label: "Jobs Closing Today", href: "/jobs?lastDate=today" },
               { label: "Contact Us", href: "/contact" },
-            ].map((l) => (
+            ].map((item) => (
               <Link
-                key={l.label}
-                href={l.href}
-                className="rounded-lg bg-white px-3 py-3 text-center text-sm font-medium text-ink-800 shadow-card hover:shadow-cardHover transition-shadow"
+                key={item.label}
+                href={item.href}
+                className="rounded-lg bg-white px-3 py-3 text-center text-sm font-medium text-ink-800 shadow-card transition-shadow hover:shadow-cardHover"
               >
-                {l.label}
+                {item.label}
               </Link>
             ))}
           </div>

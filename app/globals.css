@@ -650,3 +650,23 @@ html[data-theme="dark"] .job-card-extended {
   border-color: #f59e0b !important;
   color: #fff7ed !important;
 }
+
+
+/* Homepage loading skeleton stays visible and readable in either theme. */
+html[data-theme="dark"] .job-card-skeleton {
+  background-color: #0f1c2c !important;
+  border-color: #2d425b !important;
+}
+
+html[data-theme="dark"] .job-card-skeleton .bg-slate-200,
+html[data-theme="dark"] .job-card-skeleton .bg-slate-100 {
+  background-color: #263a52 !important;
+}
+
+html[data-theme="dark"] .job-card-skeleton .bg-orange-100 {
+  background-color: #633b16 !important;
+}
+
+html[data-theme="dark"] .job-card-skeleton .border-slate-100 {
+  border-color: #2d425b !important;
+}

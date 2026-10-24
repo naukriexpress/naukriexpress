@@ -25,6 +25,7 @@ const NAV_LINKS = [
 export default function MobileNav({ states }: { states: string[] }) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [availableStates, setAvailableStates] = useState(states);
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentQuery = searchParams.toString();
@@ -36,6 +37,25 @@ export default function MobileNav({ states }: { states: string[] }) {
   useEffect(() => {
     setOpen(false);
   }, [pathname, currentQuery]);
+
+  useEffect(() => {
+    if (!open || availableStates.length > 0) return;
+
+    const controller = new AbortController();
+    fetch("/api/header-data", { cache: "no-store", signal: controller.signal })
+      .then((response) => {
+        if (!response.ok) throw new Error("States unavailable");
+        return response.json();
+      })
+      .then((data: { states?: string[] }) => {
+        if (Array.isArray(data.states)) setAvailableStates(data.states);
+      })
+      .catch(() => {
+        // Keep menu usable even if location options cannot be loaded.
+      });
+
+    return () => controller.abort();
+  }, [open, availableStates.length]);
 
   useEffect(() => {
     if (!open) return;
@@ -144,7 +164,7 @@ export default function MobileNav({ states }: { states: string[] }) {
                   <ThemeToggle />
                 </div>
                 <div className="mt-3">
-                  <EligibilityFinder states={states} variant="menu" />
+                  <EligibilityFinder states={availableStates} variant="menu" />
                 </div>
               </div>
             </div>
