@@ -824,3 +824,31 @@ html[data-theme="dark"] .contact-form-card textarea {
   color: #f3f7fc !important;
 }
 
+
+
+/* Job-details route fallback: keep navigation responsive while the job loads. */
+.job-details-skeleton .animate-pulse {
+  animation-duration: 1.35s;
+}
+
+html[data-theme="dark"] .job-details-skeleton > div > *,
+html[data-theme="dark"] .job-details-skeleton section {
+  border-color: #2d425b !important;
+}
+
+html[data-theme="dark"] .job-details-skeleton section,
+html[data-theme="dark"] .job-details-skeleton section > div,
+html[data-theme="dark"] .job-details-related-skeleton {
+  background-color: #0f1c2c !important;
+  background-image: none !important;
+}
+
+html[data-theme="dark"] .job-details-skeleton .bg-slate-200,
+html[data-theme="dark"] .job-details-skeleton .bg-slate-100,
+html[data-theme="dark"] .job-details-skeleton .bg-sky-100 {
+  background-color: #263a52 !important;
+}
+
+html[data-theme="dark"] .job-details-skeleton .border-sky-100 {
+  border-color: #2d425b !important;
+}
