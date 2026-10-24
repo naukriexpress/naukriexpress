@@ -549,34 +549,60 @@ export default async function JobDetailsPage({
             )}
 
             {job.content.eligibility && (
-              eligibilityRows ? (
-                <div className="overflow-hidden rounded-lg border border-ink-900/10">
-                  <table className="w-full border-collapse text-sm">
-                    <tbody>
-                      {eligibilityRows.map((row, index) => (
-                        <tr
-                          key={index}
-                          className={index < eligibilityRows.length - 1 ? "border-b border-ink-900/10" : ""}
+              <div className="mt-5 border-t border-slate-100 pt-5">
+                <h3 className="mb-3 text-sm font-extrabold tracking-tight text-slate-800">
+                  Eligibility Details
+                </h3>
+
+                {eligibilityRows ? (
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                    {eligibilityRows.map((row, index) => (
+                      <div
+                        key={index}
+                        className={`min-w-0 rounded-xl border p-4 shadow-sm transition-colors ${
+                          index % 5 === 0
+                            ? "border-sky-100 bg-gradient-to-br from-sky-50 to-white hover:border-sky-200"
+                            : index % 5 === 1
+                              ? "border-teal-100 bg-gradient-to-br from-teal-50 to-white hover:border-teal-200"
+                              : index % 5 === 2
+                                ? "border-violet-100 bg-gradient-to-br from-violet-50 to-white hover:border-violet-200"
+                                : index % 5 === 3
+                                  ? "border-amber-100 bg-gradient-to-br from-amber-50 to-white hover:border-amber-200"
+                                  : "border-emerald-100 bg-gradient-to-br from-emerald-50 to-white hover:border-emerald-200"
+                        }`}
+                      >
+                        <p
+                          className={`mb-2 text-[10px] font-bold uppercase tracking-[0.13em] ${
+                            index % 5 === 0
+                              ? "text-sky-700"
+                              : index % 5 === 1
+                                ? "text-teal-700"
+                                : index % 5 === 2
+                                  ? "text-violet-700"
+                                  : index % 5 === 3
+                                    ? "text-amber-700"
+                                    : "text-emerald-700"
+                          }`}
                         >
-                          <td className="w-[42%] px-3 py-2.5 align-top text-xs text-ink-700/80 sm:text-sm">
-                            {row.label}
-                          </td>
-                          <td className="px-3 py-2.5 text-right align-top text-sm font-semibold text-ink-900 [overflow-wrap:anywhere]">
-                            {row.value}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              ) : (
-                <div
-                  className="prose-sm text-ink-800 [&_p]:mb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5"
-                  dangerouslySetInnerHTML={{
-                    __html: job.content.eligibility,
-                  }}
-                />
-              )
+                          {row.label}
+                        </p>
+                        <p className="break-words text-sm font-bold leading-relaxed text-slate-900">
+                          {row.value}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="rounded-xl border border-sky-100 bg-gradient-to-br from-sky-50/70 via-white to-violet-50/40 p-3 shadow-sm sm:p-4">
+                    <div
+                      className="prose-sm text-ink-800 [&_p]:mb-3 [&_p:last-child]:mb-0 [&_p]:rounded-lg [&_p]:border [&_p]:border-sky-100 [&_p]:bg-white/90 [&_p]:px-3 [&_p]:py-3 [&_p]:shadow-sm [&_ul]:my-3 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5 [&_ol]:my-3 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-5 [&_li]:rounded-md [&_li]:border [&_li]:border-violet-100 [&_li]:bg-violet-50/50 [&_li]:px-3 [&_li]:py-2"
+                      dangerouslySetInnerHTML={{
+                        __html: job.content.eligibility,
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
             )}
           </section>
 
