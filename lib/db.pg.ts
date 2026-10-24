@@ -66,7 +66,6 @@ function mapJobRow(row: any, vacancyRows: VacancyRow[]): JobPosting {
     noticeDetailsPending: row.notice_details_pending === true,
     content: {
       eligibility: row.content_eligibility || undefined,
-      vacancyDetails: row.content_vacancy_details || undefined,
     },
     seo: {
       title: row.seo_title || undefined,
@@ -340,7 +339,7 @@ export async function createJob(
       job_type, salary, application_fee,
       start_date, last_date, exam_date,
       apply_online_url, official_notification_url, official_website_url,
-      content_eligibility, content_vacancy_details,
+      content_eligibility,
       seo_title, seo_meta_description,
       featured, status, publish_at, last_date_extended, notice_details_pending
     ) values (
@@ -350,10 +349,10 @@ export async function createJob(
       $17,$18,$19,
       $20,$21,$22,
       $23,$24,$25,
-      $26,$27,
-      $28,$29,
-      $30,$31,$32,
-      $33,$34
+      $26,
+      $27,$28,
+      $29,$30,$31,
+      $32,$33
     ) returning *, ${RESOLVED_STATUS_SQL} as effective_status`,
     [
       slug, input.title, input.organization, input.department || null, input.advertisementNumber || null, input.logoUrl || null,
@@ -363,7 +362,7 @@ export async function createJob(
       input.jobType, input.salary || null, input.applicationFee || null,
       input.dates.startDate || null, input.dates.lastDate, input.dates.examDate || null,
       input.links.applyOnline || null, input.links.officialNotification || null, input.links.officialWebsite || null,
-      input.content.eligibility || null, input.content.vacancyDetails || null,
+      input.content.eligibility || null,
       input.seo.title || null, input.seo.metaDescription || null,
       input.featured, input.status, input.publishAt || null,
       input.lastDateExtended === true, input.noticeDetailsPending === true,
@@ -423,11 +422,11 @@ export async function updateJob(
       job_type=$17, salary=$18, application_fee=$19,
       start_date=$20, last_date=$21, exam_date=$22,
       apply_online_url=$23, official_notification_url=$24, official_website_url=$25,
-      content_eligibility=$26, content_vacancy_details=$27,
-      seo_title=$28, seo_meta_description=$29,
-      featured=$30, status=$31, publish_at=$32,
-      last_date_extended=$33, notice_details_pending=$34
-    where id = $35
+      content_eligibility=$26,
+      seo_title=$27, seo_meta_description=$28,
+      featured=$29, status=$30, publish_at=$31,
+      last_date_extended=$32, notice_details_pending=$33
+    where id = $34
     returning *, ${RESOLVED_STATUS_SQL} as effective_status`,
     [
       slug, merged.title, merged.organization, merged.department || null, merged.advertisementNumber || null, merged.logoUrl || null,
@@ -437,7 +436,7 @@ export async function updateJob(
       merged.jobType, merged.salary || null, merged.applicationFee || null,
       merged.dates.startDate || null, merged.dates.lastDate, merged.dates.examDate || null,
       merged.links.applyOnline || null, merged.links.officialNotification || null, merged.links.officialWebsite || null,
-      merged.content.eligibility || null, merged.content.vacancyDetails || null,
+      merged.content.eligibility || null,
       merged.seo.title || null, merged.seo.metaDescription || null,
       merged.featured, merged.status, merged.publishAt || null,
       merged.lastDateExtended === true, merged.noticeDetailsPending === true,
