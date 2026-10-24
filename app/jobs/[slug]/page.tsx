@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Manrope } from "next/font/google";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getJobBySlug, incrementViews, queryJobs } from "@/lib/db";
@@ -15,6 +16,8 @@ import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
 export const dynamic = "force-dynamic";
 
 const SITE_URL = "https://www.naukriexpress.space";
+
+const cardFont = Manrope({ subsets: ["latin"], display: "swap" });
 
 function formatDate(iso?: string) {
   if (!iso) return "—";
@@ -356,19 +359,17 @@ export default async function JobDetailsPage({
               <StatusBadge job={job} />
             </div>
 
-            <div className="mt-5 grid grid-cols-2 gap-4 border-t border-ink-900/10 pt-5 sm:grid-cols-4">
-              <div>
-                <p className="text-xs text-ink-700/60">Advt. No.</p>
-                <p className="text-sm font-semibold text-ink-900">
-                  {job.advertisementNumber}
+            <div className={`${cardFont.className} mt-5 grid grid-cols-2 gap-3 border-t border-slate-200 pt-5 sm:grid-cols-4`}>
+              <div className="min-w-0 rounded-xl border border-sky-100 bg-gradient-to-br from-sky-50 to-white p-3.5 shadow-sm transition-colors hover:border-sky-200">
+                <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.13em] text-sky-700">Advt. No.</p>
+                <p className="break-words text-sm font-bold leading-snug text-slate-900">
+                  {job.advertisementNumber || "As notified"}
                 </p>
               </div>
 
-              <div>
-                <p className="text-xs text-ink-700/60">
-                  Total Vacancies
-                </p>
-                <p className="text-sm font-semibold text-ink-900">
+              <div className="min-w-0 rounded-xl border border-emerald-100 bg-gradient-to-br from-emerald-50 to-white p-3.5 shadow-sm transition-colors hover:border-emerald-200">
+                <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.13em] text-emerald-700">Total Vacancies</p>
+                <p className="break-words text-sm font-extrabold leading-snug text-emerald-950 sm:text-base">
                   {vacancyDetailsPending
                     ? "Awaiting confirmation"
                     : job.totalVacancies > 0
@@ -377,16 +378,16 @@ export default async function JobDetailsPage({
                 </p>
               </div>
 
-              <div>
-                <p className="text-xs text-ink-700/60">Job Type</p>
-                <p className="text-sm font-semibold text-ink-900">
+              <div className="min-w-0 rounded-xl border border-violet-100 bg-gradient-to-br from-violet-50 to-white p-3.5 shadow-sm transition-colors hover:border-violet-200">
+                <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.13em] text-violet-700">Job Type</p>
+                <p className="break-words text-sm font-bold leading-snug text-slate-900">
                   {JOB_TYPE_LABELS[job.jobType]}
                 </p>
               </div>
 
-              <div>
-                <p className="text-xs text-ink-700/60">Location</p>
-                <p className="text-sm font-semibold text-ink-900">
+              <div className="min-w-0 rounded-xl border border-amber-100 bg-gradient-to-br from-amber-50 to-white p-3.5 shadow-sm transition-colors hover:border-amber-200">
+                <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.13em] text-amber-700">Location</p>
+                <p className="break-words text-sm font-bold leading-snug text-slate-900">
                   {job.location.allIndia
                     ? "All India"
                     : job.location.district || job.location.state}
@@ -496,26 +497,26 @@ export default async function JobDetailsPage({
           </section>
 
           {/* Eligibility */}
-          <section className="mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7">
+          <section className={`${cardFont.className} mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7`}>
             <h2 className="mb-3 font-display text-lg font-bold text-ink-900">
               Eligibility
             </h2>
 
-            <div className="mb-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
-              <div>
-                <p className="text-xs text-ink-700/60">
+            <div className="mb-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="min-w-0 rounded-xl border border-teal-100 border-l-4 border-l-teal-500 bg-gradient-to-br from-teal-50/80 to-white p-4 shadow-sm">
+                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.13em] text-teal-700">
                   Eligible Gender
                 </p>
-                <p className="text-sm font-semibold capitalize text-ink-900">
-{job.eligibility.genders.length ? job.eligibility.genders.join(" & ") : "As per official notification"}
+                <p className="break-words text-sm font-bold leading-snug text-slate-900">
+                  {job.eligibility.genders.length ? job.eligibility.genders.join(" & ") : "As per official notification"}
                 </p>
               </div>
 
-              <div>
-                <p className="text-xs text-ink-700/60">
+              <div className="min-w-0 rounded-xl border border-sky-100 border-l-4 border-l-sky-500 bg-gradient-to-br from-sky-50/80 to-white p-4 shadow-sm">
+                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.13em] text-sky-700">
                   Qualification
                 </p>
-                <p className="text-sm font-semibold text-ink-900">
+                <p className="break-words text-sm font-bold leading-snug text-slate-900">
                   {noticeDetailsPending
                     ? "As per official notification"
                     : job.eligibility.qualifications
@@ -524,12 +525,12 @@ export default async function JobDetailsPage({
                 </p>
               </div>
 
-              <div>
-                <p className="text-xs text-ink-700/60">
+              <div className="min-w-0 rounded-xl border border-violet-100 border-l-4 border-l-violet-500 bg-gradient-to-br from-violet-50/80 to-white p-4 shadow-sm">
+                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.13em] text-violet-700">
                   Age Limit
                 </p>
-                <p className="text-sm font-semibold text-ink-900">
-{noticeDetailsPending
+                <p className="break-words text-sm font-bold leading-snug text-slate-900">
+                  {noticeDetailsPending
                     ? "As per official notification"
                     : ageLimitLabel(job.eligibility.minAge, job.eligibility.maxAge)}
                 </p>
@@ -537,10 +538,14 @@ export default async function JobDetailsPage({
             </div>
 
             {job.eligibility.ageRelaxation && (
-              <p className="mb-4 text-sm text-ink-700">
-                <strong>Age Relaxation:</strong>{" "}
-                {job.eligibility.ageRelaxation}
-              </p>
+              <div className="mb-4 rounded-xl border border-amber-200 border-l-4 border-l-amber-500 bg-gradient-to-r from-amber-50 to-white p-4 shadow-sm">
+                <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.13em] text-amber-700">
+                  Age Relaxation
+                </p>
+                <p className="break-words text-sm font-semibold leading-relaxed text-slate-900">
+                  {job.eligibility.ageRelaxation}
+                </p>
+              </div>
             )}
 
             {job.content.eligibility && (
