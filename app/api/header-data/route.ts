@@ -14,7 +14,7 @@ export async function GET() {
     console.error("Header data GET error:", error);
     return NextResponse.json(
       { closingToday: 0, liveJobs: 0, states: [] },
-      { status: 200, headers: { "Cache-Control": "no-store" } }
+      { status: 503, headers: { "Cache-Control": "no-store" } }
     );
   }
 }
