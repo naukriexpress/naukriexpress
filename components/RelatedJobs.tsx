@@ -18,7 +18,7 @@ export default async function RelatedJobs({
   if (jobs.length === 0) return null;
 
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+    <section className="related-jobs-panel rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
       <h2 className="mb-3 font-display text-sm font-extrabold text-ink-900">
         Related Jobs
       </h2>
@@ -27,12 +27,12 @@ export default async function RelatedJobs({
           <Link
             key={job.id}
             href={`/jobs/${job.slug}`}
-            className="block rounded-xl border border-slate-200 bg-slate-50/70 p-3 transition-colors hover:border-sky-300 hover:bg-sky-50"
+            className="related-job-link block rounded-xl border border-slate-200 bg-slate-50/70 p-3 transition-colors hover:border-sky-300 hover:bg-sky-50"
           >
-            <p className="line-clamp-2 text-xs font-bold text-ink-900">
+            <p className="related-job-title line-clamp-2 text-xs font-bold text-ink-900">
               {job.title}
             </p>
-            <p className="mt-1 line-clamp-1 text-xs text-ink-700/70">
+            <p className="related-job-organization mt-1 line-clamp-1 text-xs text-ink-700/70">
               {job.organization}
             </p>
           </Link>
