@@ -1192,3 +1192,29 @@ html[data-theme="dark"] .vacancy-column-header--apply {
   border-color: #b58128 !important;
   color: #fcd34d !important;
 }
+
+
+/* Sr. No. column for the post-wise vacancy table. */
+.vacancy-column-header--serial {
+  background-color: #eff6ff;
+  border-color: #bfdbfe;
+  color: #c2410c !important;
+  justify-content: center;
+}
+
+.vacancy-row-serial {
+  min-height: 2.25rem;
+}
+
+html[data-theme="dark"] .vacancy-column-header--serial {
+  background: linear-gradient(135deg, #0c2b47 0%, #102238 100%) !important;
+  border-color: #167bc1 !important;
+  color: #fcd34d !important;
+}
+
+html[data-theme="dark"] .vacancy-row-serial {
+  background-color: #142b42 !important;
+  border-color: #315b80 !important;
+  color: #fcd34d !important;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 14%);
+}
