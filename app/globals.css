@@ -335,3 +335,57 @@ html[data-theme="dark"] .eligibility-richtext-content a {
   text-decoration: underline;
   text-underline-offset: 2px;
 }
+
+
+/* Post-wise vacancy rows use the same pastel cards as the other job-detail sections. */
+html[data-theme="dark"] .vacancy-row-card,
+html[data-theme="dark"] .vacancy-table-head,
+html[data-theme="dark"] .vacancy-empty-panel,
+html[data-theme="dark"] .vacancy-pending-panel {
+  background-color: #111d2e !important;
+  background-image: none !important;
+  border-color: #344b66 !important;
+  color: #e5edf7 !important;
+}
+
+html[data-theme="dark"] .vacancy-row-post {
+  color: #f1f5fb !important;
+}
+
+html[data-theme="dark"] .vacancy-row-qualification {
+  color: #c5d3e3 !important;
+}
+
+html[data-theme="dark"] .vacancy-table-head {
+  color: #b2c5dc !important;
+}
+
+html[data-theme="dark"] .vacancy-row-card [class~="text-sky-700"] {
+  color: #9bc8ff !important;
+}
+
+html[data-theme="dark"] .vacancy-row-card [class~="text-emerald-700"] {
+  color: #6ee7b7 !important;
+}
+
+html[data-theme="dark"] .vacancy-row-count {
+  background-color: #123a2c !important;
+  border-color: #2f7b5c !important;
+  color: #a7f3d0 !important;
+}
+
+html[data-theme="dark"] .vacancy-apply-button {
+  background-color: #087f5b !important;
+  border-color: #34d399 !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] .vacancy-link-missing {
+  background-color: #192a3e !important;
+  border-color: #344b66 !important;
+  color: #b2c5dc !important;
+}
+
+html[data-theme="dark"] .vacancy-pending-panel {
+  color: #fde68a !important;
+}
