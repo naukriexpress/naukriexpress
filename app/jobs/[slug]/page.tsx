@@ -581,54 +581,58 @@ export default async function JobDetailsPage({
           </section>
 
           {/* Important Dates and Fee */}
-          <section className="mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7">
-            <h2 className="mb-3 font-display text-lg font-bold text-ink-900">
+          <section className={`${cardFont.className} mt-5 rounded-xl2 border border-slate-200 bg-white p-5 shadow-card sm:p-7`}>
+            <h2 className="mb-4 font-display text-lg font-extrabold tracking-tight text-ink-900">
               Important Dates &amp; Fee
             </h2>
 
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-              <div>
-                <p className="text-xs text-ink-700/60">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="min-w-0 rounded-xl border border-sky-100 bg-gradient-to-br from-sky-50 to-white p-4 shadow-sm transition-colors hover:border-sky-200">
+                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.13em] text-sky-700">
                   Application Start
                 </p>
-                <p className="text-sm font-semibold text-ink-900">
+                <p className="break-words text-sm font-bold leading-snug text-slate-900">
                   {noticeDetailsPending ? "Awaiting official notification" : formatDate(job.dates.startDate)}
                 </p>
               </div>
 
-              <div>
-                <p className="text-xs text-ink-700/60">Last Date</p>
-                <p className="text-sm font-semibold text-saffron-600">
+              <div className="min-w-0 rounded-xl border border-rose-100 bg-gradient-to-br from-rose-50 to-white p-4 shadow-sm transition-colors hover:border-rose-200">
+                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.13em] text-rose-700">
+                  Last Date
+                </p>
+                <p className="break-words text-sm font-bold leading-snug text-rose-700">
                   {noticeDetailsPending ? "Awaiting official notification" : formatDate(job.dates.lastDate)}
                 </p>
                 {job.lastDateExtended && (
-                  <span className="mt-1 inline-block rounded-full bg-orange-100 px-2 py-0.5 text-xs font-bold text-orange-800">
+                  <span className="mt-2 inline-block rounded-full border border-orange-200 bg-orange-100 px-2.5 py-1 text-[10px] font-bold tracking-wide text-orange-800">
                     Last Date Extended
                   </span>
                 )}
               </div>
 
-              <div>
-                <p className="text-xs text-ink-700/60">Exam Date</p>
-                <p className="text-sm font-semibold text-ink-900">
+              <div className="min-w-0 rounded-xl border border-violet-100 bg-gradient-to-br from-violet-50 to-white p-4 shadow-sm transition-colors hover:border-violet-200">
+                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.13em] text-violet-700">
+                  Exam Date
+                </p>
+                <p className="break-words text-sm font-bold leading-snug text-slate-900">
                   {noticeDetailsPending ? "Awaiting official notification" : formatDate(job.dates.examDate)}
                 </p>
               </div>
 
-              <div>
-                <p className="text-xs text-ink-700/60">
+              <div className="min-w-0 rounded-xl border border-amber-100 bg-gradient-to-br from-amber-50 to-white p-4 shadow-sm transition-colors hover:border-amber-200">
+                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.13em] text-amber-700">
                   Application Fee
                 </p>
-                <p className="text-sm font-semibold text-ink-900">
+                <p className="break-words text-sm font-bold leading-relaxed text-slate-900">
                   {job.applicationFee || "As per notification"}
                 </p>
               </div>
 
-              <div>
-                <p className="text-xs text-ink-700/60">
+              <div className="min-w-0 rounded-xl border border-emerald-100 bg-gradient-to-br from-emerald-50 to-white p-4 shadow-sm transition-colors hover:border-emerald-200 sm:col-span-2 lg:col-span-2">
+                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.13em] text-emerald-700">
                   Salary / Pay Scale
                 </p>
-                <p className="text-sm font-semibold text-ink-900">
+                <p className="break-words text-sm font-bold leading-relaxed text-emerald-950">
                   {noticeDetailsPending
                     ? "To be confirmed in official notification"
                     : job.salary || "As per official notification"}
