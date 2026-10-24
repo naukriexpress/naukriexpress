@@ -3,7 +3,6 @@ export const dynamic = "force-dynamic";
 import type { MetadataRoute } from "next";
 import { getAllJobsRaw } from "@/lib/db";
 import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
-import { SSC_GD_NOTICE_PENDING_MARKER, VACANCY_DETAILS_PENDING_MARKER } from "@/lib/jobMarkers";
 
 const SITE_URL = "https://www.naukriexpress.space";
 
@@ -30,13 +29,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .filter((job) => {
       if (job.status !== "published") return false;
 
-      const instructions = job.content.importantInstructions || "";
-      if (
-        instructions.includes(SSC_GD_NOTICE_PENDING_MARKER) ||
-        instructions.includes(VACANCY_DETAILS_PENDING_MARKER)
-      ) {
-        return false;
-      }
+      if (job.noticeDetailsPending) return false;
 
       const daysUntilDeadline = getDaysUntilDate(job.dates.lastDate, today);
       return daysUntilDeadline !== null && daysUntilDeadline >= 0;
