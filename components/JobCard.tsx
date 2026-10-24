@@ -145,16 +145,20 @@ export default function JobCard({ job }: { job: JobPosting }) {
           </div>
           <div className="min-w-0 flex-1">
             <div className="flex items-start justify-between gap-2">
-              <Link href={`/jobs/${job.slug}`} className="min-w-0 flex-1">
+              <Link
+                href={`/jobs/${job.slug}`}
+                aria-label={`View details for ${job.title}`}
+                className="job-card-title-link min-w-0 flex-1 rounded-md focus-visible:outline-offset-4"
+              >
                 <h3 className="job-card-title line-clamp-3 font-display text-base font-extrabold leading-snug tracking-tight text-slate-950 transition-colors group-hover:text-sky-700 sm:text-[17px]">
                   {job.title}
                 </h3>
+                <p className="job-card-organization mt-1 text-sm font-semibold leading-snug text-sky-800">{job.organization}</p>
               </Link>
               <div className="shrink-0">
                 <StatusBadge job={job} />
               </div>
             </div>
-            <p className="job-card-organization mt-1 text-sm font-semibold leading-snug text-sky-800">{job.organization}</p>
           </div>
         </div>
 
