@@ -148,8 +148,6 @@ function buildJobFromForm(formData: FormData) {
     content: {
       eligibility:
         String(formData.get("content_eligibility") || "") || undefined,
-      vacancyDetails:
-        String(formData.get("content_vacancyDetails") || "") || undefined,
     },
 
     seo: {
