@@ -23,11 +23,11 @@ export default async function RelatedJobs({
         Related Jobs
       </h2>
       <div className="space-y-2">
-        {jobs.map((job) => (
+        {jobs.map((job, index) => (
           <Link
             key={job.id}
             href={`/jobs/${job.slug}`}
-            className="related-job-link block rounded-xl border border-slate-200 bg-slate-50/70 p-3 transition-colors hover:border-sky-300 hover:bg-sky-50"
+            className={`related-job-link block rounded-xl border p-3 transition-colors ${index % 3 === 0 ? "related-job-link--sky" : index % 3 === 1 ? "related-job-link--emerald" : "related-job-link--violet"}`}
           >
             <p className="related-job-title line-clamp-2 text-xs font-bold text-ink-900">
               {job.title}
