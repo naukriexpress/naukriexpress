@@ -121,12 +121,13 @@ export default async function JobDetailsPage({
   });
   const noticeDetailsPending = Boolean(job.noticeDetailsPending);
 
-  await incrementViews(job.id);
-
-  const { results: related } = await queryJobs({
-    state: job.location.allIndia ? undefined : job.location.state,
-    pageSize: 3,
-  });
+  const [, { results: related }] = await Promise.all([
+    incrementViews(job.id),
+    queryJobs({
+      state: job.location.allIndia ? undefined : job.location.state,
+      pageSize: 3,
+    }),
+  ]);
 
   const relatedJobs = related
     .filter((j) => j.id !== job.id)
