@@ -288,3 +288,50 @@ html[data-theme="dark"] .scholarship-benefit-label {
 html[data-theme="dark"] .scholarship-benefit-value {
   color: #f1f5f9;
 }
+
+
+/* High-contrast Eligibility Details styling for the site's dark theme.
+   The content editor creates white paragraph cards and pale pastel gradients;
+   override those surfaces together with their text so contrast stays readable. */
+html[data-theme="dark"] .eligibility-specification-card,
+html[data-theme="dark"] .eligibility-richtext-panel {
+  background-color: #111d2e !important;
+  background-image: none !important;
+  border-color: #344b66 !important;
+  color: #e5edf7 !important;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 22%);
+}
+
+html[data-theme="dark"] .eligibility-specification-label {
+  color: #9bc8ff !important;
+}
+
+html[data-theme="dark"] .eligibility-specification-value,
+html[data-theme="dark"] .eligibility-richtext-content {
+  color: #e5edf7 !important;
+}
+
+html[data-theme="dark"] .eligibility-richtext-content p {
+  background-color: #192a3e !important;
+  background-image: none !important;
+  border-color: #344b66 !important;
+  color: #e5edf7 !important;
+}
+
+html[data-theme="dark"] .eligibility-richtext-content li {
+  background-color: #1a2d44 !important;
+  background-image: none !important;
+  border-color: #3c5270 !important;
+  color: #e5edf7 !important;
+}
+
+html[data-theme="dark"] .eligibility-richtext-content strong,
+html[data-theme="dark"] .eligibility-richtext-content b {
+  color: #f8fbff !important;
+}
+
+html[data-theme="dark"] .eligibility-richtext-content a {
+  color: #93c5fd !important;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
