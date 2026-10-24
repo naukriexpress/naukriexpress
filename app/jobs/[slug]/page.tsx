@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Manrope } from "next/font/google";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getJobBySlug, incrementViews, queryJobs } from "@/lib/db";
@@ -15,6 +16,8 @@ import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
 export const dynamic = "force-dynamic";
 
 const SITE_URL = "https://www.naukriexpress.space";
+
+const cardFont = Manrope({ subsets: ["latin"], display: "swap" });
 
 function formatDate(iso?: string) {
   if (!iso) return "—";
@@ -356,7 +359,7 @@ export default async function JobDetailsPage({
               <StatusBadge job={job} />
             </div>
 
-            <div className="mt-5 grid grid-cols-2 gap-3 border-t border-slate-200 pt-5 sm:grid-cols-4">
+            <div className={`${cardFont.className} mt-5 grid grid-cols-2 gap-3 border-t border-slate-200 pt-5 sm:grid-cols-4`}>
               <div className="min-w-0 rounded-xl border border-sky-100 bg-gradient-to-br from-sky-50 to-white p-3.5 shadow-sm transition-colors hover:border-sky-200">
                 <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.13em] text-sky-700">Advt. No.</p>
                 <p className="break-words text-sm font-bold leading-snug text-slate-900">
@@ -494,7 +497,7 @@ export default async function JobDetailsPage({
           </section>
 
           {/* Eligibility */}
-          <section className="mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7">
+          <section className={`${cardFont.className} mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7`}>
             <h2 className="mb-3 font-display text-lg font-bold text-ink-900">
               Eligibility
             </h2>
