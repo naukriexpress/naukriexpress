@@ -1143,20 +1143,20 @@ html[data-theme="dark"] .vacancy-column-header--apply {
 }
 
 
-/* Keep all four vacancy-table heading labels one consistent color.
-   The header boxes retain their individual blue/green/violet/gold accents. */
+/* Match every vacancy heading title to the Apply Online accent color.
+   Keep the existing individual box backgrounds, borders and spacing unchanged. */
 .vacancy-column-header--post,
 .vacancy-column-header--qualification,
 .vacancy-column-header--count,
 .vacancy-column-header--apply {
-  color: #16324f !important;
+  color: #c2410c !important;
 }
 
 html[data-theme="dark"] .vacancy-column-header--post,
 html[data-theme="dark"] .vacancy-column-header--qualification,
 html[data-theme="dark"] .vacancy-column-header--count,
 html[data-theme="dark"] .vacancy-column-header--apply {
-  color: #f4f8ff !important;
+  color: #fcd34d !important;
 }
 
 /* Post and qualification values share the same green badge treatment. */
