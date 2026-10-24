@@ -9,7 +9,7 @@ import {
 } from "@/lib/types";
 import StatusBadge from "@/components/StatusBadge";
 import ShareButtons from "@/components/ShareButtons";
-import { hasPendingVacancyDetails, SSC_GD_NOTICE_PENDING_MARKER, VACANCY_DETAILS_PENDING_MARKER } from "@/lib/jobMarkers";
+import { hasPendingVacancyDetails } from "@/lib/jobMarkers";
 import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
 
 export const dynamic = "force-dynamic";
@@ -56,7 +56,7 @@ export async function generateMetadata({
   if (!job) return { title: "Job Not Found" };
 
   const vacancyDetailsPending = hasPendingVacancyDetails({
-    importantInstructions: job.content.importantInstructions,
+    noticeDetailsPending: job.noticeDetailsPending,
     totalVacancies: job.totalVacancies,
     vacancyBreakdownCounts: job.vacancyBreakdown.map((row) => row.count),
   });
@@ -115,13 +115,11 @@ export default async function JobDetailsPage({
   if (!job) notFound();
 
   const vacancyDetailsPending = hasPendingVacancyDetails({
-    importantInstructions: job.content.importantInstructions,
+    noticeDetailsPending: job.noticeDetailsPending,
     totalVacancies: job.totalVacancies,
     vacancyBreakdownCounts: job.vacancyBreakdown.map((row) => row.count),
   });
-  const noticeDetailsPending =
-    Boolean(job.content.importantInstructions?.includes(SSC_GD_NOTICE_PENDING_MARKER)) ||
-    Boolean(job.content.importantInstructions?.includes(VACANCY_DETAILS_PENDING_MARKER));
+  const noticeDetailsPending = Boolean(job.noticeDetailsPending);
 
   await incrementViews(job.id);
 
@@ -161,11 +159,6 @@ export default async function JobDetailsPage({
     (sum, row) => sum + Math.max(0, Number(row.count) || 0),
     0
   );
-  const cleanInstructions = (job.content.importantInstructions || "")
-    .replace(/\[\[LAST_DATE_EXTENDED\]\]/g, "")
-    .replace(SSC_GD_NOTICE_PENDING_MARKER, "")
-    .replace(VACANCY_DETAILS_PENDING_MARKER, "")
-    .trim();
   const schemaDescription = [
     job.title,
     job.organization,
@@ -192,9 +185,6 @@ export default async function JobDetailsPage({
       : "",
     htmlToPlainText(job.content.vacancyDetails),
     htmlToPlainText(job.content.eligibility),
-    htmlToPlainText(job.content.selectionProcess),
-    htmlToPlainText(job.content.howToApply),
-    htmlToPlainText(cleanInstructions),
   ]
     .filter(Boolean)
     .join(" ")
@@ -545,7 +535,7 @@ export default async function JobDetailsPage({
                 <p className="text-sm font-semibold text-saffron-600">
                   {noticeDetailsPending ? "Awaiting official notification" : formatDate(job.dates.lastDate)}
                 </p>
-                {job.content.importantInstructions?.includes("[[LAST_DATE_EXTENDED]]") && (
+                {job.lastDateExtended && (
                   <span className="mt-1 inline-block rounded-full bg-orange-100 px-2 py-0.5 text-xs font-bold text-orange-800">
                     Last Date Extended
                   </span>
@@ -580,77 +570,6 @@ export default async function JobDetailsPage({
               </div>
             </div>
           </section>
-
-          {/* Selection Process */}
-          <section className="mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7">
-            <h2 className="mb-3 font-display text-lg font-bold text-ink-900">
-              Selection Process
-            </h2>
-
-            {job.content.selectionProcess ? (
-              <div
-                className="prose-sm text-ink-800 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:mb-1"
-                dangerouslySetInnerHTML={{
-                  __html: job.content.selectionProcess,
-                }}
-              />
-            ) : (
-              <p className="text-sm leading-relaxed text-ink-800">
-                A verified, recruitment-specific selection-stage summary is not
-                available in this listing. Check the official notification for
-                the exact examination, skill or physical tests, interview,
-                merit-list and document-verification requirements. Only rely on
-                stages specified by the recruiting authority.
-              </p>
-            )}
-          </section>
-
-          {/* How to Apply */}
-          <section className="mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7">
-            <h2 className="mb-3 font-display text-lg font-bold text-ink-900">
-              How to Apply
-            </h2>
-
-            {job.content.howToApply ? (
-              <div
-                className="prose-sm text-ink-800 [&_p]:mb-2"
-                dangerouslySetInnerHTML={{
-                  __html: job.content.howToApply,
-                }}
-              />
-            ) : (
-              <div className="prose-sm space-y-2 text-ink-800">
-                <p>
-                  Read the official notification and confirm your eligibility,
-                  application dates, fee, required documents and instructions
-                  before starting an application.
-                </p>
-                <p>
-                  Use the application link or official website shown on this
-                  page when available. If a link is not listed, visit the
-                  recruiting authority's official site to confirm whether the
-                  application window is open. Save your submission receipt and
-                  pay fees only through the official application process.
-                </p>
-              </div>
-            )}
-          </section>
-
-          {/* Important Instructions */}
-          {job.content.importantInstructions?.replace("[[LAST_DATE_EXTENDED]]", "").replace(SSC_GD_NOTICE_PENDING_MARKER, "").replace(VACANCY_DETAILS_PENDING_MARKER, "").trim() && (
-            <section className="mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7">
-              <h2 className="mb-3 font-display text-lg font-bold text-ink-900">
-                Required Documents &amp; Important Instructions
-              </h2>
-
-              <div
-                className="prose-sm text-ink-800 [&_ul]:list-disc [&_ul]:pl-5 [&_li]:mb-1"
-                dangerouslySetInnerHTML={{
-                  __html: job.content.importantInstructions.replace("[[LAST_DATE_EXTENDED]]", "").replace(SSC_GD_NOTICE_PENDING_MARKER, "").replace(VACANCY_DETAILS_PENDING_MARKER, "").trim(),
-                }}
-              />
-            </section>
-          )}
 
           {/* Share */}
           <section className="mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7">
