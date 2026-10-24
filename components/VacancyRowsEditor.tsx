@@ -18,8 +18,9 @@ export default function VacancyRowsEditor({
           ...row,
           applyOnline:
             (row as EditableVacancyRow).applyOnline || "",
+          qualification: row.qualification || "",
         }))
-      : [{ post: "", category: "", count: 0, applyOnline: "" }]
+      : [{ post: "", category: "", count: 0, applyOnline: "", qualification: "" }]
   );
 
   const totalPositions = rows.reduce(
@@ -41,7 +42,7 @@ export default function VacancyRowsEditor({
   function addRow() {
     setRows((previous) => [
       ...previous,
-      { post: "", category: "", count: 0, applyOnline: "" },
+      { post: "", category: "", count: 0, applyOnline: "", qualification: "" },
     ]);
   }
 
@@ -65,7 +66,7 @@ export default function VacancyRowsEditor({
       </p>
 
       <div className="overflow-x-auto rounded-lg border border-ink-900/10">
-        <table className="w-full min-w-[760px] border-collapse text-sm">
+        <table className="w-full min-w-[980px] border-collapse text-sm">
           <thead className="bg-gray-100">
             <tr>
               <th className="border p-3 text-center">
@@ -73,6 +74,9 @@ export default function VacancyRowsEditor({
               </th>
               <th className="border p-3 text-left">
                 Job Title / Trade
+              </th>
+              <th className="border p-3 text-left">
+                Required Qualification
               </th>
               <th className="border p-3 text-left">
                 Total positions
@@ -108,6 +112,19 @@ export default function VacancyRowsEditor({
                     placeholder="Apprentice (Electrician)"
                     className={inputClass}
                     required
+                  />
+                </td>
+
+                <td className="border p-2">
+                  <input
+                    type="text"
+                    name="vacancy_qualification"
+                    value={row.qualification || ""}
+                    onChange={(event) =>
+                      updateRow(index, { qualification: event.target.value })
+                    }
+                    placeholder="e.g. 10th Pass / ITI in Fitter"
+                    className={inputClass}
                   />
                 </td>
 
@@ -169,7 +186,7 @@ export default function VacancyRowsEditor({
 
           <tfoot>
             <tr className="bg-gray-50 font-bold">
-              <td colSpan={2} className="border p-3">
+              <td colSpan={3} className="border p-3">
                 Total Positions
               </td>
               <td className="border p-3 text-green-700">
