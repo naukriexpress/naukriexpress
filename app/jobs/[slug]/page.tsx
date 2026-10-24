@@ -75,7 +75,7 @@ export async function generateMetadata({
     job.seo.title ||
     `${job.title} in ${location} | Apply Online`;
   const description = vacancyDetailsPending
-    ? "Official vacancy details are awaited. The recruiting authority has not yet provided a verified post-wise and category-wise vacancy breakdown that we can cite here. The total number of vacancies will be updated after the official notification is published."
+    ? "Official vacancy details are awaited. The recruiting authority has not yet provided a verified post-wise vacancy breakdown that we can cite here. The total number of vacancies will be updated after the official notification is published."
     : job.seo.metaDescription ||
       [
         `Apply for ${job.title} at ${job.organization} in ${location}.`,
@@ -380,14 +380,14 @@ export default async function JobDetailsPage({
           {/* Post-wise Vacancy Details and Apply Online Links */}
           <section className="mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7">
             <h2 className="mb-3 font-display text-lg font-bold text-ink-900">
-              Post-wise &amp; Category-wise Vacancy Details
+              Post-wise Vacancy Details
             </h2>
 
             {vacancyDetailsPending ? (
               <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-4 text-sm text-amber-950">
                 <p className="font-semibold">Official vacancy details are awaited.</p>
                 <p className="mt-1">
-                  The recruiting authority has not yet provided a verified post-wise and category-wise vacancy breakdown that we can cite here. The total number of vacancies will be updated after the official notification is published.
+                  The recruiting authority has not yet provided a verified post-wise vacancy breakdown that we can cite here. The total number of vacancies will be updated after the official notification is published.
                 </p>
               </div>
             ) : (
@@ -397,9 +397,6 @@ export default async function JobDetailsPage({
                     <tr className="border-b border-ink-900/10 text-left text-ink-700/60">
                       <th className="py-2 pr-4 font-medium">Post</th>
                       <th className="py-2 pr-4 font-medium">Required Qualification</th>
-                      <th className="py-2 pr-4 font-medium">
-                        Category-wise Breakup
-                      </th>
                       <th className="py-2 pr-4 text-right font-medium">
                         Vacancies
                       </th>
@@ -410,8 +407,8 @@ export default async function JobDetailsPage({
                   <tbody>
                     {job.vacancyBreakdown.length === 0 ? (
                       <tr>
-                        <td colSpan={5} className="py-3 text-sm text-ink-700">
-                          A post-wise vacancy breakdown is not available in this listing. Please check the official notification for the verified post and category-wise figures.
+                        <td colSpan={4} className="py-3 text-sm text-ink-700">
+                          A post-wise vacancy breakdown is not available in this listing. Please check the official notification for verified post details.
                         </td>
                       </tr>
                     ) : job.vacancyBreakdown.map((row, i) => {
@@ -439,9 +436,6 @@ export default async function JobDetailsPage({
                               "Not specified"}
                           </td>
 
-                          <td className="py-2.5 pr-4 text-ink-700">
-                            {row.category || "—"}
-                          </td>
   
                           <td className="py-2.5 pr-4 text-right font-semibold text-ink-900">
                             {row.count.toLocaleString("en-IN")}
