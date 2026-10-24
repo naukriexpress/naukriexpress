@@ -24,13 +24,12 @@ function validOptionalUrl(value: unknown) {
 // Public website par updates dikhane ke liye
 export async function GET(request: Request) {
   try {
-    await ensurePublicContentTables();
     const category = new URL(request.url).searchParams.get("category");
     if (category && !SITE_UPDATE_CATEGORIES.includes(category as SiteUpdateCategory)) {
       return NextResponse.json({ error: "Invalid category" }, { status: 400 });
     }
     const updates = await getPublicSiteUpdates(category ? category as SiteUpdateCategory : undefined);
-    return NextResponse.json({ updates }, { headers: { "Cache-Control": "private, no-store" } });
+    return NextResponse.json({ updates }, { headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300" } });
   } catch (error) {
     console.error("Site updates GET error:", error);
     return NextResponse.json({ error: "Updates load nahi ho sake" }, { status: 500 });

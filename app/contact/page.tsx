@@ -22,40 +22,75 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="container-page py-10 max-w-2xl">
-      <h1 className="font-display text-2xl sm:text-3xl font-bold text-ink-900">Contact Us</h1>
-      <p className="mt-2 text-sm text-ink-700/70">
-        Have a question, found an error in a job listing, or want to reach the
-        NaukriExpress team? Send us a message below.
-      </p>
-
-      <form action="https://formspree.io/f/mzebzbyy" method="POST" className="mt-8 space-y-4 rounded-xl2 border border-ink-900/10 bg-white p-6 sm:p-8">
-        <div>
-          <label className="block text-sm font-semibold text-ink-900 mb-1.5" htmlFor="name">Full Name</label>
-          <input id="name" name="name" type="text" required className="w-full rounded-lg border border-ink-900/15 px-3 py-2.5 text-sm focus:border-brand-500" />
-        </div>
-        <div>
-          <label className="block text-sm font-semibold text-ink-900 mb-1.5" htmlFor="email">Email Address</label>
-          <input id="email" name="email" type="email" required className="w-full rounded-lg border border-ink-900/15 px-3 py-2.5 text-sm focus:border-brand-500" />
-        </div>
-        <div>
-          <label className="block text-sm font-semibold text-ink-900 mb-1.5" htmlFor="message">Message</label>
-          <textarea id="message" name="message" rows={5} required className="w-full rounded-lg border border-ink-900/15 px-3 py-2.5 text-sm focus:border-brand-500" />
-        </div>
-        <button type="submit" className="rounded-lg bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-700 transition-colors">
-          Send Message
-        </button>
-        <p className="text-xs text-ink-700/50">
-          Messages are submitted through our contact form service. Please include
-          the job page and official notification link when reporting a correction,
-          and do not include passwords or sensitive personal information.
+    <main className="container-page contact-page-shell py-8 sm:py-10">
+      <div className="mb-6">
+        <span className="contact-kicker inline-flex rounded-md border border-sky-200 bg-sky-50 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-[0.14em] text-sky-800">
+          We’re here to help
+        </span>
+        <h1 className="mt-3 font-display text-2xl font-extrabold tracking-tight text-ink-900 sm:text-3xl">
+          Contact Us
+        </h1>
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-700/70">
+          Have a question, found an error in a job listing, or want to reach the
+          NaukriExpress team? Send us a message below.
         </p>
-      </form>
-
-      <div className="mt-6 text-sm text-ink-700">
-        <p><strong>Email:</strong> naukriexpress.co.ai@gmail.com</p>
-        <p><strong>Response time:</strong> Within 2 business days</p>
       </div>
-    </div>
+
+      <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
+        <aside className="contact-info-card rounded-2xl border border-sky-100 bg-gradient-to-br from-sky-50 via-white to-indigo-50/60 p-5 shadow-sm sm:p-6">
+          <div className="mb-4 grid h-12 w-12 place-items-center rounded-xl border border-sky-100 bg-white text-2xl shadow-sm" aria-hidden="true">
+            ✉️
+          </div>
+          <h2 className="font-display text-lg font-extrabold text-slate-950">
+            Get in touch
+          </h2>
+          <p className="mt-2 text-sm leading-relaxed text-slate-600">
+            For a job-listing correction, please include the job page and official notification link.
+          </p>
+
+          <div className="mt-5 space-y-3">
+            <div className="contact-info-tile rounded-xl border border-sky-100 bg-white/90 p-3.5">
+              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-sky-800">Email</p>
+              <a href="mailto:naukriexpress.co.ai@gmail.com" className="mt-1 block break-words text-sm font-bold text-slate-950 underline decoration-sky-300 underline-offset-4">
+                naukriexpress.co.ai@gmail.com
+              </a>
+            </div>
+            <div className="contact-info-tile rounded-xl border border-violet-100 bg-white/90 p-3.5">
+              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-violet-800">Response Time</p>
+              <p className="mt-1 text-sm font-bold text-slate-950">Within 2 business days</p>
+            </div>
+          </div>
+          <p className="mt-4 text-xs leading-relaxed text-slate-500">
+            Please do not include passwords or other sensitive personal information.
+          </p>
+        </aside>
+
+        <form action="https://formspree.io/f/mzebzbyy" method="POST" className="contact-form-card space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+          <div>
+            <h2 className="font-display text-lg font-extrabold text-ink-900">Send a message</h2>
+            <p className="mt-1 text-sm text-ink-700/70">We usually respond within two business days.</p>
+          </div>
+          <div>
+            <label className="mb-1.5 block text-sm font-semibold text-ink-900" htmlFor="name">Full Name</label>
+            <input id="name" name="name" type="text" autoComplete="name" required className="w-full rounded-xl border border-ink-900/15 bg-white px-3.5 py-3 text-sm text-ink-900 shadow-sm focus:border-brand-500 focus:ring-2 focus:ring-sky-100" />
+          </div>
+          <div>
+            <label className="mb-1.5 block text-sm font-semibold text-ink-900" htmlFor="email">Email Address</label>
+            <input id="email" name="email" type="email" autoComplete="email" required className="w-full rounded-xl border border-ink-900/15 bg-white px-3.5 py-3 text-sm text-ink-900 shadow-sm focus:border-brand-500 focus:ring-2 focus:ring-sky-100" />
+          </div>
+          <div>
+            <label className="mb-1.5 block text-sm font-semibold text-ink-900" htmlFor="message">Message</label>
+            <textarea id="message" name="message" rows={5} required className="w-full resize-y rounded-xl border border-ink-900/15 bg-white px-3.5 py-3 text-sm text-ink-900 shadow-sm focus:border-brand-500 focus:ring-2 focus:ring-sky-100" />
+          </div>
+          <button type="submit" className="inline-flex min-h-11 w-full items-center justify-center rounded-xl border border-brand-700 bg-brand-700 px-5 py-3 text-sm font-extrabold text-white shadow-sm transition-colors hover:bg-brand-800 sm:w-auto">
+            Send Message →
+          </button>
+          <p className="text-xs leading-relaxed text-ink-700/60">
+            Messages are submitted through our contact form service. Please include
+            the official source when reporting a correction.
+          </p>
+        </form>
+      </div>
+    </main>
   );
 }

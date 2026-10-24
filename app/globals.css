@@ -670,3 +670,157 @@ html[data-theme="dark"] .job-card-skeleton .bg-orange-100 {
 html[data-theme="dark"] .job-card-skeleton .border-slate-100 {
   border-color: #2d425b !important;
 }
+
+
+/* Job-style data cards for scholarship, syllabus, answer-key and result updates. */
+.update-listing-card {
+  border-color: #dbe5ef;
+}
+
+.update-card--sky {
+  border-top-color: #38bdf8;
+}
+.update-card--violet {
+  border-top-color: #a78bfa;
+}
+.update-card--teal {
+  border-top-color: #2dd4bf;
+}
+.update-card--amber {
+  border-top-color: #fbbf24;
+}
+
+html[data-theme="dark"] .update-listing-card {
+  border-color: #2d425b !important;
+  background-color: #0f1c2c !important;
+  color: #e5edf7 !important;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 20%);
+}
+
+html[data-theme="dark"] .update-card-title {
+  color: #f3f7fc !important;
+}
+
+html[data-theme="dark"] .update-card-organization,
+html[data-theme="dark"] .update-card-description {
+  color: #c5d3e3 !important;
+}
+
+html[data-theme="dark"] .update-card-icon {
+  background-color: #173451 !important;
+  border-color: #335a7f !important;
+  color: #c2e0ff !important;
+}
+
+html[data-theme="dark"] .update-card-kicker {
+  background-color: #173451 !important;
+  border-color: #335a7f !important;
+  color: #b9dcff !important;
+}
+
+html[data-theme="dark"] .update-detail {
+  background-color: #142b42 !important;
+  background-image: none !important;
+  border-color: #315b80 !important;
+}
+
+html[data-theme="dark"] .update-detail--emerald {
+  background-color: #102f2a !important;
+  border-color: #2f7b5c !important;
+}
+
+html[data-theme="dark"] .update-detail--violet {
+  background-color: #29213f !important;
+  border-color: #6951a5 !important;
+}
+
+html[data-theme="dark"] .update-detail--rose {
+  background-color: #351d2a !important;
+  border-color: #85415d !important;
+}
+
+html[data-theme="dark"] .update-detail-label {
+  color: #b9d8f8 !important;
+}
+
+html[data-theme="dark"] .update-detail--emerald .update-detail-label {
+  color: #86efac !important;
+}
+
+html[data-theme="dark"] .update-detail--violet .update-detail-label {
+  color: #c4b5fd !important;
+}
+
+html[data-theme="dark"] .update-detail-value {
+  color: #f3f7fc !important;
+}
+
+html[data-theme="dark"] .update-detail--rose .update-detail-value {
+  color: #fda4af !important;
+}
+
+html[data-theme="dark"] .update-card-actions {
+  border-color: #2d425b !important;
+}
+
+html[data-theme="dark"] .update-action--primary {
+  background-color: #122740 !important;
+  border-color: #60a5fa !important;
+  color: #dbeafe !important;
+}
+
+html[data-theme="dark"] .update-action--primary:hover {
+  background-color: #1d3a5b !important;
+}
+
+html[data-theme="dark"] .update-action--secondary {
+  background-color: #192a3e !important;
+  border-color: #465a72 !important;
+  color: #e5edf7 !important;
+}
+
+html[data-theme="dark"] .update-action--apply {
+  background-color: #087f5b !important;
+  border-color: #34d399 !important;
+  color: #ffffff !important;
+}
+
+/* Contact is static, so show the form immediately without any data-fetch wait. */
+html[data-theme="dark"] .contact-info-card,
+html[data-theme="dark"] .contact-form-card {
+  background-color: #111d2e !important;
+  background-image: none !important;
+  border-color: #344b66 !important;
+  color: #e5edf7 !important;
+}
+
+html[data-theme="dark"] .contact-info-card h2,
+html[data-theme="dark"] .contact-info-tile a,
+html[data-theme="dark"] .contact-info-tile p,
+html[data-theme="dark"] .contact-form-card h2 {
+  color: #f3f7fc !important;
+}
+
+html[data-theme="dark"] .contact-info-card > p {
+  color: #b9c9dc !important;
+}
+
+html[data-theme="dark"] .contact-info-tile {
+  background-color: #192a3e !important;
+  background-image: none !important;
+  border-color: #344b66 !important;
+}
+
+html[data-theme="dark"] .contact-kicker {
+  background-color: #173451 !important;
+  border-color: #335a7f !important;
+  color: #b9dcff !important;
+}
+
+html[data-theme="dark"] .contact-form-card input,
+html[data-theme="dark"] .contact-form-card textarea {
+  background-color: #0b1422 !important;
+  border-color: #465a72 !important;
+  color: #f3f7fc !important;
+}
+
