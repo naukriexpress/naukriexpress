@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import type { JobPosting } from "@/lib/types";
 import { CATEGORY_LABELS, QUALIFICATION_LABELS } from "@/lib/types";
 import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
@@ -22,6 +23,79 @@ function genderLabel(genders: JobPosting["eligibility"]["genders"]) {
   if (genders.includes("female")) return "Female only";
   return "—";
 }
+
+type DetailTone = "emerald" | "rose" | "violet" | "amber" | "sky";
+
+const DETAIL_TONES: Record<DetailTone, { card: string; label: string; icon: string }> = {
+  emerald: {
+    card: "job-card-detail--emerald border-emerald-100 bg-gradient-to-br from-emerald-50 to-white",
+    label: "text-emerald-800",
+    icon: "bg-emerald-100 text-emerald-700",
+  },
+  rose: {
+    card: "job-card-detail--rose border-rose-100 bg-gradient-to-br from-rose-50 to-white",
+    label: "text-rose-800",
+    icon: "bg-rose-100 text-rose-700",
+  },
+  violet: {
+    card: "job-card-detail--violet border-violet-100 bg-gradient-to-br from-violet-50 to-white",
+    label: "text-violet-800",
+    icon: "bg-violet-100 text-violet-700",
+  },
+  amber: {
+    card: "job-card-detail--amber border-amber-100 bg-gradient-to-br from-amber-50 to-white",
+    label: "text-amber-800",
+    icon: "bg-amber-100 text-amber-700",
+  },
+  sky: {
+    card: "job-card-detail--sky border-sky-100 bg-gradient-to-br from-sky-50 to-white",
+    label: "text-sky-800",
+    icon: "bg-sky-100 text-sky-700",
+  },
+};
+
+function DetailCard({
+  label,
+  value,
+  icon,
+  tone,
+  extra,
+}: {
+  label: string;
+  value: ReactNode;
+  icon: string;
+  tone: DetailTone;
+  extra?: ReactNode;
+}) {
+  const styles = DETAIL_TONES[tone];
+
+  return (
+    <div className={`job-card-detail min-w-0 rounded-xl border p-3 shadow-sm sm:p-3.5 ${styles.card}`}>
+      <div className="flex min-w-0 items-start gap-2.5">
+        <span aria-hidden="true" className={`job-card-detail-icon grid h-9 w-9 shrink-0 place-items-center rounded-lg text-lg ${styles.icon}`}>
+          {icon}
+        </span>
+        <div className="min-w-0 flex-1">
+          <dt className={`job-card-detail-label mb-1 text-[11px] font-semibold leading-snug ${styles.label}`}>
+            {label}
+          </dt>
+          <dd className="job-card-detail-value break-words text-sm font-bold leading-snug text-slate-950">
+            {value}
+          </dd>
+          {extra}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const CATEGORY_TONES = [
+  "job-card-category--sky",
+  "job-card-category--emerald",
+  "job-card-category--violet",
+  "job-card-category--amber",
+  "job-card-category--rose",
+];
 
 export default function JobCard({ job }: { job: JobPosting }) {
   const initials = job.organization
@@ -48,134 +122,151 @@ export default function JobCard({ job }: { job: JobPosting }) {
         : `LAST DATE IN ${daysToDeadline} DAYS — APPLY NOW`
     : null;
 
+  const qualification = noticeDetailsPending
+    ? "As per official notification"
+    : job.eligibility.qualifications.map((q) => QUALIFICATION_LABELS[q]).join(", ") || "As per notification";
+  const lastDateLabel = noticeDetailsPending
+    ? "Awaiting official notification"
+    : formatDate(job.dates.lastDate);
+
   return (
-    <div className="group flex flex-col rounded-xl2 border border-ink-900/10 bg-white p-4 shadow-card transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-cardHover sm:p-5">
+    <article className="job-listing-card group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-sky-200 hover:shadow-lg">
       {deadlineAlert && (
-        <div role="alert" className="-mx-4 -mt-4 mb-4 flex items-center gap-2 rounded-t-xl2 bg-red-600 px-4 py-2.5 text-white sm:-mx-5 sm:-mt-5 sm:px-5">
+        <div role="alert" className="job-deadline-alert flex items-center gap-2 bg-gradient-to-r from-red-600 via-red-600 to-rose-500 px-4 py-2.5 text-white">
           <span aria-hidden="true">🚨</span>
           <span className="text-xs font-extrabold tracking-wide sm:text-sm">{deadlineAlert}</span>
         </div>
       )}
-      <div className="flex items-start gap-3">
-        <div className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-brand-50 font-display text-sm font-bold text-brand-700">
-          {initials}
-        </div>
-        <div className="min-w-0 flex-1">
-          <div className="flex items-start justify-between gap-2">
-            <Link href={`/jobs/${job.slug}`} className="min-w-0">
-              <h3 className="font-display text-base font-semibold text-ink-900 leading-snug line-clamp-2 group-hover:text-brand-700">
-                {job.title}
-              </h3>
-            </Link>
-            {!deadlineAlert && <StatusBadge job={job} />}
-          </div>
-          <p className="mt-0.5 text-sm text-ink-700">{job.organization}</p>
-        </div>
-      </div>
 
-      <dl className="mt-4 grid grid-cols-2 gap-x-3 gap-y-2 text-sm">
-        <div>
-          <dt className="text-xs text-ink-700/60">Total Vacancies</dt>
-          <dd className="font-semibold text-ink-900">
-            {vacancyDetailsPending
+      <div className="flex flex-1 flex-col p-4 sm:p-5">
+        <div className="flex items-start gap-3">
+          <div className="job-card-logo grid h-14 w-14 shrink-0 place-items-center rounded-xl border border-sky-100 bg-sky-50 font-display text-base font-extrabold text-sky-800 sm:h-16 sm:w-16 sm:text-lg">
+            {initials}
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-start justify-between gap-2">
+              <Link href={`/jobs/${job.slug}`} className="min-w-0 flex-1">
+                <h3 className="job-card-title line-clamp-3 font-display text-base font-extrabold leading-snug tracking-tight text-slate-950 transition-colors group-hover:text-sky-700 sm:text-[17px]">
+                  {job.title}
+                </h3>
+              </Link>
+              <div className="shrink-0">
+                <StatusBadge job={job} />
+              </div>
+            </div>
+            <p className="job-card-organization mt-1 text-sm font-semibold leading-snug text-sky-800">{job.organization}</p>
+          </div>
+        </div>
+
+        <dl className="mt-4 grid grid-cols-2 gap-2.5 text-sm">
+          <DetailCard
+            label="Total Vacancies"
+            value={vacancyDetailsPending
               ? "Awaiting confirmation"
               : job.totalVacancies > 0
                 ? job.totalVacancies.toLocaleString("en-IN")
                 : "Check notification"}
-          </dd>
-        </div>
-        <div>
-          <dt className="text-xs text-ink-700/60">Location</dt>
-          <dd className="font-medium text-ink-900 truncate">
-            {job.location.allIndia ? "All India" : job.location.district || job.location.state}
-          </dd>
-        </div>
-        <div>
-          <dt className="text-xs text-ink-700/60">Qualification</dt>
-          <dd className="font-medium text-ink-900 truncate">
-            {noticeDetailsPending
-              ? "As per official notification"
-              : job.eligibility.qualifications.map((q) => QUALIFICATION_LABELS[q]).join(", ") || "As per notification"}
-          </dd>
-        </div>
-        <div>
-          <dt className="text-xs text-ink-700/60">Eligible Gender</dt>
-          <dd className="font-medium text-ink-900">{genderLabel(job.eligibility.genders)}</dd>
-        </div>
-        <div>
-          <dt className="text-xs text-ink-700/60">Age Limit</dt>
-          <dd className="font-medium text-ink-900">
-            {noticeDetailsPending
+            icon="👥"
+            tone="emerald"
+          />
+          <DetailCard
+            label="Location"
+            value={job.location.allIndia ? "All India" : job.location.district || job.location.state}
+            icon="📍"
+            tone="rose"
+          />
+          <DetailCard
+            label="Qualification"
+            value={qualification}
+            icon="🎓"
+            tone="violet"
+          />
+          <DetailCard
+            label="Eligible Gender"
+            value={genderLabel(job.eligibility.genders)}
+            icon="👤"
+            tone="amber"
+          />
+          <DetailCard
+            label="Age Limit"
+            value={noticeDetailsPending
               ? "As per official notification"
               : ageLimitLabel(job.eligibility.minAge, job.eligibility.maxAge)}
-          </dd>
-        </div>
-        <div>
-          <dt className="text-xs text-ink-700/60">Last Date</dt>
-          <dd className="font-semibold text-saffron-600">
-            {noticeDetailsPending ? "Awaiting official notification" : formatDate(job.dates.lastDate)}
-          </dd>
-          {!noticeDetailsPending && job.lastDateExtended && (
-            <span className="mt-1 inline-block rounded-full bg-orange-100 px-2 py-0.5 text-[11px] font-bold text-orange-800">
-              Last Date Extended
+            icon="🗓️"
+            tone="sky"
+          />
+          <DetailCard
+            label="Last Date"
+            value={lastDateLabel}
+            icon="📅"
+            tone="rose"
+            extra={!noticeDetailsPending && job.lastDateExtended ? (
+              <span className="job-card-extended mt-2 inline-block rounded-full border border-orange-200 bg-orange-100 px-2 py-0.5 text-[10px] font-bold text-orange-800">
+                Last Date Extended
+              </span>
+            ) : undefined}
+          />
+        </dl>
+
+        {job.eligibility.categories.length > 0 && (
+          <div className="job-card-categories mt-4 flex flex-wrap gap-1.5" aria-label="Eligible categories">
+            {job.eligibility.categories.map((category, index) => (
+              <span
+                key={category}
+                className={`job-card-category rounded-full border px-3 py-1 text-xs font-bold ${CATEGORY_TONES[index % CATEGORY_TONES.length]}`}
+              >
+                {CATEGORY_LABELS[category]}
+              </span>
+            ))}
+          </div>
+        )}
+
+        <div className="job-card-actions mt-auto grid grid-cols-3 gap-2 border-t border-slate-200 pt-4 mt-4">
+          <Link
+            href={`/jobs/${job.slug}`}
+            className="job-card-action job-card-action--view inline-flex min-h-10 items-center justify-center rounded-lg border border-blue-600 bg-white px-2 py-2 text-center text-xs font-extrabold text-blue-700 transition-colors hover:bg-blue-50 sm:text-sm"
+          >
+            View Details
+          </Link>
+          {job.links.applyOnline ? (
+            <a
+              href={job.links.applyOnline}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="job-card-action job-card-action--apply inline-flex min-h-10 items-center justify-center rounded-lg border border-blue-800 bg-blue-800 px-2 py-2 text-center text-xs font-extrabold text-white transition-colors hover:bg-blue-900 sm:text-sm"
+            >
+              Apply Online
+            </a>
+          ) : (
+            <span className="job-card-action job-card-action--apply job-card-action--disabled inline-flex min-h-10 items-center justify-center rounded-lg border border-blue-800 bg-blue-800 px-2 py-2 text-center text-xs font-extrabold text-white opacity-75 sm:text-sm">
+              Apply Link Awaited
+            </span>
+          )}
+          {job.links.officialNotification ? (
+            <a
+              href={job.links.officialNotification}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="job-card-action job-card-action--notice inline-flex min-h-10 items-center justify-center rounded-lg border border-orange-500 bg-orange-500 px-2 py-2 text-center text-xs font-extrabold text-white transition-colors hover:bg-orange-600 sm:text-sm"
+            >
+              Notification
+            </a>
+          ) : job.links.officialWebsite ? (
+            <a
+              href={job.links.officialWebsite}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="job-card-action job-card-action--notice inline-flex min-h-10 items-center justify-center rounded-lg border border-orange-500 bg-orange-500 px-2 py-2 text-center text-xs font-extrabold text-white transition-colors hover:bg-orange-600 sm:text-sm"
+            >
+              Official Website
+            </a>
+          ) : (
+            <span className="job-card-action job-card-action--notice job-card-action--disabled inline-flex min-h-10 items-center justify-center rounded-lg border border-orange-500 bg-orange-500 px-2 py-2 text-center text-xs font-extrabold text-white opacity-75 sm:text-sm">
+              Notice Awaited
             </span>
           )}
         </div>
-      </dl>
-
-      <div className="mt-3 flex flex-wrap gap-1.5">
-        {job.eligibility.categories.map((c) => (
-          <span key={c} className="chip chip-inactive py-0.5 px-2 text-xs">
-            {CATEGORY_LABELS[c]}
-          </span>
-        ))}
       </div>
-
-      <div className="mt-4 grid grid-cols-3 gap-2 border-t border-ink-900/10 pt-3.5">
-        <Link
-          href={`/jobs/${job.slug}`}
-          className="rounded-lg border border-brand-600 px-2 py-2 text-center text-xs font-semibold text-brand-700 hover:bg-brand-50 transition-colors"
-        >
-          View Details
-        </Link>
-        {job.links.applyOnline ? (
-          <a
-            href={job.links.applyOnline}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-lg bg-brand-600 px-2 py-2 text-center text-xs font-semibold text-white hover:bg-brand-700 transition-colors"
-          >
-            Apply Online
-          </a>
-        ) : (
-          <span className="rounded-lg bg-brand-600 px-2 py-2 text-center text-xs font-semibold text-white opacity-70">
-            Apply Link Awaited
-          </span>
-        )}
-        {job.links.officialNotification ? (
-          <a
-            href={job.links.officialNotification}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-lg bg-saffron-500 px-2 py-2 text-center text-xs font-semibold text-white hover:bg-saffron-600 transition-colors"
-          >
-            Notification
-          </a>
-        ) : job.links.officialWebsite ? (
-          <a
-            href={job.links.officialWebsite}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-lg bg-saffron-500 px-2 py-2 text-center text-xs font-semibold text-white hover:bg-saffron-600 transition-colors"
-          >
-            Official Website
-          </a>
-        ) : (
-          <span className="rounded-lg bg-saffron-500 px-2 py-2 text-center text-xs font-semibold text-white opacity-70">
-            Notice Awaited
-          </span>
-        )}
-      </div>
-    </div>
+    </article>
   );
 }
