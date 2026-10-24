@@ -13,7 +13,6 @@ const QUALIFICATIONS: Qualification[] = [
 ];
 const JOB_TYPES: JobType[] = ["government", "private", "contract", "apprenticeship", "internship"];
 const STATES = JOB_LOCATION_OPTIONS;
-const LAST_DATE_EXTENDED_MARKER = "[[LAST_DATE_EXTENDED]]";
 
 function Section({ title, children, hint }: { title: string; children: React.ReactNode; hint?: string }) {
   return (
