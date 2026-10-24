@@ -1,10 +1,9 @@
 import type { JobPosting } from "@/lib/types";
-import { SSC_GD_NOTICE_PENDING_MARKER } from "@/lib/jobMarkers";
 
 function computeBadge(
-  job: Pick<JobPosting, "createdAt" | "dates" | "status" | "content">
+  job: Pick<JobPosting, "createdAt" | "dates" | "status" | "noticeDetailsPending">
 ) {
-  if (job.content.importantInstructions?.includes(SSC_GD_NOTICE_PENDING_MARKER)) {
+  if (job.noticeDetailsPending) {
     return { label: "Notice Awaited", className: "notice-awaited-badge" };
   }
 
