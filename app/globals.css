@@ -852,3 +852,138 @@ html[data-theme="dark"] .job-details-skeleton .bg-sky-100 {
 html[data-theme="dark"] .job-details-skeleton .border-sky-100 {
   border-color: #2d425b !important;
 }
+
+
+/* Job detail panels: restore readable contrast when pale light-theme utilities
+   are present inside the dark theme. Keep these styles scoped to job details. */
+html[data-theme="dark"] .job-detail-panel {
+  background-color: #111d2e !important;
+  background-image: none !important;
+  border-color: #344b66 !important;
+  color: #e5edf7 !important;
+}
+
+html[data-theme="dark"] .job-detail-panel h2 {
+  color: #f3f7fc !important;
+}
+
+html[data-theme="dark"] .job-meta-card,
+html[data-theme="dark"] .job-eligibility-card,
+html[data-theme="dark"] .job-age-relaxation-card,
+html[data-theme="dark"] .job-date-card {
+  background-image: none !important;
+  color: #f3f7fc !important;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 14%) !important;
+}
+
+html[data-theme="dark"] .job-meta-card--sky,
+html[data-theme="dark"] .job-eligibility-card--sky,
+html[data-theme="dark"] .job-date-card--sky {
+  background-color: #142b42 !important;
+  border-color: #315b80 !important;
+}
+
+html[data-theme="dark"] .job-meta-card--emerald,
+html[data-theme="dark"] .job-date-card--emerald {
+  background-color: #102f2a !important;
+  border-color: #2f7b5c !important;
+}
+
+html[data-theme="dark"] .job-meta-card--violet,
+html[data-theme="dark"] .job-eligibility-card--violet,
+html[data-theme="dark"] .job-date-card--violet {
+  background-color: #29213f !important;
+  border-color: #6951a5 !important;
+}
+
+html[data-theme="dark"] .job-meta-card--amber,
+html[data-theme="dark"] .job-age-relaxation-card,
+html[data-theme="dark"] .job-date-card--amber {
+  background-color: #342a18 !important;
+  border-color: #8b682b !important;
+}
+
+html[data-theme="dark"] .job-eligibility-card--teal {
+  background-color: #102f2a !important;
+  border-color: #2f7b5c !important;
+}
+
+html[data-theme="dark"] .job-date-card--rose {
+  background-color: #351d2a !important;
+  border-color: #85415d !important;
+}
+
+html[data-theme="dark"] .job-meta-card--sky > p:first-child,
+html[data-theme="dark"] .job-eligibility-card--sky > p:first-child,
+html[data-theme="dark"] .job-date-card--sky > p:first-child {
+  color: #7dd3fc !important;
+}
+
+html[data-theme="dark"] .job-meta-card--emerald > p:first-child,
+html[data-theme="dark"] .job-eligibility-card--teal > p:first-child,
+html[data-theme="dark"] .job-date-card--emerald > p:first-child {
+  color: #86efac !important;
+}
+
+html[data-theme="dark"] .job-meta-card--violet > p:first-child,
+html[data-theme="dark"] .job-eligibility-card--violet > p:first-child,
+html[data-theme="dark"] .job-date-card--violet > p:first-child {
+  color: #c4b5fd !important;
+}
+
+html[data-theme="dark"] .job-meta-card--amber > p:first-child,
+html[data-theme="dark"] .job-age-relaxation-card > p:first-child,
+html[data-theme="dark"] .job-date-card--amber > p:first-child {
+  color: #fcd34d !important;
+}
+
+html[data-theme="dark"] .job-date-card--rose > p:first-child,
+html[data-theme="dark"] .job-date-card--rose > p:nth-child(2) {
+  color: #fda4af !important;
+}
+
+html[data-theme="dark"] .job-meta-card > p:last-child,
+html[data-theme="dark"] .job-eligibility-card > p:last-child,
+html[data-theme="dark"] .job-age-relaxation-card > p:last-child,
+html[data-theme="dark"] .job-date-card > p:last-child {
+  color: #f3f7fc !important;
+}
+
+html[data-theme="dark"] .job-date-card--rose > p:nth-child(2) {
+  color: #fda4af !important;
+}
+
+html[data-theme="dark"] .job-eligibility-details {
+  border-color: #344b66 !important;
+}
+
+html[data-theme="dark"] .job-eligibility-details-title {
+  color: #f3f7fc !important;
+}
+
+/* Related jobs need a dark surface and readable title/organization text. */
+html[data-theme="dark"] .related-jobs-panel {
+  background-color: #111d2e !important;
+  border-color: #344b66 !important;
+  color: #e5edf7 !important;
+}
+
+html[data-theme="dark"] .related-jobs-panel h2,
+html[data-theme="dark"] .related-job-title {
+  color: #f3f7fc !important;
+}
+
+html[data-theme="dark"] .related-job-link {
+  background-color: #192a3e !important;
+  border-color: #344b66 !important;
+  color: #e5edf7 !important;
+}
+
+html[data-theme="dark"] .related-job-link:hover {
+  background-color: #1d3a5b !important;
+  border-color: #60a5fa !important;
+}
+
+html[data-theme="dark"] .related-job-organization {
+  color: #bfd0e4 !important;
+}
