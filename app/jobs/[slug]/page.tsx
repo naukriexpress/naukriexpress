@@ -468,14 +468,14 @@ export default async function JobDetailsPage({
 
                       <div role="cell" className="min-w-0">
                         <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.13em] text-sky-700 lg:hidden">Required Qualification</p>
-                        <p className="vacancy-row-qualification break-words text-sm leading-relaxed text-slate-700">
+                        <span className="vacancy-qualification-badge inline-flex max-w-full whitespace-normal break-words rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-sm font-extrabold leading-relaxed text-emerald-800">
                           {row.qualification?.trim() ||
                             job.eligibility.qualifications
                               .map((qualification) => QUALIFICATION_LABELS[qualification])
                               .filter(Boolean)
                               .join(", ") ||
                             "Not specified"}
-                        </p>
+                        </span>
                       </div>
 
                       <div role="cell" className="min-w-0 lg:text-center">
