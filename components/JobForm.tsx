@@ -224,8 +224,8 @@ export default function JobForm({
       </Section>
 
       {/* Content */}
-      <Section title="Content" hint="Use the formatting toolbar — no HTML knowledge needed.">
-        <RichTextEditor name="content_eligibility" label="Eligibility Details" defaultValue={job?.content.eligibility} placeholder="Describe eligibility in detail..." />
+      <Section title="Content" hint="Use normal rich text, or enter one item per line as Label | Value to show a specification-style table on the public page.">
+        <RichTextEditor name="content_eligibility" label="Eligibility Details" defaultValue={job?.content.eligibility} placeholder="Example: Model Number | WM118 (one Label | Value item per line)" />
       </Section>
 
       {/* SEO */}

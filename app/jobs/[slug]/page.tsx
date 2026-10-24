@@ -46,6 +46,44 @@ function htmlToPlainText(value?: string) {
     .trim();
 }
 
+function parseEligibilityRows(value?: string): { label: string; value: string }[] | null {
+  if (!value?.trim()) return null;
+
+  // RichTextEditor stores contentEditable markup. Convert block boundaries
+  // back into lines so "Label | Value" entries can render as a specification table.
+  const plain = value
+    .replace(/<br\s*\/?\s*>/gi, "\n")
+    .replace(/<\/(?:p|div|li|h[1-6]|tr)>/gi, "\n")
+    .replace(/<li\b[^>]*>/gi, "")
+    .replace(/<\/(?:ul|ol)>/gi, "\n")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&nbsp;|&#160;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;|&apos;/gi, "'")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&#(\d+);/g, (_, code: string) => String.fromCodePoint(Number(code)))
+    .replace(/&#x([\da-f]+);/gi, (_, code: string) => String.fromCodePoint(parseInt(code, 16)));
+
+  const lines = plain.split(/[\r\n]+/).map((line) => line.trim()).filter(Boolean);
+  if (!lines.length) return null;
+
+  const rows = lines.map((line) => {
+    const separator = line.indexOf("|");
+    if (separator <= 0) return null;
+
+    const label = line.slice(0, separator).trim().replace(/^[-*•]\s*/, "");
+    const rowValue = line.slice(separator + 1).trim();
+    return label && rowValue ? { label, value: rowValue } : null;
+  });
+
+  // Only use the table layout when every non-empty line follows the exact
+  // Label | Value pattern; regular eligibility paragraphs keep rich-text styling.
+  if (rows.some((row) => row === null)) return null;
+  return rows as { label: string; value: string }[];
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -156,6 +194,7 @@ export default async function JobDetailsPage({
     .map((qualification) => QUALIFICATION_LABELS[qualification])
     .filter(Boolean)
     .join(", ");
+  const eligibilityRows = parseEligibilityRows(job.content.eligibility);
   const rowVacancyTotal = job.vacancyBreakdown.reduce(
     (sum, row) => sum + Math.max(0, Number(row.count) || 0),
     0
@@ -505,12 +544,34 @@ export default async function JobDetailsPage({
             )}
 
             {job.content.eligibility && (
-              <div
-                className="prose-sm text-ink-800 [&_p]:mb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5"
-                dangerouslySetInnerHTML={{
-                  __html: job.content.eligibility,
-                }}
-              />
+              eligibilityRows ? (
+                <div className="overflow-hidden rounded-lg border border-ink-900/10">
+                  <table className="w-full border-collapse text-sm">
+                    <tbody>
+                      {eligibilityRows.map((row, index) => (
+                        <tr
+                          key={index}
+                          className={index < eligibilityRows.length - 1 ? "border-b border-ink-900/10" : ""}
+                        >
+                          <td className="w-[42%] px-3 py-2.5 align-top text-xs text-ink-700/80 sm:text-sm">
+                            {row.label}
+                          </td>
+                          <td className="px-3 py-2.5 text-right align-top text-sm font-semibold text-ink-900 [overflow-wrap:anywhere]">
+                            {row.value}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div
+                  className="prose-sm text-ink-800 [&_p]:mb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5"
+                  dangerouslySetInnerHTML={{
+                    __html: job.content.eligibility,
+                  }}
+                />
+              )
             )}
           </section>
 
