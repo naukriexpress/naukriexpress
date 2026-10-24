@@ -62,12 +62,11 @@ function mapJobRow(row: any, vacancyRows: VacancyRow[]): JobPosting {
       officialNotification: row.official_notification_url || undefined,
       officialWebsite: row.official_website_url || undefined,
     },
+    lastDateExtended: row.last_date_extended === true,
+    noticeDetailsPending: row.notice_details_pending === true,
     content: {
       eligibility: row.content_eligibility || undefined,
       vacancyDetails: row.content_vacancy_details || undefined,
-      selectionProcess: row.content_selection_process || undefined,
-      howToApply: row.content_how_to_apply || undefined,
-      importantInstructions: row.content_important_instructions || undefined,
     },
     seo: {
       title: row.seo_title || undefined,
@@ -341,10 +340,9 @@ export async function createJob(
       job_type, salary, application_fee,
       start_date, last_date, exam_date,
       apply_online_url, official_notification_url, official_website_url,
-      content_eligibility, content_vacancy_details, content_selection_process,
-      content_how_to_apply, content_important_instructions,
+      content_eligibility, content_vacancy_details,
       seo_title, seo_meta_description,
-      featured, status, publish_at
+      featured, status, publish_at, last_date_extended, notice_details_pending
     ) values (
       $1,$2,$3,$4,$5,$6,
       $7,$8,$9,$10,
@@ -352,10 +350,10 @@ export async function createJob(
       $17,$18,$19,
       $20,$21,$22,
       $23,$24,$25,
-      $26,$27,$28,
-      $29,$30,
-      $31,$32,
-      $33,$34,$35
+      $26,$27,
+      $28,$29,
+      $30,$31,$32,
+      $33,$34
     ) returning *, ${RESOLVED_STATUS_SQL} as effective_status`,
     [
       slug, input.title, input.organization, input.department || null, input.advertisementNumber || null, input.logoUrl || null,
@@ -365,10 +363,10 @@ export async function createJob(
       input.jobType, input.salary || null, input.applicationFee || null,
       input.dates.startDate || null, input.dates.lastDate, input.dates.examDate || null,
       input.links.applyOnline || null, input.links.officialNotification || null, input.links.officialWebsite || null,
-      input.content.eligibility || null, input.content.vacancyDetails || null, input.content.selectionProcess || null,
-      input.content.howToApply || null, input.content.importantInstructions || null,
+      input.content.eligibility || null, input.content.vacancyDetails || null,
       input.seo.title || null, input.seo.metaDescription || null,
       input.featured, input.status, input.publishAt || null,
+      input.lastDateExtended === true, input.noticeDetailsPending === true,
     ]
   );
 
@@ -425,11 +423,11 @@ export async function updateJob(
       job_type=$17, salary=$18, application_fee=$19,
       start_date=$20, last_date=$21, exam_date=$22,
       apply_online_url=$23, official_notification_url=$24, official_website_url=$25,
-      content_eligibility=$26, content_vacancy_details=$27, content_selection_process=$28,
-      content_how_to_apply=$29, content_important_instructions=$30,
-      seo_title=$31, seo_meta_description=$32,
-      featured=$33, status=$34, publish_at=$35
-    where id = $36
+      content_eligibility=$26, content_vacancy_details=$27,
+      seo_title=$28, seo_meta_description=$29,
+      featured=$30, status=$31, publish_at=$32,
+      last_date_extended=$33, notice_details_pending=$34
+    where id = $35
     returning *, ${RESOLVED_STATUS_SQL} as effective_status`,
     [
       slug, merged.title, merged.organization, merged.department || null, merged.advertisementNumber || null, merged.logoUrl || null,
@@ -439,10 +437,10 @@ export async function updateJob(
       merged.jobType, merged.salary || null, merged.applicationFee || null,
       merged.dates.startDate || null, merged.dates.lastDate, merged.dates.examDate || null,
       merged.links.applyOnline || null, merged.links.officialNotification || null, merged.links.officialWebsite || null,
-      merged.content.eligibility || null, merged.content.vacancyDetails || null, merged.content.selectionProcess || null,
-      merged.content.howToApply || null, merged.content.importantInstructions || null,
+      merged.content.eligibility || null, merged.content.vacancyDetails || null,
       merged.seo.title || null, merged.seo.metaDescription || null,
       merged.featured, merged.status, merged.publishAt || null,
+      merged.lastDateExtended === true, merged.noticeDetailsPending === true,
       id,
     ]
   );
