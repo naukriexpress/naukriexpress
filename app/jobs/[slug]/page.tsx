@@ -387,7 +387,7 @@ export default async function JobDetailsPage({
               <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-4 text-sm text-amber-950">
                 <p className="font-semibold">Official vacancy details are awaited.</p>
                 <p className="mt-1">
-                  The recruiting authority has not yet provided a verified post-wise and category-wise vacancy breakdown that we can cite here. The total number of vacancies will be updated after the official notification is published.
+                  The recruiting authority has not yet provided a verified post-wise vacancy breakdown that we can cite here. The total number of vacancies will be updated after the official notification is published.
                 </p>
               </div>
             ) : (
@@ -397,7 +397,7 @@ export default async function JobDetailsPage({
                     <tr className="border-b border-ink-900/10 text-left text-ink-700/60">
                       <th className="py-2 pr-4 font-medium">Post</th>
                       <th className="py-2 pr-4 font-medium">Required Qualification</th>
-                              <th className="py-2 pr-4 text-right font-medium">
+                      <th className="py-2 pr-4 text-right font-medium">
                         Vacancies
                       </th>
                       <th className="py-2 font-medium">Apply Online</th>
