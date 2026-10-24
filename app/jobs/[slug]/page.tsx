@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Manrope } from "next/font/google";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getJobBySlug, incrementViews, queryJobs } from "@/lib/db";
+import { getJobBySlug, incrementViews } from "@/lib/db";
 import {
   CATEGORY_LABELS,
   QUALIFICATION_LABELS,
@@ -10,6 +11,7 @@ import {
 } from "@/lib/types";
 import StatusBadge from "@/components/StatusBadge";
 import ShareButtons from "@/components/ShareButtons";
+import RelatedJobs, { RelatedJobsSkeleton } from "@/components/RelatedJobs";
 import { hasPendingVacancyDetails } from "@/lib/jobMarkers";
 import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
 
@@ -162,17 +164,10 @@ export default async function JobDetailsPage({
   });
   const noticeDetailsPending = Boolean(job.noticeDetailsPending);
 
-  const [, { results: related }] = await Promise.all([
-    incrementViews(job.id),
-    queryJobs({
-      state: job.location.allIndia ? undefined : job.location.state,
-      pageSize: 3,
-    }),
-  ]);
-
-  const relatedJobs = related
-    .filter((j) => j.id !== job.id)
-    .slice(0, 3);
+  // Record the visit without holding up the main job content render.
+  void incrementViews(job.id).catch((error: unknown) => {
+    console.error("Job view count update failed:", error);
+  });
 
   const daysUntilDeadline = getDaysUntilDate(
     job.dates.lastDate,
@@ -748,31 +743,12 @@ export default async function JobDetailsPage({
               )}
             </div>
 
-            {relatedJobs.length > 0 && (
-              <div className="rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card">
-                <h3 className="mb-3 font-display text-sm font-bold text-ink-900">
-                  Related Jobs
-                </h3>
-
-                <div className="space-y-2">
-                  {relatedJobs.map((r) => (
-                    <Link
-                      key={r.id}
-                      href={`/jobs/${r.slug}`}
-                      className="block rounded-lg border border-ink-900/10 p-3 text-xs hover:border-brand-400"
-                    >
-                      <p className="line-clamp-2 font-semibold text-ink-900">
-                        {r.title}
-                      </p>
-
-                      <p className="mt-0.5 text-ink-700/60">
-                        {r.organization}
-                      </p>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
+            <Suspense fallback={<RelatedJobsSkeleton />}>
+              <RelatedJobs
+                currentJobId={job.id}
+                state={job.location.allIndia ? undefined : job.location.state}
+              />
+            </Suspense>
           </div>
         </aside>
       </div>
