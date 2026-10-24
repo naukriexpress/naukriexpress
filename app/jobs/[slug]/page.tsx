@@ -408,90 +408,103 @@ export default async function JobDetailsPage({
           </div>
 
           {/* Post-wise Vacancy Details and Apply Online Links */}
-          <section className="mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7">
-            <h2 className="mb-3 font-display text-lg font-bold text-ink-900">
+          <section className={`${cardFont.className} mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7`}>
+            <h2 className="mb-4 font-display text-lg font-extrabold tracking-tight text-ink-900">
               Post-wise Vacancy Details
             </h2>
 
             {vacancyDetailsPending ? (
-              <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-4 text-sm text-amber-950">
-                <p className="font-semibold">Official vacancy details are awaited.</p>
-                <p className="mt-1">
+              <div className="vacancy-pending-panel rounded-xl border border-amber-200 bg-gradient-to-br from-amber-50 to-white p-4 text-sm text-amber-950 shadow-sm sm:p-5">
+                <p className="font-bold">Official vacancy details are awaited.</p>
+                <p className="mt-1 leading-relaxed">
                   The recruiting authority has not yet provided a verified post-wise vacancy breakdown that we can cite here. The total number of vacancies will be updated after the official notification is published.
                 </p>
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="border-b border-ink-900/10 text-left text-ink-700/60">
-                      <th className="py-2 pr-4 font-medium">Post</th>
-                      <th className="py-2 pr-4 font-medium">Required Qualification</th>
-                      <th className="py-2 pr-4 text-right font-medium">
-                        Vacancies
-                      </th>
-                      <th className="py-2 font-medium">Apply Online</th>
-                    </tr>
-                  </thead>
-  
-                  <tbody>
-                    {job.vacancyBreakdown.length === 0 ? (
-                      <tr>
-                        <td colSpan={4} className="py-3 text-sm text-ink-700">
-                          A post-wise vacancy breakdown is not available in this listing. Please check the official notification for verified post details.
-                        </td>
-                      </tr>
-                    ) : job.vacancyBreakdown.map((row, i) => {
-                      const tradeLink =
-                        ("applyOnline" in row &&
-                        typeof row.applyOnline === "string"
-                          ? row.applyOnline.trim()
-                          : "") || job.links.applyOnline;
-  
-                      return (
-                        <tr
-                          key={i}
-                          className="border-b border-ink-900/5"
-                        >
-                          <td className="py-2.5 pr-4 font-medium text-ink-900">
-                            {row.post}
-                          </td>
-  
-                          <td className="py-2.5 pr-4 text-ink-700">
-                            {row.qualification?.trim() ||
-                              job.eligibility.qualifications
-                                .map((qualification) => QUALIFICATION_LABELS[qualification])
-                                .filter(Boolean)
-                                .join(", ") ||
-                              "Not specified"}
-                          </td>
+              <div role="table" aria-label="Post-wise vacancy details" className="space-y-3">
+                <div
+                  role="row"
+                  className="vacancy-table-head hidden grid-cols-[minmax(0,1.5fr)_minmax(0,1.35fr)_5rem_auto] gap-4 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-[10px] font-bold uppercase tracking-[0.13em] text-slate-600 lg:grid"
+                >
+                  <div role="columnheader">Post</div>
+                  <div role="columnheader">Required Qualification</div>
+                  <div role="columnheader" className="text-center">Vacancies</div>
+                  <div role="columnheader" className="text-right">Apply Online</div>
+                </div>
 
-  
-                          <td className="py-2.5 pr-4 text-right font-semibold text-ink-900">
-                            {row.count.toLocaleString("en-IN")}
-                          </td>
-  
-                          <td className="py-2.5">
-                            {tradeLink ? (
-                              <a
-                                href={tradeLink}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-block whitespace-nowrap rounded-lg bg-green-600 px-3 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-green-700"
-                              >
-                                Apply Online
-                              </a>
-                            ) : (
-                              <span className="text-xs text-ink-700/60">
-                                Link not added
-                              </span>
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
+                {job.vacancyBreakdown.length === 0 ? (
+                  <div className="vacancy-empty-panel rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm leading-relaxed text-slate-600">
+                    A post-wise vacancy breakdown is not available in this listing. Please check the official notification for verified post details.
+                  </div>
+                ) : job.vacancyBreakdown.map((row, i) => {
+                  const tradeLink =
+                    ("applyOnline" in row &&
+                    typeof row.applyOnline === "string"
+                      ? row.applyOnline.trim()
+                      : "") || job.links.applyOnline;
+
+                  const rowTone = i % 5 === 0
+                    ? "border-sky-100 bg-gradient-to-br from-sky-50/80 to-white hover:border-sky-200"
+                    : i % 5 === 1
+                      ? "border-teal-100 bg-gradient-to-br from-teal-50/80 to-white hover:border-teal-200"
+                      : i % 5 === 2
+                        ? "border-violet-100 bg-gradient-to-br from-violet-50/80 to-white hover:border-violet-200"
+                        : i % 5 === 3
+                          ? "border-amber-100 bg-gradient-to-br from-amber-50/80 to-white hover:border-amber-200"
+                          : "border-emerald-100 bg-gradient-to-br from-emerald-50/80 to-white hover:border-emerald-200";
+
+                  return (
+                    <div
+                      role="row"
+                      key={i}
+                      className={`vacancy-row-card grid grid-cols-1 gap-3 rounded-xl border p-4 shadow-sm transition-all sm:grid-cols-2 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1.35fr)_5rem_auto] lg:items-center lg:gap-4 ${rowTone}`}
+                    >
+                      <div role="cell" className="min-w-0">
+                        <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.13em] text-sky-700 lg:hidden">Post</p>
+                        <p className="vacancy-row-post break-words text-sm font-bold leading-relaxed text-slate-900">
+                          {row.post}
+                        </p>
+                      </div>
+
+                      <div role="cell" className="min-w-0">
+                        <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.13em] text-sky-700 lg:hidden">Required Qualification</p>
+                        <p className="vacancy-row-qualification break-words text-sm leading-relaxed text-slate-700">
+                          {row.qualification?.trim() ||
+                            job.eligibility.qualifications
+                              .map((qualification) => QUALIFICATION_LABELS[qualification])
+                              .filter(Boolean)
+                              .join(", ") ||
+                            "Not specified"}
+                        </p>
+                      </div>
+
+                      <div role="cell" className="min-w-0 lg:text-center">
+                        <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.13em] text-emerald-700 lg:hidden">Vacancies</p>
+                        <span className="vacancy-row-count inline-flex min-w-10 items-center justify-center rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-sm font-extrabold tabular-nums text-emerald-800">
+                          {row.count.toLocaleString("en-IN")}
+                        </span>
+                      </div>
+
+                      <div role="cell" className="min-w-0 lg:text-right">
+                        <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.13em] text-emerald-700 lg:hidden">Apply Online</p>
+                        {tradeLink ? (
+                          <a
+                            href={tradeLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="vacancy-apply-button inline-flex w-full items-center justify-center whitespace-nowrap rounded-lg border border-emerald-600 bg-emerald-600 px-3.5 py-2.5 text-center text-sm font-bold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:border-emerald-700 hover:bg-emerald-700 hover:shadow-md sm:w-auto"
+                          >
+                            Apply Online
+                          </a>
+                        ) : (
+                          <span className="vacancy-link-missing inline-block rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-medium text-slate-500">
+                            Link not added
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             )}
           </section>
