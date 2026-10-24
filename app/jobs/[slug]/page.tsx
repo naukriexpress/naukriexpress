@@ -438,10 +438,10 @@ export default async function JobDetailsPage({
                   role="row"
                   className="vacancy-table-head hidden grid-cols-[minmax(0,1.5fr)_minmax(0,1.35fr)_5rem_auto] gap-4 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-[10px] font-bold uppercase tracking-[0.13em] text-slate-600 lg:grid"
                 >
-                  <div role="columnheader">Post</div>
-                  <div role="columnheader">Required Qualification</div>
-                  <div role="columnheader" className="text-center">Vacancies</div>
-                  <div role="columnheader" className="text-right">Apply Online</div>
+                  <div role="columnheader" className="vacancy-column-header vacancy-column-header--post">Post</div>
+                  <div role="columnheader" className="vacancy-column-header vacancy-column-header--qualification">Required Qualification</div>
+                  <div role="columnheader" className="vacancy-column-header vacancy-column-header--count text-center">Vacancies</div>
+                  <div role="columnheader" className="vacancy-column-header vacancy-column-header--apply text-right">Apply Online</div>
                 </div>
 
                 {job.vacancyBreakdown.length === 0 ? (
@@ -473,9 +473,9 @@ export default async function JobDetailsPage({
                     >
                       <div role="cell" className="min-w-0">
                         <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.13em] text-sky-700 lg:hidden">Post</p>
-                        <p className="vacancy-row-post break-words text-sm font-bold leading-relaxed text-slate-900">
+                        <span className="vacancy-post-badge inline-flex max-w-full whitespace-normal break-words rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-sm font-extrabold leading-relaxed text-emerald-800">
                           {row.post}
-                        </p>
+                        </span>
                       </div>
 
                       <div role="cell" className="min-w-0">
@@ -584,7 +584,7 @@ export default async function JobDetailsPage({
                     {eligibilityRows.map((row, index) => (
                       <div
                         key={index}
-                        className={`eligibility-specification-card min-w-0 rounded-xl border p-4 shadow-sm transition-colors ${
+                        className={`eligibility-specification-card ${index % 5 === 0 ? "eligibility-specification-card--sky" : index % 5 === 1 ? "eligibility-specification-card--teal" : index % 5 === 2 ? "eligibility-specification-card--violet" : index % 5 === 3 ? "eligibility-specification-card--amber" : "eligibility-specification-card--emerald"} min-w-0 rounded-xl border p-4 shadow-sm transition-colors ${
                           index % 5 === 0
                             ? "border-sky-100 bg-gradient-to-br from-sky-50 to-white hover:border-sky-200"
                             : index % 5 === 1
