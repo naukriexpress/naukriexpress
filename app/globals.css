@@ -987,3 +987,171 @@ html[data-theme="dark"] .related-job-link:hover {
 html[data-theme="dark"] .related-job-organization {
   color: #bfd0e4 !important;
 }
+
+
+/* Colorful detail cards and relation panels; tuned for both themes. */
+.eligibility-specification-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+.eligibility-specification-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.4;
+}
+.eligibility-specification-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgb(15 41 72 / 10%);
+}
+html[data-theme="dark"] .eligibility-specification-card--sky {
+  background: linear-gradient(135deg, #0c2b47 0%, #102238 100%) !important;
+  border-color: #167bc1 !important;
+  color: #7dd3fc !important;
+}
+html[data-theme="dark"] .eligibility-specification-card--teal {
+  background: linear-gradient(135deg, #0b3735 0%, #102a32 100%) !important;
+  border-color: #0f9e92 !important;
+  color: #5eead4 !important;
+}
+html[data-theme="dark"] .eligibility-specification-card--violet {
+  background: linear-gradient(135deg, #271b4a 0%, #1c1b38 100%) !important;
+  border-color: #7c5ce0 !important;
+  color: #c4b5fd !important;
+}
+html[data-theme="dark"] .eligibility-specification-card--amber {
+  background: linear-gradient(135deg, #3b2a13 0%, #29221b 100%) !important;
+  border-color: #b58128 !important;
+  color: #fcd34d !important;
+}
+html[data-theme="dark"] .eligibility-specification-card--emerald {
+  background: linear-gradient(135deg, #063b32 0%, #0c2b2a 100%) !important;
+  border-color: #08a979 !important;
+  color: #6ee7b7 !important;
+}
+html[data-theme="dark"] .eligibility-specification-card--sky .eligibility-specification-label { color: #7dd3fc !important; }
+html[data-theme="dark"] .eligibility-specification-card--teal .eligibility-specification-label { color: #5eead4 !important; }
+html[data-theme="dark"] .eligibility-specification-card--violet .eligibility-specification-label { color: #c4b5fd !important; }
+html[data-theme="dark"] .eligibility-specification-card--amber .eligibility-specification-label { color: #fcd34d !important; }
+html[data-theme="dark"] .eligibility-specification-card--emerald .eligibility-specification-label { color: #6ee7b7 !important; }
+html[data-theme="dark"] .eligibility-specification-card .eligibility-specification-value {
+  color: #f4f8ff !important;
+}
+
+/* Related job cards use an accent palette instead of flat grey. */
+.related-job-link {
+  position: relative;
+  overflow: hidden;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+.related-job-link::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+}
+.related-job-link:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgb(15 41 72 / 10%);
+}
+.related-job-link--sky {
+  background-color: #eff6ff !important;
+  border-color: #bfdbfe !important;
+}
+.related-job-link--sky::before { background-color: #0284c7; }
+.related-job-link--emerald {
+  background-color: #ecfdf5 !important;
+  border-color: #a7f3d0 !important;
+}
+.related-job-link--emerald::before { background-color: #059669; }
+.related-job-link--violet {
+  background-color: #f5f3ff !important;
+  border-color: #ddd6fe !important;
+}
+.related-job-link--violet::before { background-color: #7c3aed; }
+html[data-theme="dark"] .related-job-link--sky {
+  background: linear-gradient(135deg, #0c2b47 0%, #102238 100%) !important;
+  border-color: #167bc1 !important;
+}
+html[data-theme="dark"] .related-job-link--emerald {
+  background: linear-gradient(135deg, #0b3730 0%, #102a2b 100%) !important;
+  border-color: #0f9e76 !important;
+}
+html[data-theme="dark"] .related-job-link--violet {
+  background: linear-gradient(135deg, #271b4a 0%, #1c1b38 100%) !important;
+  border-color: #7c5ce0 !important;
+}
+html[data-theme="dark"] .related-job-link--sky::before { background-color: #38bdf8; }
+html[data-theme="dark"] .related-job-link--emerald::before { background-color: #34d399; }
+html[data-theme="dark"] .related-job-link--violet::before { background-color: #a78bfa; }
+
+/* Give every desktop vacancy header its own compact color block. */
+.vacancy-table-head {
+  align-items: stretch;
+}
+.vacancy-column-header {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid transparent;
+  border-radius: 0.65rem;
+}
+.vacancy-column-header--post {
+  background-color: #eff6ff;
+  border-color: #bfdbfe;
+  color: #0369a1;
+}
+.vacancy-column-header--qualification {
+  background-color: #ecfdf5;
+  border-color: #a7f3d0;
+  color: #047857;
+}
+.vacancy-column-header--count {
+  background-color: #f5f3ff;
+  border-color: #ddd6fe;
+  color: #6d28d9;
+}
+.vacancy-column-header--apply {
+  background-color: #fff7ed;
+  border-color: #fed7aa;
+  color: #c2410c;
+}
+html[data-theme="dark"] .vacancy-column-header--post {
+  background: linear-gradient(135deg, #0c2b47 0%, #102238 100%) !important;
+  border-color: #167bc1 !important;
+  color: #7dd3fc !important;
+}
+html[data-theme="dark"] .vacancy-column-header--qualification {
+  background: linear-gradient(135deg, #063b32 0%, #0c2b2a 100%) !important;
+  border-color: #08a979 !important;
+  color: #6ee7b7 !important;
+}
+html[data-theme="dark"] .vacancy-column-header--count {
+  background: linear-gradient(135deg, #271b4a 0%, #1c1b38 100%) !important;
+  border-color: #7c5ce0 !important;
+  color: #c4b5fd !important;
+}
+html[data-theme="dark"] .vacancy-column-header--apply {
+  background: linear-gradient(135deg, #3b2a13 0%, #29221b 100%) !important;
+  border-color: #b58128 !important;
+  color: #fcd34d !important;
+}
+
+/* Post and qualification values share the same green badge treatment. */
+.vacancy-post-badge {
+  align-items: center;
+  min-height: 2.25rem;
+  box-shadow: 0 1px 2px rgb(5 150 105 / 10%);
+}
+html[data-theme="dark"] .vacancy-post-badge,
+html[data-theme="dark"] .vacancy-qualification-badge {
+  background-color: #073b2c !important;
+  border-color: #059669 !important;
+  color: #a7f3d0 !important;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 16%);
+}
