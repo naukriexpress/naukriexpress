@@ -335,7 +335,7 @@ export default async function JobDetailsPage({
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_320px]">
         <div>
           {/* Job Header */}
-          <div className={`${cardFont.className} rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7`}>
+          <div className={`${cardFont.className} job-detail-panel rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7`}>
             <div className="job-title-panel relative mb-5 overflow-hidden rounded-xl border border-sky-100 bg-gradient-to-br from-sky-50 via-white to-indigo-50/70 p-4 pl-5 shadow-sm sm:p-5 sm:pl-6">
               <div
                 aria-hidden="true"
@@ -372,14 +372,14 @@ export default async function JobDetailsPage({
             </div>
 
             <div className={`${cardFont.className} mt-5 grid grid-cols-2 gap-3 border-t border-slate-200 pt-5 sm:grid-cols-4`}>
-              <div className="min-w-0 rounded-xl border border-sky-100 bg-gradient-to-br from-sky-50 to-white p-3.5 shadow-sm transition-colors hover:border-sky-200">
+              <div className="job-meta-card job-meta-card--sky min-w-0 rounded-xl border border-sky-100 bg-gradient-to-br from-sky-50 to-white p-3.5 shadow-sm transition-colors hover:border-sky-200">
                 <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.13em] text-sky-700">Advt. No.</p>
                 <p className="break-words text-sm font-bold leading-snug text-slate-900">
                   {job.advertisementNumber || "As notified"}
                 </p>
               </div>
 
-              <div className="min-w-0 rounded-xl border border-emerald-100 bg-gradient-to-br from-emerald-50 to-white p-3.5 shadow-sm transition-colors hover:border-emerald-200">
+              <div className="job-meta-card job-meta-card--emerald min-w-0 rounded-xl border border-emerald-100 bg-gradient-to-br from-emerald-50 to-white p-3.5 shadow-sm transition-colors hover:border-emerald-200">
                 <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.13em] text-emerald-700">Total Vacancies</p>
                 <p className="break-words text-sm font-extrabold leading-snug text-emerald-950 sm:text-base">
                   {vacancyDetailsPending
@@ -390,14 +390,14 @@ export default async function JobDetailsPage({
                 </p>
               </div>
 
-              <div className="min-w-0 rounded-xl border border-violet-100 bg-gradient-to-br from-violet-50 to-white p-3.5 shadow-sm transition-colors hover:border-violet-200">
+              <div className="job-meta-card job-meta-card--violet min-w-0 rounded-xl border border-violet-100 bg-gradient-to-br from-violet-50 to-white p-3.5 shadow-sm transition-colors hover:border-violet-200">
                 <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.13em] text-violet-700">Job Type</p>
                 <p className="break-words text-sm font-bold leading-snug text-slate-900">
                   {JOB_TYPE_LABELS[job.jobType]}
                 </p>
               </div>
 
-              <div className="min-w-0 rounded-xl border border-amber-100 bg-gradient-to-br from-amber-50 to-white p-3.5 shadow-sm transition-colors hover:border-amber-200">
+              <div className="job-meta-card job-meta-card--amber min-w-0 rounded-xl border border-amber-100 bg-gradient-to-br from-amber-50 to-white p-3.5 shadow-sm transition-colors hover:border-amber-200">
                 <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.13em] text-amber-700">Location</p>
                 <p className="break-words text-sm font-bold leading-snug text-slate-900">
                   {job.location.allIndia
@@ -420,7 +420,7 @@ export default async function JobDetailsPage({
           </div>
 
           {/* Post-wise Vacancy Details and Apply Online Links */}
-          <section className={`${cardFont.className} mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7`}>
+          <section className={`${cardFont.className} job-detail-panel mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7`}>
             <h2 className="mb-4 font-display text-lg font-extrabold tracking-tight text-ink-900">
               Post-wise Vacancy Details
             </h2>
@@ -522,13 +522,13 @@ export default async function JobDetailsPage({
           </section>
 
           {/* Eligibility */}
-          <section className={`${cardFont.className} mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7`}>
+          <section className={`${cardFont.className} job-detail-panel mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7`}>
             <h2 className="mb-3 font-display text-lg font-bold text-ink-900">
               Eligibility
             </h2>
 
             <div className="mb-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              <div className="min-w-0 rounded-xl border border-teal-100 border-l-4 border-l-teal-500 bg-gradient-to-br from-teal-50/80 to-white p-4 shadow-sm">
+              <div className="job-eligibility-card job-eligibility-card--teal min-w-0 rounded-xl border border-teal-100 border-l-4 border-l-teal-500 bg-gradient-to-br from-teal-50/80 to-white p-4 shadow-sm">
                 <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.13em] text-teal-700">
                   Eligible Gender
                 </p>
@@ -537,7 +537,7 @@ export default async function JobDetailsPage({
                 </p>
               </div>
 
-              <div className="min-w-0 rounded-xl border border-sky-100 border-l-4 border-l-sky-500 bg-gradient-to-br from-sky-50/80 to-white p-4 shadow-sm">
+              <div className="job-eligibility-card job-eligibility-card--sky min-w-0 rounded-xl border border-sky-100 border-l-4 border-l-sky-500 bg-gradient-to-br from-sky-50/80 to-white p-4 shadow-sm">
                 <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.13em] text-sky-700">
                   Qualification
                 </p>
@@ -550,7 +550,7 @@ export default async function JobDetailsPage({
                 </p>
               </div>
 
-              <div className="min-w-0 rounded-xl border border-violet-100 border-l-4 border-l-violet-500 bg-gradient-to-br from-violet-50/80 to-white p-4 shadow-sm">
+              <div className="job-eligibility-card job-eligibility-card--violet min-w-0 rounded-xl border border-violet-100 border-l-4 border-l-violet-500 bg-gradient-to-br from-violet-50/80 to-white p-4 shadow-sm">
                 <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.13em] text-violet-700">
                   Age Limit
                 </p>
@@ -563,7 +563,7 @@ export default async function JobDetailsPage({
             </div>
 
             {job.eligibility.ageRelaxation && (
-              <div className="mb-4 rounded-xl border border-amber-200 border-l-4 border-l-amber-500 bg-gradient-to-r from-amber-50 to-white p-4 shadow-sm">
+              <div className="job-age-relaxation-card mb-4 rounded-xl border border-amber-200 border-l-4 border-l-amber-500 bg-gradient-to-r from-amber-50 to-white p-4 shadow-sm">
                 <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.13em] text-amber-700">
                   Age Relaxation
                 </p>
@@ -574,8 +574,8 @@ export default async function JobDetailsPage({
             )}
 
             {job.content.eligibility && (
-              <div className="mt-5 border-t border-slate-100 pt-5">
-                <h3 className="mb-3 text-sm font-extrabold tracking-tight text-slate-800">
+              <div className="job-eligibility-details mt-5 border-t border-slate-100 pt-5">
+                <h3 className="job-eligibility-details-title mb-3 text-sm font-extrabold tracking-tight text-slate-800">
                   Eligibility Details
                 </h3>
 
@@ -632,13 +632,13 @@ export default async function JobDetailsPage({
           </section>
 
           {/* Important Dates and Fee */}
-          <section className={`${cardFont.className} mt-5 rounded-xl2 border border-slate-200 bg-white p-5 shadow-card sm:p-7`}>
+          <section className={`${cardFont.className} job-detail-panel mt-5 rounded-xl2 border border-slate-200 bg-white p-5 shadow-card sm:p-7`}>
             <h2 className="mb-4 font-display text-lg font-extrabold tracking-tight text-ink-900">
               Important Dates &amp; Fee
             </h2>
 
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              <div className="min-w-0 rounded-xl border border-sky-100 bg-gradient-to-br from-sky-50 to-white p-4 shadow-sm transition-colors hover:border-sky-200">
+              <div className="job-date-card job-date-card--sky min-w-0 rounded-xl border border-sky-100 bg-gradient-to-br from-sky-50 to-white p-4 shadow-sm transition-colors hover:border-sky-200">
                 <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.13em] text-sky-700">
                   Application Start
                 </p>
@@ -647,7 +647,7 @@ export default async function JobDetailsPage({
                 </p>
               </div>
 
-              <div className="min-w-0 rounded-xl border border-rose-100 bg-gradient-to-br from-rose-50 to-white p-4 shadow-sm transition-colors hover:border-rose-200">
+              <div className="job-date-card job-date-card--rose min-w-0 rounded-xl border border-rose-100 bg-gradient-to-br from-rose-50 to-white p-4 shadow-sm transition-colors hover:border-rose-200">
                 <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.13em] text-rose-700">
                   Last Date
                 </p>
@@ -661,7 +661,7 @@ export default async function JobDetailsPage({
                 )}
               </div>
 
-              <div className="min-w-0 rounded-xl border border-violet-100 bg-gradient-to-br from-violet-50 to-white p-4 shadow-sm transition-colors hover:border-violet-200">
+              <div className="job-date-card job-date-card--violet min-w-0 rounded-xl border border-violet-100 bg-gradient-to-br from-violet-50 to-white p-4 shadow-sm transition-colors hover:border-violet-200">
                 <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.13em] text-violet-700">
                   Exam Date
                 </p>
@@ -670,7 +670,7 @@ export default async function JobDetailsPage({
                 </p>
               </div>
 
-              <div className="min-w-0 rounded-xl border border-amber-100 bg-gradient-to-br from-amber-50 to-white p-4 shadow-sm transition-colors hover:border-amber-200">
+              <div className="job-date-card job-date-card--amber min-w-0 rounded-xl border border-amber-100 bg-gradient-to-br from-amber-50 to-white p-4 shadow-sm transition-colors hover:border-amber-200">
                 <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.13em] text-amber-700">
                   Application Fee
                 </p>
@@ -679,7 +679,7 @@ export default async function JobDetailsPage({
                 </p>
               </div>
 
-              <div className="min-w-0 rounded-xl border border-emerald-100 bg-gradient-to-br from-emerald-50 to-white p-4 shadow-sm transition-colors hover:border-emerald-200 sm:col-span-2 lg:col-span-2">
+              <div className="job-date-card job-date-card--emerald min-w-0 rounded-xl border border-emerald-100 bg-gradient-to-br from-emerald-50 to-white p-4 shadow-sm transition-colors hover:border-emerald-200 sm:col-span-2 lg:col-span-2">
                 <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.13em] text-emerald-700">
                   Salary / Pay Scale
                 </p>
@@ -693,7 +693,7 @@ export default async function JobDetailsPage({
           </section>
 
           {/* Share */}
-          <section className="mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7">
+          <section className="job-detail-panel mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7">
             <h2 className="mb-3 font-display text-lg font-bold text-ink-900">
               Share this Job
             </h2>
