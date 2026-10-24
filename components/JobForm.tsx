@@ -5,7 +5,7 @@ import type { Category, JobPosting, JobType, Qualification } from "@/lib/types";
 import RichTextEditor from "./RichTextEditor";
 import VacancyRowsEditor from "./VacancyRowsEditor";
 import { JOB_LOCATION_OPTIONS } from "@/lib/locations";
-import { SSC_GD_NOTICE_PENDING_MARKER } from "@/lib/jobMarkers";
+
 
 const CATEGORIES: Category[] = ["open", "obc", "sc", "st", "ews"];
 const QUALIFICATIONS: Qualification[] = [
@@ -172,7 +172,7 @@ export default function JobForm({
           <input
             type="checkbox"
             name="noticeDetailsPending"
-            defaultChecked={Boolean(job?.content.importantInstructions?.includes(SSC_GD_NOTICE_PENDING_MARKER))}
+            defaultChecked={Boolean(job?.noticeDetailsPending)}
             className="mt-0.5 h-4 w-4"
           />
           <span>
@@ -191,7 +191,7 @@ export default function JobForm({
               <input
                 type="checkbox"
                 name="lastDateExtended"
-                defaultChecked={Boolean(job?.content.importantInstructions?.includes(LAST_DATE_EXTENDED_MARKER))}
+                defaultChecked={Boolean(job?.lastDateExtended)}
                 className="h-4 w-4"
               />
               Last Date Extended
@@ -228,9 +228,6 @@ export default function JobForm({
       <Section title="Content" hint="Use the formatting toolbar — no HTML knowledge needed.">
         <RichTextEditor name="content_eligibility" label="Eligibility Details" defaultValue={job?.content.eligibility} placeholder="Describe eligibility in detail..." />
         <RichTextEditor name="content_vacancyDetails" label="Vacancy Details" defaultValue={job?.content.vacancyDetails} placeholder="Additional vacancy notes..." />
-        <RichTextEditor name="content_selectionProcess" label="Selection Process" defaultValue={job?.content.selectionProcess} placeholder="e.g. 1. Written test 2. Interview..." />
-        <RichTextEditor name="content_howToApply" label="How to Apply" defaultValue={job?.content.howToApply} placeholder="Step-by-step application instructions..." />
-        <RichTextEditor name="content_importantInstructions" label="Required Documents & Important Instructions" defaultValue={job?.content.importantInstructions?.replace(LAST_DATE_EXTENDED_MARKER, "").replace(SSC_GD_NOTICE_PENDING_MARKER, "").trim()} placeholder="List required documents and instructions..." />
       </Section>
 
       {/* SEO */}
