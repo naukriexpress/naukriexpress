@@ -6,7 +6,6 @@ import { createPortal } from "react-dom";
 import { usePathname, useSearchParams } from "next/navigation";
 import AdmitCardButton from "./AdmitCardButton";
 import ThemeToggle from "./ThemeToggle";
-import HeroSearch from "./HeroSearch";
 import EligibilityFinder from "./EligibilityFinder";
 
 const NAV_LINKS = [
@@ -123,10 +122,6 @@ export default function MobileNav({ states }: { states: string[] }) {
                 >
                   ✕
                 </button>
-              </div>
-
-              <div className="px-4 pt-4 lg:hidden">
-                <HeroSearch />
               </div>
 
               <nav className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4">
