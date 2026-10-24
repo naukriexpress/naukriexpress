@@ -559,7 +559,7 @@ export default async function JobDetailsPage({
                     {eligibilityRows.map((row, index) => (
                       <div
                         key={index}
-                        className={`min-w-0 rounded-xl border p-4 shadow-sm transition-colors ${
+                        className={`eligibility-specification-card min-w-0 rounded-xl border p-4 shadow-sm transition-colors ${
                           index % 5 === 0
                             ? "border-sky-100 bg-gradient-to-br from-sky-50 to-white hover:border-sky-200"
                             : index % 5 === 1
@@ -572,7 +572,7 @@ export default async function JobDetailsPage({
                         }`}
                       >
                         <p
-                          className={`mb-2 text-[10px] font-bold uppercase tracking-[0.13em] ${
+                          className={`eligibility-specification-label mb-2 text-[10px] font-bold uppercase tracking-[0.13em] ${
                             index % 5 === 0
                               ? "text-sky-700"
                               : index % 5 === 1
@@ -586,16 +586,16 @@ export default async function JobDetailsPage({
                         >
                           {row.label}
                         </p>
-                        <p className="break-words text-sm font-bold leading-relaxed text-slate-900">
+                        <p className="eligibility-specification-value break-words text-sm font-bold leading-relaxed text-slate-900">
                           {row.value}
                         </p>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <div className="rounded-xl border border-sky-100 bg-gradient-to-br from-sky-50/70 via-white to-violet-50/40 p-3 shadow-sm sm:p-4">
+                  <div className="eligibility-richtext-panel rounded-xl border border-sky-100 bg-gradient-to-br from-sky-50/70 via-white to-violet-50/40 p-3 shadow-sm sm:p-4">
                     <div
-                      className="prose-sm text-ink-800 [&_p]:mb-3 [&_p:last-child]:mb-0 [&_p]:rounded-lg [&_p]:border [&_p]:border-sky-100 [&_p]:bg-white/90 [&_p]:px-3 [&_p]:py-3 [&_p]:shadow-sm [&_ul]:my-3 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5 [&_ol]:my-3 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-5 [&_li]:rounded-md [&_li]:border [&_li]:border-violet-100 [&_li]:bg-violet-50/50 [&_li]:px-3 [&_li]:py-2"
+                      className="eligibility-richtext-content prose-sm text-ink-800 [&_p]:mb-3 [&_p:last-child]:mb-0 [&_p]:rounded-lg [&_p]:border [&_p]:border-sky-100 [&_p]:bg-white/90 [&_p]:px-3 [&_p]:py-3 [&_p]:shadow-sm [&_ul]:my-3 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5 [&_ol]:my-3 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-5 [&_li]:rounded-md [&_li]:border [&_li]:border-violet-100 [&_li]:bg-violet-50/50 [&_li]:px-3 [&_li]:py-2"
                       dangerouslySetInnerHTML={{
                         __html: job.content.eligibility,
                       }}
