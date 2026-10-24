@@ -395,3 +395,31 @@ html[data-theme="dark"] .vacancy-link-missing {
 html[data-theme="dark"] .vacancy-pending-panel {
   color: #fde68a !important;
 }
+
+
+/* Recruitment heading panel — distinct from the pastel metadata cards. */
+html[data-theme="dark"] .job-title-panel {
+  background-color: #111d2e !important;
+  background-image: none !important;
+  border-color: #344b66 !important;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 18%);
+}
+
+html[data-theme="dark"] .job-main-heading {
+  color: #f3f7fc !important;
+}
+
+html[data-theme="dark"] .job-organization {
+  color: #93c5fd !important;
+}
+
+html[data-theme="dark"] .job-department,
+html[data-theme="dark"] .job-title-subeyebrow {
+  color: #b2c5dc !important;
+}
+
+html[data-theme="dark"] .job-title-eyebrow {
+  background-color: #173451 !important;
+  border-color: #335a7f !important;
+  color: #b9dcff !important;
+}
