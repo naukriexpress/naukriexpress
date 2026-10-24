@@ -91,6 +91,7 @@ create table job_vacancy_rows (
   id uuid primary key default gen_random_uuid(),
   job_id uuid not null references jobs(id) on delete cascade,
   post text not null,
+  qualification text,
   category text, -- free-text breakup e.g. "Open: 40, OBC: 20"
   count integer not null default 0,
   sort_order integer not null default 0,
