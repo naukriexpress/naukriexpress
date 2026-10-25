@@ -1337,3 +1337,22 @@ html[data-theme="dark"] .vacancy-row-card > div:nth-child(5) > p {
   color: #6ee7b7 !important;
 }
 
+/* Keep long post names and qualification text inside their badges. */
+.vacancy-post-badge,
+.vacancy-qualification-badge {
+  display: inline-flex;
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  box-sizing: border-box;
+  line-height: 1.55;
+}
+
+html[data-theme="dark"] .vacancy-post-badge,
+html[data-theme="dark"] .vacancy-qualification-badge {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
