@@ -5,6 +5,7 @@ import type { Category, JobPosting, JobType, Qualification } from "@/lib/types";
 import RichTextEditor from "./RichTextEditor";
 import VacancyRowsEditor from "./VacancyRowsEditor";
 import { JOB_LOCATION_OPTIONS } from "@/lib/locations";
+import { stripChatGptUtmSource } from "@/lib/url-utils";
 
 
 const CATEGORIES: Category[] = ["open", "obc", "sc", "st", "ews"];
@@ -209,16 +210,16 @@ export default function JobForm({
       </Section>
 
       {/* Links */}
-      <Section title="Links">
+      <Section title="Links" hint="The utm_source=chatgpt.com tracking parameter is automatically removed from these three links.">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           <Field label="Apply Online Link">
-            <input name="applyOnline" type="url" defaultValue={job?.links.applyOnline} placeholder="https://..." className={inputCls} />
+            <input name="applyOnline" type="url" defaultValue={stripChatGptUtmSource(job?.links.applyOnline)} onBlur={(event) => { event.currentTarget.value = stripChatGptUtmSource(event.currentTarget.value); }} placeholder="https://..." className={inputCls} />
           </Field>
           <Field label="Official Notification Link (PDF)">
-            <input name="officialNotification" type="url" defaultValue={job?.links.officialNotification} placeholder="https://..." className={inputCls} />
+            <input name="officialNotification" type="url" defaultValue={stripChatGptUtmSource(job?.links.officialNotification)} onBlur={(event) => { event.currentTarget.value = stripChatGptUtmSource(event.currentTarget.value); }} placeholder="https://..." className={inputCls} />
           </Field>
           <Field label="Official Website Link">
-            <input name="officialWebsite" type="url" defaultValue={job?.links.officialWebsite} placeholder="https://..." className={inputCls} />
+            <input name="officialWebsite" type="url" defaultValue={stripChatGptUtmSource(job?.links.officialWebsite)} onBlur={(event) => { event.currentTarget.value = stripChatGptUtmSource(event.currentTarget.value); }} placeholder="https://..." className={inputCls} />
           </Field>
         </div>
       </Section>

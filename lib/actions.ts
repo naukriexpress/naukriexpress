@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createSession, destroySession, verifyCredentials } from "./auth";
 import { createJob, deleteJob, getJobById, updateJob } from "./db";
+import { stripChatGptUtmSource } from "./url-utils";
 import type {
   Category,
   Gender,
@@ -135,11 +136,12 @@ function buildJobFromForm(formData: FormData) {
     },
 
     links: {
-      applyOnline: String(formData.get("applyOnline") || "") || undefined,
+      applyOnline:
+        stripChatGptUtmSource(String(formData.get("applyOnline") || "")) || undefined,
       officialNotification:
-        String(formData.get("officialNotification") || "") || undefined,
+        stripChatGptUtmSource(String(formData.get("officialNotification") || "")) || undefined,
       officialWebsite:
-        String(formData.get("officialWebsite") || "") || undefined,
+        stripChatGptUtmSource(String(formData.get("officialWebsite") || "")) || undefined,
     },
 
     lastDateExtended: formData.get("lastDateExtended") === "on",
