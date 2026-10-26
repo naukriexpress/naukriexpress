@@ -25,10 +25,17 @@ function computeBadge(
 
 export default function StatusBadge({
   job,
+  hideLastDateSoon = false,
 }: {
-  job: Pick<JobPosting, "createdAt" | "dates" | "status" | "content">;
+  job: Pick<JobPosting, "createdAt" | "dates" | "status" | "noticeDetailsPending">;
+  hideLastDateSoon?: boolean;
 }) {
   const badge = computeBadge(job);
+
+  // The red deadline alert already communicates an urgent closing date.
+  // Suppress only the duplicate "Last Date Soon" badge in that case.
+  if (hideLastDateSoon && badge.label === "Last Date Soon") return null;
+
   return (
     <span className={`chip ${badge.className} border-transparent py-1 px-2.5 text-xs font-semibold`}>
       {badge.label}
