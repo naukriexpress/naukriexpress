@@ -156,7 +156,7 @@ export default function JobCard({ job }: { job: JobPosting }) {
                 <p className="job-card-organization mt-1 text-sm font-semibold leading-snug text-sky-800">{job.organization}</p>
               </Link>
               <div className="shrink-0">
-                <StatusBadge job={job} />
+                <StatusBadge job={job} hideLastDateSoon={Boolean(deadlineAlert)} />
               </div>
             </div>
           </div>
