@@ -407,7 +407,7 @@ export default async function JobDetailsPage({
               </div>
             </div>
 
-            <div className="mt-5 flex flex-wrap gap-2">
+            <div className="job-category-tags mt-5 flex flex-wrap gap-2">
               {job.eligibility.categories.map((c) => (
                 <span
                   key={c}
@@ -531,7 +531,7 @@ export default async function JobDetailsPage({
 
           {/* Eligibility */}
           <section className={`${cardFont.className} job-detail-panel mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7`}>
-            <h2 className="mb-3 font-display text-lg font-bold text-ink-900">
+            <h2 className="job-eligibility-heading mb-3 font-display text-lg font-bold text-ink-900">
               Eligibility
             </h2>
 
@@ -641,7 +641,7 @@ export default async function JobDetailsPage({
 
           {/* Important Dates and Fee */}
           <section className={`${cardFont.className} job-detail-panel mt-5 rounded-xl2 border border-slate-200 bg-white p-5 shadow-card sm:p-7`}>
-            <h2 className="mb-4 font-display text-lg font-extrabold tracking-tight text-ink-900">
+            <h2 className="job-dates-fee-heading mb-4 font-display text-lg font-extrabold tracking-tight text-ink-900">
               Important Dates &amp; Fee
             </h2>
 

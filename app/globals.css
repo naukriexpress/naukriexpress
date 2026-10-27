@@ -1667,3 +1667,18 @@ html[data-theme="dark"] .highest-vacancy-countdown[data-tone="copper"] { --count
 .eligibility-specification-card .eligibility-specification-value {
   font-family: "Times New Roman", Times, serif !important;
 }
+
+
+/* Times New Roman for job summary, category tags, eligibility and dates/fee cards. */
+.job-meta-card,
+.job-meta-card *,
+.job-category-tags,
+.job-category-tags *,
+.job-eligibility-heading,
+.job-eligibility-card,
+.job-eligibility-card *,
+.job-dates-fee-heading,
+.job-date-card,
+.job-date-card * {
+  font-family: "Times New Roman", Times, serif !important;
+}
