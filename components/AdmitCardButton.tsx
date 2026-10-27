@@ -82,11 +82,17 @@ export default function AdmitCardButton() {
             setSearchQuery("");
             void loadLinks(false);
           }}
-          className="fixed bottom-6 right-4 z-[9998] flex items-center gap-2 rounded-full bg-brand-600 px-4 py-3 text-sm font-bold text-white shadow-xl hover:bg-brand-700 active:scale-95 sm:right-6"
+          className="admit-card-floating-button fixed bottom-6 right-4 z-[9998] flex items-center gap-2 rounded-full bg-brand-600 px-4 py-3 text-sm font-bold text-white shadow-xl hover:bg-brand-700 active:scale-95 sm:right-6"
         >
-          <span>📄 Admit Card Updates</span>
-          <span className="rounded-full bg-white px-2 py-0.5 text-xs font-extrabold text-brand-700">
+          <span className="relative z-10">📄 Admit Card Updates</span>
+          <span className="relative z-10 rounded-full bg-white px-2 py-0.5 text-xs font-extrabold text-brand-700">
             {links.length}
+          </span>
+          <span className="admit-card-plane-orbit" aria-hidden="true">
+            <span className="admit-card-plane-trail" />
+            <svg className="admit-card-plane" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+              <path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5L21 16z" />
+            </svg>
           </span>
         </button>
       )}
