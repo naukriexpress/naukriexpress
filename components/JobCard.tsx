@@ -97,7 +97,7 @@ const CATEGORY_TONES = [
   "job-card-category--rose",
 ];
 
-export default function JobCard({ job }: { job: JobPosting }) {
+export default function JobCard({ job, rank }: { job: JobPosting; rank?: number }) {
   const initials = job.organization
     .split(" ")
     .slice(0, 2)
@@ -150,9 +150,24 @@ export default function JobCard({ job }: { job: JobPosting }) {
                 aria-label={`View details for ${job.title}`}
                 className="job-card-title-link min-w-0 flex-1 rounded-md focus-visible:outline-offset-4"
               >
-                <h3 className="job-card-title line-clamp-3 font-display text-base font-extrabold leading-snug tracking-tight text-slate-950 transition-colors group-hover:text-sky-700 sm:text-[17px]">
+                {rank !== undefined ? (
+                  <div className="flex min-w-0 items-start gap-2">
+                    <span
+                      className="job-apprentice-rank grid h-7 w-7 shrink-0 place-items-center rounded-lg border border-brand-200 bg-brand-50 text-xs font-extrabold tabular-nums text-brand-700 shadow-sm"
+                      aria-label={`Deadline rank ${rank}`}
+                      title={`Deadline priority #${rank}`}
+                    >
+                      {rank}
+                    </span>
+                    <h3 className="job-card-title line-clamp-3 min-w-0 flex-1 font-display text-base font-extrabold leading-snug tracking-tight text-slate-950 transition-colors group-hover:text-sky-700 sm:text-[17px]">
+                      {job.title}
+                    </h3>
+                  </div>
+                ) : (
+                  <h3 className="job-card-title line-clamp-3 font-display text-base font-extrabold leading-snug tracking-tight text-slate-950 transition-colors group-hover:text-sky-700 sm:text-[17px]">
                   {job.title}
                 </h3>
+                )}
               </Link>
               <div className="shrink-0">
                 <StatusBadge job={job} hideLastDateSoon={Boolean(deadlineAlert)} />

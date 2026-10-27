@@ -4,6 +4,31 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import JobCard from "@/components/JobCard";
 import type { JobPosting } from "@/lib/types";
+import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
+
+function compareApprenticeDeadlines(a: JobPosting, b: JobPosting, today: string): number {
+  const daysA = getDaysUntilDate(a.dates.lastDate, today);
+  const daysB = getDaysUntilDate(b.dates.lastDate, today);
+
+  // Records with a valid deadline come before records without one.
+  if (daysA === null && daysB !== null) return 1;
+  if (daysA !== null && daysB === null) return -1;
+
+  if (daysA !== null && daysB !== null) {
+    const activeA = daysA >= 0;
+    const activeB = daysB >= 0;
+
+    // Applications that are still open are listed first, by closest deadline.
+    if (activeA !== activeB) return activeA ? -1 : 1;
+    if (activeA && activeB && daysA !== daysB) return daysA - daysB;
+
+    // If any published records have expired, keep them after open applications,
+    // with the most recently expired records first.
+    if (!activeA && !activeB && daysA !== daysB) return daysB - daysA;
+  }
+
+  return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+}
 
 function JobCardSkeleton() {
   return (
@@ -48,7 +73,12 @@ export default function ApprenticeJobsList() {
       })
       .then((result: { data?: JobPosting[] }) => {
         if (!Array.isArray(result.data)) throw new Error("Unexpected jobs response");
-        setJobs(result.data);
+        const today = getIndiaTodayDate();
+        setJobs(
+          [...result.data].sort((a, b) =>
+            compareApprenticeDeadlines(a, b, today)
+          )
+        );
         setError(false);
       })
       .catch((reason: unknown) => {
@@ -88,7 +118,7 @@ export default function ApprenticeJobsList() {
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {jobs.map((job) => <JobCard key={job.id} job={job} />)}
+          {jobs.map((job, index) => <JobCard key={job.id} job={job} rank={index + 1} />)}
         </div>
       )}
     </section>
