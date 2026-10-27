@@ -1579,3 +1579,84 @@ html[data-theme="dark"] .highest-vacancy-post-badge[data-tone="copper"] { backgr
     transform: none;
   }
 }
+
+
+/* Countdown circle replaces the arrow while the whole job card remains the details link. */
+.highest-vacancy-countdown {
+  --countdown-color: #1672c4;
+  position: relative;
+  border: 2px solid var(--countdown-color);
+  background: #fff;
+  color: var(--countdown-color);
+  box-shadow: 0 2px 0 rgb(16 39 68 / 8%), 0 3px 8px rgb(16 39 68 / 8%);
+  transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+  line-height: 1;
+}
+
+.highest-vacancy-card:hover .highest-vacancy-countdown {
+  transform: scale(1.035);
+  box-shadow: 0 3px 0 rgb(16 39 68 / 9%), 0 5px 10px rgb(16 39 68 / 10%);
+}
+
+.highest-vacancy-countdown-value {
+  display: block;
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.highest-vacancy-countdown-unit {
+  display: block;
+  margin-top: 0.18rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.highest-vacancy-countdown-today {
+  font-size: 0.82rem;
+  letter-spacing: -0.02em;
+}
+
+.highest-vacancy-countdown[data-tone="blue"] { --countdown-color: #1672c4; background: #f7fbff; }
+.highest-vacancy-countdown[data-tone="orange"] { --countdown-color: #d76520; background: #fffaf5; }
+.highest-vacancy-countdown[data-tone="teal"] { --countdown-color: #16816d; background: #f5fffb; }
+.highest-vacancy-countdown[data-tone="violet"] { --countdown-color: #7150bf; background: #fcfaff; }
+.highest-vacancy-countdown[data-tone="rose"] { --countdown-color: #c63e53; background: #fff8f9; }
+.highest-vacancy-countdown[data-tone="indigo"] { --countdown-color: #5056ad; background: #fafaff; }
+.highest-vacancy-countdown[data-tone="amber"] { --countdown-color: #b7800d; background: #fffdf5; }
+.highest-vacancy-countdown[data-tone="cyan"] { --countdown-color: #12799d; background: #f6fdff; }
+.highest-vacancy-countdown[data-tone="emerald"] { --countdown-color: #28794a; background: #f7fff8; }
+.highest-vacancy-countdown[data-tone="pink"] { --countdown-color: #bd3c78; background: #fff8fc; }
+.highest-vacancy-countdown[data-tone="royal"] { --countdown-color: #2458a6; background: #f7faff; }
+.highest-vacancy-countdown[data-tone="copper"] { --countdown-color: #a85a2a; background: #fffaf6; }
+
+html[data-theme="dark"] .highest-vacancy-countdown {
+  background: #0f1c2c;
+  border-color: var(--countdown-color);
+  color: #eef6ff;
+  box-shadow: 0 2px 0 rgb(0 0 0 / 20%), 0 4px 8px rgb(0 0 0 / 16%);
+}
+html[data-theme="dark"] .highest-vacancy-countdown[data-tone="blue"] { --countdown-color: #71b7ff; background: #1d3854; }
+html[data-theme="dark"] .highest-vacancy-countdown[data-tone="orange"] { --countdown-color: #ffb27b; background: #482f22; }
+html[data-theme="dark"] .highest-vacancy-countdown[data-tone="teal"] { --countdown-color: #76dec6; background: #1b403a; }
+html[data-theme="dark"] .highest-vacancy-countdown[data-tone="violet"] { --countdown-color: #c0abff; background: #342a51; }
+html[data-theme="dark"] .highest-vacancy-countdown[data-tone="rose"] { --countdown-color: #ffa5b3; background: #482431; }
+html[data-theme="dark"] .highest-vacancy-countdown[data-tone="indigo"] { --countdown-color: #b2b6ff; background: #2b3354; }
+html[data-theme="dark"] .highest-vacancy-countdown[data-tone="amber"] { --countdown-color: #ffdc83; background: #44381f; }
+html[data-theme="dark"] .highest-vacancy-countdown[data-tone="cyan"] { --countdown-color: #8ce6ff; background: #1b3a45; }
+html[data-theme="dark"] .highest-vacancy-countdown[data-tone="emerald"] { --countdown-color: #9beab3; background: #244333; }
+html[data-theme="dark"] .highest-vacancy-countdown[data-tone="pink"] { --countdown-color: #ffb3dc; background: #462b40; }
+html[data-theme="dark"] .highest-vacancy-countdown[data-tone="royal"] { --countdown-color: #a6c9ff; background: #213958; }
+html[data-theme="dark"] .highest-vacancy-countdown[data-tone="copper"] { --countdown-color: #ffc39a; background: #4a3326; }
+
+@media (prefers-reduced-motion: reduce) {
+  .highest-vacancy-countdown,
+  .highest-vacancy-card:hover .highest-vacancy-countdown {
+    transition: none;
+    transform: none;
+  }
+}

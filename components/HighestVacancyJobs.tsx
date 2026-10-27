@@ -45,6 +45,12 @@ function formatVacancies(value: number): string {
   return value.toLocaleString("en-IN");
 }
 
+function getCountdownCopy(daysLeft: number): { value: string; unit: string; accessible: string } {
+  if (daysLeft <= 0) return { value: "Today", unit: "Last Day", accessible: "Last date is today" };
+  if (daysLeft === 1) return { value: "1", unit: "Day", accessible: "1 day remaining" };
+  return { value: String(daysLeft), unit: "Days", accessible: `${daysLeft} days remaining` };
+}
+
 function VacancyButtonSkeleton() {
   return (
     <div
@@ -151,13 +157,16 @@ export default function HighestVacancyJobs() {
           {jobs
             ? topJobs.map((job, index) => {
                 const vacancies = getVerifiedVacancyCount(job);
+                const daysLeft = getDaysUntilDate(job.dates.lastDate, today) ?? 0;
+                const countdown = getCountdownCopy(daysLeft);
                 const tone = CARD_TONES[index % CARD_TONES.length];
                 return (
                   <Link
                     key={job.id}
                     href={`/jobs/${job.slug}`}
                     prefetch={false}
-                    aria-label={`View ${job.title}, ${formatVacancies(vacancies)} vacancies`}
+                    aria-label={`View details for ${job.title}; ${formatVacancies(vacancies)} vacancies; ${countdown.accessible}`}
+                    title={`View details for ${job.title}`}
                     className="highest-vacancy-card group flex min-h-[92px] min-w-0 items-center gap-3 rounded-xl border p-3 transition-all duration-200 focus-visible:outline-offset-4"
                     data-tone={tone}
                   >
@@ -180,11 +189,15 @@ export default function HighestVacancyJobs() {
                       </span>
                     </span>
                     <span
-                      className="highest-vacancy-arrow grid h-9 w-9 shrink-0 place-items-center rounded-full text-xl font-bold transition-transform group-hover:translate-x-0.5"
+                      className="highest-vacancy-countdown grid h-[68px] w-[68px] shrink-0 content-center justify-items-center rounded-full text-center"
                       data-tone={tone}
-                      aria-hidden="true"
+                      aria-label={countdown.accessible}
+                      title={`Last date: ${job.dates.lastDate}`}
                     >
-                      ›
+                      <span className={`highest-vacancy-countdown-value ${daysLeft === 0 ? "highest-vacancy-countdown-today" : ""}`}>
+                        {countdown.value}
+                      </span>
+                      <span className="highest-vacancy-countdown-unit">{countdown.unit}</span>
                     </span>
                   </Link>
                 );
