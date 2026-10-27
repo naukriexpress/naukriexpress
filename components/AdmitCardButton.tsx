@@ -88,9 +88,44 @@ export default function AdmitCardButton() {
           <span className="relative z-10 rounded-full bg-white px-2 py-0.5 text-xs font-extrabold text-brand-700">
             {links.length}
           </span>
-          <span className="admit-card-plane-orbit" aria-hidden="true">
-            <svg className="admit-card-plane" viewBox="0 0 24 24" width="44" height="44" fill="currentColor" aria-hidden="true">
-              <path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5L21 16z" />
+          <span className="admit-card-squirrel-runner" aria-hidden="true">
+            <svg className="admit-card-squirrel" viewBox="0 0 100 70" role="presentation">
+              <g className="admit-card-squirrel-body">
+                <g className="admit-card-squirrel-tail">
+                  <path d="M34 43 C17 51 6 43 10 28 C13 13 27 7 38 16 C45 22 42 31 34 36 C30 38 26 34 29 30 C32 27 31 23 27 23 C21 23 19 30 22 35 C24 40 29 41 35 37 Z" fill="#C96A25" stroke="#7D3B18" strokeWidth="1.5" strokeLinejoin="round"/>
+                  <path d="M28 36 C36 31 37 25 32 22 C33 28 29 30 25 31 C25 33 26 35 28 36 Z" fill="#F8D7A3"/>
+                  <path d="M17 28 C19 20 25 16 31 18" fill="none" stroke="#E99A4B" strokeWidth="2" strokeLinecap="round"/>
+                </g>
+                <g className="admit-card-squirrel-back-leg-a">
+                  <path d="M39 42 C35 46 32 50 30 54 C29 57 35 59 40 55 L46 49 L46 44 Z" fill="#B95B20" stroke="#7D3B18" strokeWidth="1.4" strokeLinejoin="round"/>
+                  <path d="M30 54 C29 58 34 59 39 56" fill="none" stroke="#F5D2A0" strokeWidth="1.3" strokeLinecap="round"/>
+                </g>
+                <g className="admit-card-squirrel-back-leg-b">
+                  <path d="M48 43 C45 47 46 51 42 55 C39 58 44 61 49 58 L55 51 L54 44 Z" fill="#D77A2B" stroke="#7D3B18" strokeWidth="1.4" strokeLinejoin="round"/>
+                  <path d="M42 55 C41 59 45 60 49 58" fill="none" stroke="#F5D2A0" strokeWidth="1.3" strokeLinecap="round"/>
+                </g>
+                <path d="M30 36 C36 29 49 28 60 34 C67 37 70 42 68 48 C59 52 45 51 35 47 C31 45 28 41 30 36 Z" fill="#D9782B" stroke="#7D3B18" strokeWidth="1.5" strokeLinejoin="round"/>
+                <path d="M43 38 C49 34 58 37 61 43 C57 48 49 48 44 44 Z" fill="#FFE7C2"/>
+                <path d="M61 27 C61 17 68 12 77 16 C85 19 87 28 82 35 C78 41 69 42 64 36 Z" fill="#D9782B" stroke="#7D3B18" strokeWidth="1.5" strokeLinejoin="round"/>
+                <path d="M64 19 L63 9 C69 10 73 14 73 18 Z" fill="#D9782B" stroke="#7D3B18" strokeWidth="1.3" strokeLinejoin="round"/>
+                <path d="M66 16 L66 12 C69 13 70 15 70 17 Z" fill="#F6B6A1"/>
+                <path d="M77 19 C83 19 87 25 84 30 C82 35 76 36 71 33 C68 30 70 23 77 19 Z" fill="#FFF0D6"/>
+                <ellipse cx="80" cy="29" rx="6.5" ry="4.5" fill="#FFF5E6"/>
+                <circle cx="77" cy="23" r="3.7" fill="#FFFFFF"/>
+                <circle cx="78" cy="23.5" r="2.1" fill="#24170F"/>
+                <circle cx="78.6" cy="22.7" r=".7" fill="#FFFFFF"/>
+                <ellipse cx="86" cy="29" rx="2" ry="1.6" fill="#40241A"/>
+                <path d="M73 18 Q77 14 81 17" fill="none" stroke="#7D3B18" strokeWidth="1.5" strokeLinecap="round"/>
+                <path d="M73 34 Q77 38 81 34" fill="none" stroke="#7D3B18" strokeWidth="1.2" strokeLinecap="round"/>
+                <g className="admit-card-squirrel-front-leg-a">
+                  <path d="M57 39 C55 43 51 47 52 51 C54 54 58 51 61 47 L65 42 Z" fill="#D9782B" stroke="#7D3B18" strokeWidth="1.4" strokeLinejoin="round"/>
+                  <path d="M52 51 Q55 53 59 49" fill="none" stroke="#FFE0B5" strokeWidth="1.3" strokeLinecap="round"/>
+                </g>
+                <g className="admit-card-squirrel-front-leg-b">
+                  <path d="M63 40 C62 44 65 47 65 50 C65 54 70 54 72 50 L69 43 Z" fill="#C96A25" stroke="#7D3B18" strokeWidth="1.4" strokeLinejoin="round"/>
+                  <path d="M65 50 Q68 53 71 50" fill="none" stroke="#FFE0B5" strokeWidth="1.3" strokeLinecap="round"/>
+                </g>
+              </g>
             </svg>
           </span>
         </button>
