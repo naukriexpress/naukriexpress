@@ -1660,3 +1660,10 @@ html[data-theme="dark"] .highest-vacancy-countdown[data-tone="copper"] { --count
     transform: none;
   }
 }
+
+
+/* Use Times New Roman for the label and copy in Eligibility Details info cards. */
+.eligibility-specification-card .eligibility-specification-label,
+.eligibility-specification-card .eligibility-specification-value {
+  font-family: "Times New Roman", Times, serif !important;
+}
