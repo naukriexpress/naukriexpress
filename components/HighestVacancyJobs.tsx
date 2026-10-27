@@ -147,7 +147,7 @@ export default function HighestVacancyJobs() {
           </span>
         </div>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4" aria-busy={!jobs}>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3" aria-busy={!jobs}>
           {jobs
             ? topJobs.map((job, index) => {
                 const vacancies = getVerifiedVacancyCount(job);
