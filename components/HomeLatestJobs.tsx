@@ -7,10 +7,15 @@ import type { JobPosting } from "@/lib/types";
 import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
 import { hasPendingVacancyDetails } from "@/lib/jobMarkers";
 
-const HOME_CARD_LIMIT = 40;
-const JOBS_ENDPOINT =
-  "/api/jobs?status=published&sort=latest&page=1&pageSize=100" +
-  "&jobType=government&jobType=private&jobType=contract&jobType=internship";
+const HOME_PAGE_SIZE = 21;
+const JOBS_FETCH_PAGE_SIZE = 100;
+
+function getJobsEndpoint(page: number): string {
+  return (
+    `/api/jobs?status=published&sort=latest&page=${page}&pageSize=${JOBS_FETCH_PAGE_SIZE}` +
+    "&jobType=government&jobType=private&jobType=contract&jobType=internship"
+  );
+}
 
 function isNoticeAwaited(job: JobPosting): boolean {
   return Boolean(job.noticeDetailsPending);
@@ -90,31 +95,59 @@ function JobCardSkeleton() {
 export default function HomeLatestJobs() {
   const [jobs, setJobs] = useState<JobPosting[] | null>(null);
   const [loadFailed, setLoadFailed] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const controller = new AbortController();
 
-    fetch(JOBS_ENDPOINT, {
-      cache: "no-store",
-      signal: controller.signal,
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error("Unable to load jobs");
-        return response.json();
-      })
-      .then((result: { data?: JobPosting[] }) => {
-        if (!Array.isArray(result.data)) throw new Error("Unexpected jobs response");
-        setJobs(sortPriorityJobs(result.data).slice(0, HOME_CARD_LIMIT));
-      })
-      .catch((error: unknown) => {
-        if (error instanceof Error && error.name !== "AbortError") setLoadFailed(true);
+    async function fetchPage(page: number): Promise<{ data: JobPosting[]; total?: number }> {
+      const response = await fetch(getJobsEndpoint(page), {
+        cache: "no-store",
+        signal: controller.signal,
       });
+      if (!response.ok) throw new Error("Unable to load jobs");
 
+      const result = (await response.json()) as { data?: JobPosting[]; total?: number };
+      if (!Array.isArray(result.data)) throw new Error("Unexpected jobs response");
+      return { data: result.data, total: result.total };
+    }
+
+    async function loadJobs() {
+      try {
+        const firstPage = await fetchPage(1);
+        const totalJobs =
+          typeof firstPage.total === "number" && Number.isFinite(firstPage.total)
+            ? firstPage.total
+            : firstPage.data.length;
+        const totalPages = Math.ceil(totalJobs / JOBS_FETCH_PAGE_SIZE);
+
+        const remainingPages = await Promise.all(
+          Array.from(
+            { length: Math.max(0, totalPages - 1) },
+            (_, index) => fetchPage(index + 2)
+          )
+        );
+
+        const allJobs = [
+          ...firstPage.data,
+          ...remainingPages.flatMap((page) => page.data),
+        ];
+        setJobs(sortPriorityJobs(allJobs));
+      } catch (error: unknown) {
+        if (error instanceof Error && error.name !== "AbortError") setLoadFailed(true);
+      }
+    }
+
+    void loadJobs();
     return () => controller.abort();
   }, []);
 
+  const totalPages = jobs ? Math.max(1, Math.ceil(jobs.length / HOME_PAGE_SIZE)) : 1;
+  const pageStart = (currentPage - 1) * HOME_PAGE_SIZE;
+  const visibleJobs = jobs ? jobs.slice(pageStart, pageStart + HOME_PAGE_SIZE) : [];
+
   return (
-    <section className="container-page mt-8 sm:mt-10">
+    <section id="latest-job-updates" className="container-page mt-8 scroll-mt-24 sm:mt-10">
       <div className="mb-5 flex items-end justify-between gap-3">
         <div>
           <h1 className="font-display text-2xl font-bold text-ink-900">Latest Job Updates</h1>
@@ -149,9 +182,47 @@ export default function HomeLatestJobs() {
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {jobs
-            ? jobs.map((job) => <JobCard key={job.id} job={job} />)
+            ? visibleJobs.map((job) => <JobCard key={job.id} job={job} />)
             : Array.from({ length: 6 }).map((_, index) => <JobCardSkeleton key={index} />)}
         </div>
+      )}
+
+      {jobs && totalPages > 1 && (
+        <nav className="mt-6 flex flex-wrap items-center justify-center gap-3" aria-label="Homepage job pagination">
+          <button
+            type="button"
+            disabled={currentPage === 1}
+            onClick={() => {
+              setCurrentPage((page) => Math.max(1, page - 1));
+              document.getElementById("latest-job-updates")?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }}
+            className={`rounded-lg border px-4 py-2.5 text-sm font-semibold transition-colors ${
+              currentPage === 1
+                ? "cursor-not-allowed border-ink-900/10 text-ink-700/40"
+                : "border-brand-600 text-brand-700 hover:bg-brand-50"
+            }`}
+          >
+            ← Previous
+          </button>
+          <span className="text-center text-sm text-ink-700" aria-live="polite">
+            Page {currentPage} of {totalPages} · Showing {pageStart + 1}–{Math.min(pageStart + HOME_PAGE_SIZE, jobs.length)} of {jobs.length} jobs
+          </span>
+          <button
+            type="button"
+            disabled={currentPage === totalPages}
+            onClick={() => {
+              setCurrentPage((page) => Math.min(totalPages, page + 1));
+              document.getElementById("latest-job-updates")?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }}
+            className={`rounded-lg border px-4 py-2.5 text-sm font-semibold transition-colors ${
+              currentPage === totalPages
+                ? "cursor-not-allowed border-ink-900/10 text-ink-700/40"
+                : "border-brand-600 text-brand-700 hover:bg-brand-50"
+            }`}
+          >
+            Next →
+          </button>
+        </nav>
       )}
 
       <Link href="/jobs" className="mt-6 block rounded-lg border border-brand-600 px-4 py-3 text-center text-sm font-semibold text-brand-700 transition-colors hover:bg-brand-50">
