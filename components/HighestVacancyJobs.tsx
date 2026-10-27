@@ -8,6 +8,11 @@ import { hasPendingVacancyDetails } from "@/lib/jobMarkers";
 
 const JOBS_ENDPOINT = "/api/jobs?status=published&sort=latest&page=1&pageSize=500";
 
+const CARD_TONES = [
+  "blue", "orange", "teal", "violet", "rose", "indigo",
+  "amber", "cyan", "emerald", "pink", "royal", "copper",
+] as const;
+
 function getVerifiedVacancyCount(job: JobPosting): number {
   const pending = hasPendingVacancyDetails({
     noticeDetailsPending: job.noticeDetailsPending,
@@ -146,32 +151,37 @@ export default function HighestVacancyJobs() {
           {jobs
             ? topJobs.map((job, index) => {
                 const vacancies = getVerifiedVacancyCount(job);
+                const tone = CARD_TONES[index % CARD_TONES.length];
                 return (
                   <Link
                     key={job.id}
                     href={`/jobs/${job.slug}`}
                     prefetch={false}
                     aria-label={`View ${job.title}, ${formatVacancies(vacancies)} vacancies`}
-                    className="highest-vacancy-card group flex min-h-[92px] min-w-0 items-center gap-3 rounded-xl border border-brand-100 bg-white p-3 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-cardHover focus-visible:outline-offset-4"
+                    className="highest-vacancy-card group flex min-h-[92px] min-w-0 items-center gap-3 rounded-xl border p-3 transition-all duration-200 focus-visible:outline-offset-4"
+                    data-tone={tone}
                   >
                     <span
-                      className={`highest-vacancy-job-icon grid h-12 w-12 shrink-0 place-items-center rounded-full text-2xl ${index % 2 === 0 ? "highest-vacancy-job-icon--warm bg-saffron-50" : "highest-vacancy-job-icon--cool bg-brand-50"}`}
+                      className="highest-vacancy-job-icon grid h-12 w-12 shrink-0 place-items-center rounded-full text-2xl"
+                      data-tone={tone}
                       aria-hidden="true"
                     >
                       {getJobIcon(job)}
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="highest-vacancy-job-title line-clamp-2 block text-sm font-extrabold leading-snug text-ink-900 transition-colors group-hover:text-brand-700">
+                      <span className="highest-vacancy-job-title line-clamp-2 block text-sm font-extrabold leading-snug transition-colors">
                         {job.title}
                       </span>
                       <span
-                        className={`highest-vacancy-post-badge mt-2 inline-flex max-w-full items-center rounded-full px-2.5 py-1 text-xs font-extrabold ${index % 2 === 0 ? "highest-vacancy-post-badge--warm bg-saffron-100 text-saffron-600" : "highest-vacancy-post-badge--cool bg-brand-50 text-brand-700"}`}
+                        className="highest-vacancy-post-badge mt-2 inline-flex max-w-full items-center rounded-full px-2.5 py-1 text-xs font-extrabold"
+                        data-tone={tone}
                       >
                         {formatVacancies(vacancies)} Posts
                       </span>
                     </span>
                     <span
-                      className="shrink-0 text-xl leading-none text-brand-700 transition-transform group-hover:translate-x-0.5"
+                      className="highest-vacancy-arrow grid h-9 w-9 shrink-0 place-items-center rounded-full text-xl font-bold transition-transform group-hover:translate-x-0.5"
+                      data-tone={tone}
                       aria-hidden="true"
                     >
                       ›
