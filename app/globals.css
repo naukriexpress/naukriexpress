@@ -1708,7 +1708,6 @@ html[data-theme="dark"] .highest-vacancy-countdown[data-tone="copper"] { --count
 .admit-card-floating-button {
   isolation: isolate;
   overflow: visible;
-  position: relative;
 }
 
 .admit-card-plane-orbit {
