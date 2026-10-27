@@ -151,9 +151,6 @@ export default function HomeLatestJobs() {
       <div className="mb-5 flex items-end justify-between gap-3">
         <div>
           <h1 className="font-display text-2xl font-bold text-ink-900">Latest Job Updates</h1>
-          <p className="mt-1 text-sm text-ink-700/70">
-            Last-date alerts first, followed by recruitments with more vacancies.
-          </p>
         </div>
         <span className="shrink-0 rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700" aria-live="polite">
           {jobs ? `${jobs.length} Jobs` : loadFailed ? "Try again" : "Loading jobs…"}
