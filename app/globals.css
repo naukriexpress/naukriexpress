@@ -1703,8 +1703,7 @@ html[data-theme="dark"] .highest-vacancy-countdown[data-tone="copper"] { --count
 }
 
 
-/* Running squirrel animation above the fixed Admit Card button.
-   Independent body, tail and limb animations make the run cycle readable. */
+/* Refined squirrel anatomy and scale-stable running motion for the Admit Card button. */
 .admit-card-floating-button {
   isolation: isolate;
   overflow: visible;
@@ -1712,35 +1711,41 @@ html[data-theme="dark"] .highest-vacancy-countdown[data-tone="copper"] { --count
 
 .admit-card-squirrel-runner {
   position: absolute;
-  left: -48px;
-  top: -35px;
+  left: -70px;
+  top: -43px;
   z-index: 3;
   display: block;
-  width: 48px;
-  height: 38px;
+  width: 70px;
+  height: 49px;
   pointer-events: none;
-  animation: admit-card-squirrel-cross 5.6s linear infinite;
+  animation: admit-card-squirrel-cross 6s linear infinite;
   will-change: left, opacity;
 }
 
 .admit-card-squirrel {
   display: block;
-  width: 48px;
-  height: 38px;
+  width: 70px;
+  height: 49px;
   overflow: visible;
   filter: drop-shadow(0 2px 2px rgb(3 20 54 / 28%));
 }
 
 .admit-card-squirrel-body {
   transform-box: view-box;
-  transform-origin: 50px 39px;
-  animation: admit-card-squirrel-bounce 0.32s ease-in-out infinite alternate;
+  transform-origin: 52% 61%;
+  animation: admit-card-squirrel-bounce 0.24s ease-in-out infinite alternate;
 }
 
 .admit-card-squirrel-tail {
   transform-box: view-box;
-  transform-origin: 29px 34px;
-  animation: admit-card-squirrel-tail-flick 0.5s ease-in-out infinite alternate;
+  transform-origin: 29% 47%;
+  animation: admit-card-squirrel-tail-flick 0.42s ease-in-out infinite alternate;
+}
+
+.admit-card-squirrel-head {
+  transform-box: view-box;
+  transform-origin: 71% 30%;
+  animation: admit-card-squirrel-head-bob 0.24s ease-in-out infinite alternate;
 }
 
 .admit-card-squirrel-back-leg-a,
@@ -1751,60 +1756,66 @@ html[data-theme="dark"] .highest-vacancy-countdown[data-tone="copper"] { --count
 }
 
 .admit-card-squirrel-back-leg-a {
-  transform-origin: 39px 43px;
-  animation: admit-card-squirrel-leg-forward 0.28s ease-in-out infinite alternate;
+  transform-origin: 41% 64%;
+  animation: admit-card-squirrel-leg-forward 0.24s ease-in-out infinite alternate;
 }
 .admit-card-squirrel-back-leg-b {
-  transform-origin: 49px 44px;
-  animation: admit-card-squirrel-leg-back 0.28s ease-in-out infinite alternate;
-  animation-delay: -0.14s;
+  transform-origin: 50% 65%;
+  animation: admit-card-squirrel-leg-back 0.24s ease-in-out infinite alternate;
+  animation-delay: -0.12s;
 }
 .admit-card-squirrel-front-leg-a {
-  transform-origin: 57px 40px;
-  animation: admit-card-squirrel-leg-back 0.28s ease-in-out infinite alternate;
+  transform-origin: 57% 59%;
+  animation: admit-card-squirrel-leg-back 0.24s ease-in-out infinite alternate;
 }
 .admit-card-squirrel-front-leg-b {
-  transform-origin: 64px 41px;
-  animation: admit-card-squirrel-leg-forward 0.28s ease-in-out infinite alternate;
-  animation-delay: -0.14s;
+  transform-origin: 65% 60%;
+  animation: admit-card-squirrel-leg-forward 0.24s ease-in-out infinite alternate;
+  animation-delay: -0.12s;
 }
 
 @keyframes admit-card-squirrel-cross {
-  0% { left: -48px; opacity: 0; }
-  7% { opacity: 1; }
-  84% { left: calc(100% - 4px); opacity: 1; }
-  94% { left: calc(100% - 4px); opacity: 0; }
-  100% { left: -48px; opacity: 0; }
+  0% { left: -70px; opacity: 0; }
+  6% { opacity: 1; }
+  84% { left: calc(100% - 70px); opacity: 1; }
+  94% { left: calc(100% - 70px); opacity: 0; }
+  100% { left: -70px; opacity: 0; }
 }
 
 @keyframes admit-card-squirrel-bounce {
-  from { transform: translateY(1px) rotate(-2deg); }
-  to { transform: translateY(-2px) rotate(2deg); }
+  from { transform: translateY(0) rotate(-1deg); }
+  to { transform: translateY(-2px) rotate(1deg); }
 }
 
 @keyframes admit-card-squirrel-tail-flick {
-  from { transform: rotate(-8deg); }
-  to { transform: rotate(10deg); }
+  from { transform: rotate(-7deg); }
+  to { transform: rotate(9deg); }
+}
+
+@keyframes admit-card-squirrel-head-bob {
+  from { transform: rotate(-1deg) translateY(0); }
+  to { transform: rotate(1deg) translateY(-1px); }
 }
 
 @keyframes admit-card-squirrel-leg-forward {
-  from { transform: rotate(-28deg); }
-  to { transform: rotate(24deg); }
+  from { transform: rotate(-17deg); }
+  to { transform: rotate(20deg); }
 }
 
 @keyframes admit-card-squirrel-leg-back {
-  from { transform: rotate(24deg); }
-  to { transform: rotate(-28deg); }
+  from { transform: rotate(20deg); }
+  to { transform: rotate(-17deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .admit-card-squirrel-runner {
     animation: none;
-    left: calc(100% - 48px);
+    left: calc(100% - 70px);
     opacity: 1;
   }
   .admit-card-squirrel-body,
   .admit-card-squirrel-tail,
+  .admit-card-squirrel-head,
   .admit-card-squirrel-back-leg-a,
   .admit-card-squirrel-back-leg-b,
   .admit-card-squirrel-front-leg-a,

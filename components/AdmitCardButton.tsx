@@ -89,41 +89,69 @@ export default function AdmitCardButton() {
             {links.length}
           </span>
           <span className="admit-card-squirrel-runner" aria-hidden="true">
-            <svg className="admit-card-squirrel" viewBox="0 0 100 70" role="presentation">
+            <svg className="admit-card-squirrel" viewBox="0 0 100 70" role="presentation" focusable="false">
+              <defs>
+                <linearGradient id="admit-squirrel-fur" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stopColor="#F1A34B" />
+                  <stop offset="0.58" stopColor="#D8792B" />
+                  <stop offset="1" stopColor="#B8541D" />
+                </linearGradient>
+                <linearGradient id="admit-squirrel-tail-fur" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stopColor="#F8B65C" />
+                  <stop offset="0.55" stopColor="#D9782B" />
+                  <stop offset="1" stopColor="#A94B1C" />
+                </linearGradient>
+              </defs>
               <g className="admit-card-squirrel-body">
                 <g className="admit-card-squirrel-tail">
-                  <path d="M34 43 C17 51 6 43 10 28 C13 13 27 7 38 16 C45 22 42 31 34 36 C30 38 26 34 29 30 C32 27 31 23 27 23 C21 23 19 30 22 35 C24 40 29 41 35 37 Z" fill="#C96A25" stroke="#7D3B18" strokeWidth="1.5" strokeLinejoin="round"/>
-                  <path d="M28 36 C36 31 37 25 32 22 C33 28 29 30 25 31 C25 33 26 35 28 36 Z" fill="#F8D7A3"/>
-                  <path d="M17 28 C19 20 25 16 31 18" fill="none" stroke="#E99A4B" strokeWidth="2" strokeLinecap="round"/>
+                  <path d="M35 45 C22 53 9 45 8 34 C6 21 15 10 27 11 C38 12 44 21 41 30 C39 37 34 40 28 38 C34 34 33 27 28 24 C22 21 16 27 18 34 C20 41 27 44 35 39 Z" fill="url(#admit-squirrel-tail-fur)" stroke="#7C3B19" strokeWidth="1.7" strokeLinejoin="round"/>
+                  <path d="M27 39 C35 34 37 27 31 21 C33 29 27 31 23 32 C23 35 24 37 27 39 Z" fill="#FFE3B5"/>
+                  <path d="M13 30 C15 21 22 16 30 18" fill="none" stroke="#FFD18A" strokeWidth="2.1" strokeLinecap="round"/>
+                  <path d="M13 36 C15 42 21 45 27 43" fill="none" stroke="#B85B24" strokeWidth="1.3" strokeLinecap="round"/>
                 </g>
+
                 <g className="admit-card-squirrel-back-leg-a">
-                  <path d="M39 42 C35 46 32 50 30 54 C29 57 35 59 40 55 L46 49 L46 44 Z" fill="#B95B20" stroke="#7D3B18" strokeWidth="1.4" strokeLinejoin="round"/>
-                  <path d="M30 54 C29 58 34 59 39 56" fill="none" stroke="#F5D2A0" strokeWidth="1.3" strokeLinecap="round"/>
+                  <path d="M39 43 C36 47 33 51 29 55 C26 59 31 62 37 59 L48 52 L47 45 Z" fill="#C96824" stroke="#7C3B19" strokeWidth="1.6" strokeLinejoin="round"/>
+                  <path d="M29 56 C28 59 33 61 38 58" fill="none" stroke="#FFE0B4" strokeWidth="1.4" strokeLinecap="round"/>
+                  <path d="M31 59 L29 61 M35 59 L34 61" stroke="#7C3B19" strokeWidth="1.1" strokeLinecap="round"/>
                 </g>
                 <g className="admit-card-squirrel-back-leg-b">
-                  <path d="M48 43 C45 47 46 51 42 55 C39 58 44 61 49 58 L55 51 L54 44 Z" fill="#D77A2B" stroke="#7D3B18" strokeWidth="1.4" strokeLinejoin="round"/>
-                  <path d="M42 55 C41 59 45 60 49 58" fill="none" stroke="#F5D2A0" strokeWidth="1.3" strokeLinecap="round"/>
+                  <path d="M49 44 C46 48 46 52 42 56 C39 60 45 62 51 59 L59 52 L56 45 Z" fill="#E28A36" stroke="#7C3B19" strokeWidth="1.6" strokeLinejoin="round"/>
+                  <path d="M42 56 C41 60 46 61 51 58" fill="none" stroke="#FFE0B4" strokeWidth="1.4" strokeLinecap="round"/>
+                  <path d="M45 60 L43 62 M49 59 L48 61" stroke="#7C3B19" strokeWidth="1.1" strokeLinecap="round"/>
                 </g>
-                <path d="M30 36 C36 29 49 28 60 34 C67 37 70 42 68 48 C59 52 45 51 35 47 C31 45 28 41 30 36 Z" fill="#D9782B" stroke="#7D3B18" strokeWidth="1.5" strokeLinejoin="round"/>
-                <path d="M43 38 C49 34 58 37 61 43 C57 48 49 48 44 44 Z" fill="#FFE7C2"/>
-                <path d="M61 27 C61 17 68 12 77 16 C85 19 87 28 82 35 C78 41 69 42 64 36 Z" fill="#D9782B" stroke="#7D3B18" strokeWidth="1.5" strokeLinejoin="round"/>
-                <path d="M64 19 L63 9 C69 10 73 14 73 18 Z" fill="#D9782B" stroke="#7D3B18" strokeWidth="1.3" strokeLinejoin="round"/>
-                <path d="M66 16 L66 12 C69 13 70 15 70 17 Z" fill="#F6B6A1"/>
-                <path d="M77 19 C83 19 87 25 84 30 C82 35 76 36 71 33 C68 30 70 23 77 19 Z" fill="#FFF0D6"/>
-                <ellipse cx="80" cy="29" rx="6.5" ry="4.5" fill="#FFF5E6"/>
-                <circle cx="77" cy="23" r="3.7" fill="#FFFFFF"/>
-                <circle cx="78" cy="23.5" r="2.1" fill="#24170F"/>
-                <circle cx="78.6" cy="22.7" r=".7" fill="#FFFFFF"/>
-                <ellipse cx="86" cy="29" rx="2" ry="1.6" fill="#40241A"/>
-                <path d="M73 18 Q77 14 81 17" fill="none" stroke="#7D3B18" strokeWidth="1.5" strokeLinecap="round"/>
-                <path d="M73 34 Q77 38 81 34" fill="none" stroke="#7D3B18" strokeWidth="1.2" strokeLinecap="round"/>
+
+                <path d="M31 35 C36 29 47 27 58 31 C66 34 72 40 71 46 C69 51 61 54 50 53 C39 52 31 47 29 42 C29 39 29 37 31 35 Z" fill="url(#admit-squirrel-fur)" stroke="#7C3B19" strokeWidth="1.7" strokeLinejoin="round"/>
+                <path d="M42 37 C47 34 54 35 60 39 C64 42 64 46 60 48 C54 50 47 47 43 44 C41 42 40 39 42 37 Z" fill="#FFE8C7"/>
+                <path d="M44 36 C49 33 55 34 60 37" fill="none" stroke="#F8C477" strokeWidth="1.5" strokeLinecap="round"/>
+
                 <g className="admit-card-squirrel-front-leg-a">
-                  <path d="M57 39 C55 43 51 47 52 51 C54 54 58 51 61 47 L65 42 Z" fill="#D9782B" stroke="#7D3B18" strokeWidth="1.4" strokeLinejoin="round"/>
-                  <path d="M52 51 Q55 53 59 49" fill="none" stroke="#FFE0B5" strokeWidth="1.3" strokeLinecap="round"/>
+                  <path d="M55 39 C53 43 49 47 50 51 C51 54 56 53 60 48 L64 42 Z" fill="#E18A35" stroke="#7C3B19" strokeWidth="1.6" strokeLinejoin="round"/>
+                  <path d="M50 51 C52 54 56 52 59 49" fill="none" stroke="#FFE8C7" strokeWidth="1.4" strokeLinecap="round"/>
+                  <path d="M52 53 L51 55 M56 51 L55 53" stroke="#7C3B19" strokeWidth="1.1" strokeLinecap="round"/>
                 </g>
                 <g className="admit-card-squirrel-front-leg-b">
-                  <path d="M63 40 C62 44 65 47 65 50 C65 54 70 54 72 50 L69 43 Z" fill="#C96A25" stroke="#7D3B18" strokeWidth="1.4" strokeLinejoin="round"/>
-                  <path d="M65 50 Q68 53 71 50" fill="none" stroke="#FFE0B5" strokeWidth="1.3" strokeLinecap="round"/>
+                  <path d="M63 40 C61 44 64 47 63 51 C63 55 69 55 72 50 L69 42 Z" fill="#C96824" stroke="#7C3B19" strokeWidth="1.6" strokeLinejoin="round"/>
+                  <path d="M64 51 C66 54 70 53 72 50" fill="none" stroke="#FFE8C7" strokeWidth="1.4" strokeLinecap="round"/>
+                  <path d="M66 53 L65 55 M70 52 L70 54" stroke="#7C3B19" strokeWidth="1.1" strokeLinecap="round"/>
+                </g>
+
+                <g className="admit-card-squirrel-head">
+                  <path d="M61 26 C59 18 64 11 72 10 C80 9 86 15 88 22 C90 28 86 34 80 36 L71 35 C66 34 62 31 61 26 Z" fill="url(#admit-squirrel-fur)" stroke="#7C3B19" strokeWidth="1.7" strokeLinejoin="round"/>
+                  <path d="M64 17 L61 7 C67 8 72 11 73 17 Z" fill="#D9782B" stroke="#7C3B19" strokeWidth="1.4" strokeLinejoin="round"/>
+                  <path d="M65 15 L64 10 C67 11 69 13 69 16 Z" fill="#F5B19C"/>
+                  <path d="M74 14 L77 7 C82 10 84 14 82 19 Z" fill="#C96824" stroke="#7C3B19" strokeWidth="1.3" strokeLinejoin="round"/>
+                  <path d="M77 13 L79 10 C81 12 81 14 80 16 Z" fill="#F5B19C"/>
+
+                  <path d="M73 21 C78 17 84 19 87 24 C89 28 85 33 80 33 C76 33 72 29 71 26 Z" fill="#FFF0D8"/>
+                  <ellipse cx="80" cy="28" rx="7.2" ry="5.1" fill="#FFF4E3"/>
+                  <circle cx="77.5" cy="21.5" r="4" fill="#FFFFFF"/>
+                  <circle cx="78.2" cy="22" r="2.35" fill="#24170F"/>
+                  <circle cx="78.9" cy="21.1" r="0.85" fill="#FFFFFF"/>
+                  <ellipse cx="87" cy="27.5" rx="2.2" ry="1.7" fill="#40241A"/>
+                  <path d="M78 31 Q82 34 85 30" fill="none" stroke="#7C3B19" strokeWidth="1.3" strokeLinecap="round"/>
+                  <path d="M85 23 L91 21 M86 26 L93 26 M85 29 L91 31" fill="none" stroke="#E9C39A" strokeWidth="0.9" strokeLinecap="round"/>
+                  <path d="M73 17 Q77 13 82 16" fill="none" stroke="#7C3B19" strokeWidth="1.5" strokeLinecap="round"/>
                 </g>
               </g>
             </svg>
