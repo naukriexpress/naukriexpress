@@ -140,9 +140,6 @@ export default function HighestVacancyJobs() {
               >
                 Highest Vacancy Jobs
               </h2>
-              <p className="highest-vacancy-description mt-1 text-xs leading-relaxed text-ink-700/75 sm:text-sm">
-                Explore current recruitments with the most confirmed vacancies. These links automatically disappear after the last date.
-              </p>
             </div>
           </div>
           <span
