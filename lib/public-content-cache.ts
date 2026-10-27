@@ -1,5 +1,6 @@
 import { unstable_cache } from "next/cache";
 import { getPool } from "@/lib/pgClient";
+import admitCardLinksSnapshot from "@/data/admit-card-links.json";
 
 export const SITE_UPDATE_CATEGORIES = [
   "results",
@@ -69,16 +70,53 @@ export function getPublicSiteUpdates(category?: SiteUpdateCategory): Promise<Sit
   return cachedSiteUpdates(category ?? "all");
 }
 
+type AdmitCardSnapshotItem = AdmitCardLink & { created_at: string };
+const admitCardSnapshot = admitCardLinksSnapshot as AdmitCardSnapshotItem[];
+const admitCardSnapshotIds = admitCardSnapshot.map((item) => item.id);
+const maxAdmitCardSnapshotId = Math.max(...admitCardSnapshotIds);
+
+/**
+ * Existing Admit Card links are served from the checked-in JSON snapshot.
+ * The database is used to keep deleted legacy IDs hidden and to append links
+ * created after this snapshot. Admin POST/DELETE continue to use the database.
+ */
 const cachedAdmitCards = unstable_cache(
   async (): Promise<AdmitCardLink[]> => {
     await ensurePublicContentTables();
     const pool = getPool();
-    const result = await pool.query(
-      `SELECT id, title, url FROM admit_card_links ORDER BY created_at DESC`
+
+    const [activeSnapshotResult, newLinksResult] = await Promise.all([
+      pool.query(
+        `SELECT id FROM admit_card_links WHERE id = ANY($1::bigint[])`,
+        [admitCardSnapshotIds]
+      ),
+      pool.query(
+        `SELECT id, title, url
+         FROM admit_card_links
+         WHERE id > $1
+         ORDER BY created_at DESC, id DESC`,
+        [maxAdmitCardSnapshotId]
+      ),
+    ]);
+
+    const activeSnapshotIds = new Set(
+      activeSnapshotResult.rows.map((row) => Number(row.id))
     );
-    return result.rows as AdmitCardLink[];
+    const snapshotLinks = admitCardSnapshot
+      .filter((item) => activeSnapshotIds.has(item.id))
+      .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+      .map(({ id, title, url }) => ({ id, title, url }));
+
+    const newDatabaseLinks = newLinksResult.rows.map((row) => ({
+      id: Number(row.id),
+      title: String(row.title),
+      url: String(row.url),
+    }));
+
+    // New database entries are created later than the frozen snapshot, so place them first.
+    return [...newDatabaseLinks, ...snapshotLinks];
   },
-  ["naukriexpress-admit-card-links-v1"],
+  ["naukriexpress-admit-card-links-v2"],
   { revalidate: 300, tags: ["admit-cards"] }
 );
 
