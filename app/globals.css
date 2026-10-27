@@ -1703,45 +1703,72 @@ html[data-theme="dark"] .highest-vacancy-countdown[data-tone="copper"] { --count
 }
 
 
-/* Small animated airplane orbit for the floating Admit Card Updates button. */
+/* Larger airplane flies diagonally from one corner of the Admit Card button to the other.
+   No dotted trail; the button label and count stay above the animation. */
 .admit-card-floating-button {
   isolation: isolate;
   overflow: visible;
+  position: relative;
 }
 
 .admit-card-plane-orbit {
   position: absolute;
-  left: 50%;
-  top: 50%;
+  left: 0;
+  top: -22px;
   z-index: 1;
-  width: calc(100% + 18px);
-  height: calc(100% + 18px);
+  width: 100%;
+  height: calc(100% + 12px);
   pointer-events: none;
-  transform: translate(-50%, -50%) rotate(0deg);
-  transform-origin: center;
-  animation: admit-card-plane-orbit 9s linear infinite;
 }
 
 .admit-card-plane {
   position: absolute;
-  left: 50%;
-  top: -5px;
+  left: -8px;
+  top: -4px;
   display: block;
-  width: 22px;
-  height: 22px;
+  width: 44px;
+  height: 44px;
   color: #ffffff;
-  filter: drop-shadow(0 1px 3px rgb(3 20 54 / 65%));
-  transform: translateX(-50%) rotate(90deg);
+  filter: drop-shadow(0 2px 4px rgb(3 20 54 / 70%));
+  transform: rotate(-45deg);
+  animation: admit-card-plane-diagonal 5.8s ease-in-out infinite;
 }
 
-@keyframes admit-card-plane-orbit {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to { transform: translate(-50%, -50%) rotate(360deg); }
+@keyframes admit-card-plane-diagonal {
+  0% {
+    left: -8px;
+    top: -4px;
+    opacity: 0;
+    transform: rotate(-45deg) scale(0.88);
+  }
+  8% {
+    opacity: 1;
+  }
+  73% {
+    left: calc(100% - 36px);
+    top: -32px;
+    opacity: 1;
+    transform: rotate(-45deg) scale(1);
+  }
+  84% {
+    left: calc(100% - 36px);
+    top: -32px;
+    opacity: 0;
+  }
+  100% {
+    left: -8px;
+    top: -4px;
+    opacity: 0;
+    transform: rotate(-45deg) scale(0.88);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .admit-card-plane-orbit {
+  .admit-card-plane {
     animation: none;
-    transform: translate(-50%, -50%) rotate(0deg);
+    left: calc(100% - 44px);
+    top: -32px;
+    opacity: 1;
+    transform: rotate(-45deg);
   }
 }
