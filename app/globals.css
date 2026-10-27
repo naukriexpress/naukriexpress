@@ -10,6 +10,25 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  scroll-behavior: smooth;
+}
+
+/* Keep nested scroll areas smooth as well (including horizontally scrollable panels). */
+:where([class*="overflow-y-auto"], [class*="overflow-y-scroll"], [class*="overflow-x-auto"], [class*="overflow-x-scroll"], [data-scroll-container]) {
+  scroll-behavior: smooth;
+}
+
+/* Accessibility: honor the visitor's reduced-motion preference. */
+@media (prefers-reduced-motion: reduce) {
+  html,
+  body,
+  :where([class*="overflow-y-auto"], [class*="overflow-y-scroll"], [class*="overflow-x-auto"], [class*="overflow-x-scroll"], [data-scroll-container]) {
+    scroll-behavior: auto !important;
+  }
 }
 
 body {
