@@ -30,10 +30,6 @@ export default function ContactPage() {
         <h1 className="mt-3 font-display text-2xl font-extrabold tracking-tight text-ink-900 sm:text-3xl">
           Contact Us
         </h1>
-        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-700/70">
-          Have a question, found an error in a job listing, or want to reach the
-          NaukriExpress team? Send us a message below.
-        </p>
       </div>
 
       <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">

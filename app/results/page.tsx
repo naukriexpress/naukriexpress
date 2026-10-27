@@ -30,9 +30,6 @@ export default function ResultsPage() {
         Results
       </h1>
 
-      <p className="mt-2 max-w-2xl text-sm text-ink-700/70">
-        Government exam results, merit lists and official result links.
-      </p>
 
       <PublicUpdatesList category="results" />
     </main>

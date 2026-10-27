@@ -30,10 +30,6 @@ export default function ScholarshipPage() {
         Scholarship
       </h1>
 
-      <p className="mt-2 max-w-2xl text-sm text-ink-700/70">
-        Latest scholarship notifications, eligibility details, scholarship
-        amounts, deadlines and official application links.
-      </p>
 
       <PublicUpdatesList category="scholarship" />
     </main>

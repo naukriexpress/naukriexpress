@@ -30,10 +30,6 @@ export default function AnswerKeyPage() {
         Answer Key
       </h1>
 
-      <p className="mt-2 max-w-2xl text-sm text-ink-700/70">
-        Latest government exam answer keys, official answer key links and
-        objection details.
-      </p>
 
       <PublicUpdatesList category="answer-key" />
     </main>

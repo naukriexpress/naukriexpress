@@ -30,10 +30,6 @@ export default function SyllabusPage() {
         Syllabus
       </h1>
 
-      <p className="mt-2 max-w-2xl text-sm text-ink-700/70">
-        Latest government exam syllabus, exam patterns and official syllabus
-        links.
-      </p>
 
       <PublicUpdatesList category="syllabus" />
     </main>
