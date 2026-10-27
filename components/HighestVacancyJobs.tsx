@@ -111,7 +111,7 @@ export default function HighestVacancyJobs() {
         if (vacancyDifference !== 0) return vacancyDifference;
         return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
       })
-      .slice(0, 9);
+      .slice(0, 12);
   }, [jobs, today]);
 
   if (loadFailed || (jobs && topJobs.length === 0)) return null;
@@ -189,7 +189,7 @@ export default function HighestVacancyJobs() {
                   </Link>
                 );
               })
-            : Array.from({ length: 9 }).map((_, index) => (
+            : Array.from({ length: 12 }).map((_, index) => (
                 <VacancyButtonSkeleton key={index} />
               ))}
         </div>
