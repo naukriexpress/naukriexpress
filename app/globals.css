@@ -1356,3 +1356,71 @@ html[data-theme="dark"] .vacancy-qualification-badge {
   word-break: normal;
 }
 
+
+
+/* Highest Vacancy Jobs: keep the section and its badges in the dark palette. */
+.highest-vacancy-panel {
+  transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+html[data-theme="dark"] .highest-vacancy-panel {
+  background: #111d2e !important;
+  border-color: #29435f !important;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 22%) !important;
+}
+
+html[data-theme="dark"] .highest-vacancy-description {
+  color: #afc2d9 !important;
+}
+
+html[data-theme="dark"] .highest-vacancy-icon {
+  background: #4a351c !important;
+  border: 1px solid #805a24 !important;
+}
+
+html[data-theme="dark"] .highest-vacancy-count {
+  background: #0b1422 !important;
+  border: 1px solid #29435f !important;
+  color: #c3dcff !important;
+}
+
+html[data-theme="dark"] .highest-vacancy-card {
+  background: #17263a !important;
+  border-color: #304965 !important;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 18%) !important;
+}
+
+html[data-theme="dark"] .highest-vacancy-card:hover {
+  background: #1b3049 !important;
+  border-color: #4b83b6 !important;
+}
+
+html[data-theme="dark"] .highest-vacancy-job-title {
+  color: #f0f6ff !important;
+}
+
+html[data-theme="dark"] .highest-vacancy-job-icon--warm {
+  background: #3e2d1d !important;
+  border: 1px solid #6d4c2c !important;
+}
+
+html[data-theme="dark"] .highest-vacancy-job-icon--cool {
+  background: #203851 !important;
+  border: 1px solid #345879 !important;
+}
+
+html[data-theme="dark"] .highest-vacancy-post-badge--warm {
+  background: #51371e !important;
+  color: #ffd09a !important;
+  border: 1px solid #81582c !important;
+}
+
+html[data-theme="dark"] .highest-vacancy-post-badge--cool {
+  background: #203851 !important;
+  color: #b9dcff !important;
+  border: 1px solid #345879 !important;
+}
+
+html[data-theme="dark"] .highest-vacancy-card:focus-visible {
+  outline-color: #8fc4ff !important;
+}

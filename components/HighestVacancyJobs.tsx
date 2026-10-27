@@ -113,11 +113,11 @@ export default function HighestVacancyJobs() {
 
   return (
     <section className="container-page mt-6 sm:mt-8" aria-labelledby="highest-vacancy-heading">
-      <div className="rounded-2xl border border-brand-100 bg-brand-50/70 p-4 shadow-card sm:p-5">
+      <div className="highest-vacancy-panel rounded-2xl border border-brand-100 bg-brand-50/70 p-4 shadow-card sm:p-5">
         <div className="mb-4 flex items-center justify-between gap-3">
           <div className="flex min-w-0 items-center gap-3">
             <span
-              className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-saffron-100 text-2xl"
+              className="highest-vacancy-icon grid h-12 w-12 shrink-0 place-items-center rounded-full bg-saffron-100 text-2xl"
               aria-hidden="true"
             >
               🏆
@@ -129,13 +129,13 @@ export default function HighestVacancyJobs() {
               >
                 Highest Vacancy Jobs
               </h2>
-              <p className="mt-1 text-xs leading-relaxed text-ink-700/75 sm:text-sm">
+              <p className="highest-vacancy-description mt-1 text-xs leading-relaxed text-ink-700/75 sm:text-sm">
                 Explore current recruitments with the most confirmed vacancies. These links automatically disappear after the last date.
               </p>
             </div>
           </div>
           <span
-            className="shrink-0 rounded-full bg-white px-3 py-1 text-xs font-bold text-brand-700 shadow-sm"
+            className="highest-vacancy-count shrink-0 rounded-full bg-white px-3 py-1 text-xs font-bold text-brand-700 shadow-sm"
             aria-live="polite"
           >
             {jobs ? `${topJobs.length} Jobs` : "Loading…"}
@@ -152,20 +152,20 @@ export default function HighestVacancyJobs() {
                     href={`/jobs/${job.slug}`}
                     prefetch={false}
                     aria-label={`View ${job.title}, ${formatVacancies(vacancies)} vacancies`}
-                    className="group flex min-h-[92px] min-w-0 items-center gap-3 rounded-xl border border-brand-100 bg-white p-3 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-cardHover focus-visible:outline-offset-4"
+                    className="highest-vacancy-card group flex min-h-[92px] min-w-0 items-center gap-3 rounded-xl border border-brand-100 bg-white p-3 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-cardHover focus-visible:outline-offset-4"
                   >
                     <span
-                      className={`grid h-12 w-12 shrink-0 place-items-center rounded-full text-2xl ${index % 2 === 0 ? "bg-saffron-50" : "bg-brand-50"}`}
+                      className={`highest-vacancy-job-icon grid h-12 w-12 shrink-0 place-items-center rounded-full text-2xl ${index % 2 === 0 ? "highest-vacancy-job-icon--warm bg-saffron-50" : "highest-vacancy-job-icon--cool bg-brand-50"}`}
                       aria-hidden="true"
                     >
                       {getJobIcon(job)}
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="line-clamp-2 block text-sm font-extrabold leading-snug text-ink-900 transition-colors group-hover:text-brand-700">
+                      <span className="highest-vacancy-job-title line-clamp-2 block text-sm font-extrabold leading-snug text-ink-900 transition-colors group-hover:text-brand-700">
                         {job.title}
                       </span>
                       <span
-                        className={`mt-2 inline-flex max-w-full items-center rounded-full px-2.5 py-1 text-xs font-extrabold ${index % 2 === 0 ? "bg-saffron-100 text-saffron-600" : "bg-brand-50 text-brand-700"}`}
+                        className={`highest-vacancy-post-badge mt-2 inline-flex max-w-full items-center rounded-full px-2.5 py-1 text-xs font-extrabold ${index % 2 === 0 ? "highest-vacancy-post-badge--warm bg-saffron-100 text-saffron-600" : "highest-vacancy-post-badge--cool bg-brand-50 text-brand-700"}`}
                       >
                         {formatVacancies(vacancies)} Posts
                       </span>
