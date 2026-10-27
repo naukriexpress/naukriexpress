@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import HomeLatestJobs from "@/components/HomeLatestJobs";
+import HighestVacancyJobs from "@/components/HighestVacancyJobs";
 
 const SITE_URL = "https://www.naukriexpress.space";
 
@@ -42,6 +43,9 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
       />
+
+      {/* Highlight the currently open recruitments with the most confirmed vacancies. */}
+      <HighestVacancyJobs />
 
       {/* Static page shell renders immediately; job data loads in the client feed. */}
       <HomeLatestJobs />
