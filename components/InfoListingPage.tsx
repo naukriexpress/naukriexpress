@@ -42,7 +42,7 @@ export default async function InfoListingPage({
           Abhi koi Admit Card update publish nahi kiya gaya hai. Kripya baad mein check karein.
         </p>
       ) : (
-        <div className="mt-8 divide-y divide-ink-900/10 rounded-xl2 border border-ink-900/10 bg-white">
+        <div className="admit-card-page-list mt-8 divide-y divide-ink-900/10 rounded-xl2 border border-ink-900/10 bg-white">
           {links.map((item) => (
             <a
               key={item.id}

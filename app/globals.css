@@ -1813,3 +1813,29 @@ html[data-theme="dark"] .highest-vacancy-countdown[data-tone="copper"] { --count
     transform: none;
   }
 }
+
+
+/* Admit Card list scrolling: smooth wheel easing in the popup, plus touch momentum. */
+.admit-card-links-scroll {
+  scroll-behavior: smooth;
+  scroll-padding-block: 0.75rem;
+  overscroll-behavior-y: contain;
+  scrollbar-gutter: stable;
+  -webkit-overflow-scrolling: touch;
+}
+
+.admit-card-page-list {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+.admit-card-page-list a {
+  scroll-margin-block: 0.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admit-card-links-scroll,
+  .admit-card-page-list {
+    scroll-behavior: auto !important;
+  }
+}

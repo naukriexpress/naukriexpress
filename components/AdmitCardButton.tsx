@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 type AdmitCardLink = {
@@ -16,6 +16,7 @@ export default function AdmitCardButton() {
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const linksScrollRef = useRef<HTMLDivElement>(null);
 
   const filteredLinks = useMemo(() => {
     const query = searchQuery.trim().toLocaleLowerCase();
@@ -62,11 +63,58 @@ export default function AdmitCardButton() {
       if (event.key === "Escape") setIsOpen(false);
     }
 
+    // Smooth wheel scrolling for the long Admit Card list; reduced-motion
+    // visitors keep their usual browser scrolling behavior.
+    const scrollArea = linksScrollRef.current;
+    let targetScrollTop = scrollArea?.scrollTop ?? 0;
+    let animationFrame: number | null = null;
+
+    function handleWheel(event: WheelEvent) {
+      if (!scrollArea || event.ctrlKey || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        return;
+      }
+
+      const maxScrollTop = scrollArea.scrollHeight - scrollArea.clientHeight;
+      if (maxScrollTop <= 0 || event.deltaY === 0) return;
+
+      const multiplier =
+        event.deltaMode === 1 ? 16 :
+        event.deltaMode === 2 ? scrollArea.clientHeight :
+        1;
+      const delta = event.deltaY * multiplier;
+
+      if (animationFrame === null) {
+        targetScrollTop = scrollArea.scrollTop;
+      }
+      const nextTarget = Math.max(0, Math.min(maxScrollTop, targetScrollTop + delta));
+      if (nextTarget === targetScrollTop) return;
+
+      event.preventDefault();
+      targetScrollTop = nextTarget;
+
+      if (animationFrame === null) {
+        const animateScroll = () => {
+          const difference = targetScrollTop - scrollArea.scrollTop;
+          if (Math.abs(difference) < 0.6) {
+            scrollArea.scrollTop = targetScrollTop;
+            animationFrame = null;
+            return;
+          }
+          scrollArea.scrollTop += difference * 0.24;
+          animationFrame = window.requestAnimationFrame(animateScroll);
+        };
+        animationFrame = window.requestAnimationFrame(animateScroll);
+      }
+    }
+
     window.addEventListener("keydown", handleEscape);
+    scrollArea?.addEventListener("wheel", handleWheel, { passive: false });
 
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleEscape);
+      scrollArea?.removeEventListener("wheel", handleWheel);
+      if (animationFrame !== null) window.cancelAnimationFrame(animationFrame);
     };
   }, [isOpen]);
 
@@ -182,7 +230,7 @@ export default function AdmitCardButton() {
               />
             </div>
 
-            <div className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain">
+            <div ref={linksScrollRef} className="admit-card-links-scroll min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain">
               {loading && (
                 <p className="text-sm text-gray-500">
                   Loading updates...
