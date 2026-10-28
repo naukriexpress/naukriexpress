@@ -9,7 +9,7 @@ function applyTheme(theme: Theme) {
   window.localStorage.setItem("naukriexpress-theme", theme);
 }
 
-export default function ThemeToggle() {
+export default function ThemeToggle({ compact = false }: { compact?: boolean }) {
   const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
@@ -54,7 +54,7 @@ export default function ThemeToggle() {
       aria-label={"Switch to " + nextLabel}
       title={"Switch to " + nextLabel}
       data-action={theme === "dark" ? "light" : "dark"}
-      className="theme-toggle-button inline-flex shrink-0 items-center justify-center gap-2 rounded-lg border border-ink-900/15 bg-white px-3 py-2 text-sm font-semibold text-ink-800 transition-colors hover:bg-brand-50"
+      className={`theme-toggle-button inline-flex shrink-0 items-center justify-center gap-2 rounded-lg border border-ink-900/15 bg-white px-3 py-2 text-sm font-semibold text-ink-800 transition-colors hover:bg-brand-50 ${compact ? "theme-toggle-button--compact" : ""}`}
     >
       <span className="theme-toggle-icon-shell" aria-hidden="true">
         {theme === "dark" ? (
@@ -73,7 +73,7 @@ export default function ThemeToggle() {
           </svg>
         )}
       </span>
-      <span>{theme === "dark" ? "Light mode" : "Dark mode"}</span>
+      <span className={compact ? "sr-only" : undefined}>{theme === "dark" ? "Light mode" : "Dark mode"}</span>
     </button>
   );
 }

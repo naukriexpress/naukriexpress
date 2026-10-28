@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { usePathname, useSearchParams } from "next/navigation";
 import AdmitCardButton from "./AdmitCardButton";
-import ThemeToggle from "./ThemeToggle";
 import EligibilityFinder from "./EligibilityFinder";
 
 const NAV_LINKS = [
@@ -187,10 +186,7 @@ export default function MobileNav({ states }: { states: string[] }) {
               </nav>
 
               <div className="shrink-0 border-t border-gray-200 bg-white p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
-                <div className="mb-3">
-                  <ThemeToggle />
-                </div>
-                <div className="mt-3">
+                <div>
                   <EligibilityFinder states={availableStates} variant="menu" />
                 </div>
               </div>

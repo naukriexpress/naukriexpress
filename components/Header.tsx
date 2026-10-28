@@ -56,7 +56,10 @@ export default function Header() {
           </Link>
         </div>
 
-        <div className="shrink-0 2xl:hidden">
+        <div className="flex shrink-0 items-center gap-2 2xl:hidden">
+          <div className="lg:hidden">
+            <ThemeToggle compact />
+          </div>
           <Suspense fallback={<div className="h-10 w-10 rounded-lg border border-ink-900/15 bg-white" aria-hidden="true" />}>
             <MobileNav states={[]} />
           </Suspense>
