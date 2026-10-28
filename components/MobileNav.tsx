@@ -80,6 +80,38 @@ export default function MobileNav({ states }: { states: string[] }) {
         aria-controls="mobile-navigation"
         className="menu-button-moving-border inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-lg border border-saffron-500 bg-saffron-500 px-3 text-white shadow-sm transition-colors hover:bg-saffron-600 2xl:hidden"
       >
+        <svg
+          className="menu-button-border-svg"
+          viewBox="0 0 100 40"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <defs>
+            <linearGradient id="menu-button-border-gradient" x1="0" y1="0" x2="100" y2="0" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#fb923c" />
+              <stop offset="34%" stopColor="#ffcf42" />
+              <stop offset="50%" stopColor="#fffbe0" />
+              <stop offset="66%" stopColor="#ffcf42" />
+              <stop offset="100%" stopColor="#fb923c" />
+            </linearGradient>
+          </defs>
+          <rect
+            className="menu-button-border-stroke"
+            x="1.4"
+            y="1.4"
+            width="97.2"
+            height="37.2"
+            rx="8"
+            ry="8"
+            fill="none"
+            stroke="url(#menu-button-border-gradient)"
+            strokeWidth="2"
+            strokeDasharray="48 208"
+            strokeLinecap="round"
+            vectorEffect="non-scaling-stroke"
+          />
+        </svg>
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path
             d="M4 6h16M4 12h16M4 18h16"
