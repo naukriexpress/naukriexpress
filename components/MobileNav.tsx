@@ -78,7 +78,7 @@ export default function MobileNav({ states }: { states: string[] }) {
         aria-label="Open navigation menu"
         aria-expanded={open}
         aria-controls="mobile-navigation"
-        className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-lg border border-saffron-500 bg-saffron-500 px-3 text-white shadow-sm transition-colors hover:bg-saffron-600 2xl:hidden"
+        className="menu-button-moving-border inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-lg border border-saffron-500 bg-saffron-500 px-3 text-white shadow-sm transition-colors hover:bg-saffron-600 2xl:hidden"
       >
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path

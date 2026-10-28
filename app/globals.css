@@ -1837,3 +1837,57 @@ html[data-theme="dark"] .highest-vacancy-countdown[data-tone="copper"] { --count
     scroll-behavior: auto !important;
   }
 }
+
+
+/* Design A — a warm orange/yellow highlight travels around the menu button border. */
+@property --menu-border-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.menu-button-moving-border {
+  position: relative;
+  isolation: isolate;
+  border-color: #f97316;
+}
+
+.menu-button-moving-border::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  z-index: 0;
+  padding: 2px;
+  border-radius: calc(0.5rem + 3px);
+  pointer-events: none;
+  background: conic-gradient(
+    from var(--menu-border-angle),
+    transparent 0deg 258deg,
+    #f97316 276deg,
+    #ffd85a 289deg,
+    #fffbe0 297deg,
+    #ffffff 302deg,
+    #ffcc35 309deg,
+    #fb923c 323deg,
+    transparent 340deg 360deg
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  filter: drop-shadow(0 0 3px rgb(255 175 48 / 72%));
+  animation: menu-button-border-sweep 2.6s linear infinite;
+}
+
+@keyframes menu-button-border-sweep {
+  to {
+    --menu-border-angle: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-button-moving-border::before {
+    animation: none !important;
+    background: linear-gradient(90deg, #f97316, #ffd85a, #f97316);
+  }
+}
