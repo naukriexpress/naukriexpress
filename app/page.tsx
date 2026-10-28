@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import HomeSmoothScroll from "@/components/HomeSmoothScroll";
 import HomeLatestJobs from "@/components/HomeLatestJobs";
 import HighestVacancyJobs from "@/components/HighestVacancyJobs";
 
@@ -39,6 +40,7 @@ export default function HomePage() {
 
   return (
     <>
+      <HomeSmoothScroll />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
