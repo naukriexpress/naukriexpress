@@ -1883,3 +1883,83 @@ html[data-theme="dark"] .highest-vacancy-countdown[data-tone="copper"] { --count
     stroke-dashoffset: 0;
   }
 }
+
+
+/* Lightweight Pulse Glow for the Day/Night theme switch. */
+.theme-toggle-button {
+  position: relative;
+  isolation: isolate;
+}
+
+.theme-toggle-icon-shell {
+  position: relative;
+  display: inline-grid;
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  place-items: center;
+  isolation: isolate;
+}
+
+.theme-toggle-icon-shell::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -2px;
+  border-radius: 9999px;
+  opacity: 0.4;
+  transform: scale(0.82);
+  animation: theme-toggle-pulse 2.1s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.theme-toggle-button[data-action="dark"] .theme-toggle-icon-shell::before {
+  background: radial-gradient(circle, rgb(59 130 246 / 58%) 0%, rgb(96 165 250 / 20%) 48%, transparent 74%);
+}
+
+.theme-toggle-button[data-action="light"] .theme-toggle-icon-shell::before {
+  background: radial-gradient(circle, rgb(250 204 21 / 62%) 0%, rgb(251 191 36 / 22%) 48%, transparent 74%);
+}
+
+.theme-toggle-icon {
+  position: relative;
+  display: block;
+  transform-origin: center;
+  animation: theme-toggle-icon-breathe 2.1s ease-in-out infinite;
+}
+
+.theme-toggle-button[data-action="light"] .theme-toggle-icon--sun {
+  filter: drop-shadow(0 0 1px rgb(250 204 21 / 25%));
+}
+
+.theme-toggle-button[data-action="dark"] .theme-toggle-icon--moon {
+  filter: drop-shadow(0 0 1px rgb(96 165 250 / 22%));
+}
+
+@keyframes theme-toggle-pulse {
+  0%, 100% {
+    opacity: 0.26;
+    transform: scale(0.78);
+  }
+  50% {
+    opacity: 0.88;
+    transform: scale(1.18);
+  }
+}
+
+@keyframes theme-toggle-icon-breathe {
+  0%, 100% { transform: scale(0.96); }
+  50% { transform: scale(1.06); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle-icon-shell::before,
+  .theme-toggle-icon {
+    animation: none !important;
+    will-change: auto;
+  }
+  .theme-toggle-icon-shell::before {
+    opacity: 0.5;
+    transform: none;
+  }
+}
