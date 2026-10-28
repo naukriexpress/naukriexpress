@@ -421,7 +421,7 @@ export default async function JobDetailsPage({
 
           {/* Post-wise Vacancy Details and Apply Online Links */}
           <section className={`${cardFont.className} job-detail-panel mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7`}>
-            <h2 className="mb-4 font-display text-lg font-extrabold tracking-tight text-ink-900">
+            <h2 className="job-section-heading mb-4 font-display text-lg font-extrabold tracking-tight text-ink-900">
               Post-wise Vacancy Details
             </h2>
 
@@ -529,119 +529,9 @@ export default async function JobDetailsPage({
             )}
           </section>
 
-          {/* Eligibility */}
-          <section className={`${cardFont.className} job-detail-panel mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7`}>
-            <h2 className="job-eligibility-heading mb-3 font-display text-lg font-bold text-ink-900">
-              Eligibility
-            </h2>
-
-            <div className="mb-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              <div className="job-eligibility-card job-eligibility-card--teal min-w-0 rounded-xl border border-teal-100 border-l-4 border-l-teal-500 bg-gradient-to-br from-teal-50/80 to-white p-4 shadow-sm">
-                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.13em] text-teal-700">
-                  Eligible Gender
-                </p>
-                <p className="break-words text-sm font-bold leading-snug text-slate-900">
-                  {job.eligibility.genders.length ? job.eligibility.genders.join(" & ") : "As per official notification"}
-                </p>
-              </div>
-
-              <div className="job-eligibility-card job-eligibility-card--sky min-w-0 rounded-xl border border-sky-100 border-l-4 border-l-sky-500 bg-gradient-to-br from-sky-50/80 to-white p-4 shadow-sm">
-                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.13em] text-sky-700">
-                  Qualification
-                </p>
-                <p className="break-words text-sm font-bold leading-snug text-slate-900">
-                  {noticeDetailsPending
-                    ? "As per official notification"
-                    : job.eligibility.qualifications
-                        .map((q) => QUALIFICATION_LABELS[q])
-                        .join(", ") || "As per official notification"}
-                </p>
-              </div>
-
-              <div className="job-eligibility-card job-eligibility-card--violet min-w-0 rounded-xl border border-violet-100 border-l-4 border-l-violet-500 bg-gradient-to-br from-violet-50/80 to-white p-4 shadow-sm">
-                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.13em] text-violet-700">
-                  Age Limit
-                </p>
-                <p className="break-words text-sm font-bold leading-snug text-slate-900">
-                  {noticeDetailsPending
-                    ? "As per official notification"
-                    : ageLimitLabel(job.eligibility.minAge, job.eligibility.maxAge)}
-                </p>
-              </div>
-            </div>
-
-            {job.eligibility.ageRelaxation && (
-              <div className="job-age-relaxation-card mb-4 rounded-xl border border-amber-200 border-l-4 border-l-amber-500 bg-gradient-to-r from-amber-50 to-white p-4 shadow-sm">
-                <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.13em] text-amber-700">
-                  Age Relaxation
-                </p>
-                <p className="break-words text-sm font-semibold leading-relaxed text-slate-900">
-                  {job.eligibility.ageRelaxation}
-                </p>
-              </div>
-            )}
-
-            {job.content.eligibility && (
-              <div className="job-eligibility-details mt-5 border-t border-slate-100 pt-5">
-                <h3 className="job-eligibility-details-title mb-3 text-sm font-extrabold tracking-tight text-slate-800">
-                  Eligibility Details
-                </h3>
-
-                {eligibilityRows ? (
-                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                    {eligibilityRows.map((row, index) => (
-                      <div
-                        key={index}
-                        className={`eligibility-specification-card ${index % 5 === 0 ? "eligibility-specification-card--sky" : index % 5 === 1 ? "eligibility-specification-card--teal" : index % 5 === 2 ? "eligibility-specification-card--violet" : index % 5 === 3 ? "eligibility-specification-card--amber" : "eligibility-specification-card--emerald"} min-w-0 rounded-xl border p-4 shadow-sm transition-colors ${
-                          index % 5 === 0
-                            ? "border-sky-100 bg-gradient-to-br from-sky-50 to-white hover:border-sky-200"
-                            : index % 5 === 1
-                              ? "border-teal-100 bg-gradient-to-br from-teal-50 to-white hover:border-teal-200"
-                              : index % 5 === 2
-                                ? "border-violet-100 bg-gradient-to-br from-violet-50 to-white hover:border-violet-200"
-                                : index % 5 === 3
-                                  ? "border-amber-100 bg-gradient-to-br from-amber-50 to-white hover:border-amber-200"
-                                  : "border-emerald-100 bg-gradient-to-br from-emerald-50 to-white hover:border-emerald-200"
-                        }`}
-                      >
-                        <p
-                          className={`eligibility-specification-label mb-2 text-[10px] font-bold uppercase tracking-[0.13em] ${
-                            index % 5 === 0
-                              ? "text-sky-700"
-                              : index % 5 === 1
-                                ? "text-teal-700"
-                                : index % 5 === 2
-                                  ? "text-violet-700"
-                                  : index % 5 === 3
-                                    ? "text-amber-700"
-                                    : "text-emerald-700"
-                          }`}
-                        >
-                          {row.label}
-                        </p>
-                        <p className="eligibility-specification-value break-words text-sm font-bold leading-relaxed text-slate-900">
-                          {row.value}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="eligibility-richtext-panel rounded-xl border border-sky-100 bg-gradient-to-br from-sky-50/70 via-white to-violet-50/40 p-3 shadow-sm sm:p-4">
-                    <div
-                      className="eligibility-richtext-content prose-sm text-ink-800 [&_p]:mb-3 [&_p:last-child]:mb-0 [&_p]:rounded-lg [&_p]:border [&_p]:border-sky-100 [&_p]:bg-white/90 [&_p]:px-3 [&_p]:py-3 [&_p]:shadow-sm [&_ul]:my-3 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5 [&_ol]:my-3 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-5 [&_li]:rounded-md [&_li]:border [&_li]:border-violet-100 [&_li]:bg-violet-50/50 [&_li]:px-3 [&_li]:py-2"
-                      dangerouslySetInnerHTML={{
-                        __html: job.content.eligibility,
-                      }}
-                    />
-                  </div>
-                )}
-              </div>
-            )}
-          </section>
-
           {/* Important Dates and Fee */}
           <section className={`${cardFont.className} job-detail-panel mt-5 rounded-xl2 border border-slate-200 bg-white p-5 shadow-card sm:p-7`}>
-            <h2 className="job-dates-fee-heading mb-4 font-display text-lg font-extrabold tracking-tight text-ink-900">
+            <h2 className="job-section-heading job-dates-fee-heading mb-4 font-display text-lg font-extrabold tracking-tight text-ink-900">
               Important Dates &amp; Fee
             </h2>
 
@@ -700,7 +590,117 @@ export default async function JobDetailsPage({
             </div>
           </section>
 
-          {/* Share */}
+          {/* Eligibility */}
+          <section className={`${cardFont.className} job-detail-panel mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7`}>
+            <h2 className="job-section-heading job-eligibility-heading mb-4 font-display text-lg font-extrabold tracking-tight text-ink-900">
+              Eligibility
+            </h2>
+
+            <div className="mb-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="job-eligibility-card job-eligibility-card--teal min-w-0 rounded-xl border border-teal-100 border-l-4 border-l-teal-500 bg-gradient-to-br from-teal-50/80 to-white p-4 shadow-sm">
+                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.13em] text-teal-700">
+                  Eligible Gender
+                </p>
+                <p className="break-words text-sm font-bold leading-snug text-slate-900">
+                  {job.eligibility.genders.length ? job.eligibility.genders.join(" & ") : "As per official notification"}
+                </p>
+              </div>
+
+              <div className="job-eligibility-card job-eligibility-card--sky min-w-0 rounded-xl border border-sky-100 border-l-4 border-l-sky-500 bg-gradient-to-br from-sky-50/80 to-white p-4 shadow-sm">
+                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.13em] text-sky-700">
+                  Qualification
+                </p>
+                <p className="break-words text-sm font-bold leading-snug text-slate-900">
+                  {noticeDetailsPending
+                    ? "As per official notification"
+                    : job.eligibility.qualifications
+                        .map((q) => QUALIFICATION_LABELS[q])
+                        .join(", ") || "As per official notification"}
+                </p>
+              </div>
+
+              <div className="job-eligibility-card job-eligibility-card--violet min-w-0 rounded-xl border border-violet-100 border-l-4 border-l-violet-500 bg-gradient-to-br from-violet-50/80 to-white p-4 shadow-sm">
+                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.13em] text-violet-700">
+                  Age Limit
+                </p>
+                <p className="break-words text-sm font-bold leading-snug text-slate-900">
+                  {noticeDetailsPending
+                    ? "As per official notification"
+                    : ageLimitLabel(job.eligibility.minAge, job.eligibility.maxAge)}
+                </p>
+              </div>
+            </div>
+
+            {job.eligibility.ageRelaxation && (
+              <div className="job-age-relaxation-card mb-4 rounded-xl border border-amber-200 border-l-4 border-l-amber-500 bg-gradient-to-r from-amber-50 to-white p-4 shadow-sm">
+                <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.13em] text-amber-700">
+                  Age Relaxation
+                </p>
+                <p className="break-words text-sm font-semibold leading-relaxed text-slate-900">
+                  {job.eligibility.ageRelaxation}
+                </p>
+              </div>
+            )}
+
+                      </section>
+
+          {job.content.eligibility && (
+            <section className={`${cardFont.className} job-detail-panel mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7`}>
+              <h2 className="job-section-heading mb-4 font-display text-lg font-extrabold tracking-tight text-ink-900">
+                Eligibility Details
+              </h2>
+
+                {eligibilityRows ? (
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                    {eligibilityRows.map((row, index) => (
+                      <div
+                        key={index}
+                        className={`eligibility-specification-card ${index % 5 === 0 ? "eligibility-specification-card--sky" : index % 5 === 1 ? "eligibility-specification-card--teal" : index % 5 === 2 ? "eligibility-specification-card--violet" : index % 5 === 3 ? "eligibility-specification-card--amber" : "eligibility-specification-card--emerald"} min-w-0 rounded-xl border p-4 shadow-sm transition-colors ${
+                          index % 5 === 0
+                            ? "border-sky-100 bg-gradient-to-br from-sky-50 to-white hover:border-sky-200"
+                            : index % 5 === 1
+                              ? "border-teal-100 bg-gradient-to-br from-teal-50 to-white hover:border-teal-200"
+                              : index % 5 === 2
+                                ? "border-violet-100 bg-gradient-to-br from-violet-50 to-white hover:border-violet-200"
+                                : index % 5 === 3
+                                  ? "border-amber-100 bg-gradient-to-br from-amber-50 to-white hover:border-amber-200"
+                                  : "border-emerald-100 bg-gradient-to-br from-emerald-50 to-white hover:border-emerald-200"
+                        }`}
+                      >
+                        <p
+                          className={`eligibility-specification-label mb-2 text-[10px] font-bold uppercase tracking-[0.13em] ${
+                            index % 5 === 0
+                              ? "text-sky-700"
+                              : index % 5 === 1
+                                ? "text-teal-700"
+                                : index % 5 === 2
+                                  ? "text-violet-700"
+                                  : index % 5 === 3
+                                    ? "text-amber-700"
+                                    : "text-emerald-700"
+                          }`}
+                        >
+                          {row.label}
+                        </p>
+                        <p className="eligibility-specification-value break-words text-sm font-bold leading-relaxed text-slate-900">
+                          {row.value}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="eligibility-richtext-panel rounded-xl border border-sky-100 bg-gradient-to-br from-sky-50/70 via-white to-violet-50/40 p-3 shadow-sm sm:p-4">
+                    <div
+                      className="eligibility-richtext-content prose-sm text-ink-800 [&_p]:mb-3 [&_p:last-child]:mb-0 [&_p]:rounded-lg [&_p]:border [&_p]:border-sky-100 [&_p]:bg-white/90 [&_p]:px-3 [&_p]:py-3 [&_p]:shadow-sm [&_ul]:my-3 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5 [&_ol]:my-3 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-5 [&_li]:rounded-md [&_li]:border [&_li]:border-violet-100 [&_li]:bg-violet-50/50 [&_li]:px-3 [&_li]:py-2"
+                      dangerouslySetInnerHTML={{
+                        __html: job.content.eligibility,
+                      }}
+                    />
+                  </div>
+                )}
+            </section>
+          )}
+{/* Share */}
           <section className="job-detail-panel mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7">
             <h2 className="mb-3 font-display text-lg font-bold text-ink-900">
               Share this Job
