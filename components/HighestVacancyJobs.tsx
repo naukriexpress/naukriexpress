@@ -79,8 +79,8 @@ function AnimatedCountdownCircle({
     let current = 1;
     setDisplayedDays(1);
 
-    // Keep the number and ring moving together at the existing pace.
-    const stepDelay = 450;
+    // Keep the number and ring moving together at the requested pace.
+    const stepDelay = 280;
     const interval = window.setInterval(() => {
       current += 1;
       setDisplayedDays(current);
