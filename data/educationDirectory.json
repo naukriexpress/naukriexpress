@@ -1,0 +1,2078 @@
+{
+  "dataset_name": "NaukriExpress Maharashtra Entrance Exams Directory",
+  "version": "1.0.0",
+  "academic_year": "2026-27",
+  "last_verified_date": "2026-10-30",
+  "language": "en-IN with Hindi eligibility notes where useful",
+  "timezone": "Asia/Kolkata",
+  "important_notice": "This is a structured starter dataset, not a guarantee that every programme or institution accepts every listed score. 2026-27 dates are historical/current-cycle data only. Never carry these dates into 2027-28. Re-check the source notice before publishing a live application deadline.",
+  "categories": [
+    {
+      "id": "ug",
+      "name": "UG Entrance Exams",
+      "description": "12वीं के बाद undergraduate प्रवेश परीक्षाएँ और admission routes.",
+      "sort_order": 1
+    },
+    {
+      "id": "mba-management",
+      "name": "MBA / Management",
+      "description": "MBA, MMS, PGDM और management admission परीक्षाएँ.",
+      "sort_order": 2
+    },
+    {
+      "id": "pg",
+      "name": "PG Entrance Exams",
+      "description": "Graduation के बाद postgraduate programmes.",
+      "sort_order": 3
+    },
+    {
+      "id": "phd-research",
+      "name": "PhD / Research",
+      "description": "University PET/PhD admission और national qualifying tests.",
+      "sort_order": 4
+    },
+    {
+      "id": "medical-health",
+      "name": "Medical / Health",
+      "description": "Medical, nursing, AYUSH और allied health admissions.",
+      "sort_order": 5
+    },
+    {
+      "id": "engineering-architecture",
+      "name": "Engineering / Architecture",
+      "description": "Engineering, planning और architecture admission routes.",
+      "sort_order": 6
+    },
+    {
+      "id": "law",
+      "name": "Law Entrance Exams",
+      "description": "3-year और 5-year LLB तथा national law admission routes.",
+      "sort_order": 7
+    },
+    {
+      "id": "teaching",
+      "name": "Teaching / Education",
+      "description": "B.Ed, M.Ed, B.P.Ed, M.P.Ed और related tests.",
+      "sort_order": 8
+    },
+    {
+      "id": "design-arts",
+      "name": "Design & Arts",
+      "description": "Design, applied arts और fine arts admissions.",
+      "sort_order": 9
+    },
+    {
+      "id": "agriculture",
+      "name": "Agriculture & Allied Admissions",
+      "description": "Agriculture, horticulture, fisheries और allied courses.",
+      "sort_order": 10
+    }
+  ],
+  "exams": [
+    {
+      "id": "mah-bhmct-bca-bba-bms-bbm-cet",
+      "name": "MAH-BHMCT/BCA/BBA/BMS/BBM CET",
+      "short_name": "Common UG CET",
+      "category_id": "ug",
+      "exam_level": "UG",
+      "exam_type": "common_state_cet",
+      "academic_year": "2026-27",
+      "courses": [
+        "BHMCT",
+        "BCA",
+        "BBA",
+        "BMS",
+        "BBM",
+        "MBA (Integrated) where notified",
+        "MCA (Integrated) where notified",
+        "M.HMCT Integrated where notified"
+      ],
+      "conducting_authority": "State Common Entrance Test Cell, Maharashtra",
+      "eligibility_summary": "12वीं पास/appearing; stream, subjects, minimum marks और integrated-course eligibility brochure/course rules के अनुसार.",
+      "application": {
+        "start_date": "2026-01-14",
+        "initial_end_date": "2026-02-16",
+        "final_end_date": "2026-03-25",
+        "display_start": "2026-01-14",
+        "display_end": "2026-03-25"
+      },
+      "examination": {
+        "start_date": "2026-04-28",
+        "end_date": "2026-04-30",
+        "display_date": "2026-04-28 to 2026-04-30",
+        "mode": "CBT"
+      },
+      "status_as_of_2026_10_30": "closed",
+      "notification_pdf_url": "https://cetcell.mahacet.org/wp-content/uploads/2023/12/Information-brochure-for-MAH-BHMCT-BCA-BBA-BMS-BBM-CET-2026.pdf",
+      "apply_url": "https://portal-2026.maharashtracet.org/",
+      "cap_url": "https://bba2026.mahacet.org.in/",
+      "official_website_url": "https://cetcell.mahacet.org/",
+      "details_url": "https://cetcell.mahacet.org/",
+      "notes": "2026-27 में BHMCT और BCA/BBA/BMS/BBM के लिए एक common CET है; पुराने अलग-अलग CET नाम न बनाएं.",
+      "source_urls": [
+        "https://cetcell.mahacet.org/wp-content/uploads/2023/12/B-HMCT_-BBA-BCA-BBM-BMS-CET-2026-.pdf",
+        "https://cetcell.mahacet.org/cet-3/",
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "mah-mht-cet-pcm-pcb",
+      "name": "MHT-CET (PCM & PCB Group)",
+      "short_name": "MHT-CET",
+      "category_id": "ug",
+      "exam_level": "UG",
+      "exam_type": "state_common_cet",
+      "academic_year": "2026-27",
+      "courses": [
+        "B.E./B.Tech",
+        "B.Pharmacy",
+        "Pharm.D",
+        "B.Planning",
+        "Agriculture & Allied courses (course-wise group/eligibility applies)"
+      ],
+      "conducting_authority": "State Common Entrance Test Cell, Maharashtra",
+      "eligibility_summary": "12वीं या समकक्ष; PCM/PCB विषय और course-specific minimum marks/eligibility official brochure के अनुसार.",
+      "application": {
+        "start_date": "2026-01-10",
+        "initial_end_date": "2026-02-12",
+        "final_end_date": "2026-02-27",
+        "display_start": "2026-01-10",
+        "display_end": "2026-02-27"
+      },
+      "examination": {
+        "start_date": "2026-04-11",
+        "end_date": "2026-05-16",
+        "display_date": "PCM: 11–20 Apr & 12–16 May 2026; PCB: 21–26 Apr & 10–11 May 2026 (two attempts)",
+        "mode": "CBT"
+      },
+      "status_as_of_2026_10_30": "closed",
+      "notification_pdf_url": "https://cetcell.mahacet.org/wp-content/uploads/2023/12/MHT-CET-2026-Information-Brochure.pdf",
+      "apply_url": "https://portal-2026.maharashtracet.org/",
+      "cap_url": "https://fe2026.mahacet.org/",
+      "official_website_url": "https://cetcell.mahacet.org/",
+      "details_url": "https://cetcell.mahacet.org/",
+      "notes": "2026 schedule में PCM और PCB के अलग first/second attempt windows थे. Dates historical हैं.",
+      "source_urls": [
+        "https://cetcell.mahacet.org/cet-3/",
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "atma",
+      "name": "AIMS Test for Management Admissions",
+      "short_name": "ATMA",
+      "category_id": "mba-management",
+      "exam_level": "National PG",
+      "exam_type": "national_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "MBA",
+        "PGDM",
+        "MMS where accepted"
+      ],
+      "conducting_authority": "Association of Indian Management Schools (AIMS)",
+      "eligibility_summary": "Bachelor degree; institute-specific minimum marks and final-year rules apply.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": null,
+        "display_start": "See official notice",
+        "display_end": "See official notice"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "See official schedule",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "date_awaited",
+      "notification_pdf_url": "https://www.atmaaims.com/",
+      "apply_url": "https://www.atmaaims.com/",
+      "cap_url": "https://www.atmaaims.com/",
+      "official_website_url": "https://www.atmaaims.com/",
+      "details_url": "https://www.atmaaims.com/",
+      "notes": "ATMA conducts multiple test sessions; add a separate record/update for each published session and its participating colleges.",
+      "source_urls": [
+        "https://www.atmaaims.com/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "cat-2026",
+      "name": "Common Admission Test",
+      "short_name": "CAT",
+      "category_id": "mba-management",
+      "exam_level": "National PG",
+      "exam_type": "national_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "MBA",
+        "PGP / management programmes"
+      ],
+      "conducting_authority": "Indian Institutes of Management (IIMs)",
+      "eligibility_summary": "Bachelor degree with minimum marks as per CAT notification; category relaxations and final-year rules apply.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": null,
+        "display_start": "See official notice",
+        "display_end": "See official notice"
+      },
+      "examination": {
+        "start_date": "2026-11-29",
+        "end_date": "2026-11-29",
+        "display_date": "2026-11-29",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "exam_upcoming",
+      "notification_pdf_url": "https://iimcat.ac.in/",
+      "apply_url": "https://iimcat.ac.in/",
+      "cap_url": "https://iimcat.ac.in/",
+      "official_website_url": "https://iimcat.ac.in/",
+      "details_url": "https://iimcat.ac.in/",
+      "notes": "2026 exam date is 29 November 2026; 2026 registration is closed as of 30 October 2026. Individual institutes set score acceptance.",
+      "source_urls": [
+        "https://iimcat.ac.in/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "cmat-2027",
+      "name": "Common Management Admission Test",
+      "short_name": "CMAT",
+      "category_id": "mba-management",
+      "exam_level": "National PG",
+      "exam_type": "national_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "MBA",
+        "PGDM"
+      ],
+      "conducting_authority": "National Testing Agency (NTA)",
+      "eligibility_summary": "Recognised bachelor degree; final-year eligibility as specified in CMAT information bulletin.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": null,
+        "display_start": "See official notice",
+        "display_end": "See official notice"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "See official schedule",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "date_awaited",
+      "notification_pdf_url": "https://cmat.nta.nic.in/",
+      "apply_url": "https://cmat.nta.nic.in/",
+      "cap_url": "https://cmat.nta.nic.in/",
+      "official_website_url": "https://cmat.nta.nic.in/",
+      "details_url": "https://cmat.nta.nic.in/",
+      "notes": "CMAT 2027 dates/notification not confirmed in this dataset as of 30 October 2026.",
+      "source_urls": [
+        "https://cmat.nta.nic.in/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "gmat",
+      "name": "Graduate Management Admission Test",
+      "short_name": "GMAT",
+      "category_id": "mba-management",
+      "exam_level": "International / National",
+      "exam_type": "national_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "MBA",
+        "Business master programmes"
+      ],
+      "conducting_authority": "Graduate Management Admission Council (GMAC)",
+      "eligibility_summary": "Eligibility is determined by individual institutions; check programme requirements.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": null,
+        "display_start": "See official notice",
+        "display_end": "See official notice"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "See official schedule",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "year_round",
+      "notification_pdf_url": "https://www.mba.com/exams/gmat",
+      "apply_url": "https://www.mba.com/exams/gmat",
+      "cap_url": "https://www.mba.com/exams/gmat",
+      "official_website_url": "https://www.mba.com/exams/gmat",
+      "details_url": "https://www.mba.com/exams/gmat",
+      "notes": "Year-round appointment scheduling, subject to test-centre/online availability and current GMAC policies.",
+      "source_urls": [
+        "https://www.mba.com/exams/gmat"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "ibsat-2026",
+      "name": "ICFAI Business School Aptitude Test",
+      "short_name": "IBSAT",
+      "category_id": "mba-management",
+      "exam_level": "National / Institute",
+      "exam_type": "institute_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "MBA / PGPM at IBS campuses"
+      ],
+      "conducting_authority": "ICFAI Foundation for Higher Education",
+      "eligibility_summary": "Bachelor degree; minimum marks and English-medium rules as per current IBSAT bulletin.",
+      "application": {
+        "start_date": "2026-07-01",
+        "initial_end_date": null,
+        "final_end_date": "2026-12-22",
+        "display_start": "2026-07-01",
+        "display_end": "2026-12-22"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "December 2026; exact test slots per official portal",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "registration_open",
+      "notification_pdf_url": "https://www.ibsat.org/",
+      "apply_url": "https://www.ibsat.org/",
+      "cap_url": "https://www.ibsat.org/",
+      "official_website_url": "https://www.ibsat.org/",
+      "details_url": "https://www.ibsat.org/",
+      "notes": "IBSAT dates and test slots should be taken from current official schedule. CAT/XAT/NMAT/GMAT alternative-score rules may apply.",
+      "source_urls": [
+        "https://www.ibsat.org/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "mah-mba-mms-cet",
+      "name": "MAH MBA/MMS CET",
+      "short_name": "MAH MBA CET",
+      "category_id": "mba-management",
+      "exam_level": "PG",
+      "exam_type": "state_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "MBA",
+        "MMS"
+      ],
+      "conducting_authority": "State Common Entrance Test Cell, Maharashtra",
+      "eligibility_summary": "Recognised bachelor degree; generally 50% open category and 45% for specified Maharashtra reserved categories; final-year candidates may apply subject to brochure.",
+      "application": {
+        "start_date": "2026-01-10",
+        "initial_end_date": null,
+        "final_end_date": "2026-02-25",
+        "display_start": "2026-01-10",
+        "display_end": "2026-02-25"
+      },
+      "examination": {
+        "start_date": "2026-04-06",
+        "end_date": "2026-05-09",
+        "display_date": "First attempt: 6–8 Apr 2026; second attempt: 9 May 2026",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "closed",
+      "notification_pdf_url": "https://cetcell.mahacet.org/cet-3/",
+      "apply_url": "https://portal-2026.maharashtracet.org/",
+      "cap_url": "https://mba2026.mahacet.org.in/",
+      "official_website_url": "https://cetcell.mahacet.org/",
+      "details_url": "https://cetcell.mahacet.org/",
+      "notes": "2026 exam had first and second attempt windows. Exam application and MBA CAP registration are separate.",
+      "source_urls": [
+        "https://cetcell.mahacet.org/cet-3/",
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "mat-dec-2026",
+      "name": "Management Aptitude Test – December 2026",
+      "short_name": "MAT",
+      "category_id": "mba-management",
+      "exam_level": "National PG",
+      "exam_type": "national_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "MBA",
+        "PGDM"
+      ],
+      "conducting_authority": "All India Management Association (AIMA)",
+      "eligibility_summary": "Graduation in any discipline; final-year candidates as per AIMA rules.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": "2026-12-14",
+        "final_end_date": "2026-12-21",
+        "display_start": "See official notice",
+        "display_end": "2026-12-21"
+      },
+      "examination": {
+        "start_date": "2026-12-20",
+        "end_date": "2026-12-27",
+        "display_date": "2026-12-20 to 2026-12-27",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "registration_open",
+      "notification_pdf_url": "https://mat.aima.in/",
+      "apply_url": "https://mat.aima.in/",
+      "cap_url": "https://mat.aima.in/",
+      "official_website_url": "https://mat.aima.in/",
+      "details_url": "https://mat.aima.in/",
+      "notes": "December 2026 PBT deadline 14 December / exam 20 December; CBT deadline 21 December / exam 27 December.",
+      "source_urls": [
+        "https://mat.aima.in/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "nmat-2026",
+      "name": "NMAT by GMAC",
+      "short_name": "NMAT",
+      "category_id": "mba-management",
+      "exam_level": "National PG",
+      "exam_type": "national_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "MBA",
+        "Management programmes"
+      ],
+      "conducting_authority": "Graduate Management Admission Council (GMAC)",
+      "eligibility_summary": "Bachelor degree; participating school-specific eligibility and score rules apply.",
+      "application": {
+        "start_date": "2026-08-20",
+        "initial_end_date": null,
+        "final_end_date": "2026-10-31",
+        "display_start": "2026-08-20",
+        "display_end": "2026-10-31"
+      },
+      "examination": {
+        "start_date": "2026-11-02",
+        "end_date": "2026-12-20",
+        "display_date": "2026-11-02 to 2026-12-20",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "registration_open",
+      "notification_pdf_url": "https://www.mba.com/exams/nmat",
+      "apply_url": "https://www.mba.com/exams/nmat",
+      "cap_url": "https://www.mba.com/exams/nmat",
+      "official_website_url": "https://www.mba.com/exams/nmat",
+      "details_url": "https://www.mba.com/exams/nmat",
+      "notes": "2026 registration deadline 31 October; testing window 2 November–20 December 2026. Confirm appointment availability on GMAC portal.",
+      "source_urls": [
+        "https://www.mba.com/exams/nmat"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "snap-2026",
+      "name": "Symbiosis National Aptitude Test",
+      "short_name": "SNAP",
+      "category_id": "mba-management",
+      "exam_level": "National PG",
+      "exam_type": "national_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "MBA programmes at participating Symbiosis institutes"
+      ],
+      "conducting_authority": "Symbiosis International (Deemed University)",
+      "eligibility_summary": "Recognised bachelor degree; generally 50% and 45% for SC/ST, subject to programme rules.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": "2026-11-25",
+        "display_start": "See official notice",
+        "display_end": "2026-11-25"
+      },
+      "examination": {
+        "start_date": "2026-12-13",
+        "end_date": "2026-12-26",
+        "display_date": "13, 19 and 26 December 2026",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "registration_open",
+      "notification_pdf_url": "https://www.snaptest.org/",
+      "apply_url": "https://www.snaptest.org/",
+      "cap_url": "https://www.snaptest.org/",
+      "official_website_url": "https://www.snaptest.org/",
+      "details_url": "https://www.snaptest.org/",
+      "notes": "Three test dates in 2026: 13, 19 and 26 December. Best score/attempt rules as per current SNAP bulletin.",
+      "source_urls": [
+        "https://www.snaptest.org/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "xat-2027",
+      "name": "Xavier Aptitude Test",
+      "short_name": "XAT",
+      "category_id": "mba-management",
+      "exam_level": "National PG",
+      "exam_type": "national_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "MBA",
+        "PGDM"
+      ],
+      "conducting_authority": "XLRI Jamshedpur",
+      "eligibility_summary": "Bachelor degree from a recognised university; final-year candidates subject to official rules.",
+      "application": {
+        "start_date": "2026-07-15",
+        "initial_end_date": null,
+        "final_end_date": "2026-12-06",
+        "display_start": "2026-07-15",
+        "display_end": "2026-12-06"
+      },
+      "examination": {
+        "start_date": "2027-01-03",
+        "end_date": "2027-01-03",
+        "display_date": "2027-01-03",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "registration_open",
+      "notification_pdf_url": "https://xatonline.in/",
+      "apply_url": "https://xatonline.in/",
+      "cap_url": "https://xatonline.in/",
+      "official_website_url": "https://xatonline.in/",
+      "details_url": "https://xatonline.in/",
+      "notes": "2027 exam cycle. Participating institutes set their own application and selection conditions.",
+      "source_urls": [
+        "https://xatonline.in/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "gate-2027",
+      "name": "Graduate Aptitude Test in Engineering",
+      "short_name": "GATE",
+      "category_id": "pg",
+      "exam_level": "National PG",
+      "exam_type": "national_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "M.E./M.Tech",
+        "PhD and other eligible programmes"
+      ],
+      "conducting_authority": "IITs / IISc on behalf of the GATE committee",
+      "eligibility_summary": "Eligible undergraduate degree holders and students in specified years; check GATE 2027 brochure.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": null,
+        "display_start": "See official notice",
+        "display_end": "See official notice"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "See official schedule",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "date_awaited",
+      "notification_pdf_url": "https://gate2027.iitg.ac.in/",
+      "apply_url": "https://gate2027.iitg.ac.in/",
+      "cap_url": "https://gate2027.iitg.ac.in/",
+      "official_website_url": "https://gate2027.iitg.ac.in/",
+      "details_url": "https://gate2027.iitg.ac.in/",
+      "notes": "GATE-based admission is programme/institute-specific; Maharashtra CAP uses its current eligibility and score rules.",
+      "source_urls": [
+        "https://gate2027.iitg.ac.in/",
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "gpat-2027",
+      "name": "Graduate Pharmacy Aptitude Test",
+      "short_name": "GPAT",
+      "category_id": "pg",
+      "exam_level": "National PG",
+      "exam_type": "national_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "M.Pharm"
+      ],
+      "conducting_authority": "National Testing Agency / designated authority as per current cycle",
+      "eligibility_summary": "B.Pharm degree or eligible final-year candidates subject to current bulletin.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": null,
+        "display_start": "See official notice",
+        "display_end": "See official notice"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "See official schedule",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "date_awaited",
+      "notification_pdf_url": "https://gpat.nta.nic.in/",
+      "apply_url": "https://gpat.nta.nic.in/",
+      "cap_url": "https://gpat.nta.nic.in/",
+      "official_website_url": "https://gpat.nta.nic.in/",
+      "details_url": "https://gpat.nta.nic.in/",
+      "notes": "M.Pharm admission and Maharashtra CAP are separate from GPAT exam registration.",
+      "source_urls": [
+        "https://gpat.nta.nic.in/",
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "mah-mhmct-cet",
+      "name": "MAH-M.HMCT CET",
+      "short_name": "M.HMCT CET",
+      "category_id": "pg",
+      "exam_level": "PG",
+      "exam_type": "state_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "Master of Hotel Management and Catering Technology"
+      ],
+      "conducting_authority": "State Common Entrance Test Cell, Maharashtra",
+      "eligibility_summary": "Relevant bachelor degree; detailed degree/marks requirements as per brochure.",
+      "application": {
+        "start_date": "2026-01-07",
+        "initial_end_date": null,
+        "final_end_date": "2026-02-23",
+        "display_start": "2026-01-07",
+        "display_end": "2026-02-23"
+      },
+      "examination": {
+        "start_date": "2026-03-25",
+        "end_date": "2026-03-25",
+        "display_date": "2026-03-25",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "closed",
+      "notification_pdf_url": "https://cetcell.mahacet.org/cet-3/",
+      "apply_url": "https://portal-2026.maharashtracet.org/",
+      "cap_url": "https://dmhmct2026.mahacet.org.in/",
+      "official_website_url": "https://cetcell.mahacet.org/",
+      "details_url": "https://cetcell.mahacet.org/",
+      "notes": "Use M.HMCT CAP/admission route separately after result.",
+      "source_urls": [
+        "https://cetcell.mahacet.org/cet-3/",
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "mah-mca-cet",
+      "name": "MAH-MCA CET",
+      "short_name": "MCA CET",
+      "category_id": "pg",
+      "exam_level": "PG",
+      "exam_type": "state_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "Master of Computer Applications"
+      ],
+      "conducting_authority": "State Common Entrance Test Cell, Maharashtra",
+      "eligibility_summary": "Bachelor degree with Mathematics at 10+2 or graduation level as prescribed; check current brochure.",
+      "application": {
+        "start_date": "2026-01-07",
+        "initial_end_date": null,
+        "final_end_date": "2026-02-23",
+        "display_start": "2026-01-07",
+        "display_end": "2026-02-23"
+      },
+      "examination": {
+        "start_date": "2026-03-30",
+        "end_date": "2026-03-30",
+        "display_date": "2026-03-30",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "closed",
+      "notification_pdf_url": "https://cetcell.mahacet.org/cet-3/",
+      "apply_url": "https://portal-2026.maharashtracet.org/",
+      "cap_url": "https://mca2026.mahacet.org.in/",
+      "official_website_url": "https://cetcell.mahacet.org/",
+      "details_url": "https://cetcell.mahacet.org/",
+      "notes": "MCA CAP is separate from CET registration.",
+      "source_urls": [
+        "https://cetcell.mahacet.org/cet-3/",
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "csir-ugc-net",
+      "name": "Joint CSIR-UGC NET",
+      "short_name": "CSIR NET",
+      "category_id": "phd-research",
+      "exam_level": "National eligibility",
+      "exam_type": "qualifying_exam",
+      "academic_year": "2026-27",
+      "courses": [
+        "JRF",
+        "Assistant Professor eligibility",
+        "PhD admission eligibility in notified science subjects"
+      ],
+      "conducting_authority": "National Testing Agency (NTA) / CSIR",
+      "eligibility_summary": "Relevant science postgraduate degree or eligible integrated/graduate route as defined in current bulletin.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": null,
+        "display_start": "See official notice",
+        "display_end": "See official notice"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "See official schedule",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "date_awaited",
+      "notification_pdf_url": "https://csirnet.nta.ac.in/",
+      "apply_url": "https://csirnet.nta.ac.in/",
+      "cap_url": "https://csirnet.nta.ac.in/",
+      "official_website_url": "https://csirnet.nta.ac.in/",
+      "details_url": "https://csirnet.nta.ac.in/",
+      "notes": "National qualifying test; it is not a Maharashtra university PET. PhD exemption/selection follows current UGC and university regulations.",
+      "source_urls": [
+        "https://csirnet.nta.ac.in/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "kbcnmu-pet-2026",
+      "name": "Kavayitri Bahinabai Chaudhari North Maharashtra University PET",
+      "short_name": "KBCNMU PET",
+      "category_id": "phd-research",
+      "exam_level": "PhD",
+      "exam_type": "university_pet",
+      "academic_year": "2026-27",
+      "courses": [
+        "PhD subject-wise programmes"
+      ],
+      "conducting_authority": "KBCNMU, Jalgaon",
+      "eligibility_summary": "Relevant postgraduate degree and subject eligibility as per PET-2026 notification; exemptions as per current rules.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": null,
+        "display_start": "See official notice",
+        "display_end": "See official notice"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "See official schedule",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "university_schedule_required",
+      "notification_pdf_url": "https://nmu.ac.in/en-us/Programmes/PhD/ApplicationForm",
+      "apply_url": "https://nmu.ac.in/en-us/Programmes/PhD/ApplicationForm",
+      "cap_url": "https://nmu.ac.in/en-us/Programmes/PhD/ApplicationForm",
+      "official_website_url": "https://nmu.ac.in/",
+      "details_url": "https://nmu.ac.in/",
+      "notes": "Refer to revised PET-2026 schedule, guide availability and subject-wise notices on university site.",
+      "source_urls": [
+        "https://nmu.ac.in/en-us/Programmes/PhD/ApplicationForm"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "mh-set",
+      "name": "Maharashtra State Eligibility Test",
+      "short_name": "MH-SET",
+      "category_id": "phd-research",
+      "exam_level": "State eligibility",
+      "exam_type": "qualifying_exam",
+      "academic_year": "2026-27",
+      "courses": [
+        "Assistant Professor eligibility in Maharashtra/Goa subject to SET rules"
+      ],
+      "conducting_authority": "Savitribai Phule Pune University (State Agency)",
+      "eligibility_summary": "Master degree with prescribed marks and category relaxation as per current MH-SET notification.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": null,
+        "display_start": "See official notice",
+        "display_end": "See official notice"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "See official schedule",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "date_awaited",
+      "notification_pdf_url": "https://setexam.unipune.ac.in/",
+      "apply_url": "https://setexam.unipune.ac.in/",
+      "cap_url": "https://setexam.unipune.ac.in/",
+      "official_website_url": "https://setexam.unipune.ac.in/",
+      "details_url": "https://setexam.unipune.ac.in/",
+      "notes": "MH-SET is an Assistant Professor eligibility test, not a standalone PhD entrance exam.",
+      "source_urls": [
+        "https://setexam.unipune.ac.in/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "sgbau-pet-2026",
+      "name": "Sant Gadge Baba Amravati University PhD Entrance Test",
+      "short_name": "SGBAU PET",
+      "category_id": "phd-research",
+      "exam_level": "PhD",
+      "exam_type": "university_pet",
+      "academic_year": "2026-27",
+      "courses": [
+        "PhD subject-wise programmes"
+      ],
+      "conducting_authority": "Sant Gadge Baba Amravati University",
+      "eligibility_summary": "Relevant postgraduate degree and subject/allied-subject mapping under SGBAU PET-2026 notification; exemption conditions per university rules.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": "2026-09-10",
+        "display_start": "See official notice",
+        "display_end": "2026-09-10"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "See official schedule",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "closed",
+      "notification_pdf_url": "https://sgbau.sgbau.ac.in/Publications/GazetteNotifications.aspx",
+      "apply_url": "https://sgbau.sgbau.ac.in/",
+      "cap_url": "https://sgbau.sgbau.ac.in/",
+      "official_website_url": "https://sgbau.sgbau.ac.in/",
+      "details_url": "https://sgbau.sgbau.ac.in/",
+      "notes": "SGBAU Extra Ordinary Notification No.105/2026 dated 5 August 2026 concerns PET-2026 procedure, eligibility, allied subjects and subject mapping. 2026 application extension was 3–10 September as published in prior cycle update.",
+      "source_urls": [
+        "https://sgbau.sgbau.ac.in/Publications/GazetteNotifications.aspx"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "sppu-phd-pet",
+      "name": "Savitribai Phule Pune University PhD Admission / PET",
+      "short_name": "SPPU PhD PET",
+      "category_id": "phd-research",
+      "exam_level": "PhD",
+      "exam_type": "university_pet",
+      "academic_year": "2026-27",
+      "courses": [
+        "PhD subject-wise programmes"
+      ],
+      "conducting_authority": "Savitribai Phule Pune University (SPPU)",
+      "eligibility_summary": "Relevant master degree and subject-specific eligibility; NET/JRF/GATE or equivalent exemption rules depend on current university ordinance and subject.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": null,
+        "display_start": "See official notice",
+        "display_end": "See official notice"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "See official schedule",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "university_schedule_required",
+      "notification_pdf_url": "https://bcud.unipune.ac.in/phd/Ph.D_Addmission/index.html",
+      "apply_url": "https://bcud.unipune.ac.in/phd/Ph.D_Addmission/index.html",
+      "cap_url": "https://bcud.unipune.ac.in/phd/Ph.D_Addmission/index.html",
+      "official_website_url": "https://www.unipune.ac.in/",
+      "details_url": "https://www.unipune.ac.in/",
+      "notes": "University subject-wise PhD admission/PET; not a single Maharashtra state-wide PhD CET.",
+      "source_urls": [
+        "https://bcud.unipune.ac.in/phd/Ph.D_Addmission/index.html"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "shivaji-phd-2026-27",
+      "name": "Shivaji University PhD Admission 2026–27",
+      "short_name": "Shivaji PhD Entrance",
+      "category_id": "phd-research",
+      "exam_level": "PhD",
+      "exam_type": "university_pet",
+      "academic_year": "2026-27",
+      "courses": [
+        "PhD subject-wise programmes"
+      ],
+      "conducting_authority": "Shivaji University, Kolhapur",
+      "eligibility_summary": "Relevant postgraduate degree and subject-specific admission criteria; PET exemption and interview rules as per university PhD regulations.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": null,
+        "display_start": "See official notice",
+        "display_end": "See official notice"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "See official schedule",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "university_admission_notice_published",
+      "notification_pdf_url": "https://www.unishivaji.ac.in/admission/PhD-Admission-2026-2027",
+      "apply_url": "https://www.unishivaji.ac.in/admission/PhD-Admission-2026-2027",
+      "cap_url": "https://www.unishivaji.ac.in/admission/PhD-Admission-2026-2027",
+      "official_website_url": "https://www.unishivaji.ac.in/",
+      "details_url": "https://www.unishivaji.ac.in/",
+      "notes": "University published PhD admission 2026-27 information; check revised timetable and subject-wise intake on its page.",
+      "source_urls": [
+        "https://www.unishivaji.ac.in/admission/PhD-Admission-2026-2027"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "ugc-net",
+      "name": "UGC-NET",
+      "short_name": "UGC NET",
+      "category_id": "phd-research",
+      "exam_level": "National eligibility",
+      "exam_type": "qualifying_exam",
+      "academic_year": "2026-27",
+      "courses": [
+        "Assistant Professor eligibility",
+        "JRF",
+        "PhD admission eligibility categories as per UGC rules"
+      ],
+      "conducting_authority": "National Testing Agency (NTA)",
+      "eligibility_summary": "Master degree or equivalent with prescribed marks; 4-year bachelor degree route and category rules as per current UGC-NET bulletin.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": null,
+        "display_start": "See official notice",
+        "display_end": "See official notice"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "See official schedule",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "date_awaited",
+      "notification_pdf_url": "https://ugcnet.nta.ac.in/",
+      "apply_url": "https://ugcnet.nta.ac.in/",
+      "cap_url": "https://ugcnet.nta.ac.in/",
+      "official_website_url": "https://ugcnet.nta.ac.in/",
+      "details_url": "https://ugcnet.nta.ac.in/",
+      "notes": "UGC-NET is not a Maharashtra-only PET. Universities determine how NET categories affect PhD entrance exemption/selection under applicable UGC and university rules.",
+      "source_urls": [
+        "https://ugcnet.nta.ac.in/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "mumbai-university-phd",
+      "name": "University of Mumbai PhD Admission / PET",
+      "short_name": "Mumbai University PhD",
+      "category_id": "phd-research",
+      "exam_level": "PhD",
+      "exam_type": "university_admission",
+      "academic_year": "2026-27",
+      "courses": [
+        "PhD subject-wise programmes"
+      ],
+      "conducting_authority": "University of Mumbai",
+      "eligibility_summary": "Relevant postgraduate degree and department-specific conditions; exemption/selection rules depend on current university regulation and subject notice.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": null,
+        "display_start": "See official notice",
+        "display_end": "See official notice"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "See official schedule",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "department_wise_notice",
+      "notification_pdf_url": "https://mu.ac.in/",
+      "apply_url": "https://mu.ac.in/",
+      "cap_url": "https://mu.ac.in/",
+      "official_website_url": "https://mu.ac.in/",
+      "details_url": "https://mu.ac.in/",
+      "notes": "University and department-wise notices can have different dates. Do not use one common last date for all subjects.",
+      "source_urls": [
+        "https://mu.ac.in/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "anm-gnm-nursing-board",
+      "name": "ANM/GNM (Nursing Board Route)",
+      "short_name": "ANM/GNM",
+      "category_id": "medical-health",
+      "exam_level": "Diploma",
+      "exam_type": "admission_route",
+      "academic_year": "2026-27",
+      "courses": [
+        "ANM",
+        "GNM"
+      ],
+      "conducting_authority": "Maharashtra State Nursing and Paramedical Education Board / notified authority",
+      "eligibility_summary": "10+2 or other qualification and age/subject rules as set by applicable nursing-board admission notification.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": null,
+        "display_start": "See official notice",
+        "display_end": "See official notice"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "See official schedule",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "see_board_notification",
+      "notification_pdf_url": "https://cetcell.mahacet.org/cap-_2026-27/",
+      "apply_url": "https://medical2026.mahacet.org/",
+      "cap_url": "https://medical2026.mahacet.org/",
+      "official_website_url": "https://cetcell.mahacet.org/",
+      "details_url": "https://cetcell.mahacet.org/",
+      "notes": "CAP directory distinguishes ANM/GNM under Nursing Board from B.Sc Nursing CET route.",
+      "source_urls": [
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "aiapget-2026",
+      "name": "All India AYUSH Post Graduate Entrance Test",
+      "short_name": "AIAPGET",
+      "category_id": "medical-health",
+      "exam_level": "PG",
+      "exam_type": "national_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "MD/MS Ayurveda",
+        "MD Homeopathy",
+        "MD Unani",
+        "MD Siddha"
+      ],
+      "conducting_authority": "National Testing Agency (NTA)",
+      "eligibility_summary": "Relevant AYUSH undergraduate degree and internship/registration requirements as per current AIAPGET bulletin.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": null,
+        "display_start": "See official notice",
+        "display_end": "See official notice"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "See official schedule",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "date_awaited",
+      "notification_pdf_url": "https://exams.nta.ac.in/AIAPGET/",
+      "apply_url": "https://exams.nta.ac.in/AIAPGET/",
+      "cap_url": "https://medical2026.mahacet.org/",
+      "official_website_url": "https://exams.nta.ac.in/AIAPGET/",
+      "details_url": "https://exams.nta.ac.in/AIAPGET/",
+      "notes": "Maharashtra state quota counselling and All India quota counselling are separate routes.",
+      "source_urls": [
+        "https://exams.nta.ac.in/AIAPGET/",
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "gnm-admission-2026",
+      "name": "GNM Admission",
+      "short_name": "GNM",
+      "category_id": "medical-health",
+      "exam_level": "Diploma",
+      "exam_type": "admission_route",
+      "academic_year": "2026-27",
+      "courses": [
+        "General Nursing and Midwifery"
+      ],
+      "conducting_authority": "Maharashtra Medical Education / Nursing admission authorities",
+      "eligibility_summary": "12वीं and subject/marks requirements under current Maharashtra Nursing admission rules.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": null,
+        "display_start": "See official notice",
+        "display_end": "See official notice"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "See official schedule",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "see_official_admission_schedule",
+      "notification_pdf_url": "https://cetcell.mahacet.org/cap-_2026-27/",
+      "apply_url": "https://medical2026.mahacet.org/",
+      "cap_url": "https://medical2026.mahacet.org/",
+      "official_website_url": "https://cetcell.mahacet.org/",
+      "details_url": "https://cetcell.mahacet.org/",
+      "notes": "GNM admission appears as a separate admission route on the Maharashtra CAP page; do not automatically label it as MH-Nursing CET.",
+      "source_urls": [
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "mh-dpn-phn-cet-2026",
+      "name": "MH-DPN/PHN CET",
+      "short_name": "DPN/PHN CET",
+      "category_id": "medical-health",
+      "exam_level": "Diploma / PG Diploma",
+      "exam_type": "state_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "Diploma in Psychiatric Nursing",
+        "Public Health Nursing"
+      ],
+      "conducting_authority": "State Common Entrance Test Cell, Maharashtra",
+      "eligibility_summary": "Relevant nursing qualification/registration and work experience requirements as prescribed in brochure.",
+      "application": {
+        "start_date": "2026-01-24",
+        "initial_end_date": null,
+        "final_end_date": "2026-04-04",
+        "display_start": "2026-01-24",
+        "display_end": "2026-04-04"
+      },
+      "examination": {
+        "start_date": "2026-05-05",
+        "end_date": "2026-05-05",
+        "display_date": "2026-05-05",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "closed",
+      "notification_pdf_url": "https://cetcell.mahacet.org/cet-3/",
+      "apply_url": "https://portal-2026.maharashtracet.org/",
+      "cap_url": "https://medical2026.mahacet.org/",
+      "official_website_url": "https://cetcell.mahacet.org/",
+      "details_url": "https://cetcell.mahacet.org/",
+      "notes": "Use the current DPN/PHN brochure for exact eligible nursing qualification and registration conditions.",
+      "source_urls": [
+        "https://cetcell.mahacet.org/cet-3/",
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "mh-nursing-cet-2026",
+      "name": "MH-Nursing CET",
+      "short_name": "MH Nursing CET",
+      "category_id": "medical-health",
+      "exam_level": "UG",
+      "exam_type": "state_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "B.Sc. Nursing and other notified nursing courses"
+      ],
+      "conducting_authority": "State Common Entrance Test Cell, Maharashtra",
+      "eligibility_summary": "12वीं with required science subjects and marks; Nursing Council and CET brochure conditions apply.",
+      "application": {
+        "start_date": "2026-01-24",
+        "initial_end_date": null,
+        "final_end_date": "2026-04-04",
+        "display_start": "2026-01-24",
+        "display_end": "2026-04-04"
+      },
+      "examination": {
+        "start_date": "2026-05-06",
+        "end_date": "2026-05-07",
+        "display_date": "2026-05-06 to 2026-05-07",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "closed",
+      "notification_pdf_url": "https://cetcell.mahacet.org/cet-3/",
+      "apply_url": "https://portal-2026.maharashtracet.org/",
+      "cap_url": "https://medical2026.mahacet.org/",
+      "official_website_url": "https://cetcell.mahacet.org/",
+      "details_url": "https://cetcell.mahacet.org/",
+      "notes": "Maharashtra nursing admission/CAP portal is separate from exam registration.",
+      "source_urls": [
+        "https://cetcell.mahacet.org/cet-3/",
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "neet-pg-2026",
+      "name": "NEET-PG",
+      "short_name": "NEET-PG",
+      "category_id": "medical-health",
+      "exam_level": "PG",
+      "exam_type": "national_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "MD",
+        "MS",
+        "PG Diploma"
+      ],
+      "conducting_authority": "National Board of Examinations in Medical Sciences (NBEMS)",
+      "eligibility_summary": "MBBS degree, internship and medical registration conditions as per NBEMS bulletin.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": null,
+        "display_start": "See official notice",
+        "display_end": "See official notice"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "See official schedule",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "date_awaited",
+      "notification_pdf_url": "https://natboard.edu.in/",
+      "apply_url": "https://natboard.edu.in/",
+      "cap_url": "https://medical2026.mahacet.org/",
+      "official_website_url": "https://natboard.edu.in/",
+      "details_url": "https://natboard.edu.in/",
+      "notes": "NEET-PG exam and Maharashtra state counselling are separate. Use NBEMS for exam notices and CET Cell for state counselling.",
+      "source_urls": [
+        "https://natboard.edu.in/",
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "neet-pgd-2026",
+      "name": "NEET-PGD",
+      "short_name": "NEET-PGD",
+      "category_id": "medical-health",
+      "exam_level": "PG",
+      "exam_type": "national_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "Notified postgraduate diploma medical courses"
+      ],
+      "conducting_authority": "National Board of Examinations in Medical Sciences",
+      "eligibility_summary": "Relevant primary medical qualification and other criteria as per current NBEMS bulletin.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": null,
+        "display_start": "See official notice",
+        "display_end": "See official notice"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "See official schedule",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "date_awaited",
+      "notification_pdf_url": "https://natboard.edu.in/",
+      "apply_url": "https://natboard.edu.in/",
+      "cap_url": "https://medical2026.mahacet.org/",
+      "official_website_url": "https://natboard.edu.in/",
+      "details_url": "https://natboard.edu.in/",
+      "notes": "Use current year bulletin; course availability and application route are notification-specific.",
+      "source_urls": [
+        "https://natboard.edu.in/",
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "neet-ug-2026",
+      "name": "National Eligibility-cum-Entrance Test (UG)",
+      "short_name": "NEET-UG",
+      "category_id": "medical-health",
+      "exam_level": "UG",
+      "exam_type": "national_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "MBBS",
+        "BDS",
+        "BAMS",
+        "BHMS",
+        "BUMS",
+        "BSMS",
+        "BVSc & AH and other notified programmes"
+      ],
+      "conducting_authority": "National Testing Agency (NTA)",
+      "eligibility_summary": "12वीं with prescribed Physics, Chemistry, Biology/Biotechnology and English subjects; age and marks conditions per current bulletin.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": null,
+        "display_start": "See official notice",
+        "display_end": "See official notice"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "See official schedule",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "closed",
+      "notification_pdf_url": "https://exams.nta.ac.in/NEET/",
+      "apply_url": "https://exams.nta.ac.in/NEET/",
+      "cap_url": "https://medical2026.mahacet.org/",
+      "official_website_url": "https://exams.nta.ac.in/NEET/",
+      "details_url": "https://exams.nta.ac.in/NEET/",
+      "notes": "NEET-UG is national exam; Maharashtra state quota and related CAP counselling are separate.",
+      "source_urls": [
+        "https://exams.nta.ac.in/NEET/",
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "pgp-pgo-slp-audio-po-cet-2026",
+      "name": "PGP/PGO/M.Sc.(SLP)/M.Sc.(Audio)/M.Sc.(P&O) CET",
+      "short_name": "Allied Health PG CET",
+      "category_id": "medical-health",
+      "exam_level": "PG",
+      "exam_type": "state_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "Postgraduate Physiotherapy",
+        "Postgraduate Occupational Therapy",
+        "M.Sc. Speech Language Pathology",
+        "M.Sc. Audiology",
+        "M.Sc. Prosthetics & Orthotics"
+      ],
+      "conducting_authority": "State Common Entrance Test Cell, Maharashtra",
+      "eligibility_summary": "Relevant bachelor degree in the respective profession; registration/internship and subject-specific conditions as per 2026-27 brochure.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": null,
+        "display_start": "See official notice",
+        "display_end": "See official notice"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "See official schedule",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "notice_published_dates_to_confirm",
+      "notification_pdf_url": "https://cetcell.mahacet.org/cet-3/",
+      "apply_url": "https://portal-2026.maharashtracet.org/",
+      "cap_url": "https://medical2026.mahacet.org/",
+      "official_website_url": "https://cetcell.mahacet.org/",
+      "details_url": "https://cetcell.mahacet.org/",
+      "notes": "2026-27 brochure published 6 October 2026. Exact application start/end and exam dates must be copied from the current notice/portal before displaying.",
+      "source_urls": [
+        "https://cetcell.mahacet.org/cet-3/",
+        "https://cetcell.mahacet.org/notices/",
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "barch-nata-jee-paper2",
+      "name": "B.Arch Admission (NATA / JEE Main Paper 2)",
+      "short_name": "B.Arch",
+      "category_id": "engineering-architecture",
+      "exam_level": "UG",
+      "exam_type": "admission_route",
+      "academic_year": "2026-27",
+      "courses": [
+        "Bachelor of Architecture"
+      ],
+      "conducting_authority": "Council of Architecture / NTA; Maharashtra CAP by State CET Cell",
+      "eligibility_summary": "12वीं with prescribed subject combination/Mathematics or eligible 10+3 diploma; current Council of Architecture and CAP rules apply.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": null,
+        "display_start": "See official notice",
+        "display_end": "See official notice"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "See official schedule",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "date_awaited",
+      "notification_pdf_url": "https://cetcell.mahacet.org/cap-_2026-27/",
+      "apply_url": "https://www.nata.in/",
+      "cap_url": "https://arch2026.mahacet.org.in/",
+      "official_website_url": "https://coa.gov.in/",
+      "details_url": "https://coa.gov.in/",
+      "notes": "There is no separate MAH-B.Arch CET listed in the 2026-27 CET brochure index. Do not label NATA as a Maharashtra CET.",
+      "source_urls": [
+        "https://cetcell.mahacet.org/cap-_2026-27/",
+        "https://www.nata.in/",
+        "https://coa.gov.in/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "bplanning-admission",
+      "name": "B.Planning Admission",
+      "short_name": "B.Planning",
+      "category_id": "engineering-architecture",
+      "exam_level": "UG",
+      "exam_type": "admission_route",
+      "academic_year": "2026-27",
+      "courses": [
+        "Bachelor of Planning"
+      ],
+      "conducting_authority": "State CET Cell / relevant national testing authority",
+      "eligibility_summary": "12वीं with prescribed subjects; accepted entrance score and subject conditions are defined in current brochure/CAP rules.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": null,
+        "display_start": "See official notice",
+        "display_end": "See official notice"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "See official schedule",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "date_awaited",
+      "notification_pdf_url": "https://cetcell.mahacet.org/cet-3/",
+      "apply_url": "https://portal-2026.maharashtracet.org/",
+      "cap_url": "https://bplanning2026.mahacet.org/",
+      "official_website_url": "https://cetcell.mahacet.org/",
+      "details_url": "https://cetcell.mahacet.org/",
+      "notes": "Use the B.Planning CAP portal and confirm qualifying examination/score from the current brochure.",
+      "source_urls": [
+        "https://cetcell.mahacet.org/cap-_2026-27/",
+        "https://cetcell.mahacet.org/cet-3/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "jee-main-2027",
+      "name": "Joint Entrance Examination (Main)",
+      "short_name": "JEE Main",
+      "category_id": "engineering-architecture",
+      "exam_level": "National UG",
+      "exam_type": "national_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "B.E./B.Tech",
+        "B.Arch Paper 2A",
+        "B.Planning Paper 2B"
+      ],
+      "conducting_authority": "National Testing Agency (NTA)",
+      "eligibility_summary": "12वीं/equivalent and subject/attempt eligibility as per current JEE Main bulletin; institute eligibility may differ.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": null,
+        "display_start": "See official notice",
+        "display_end": "See official notice"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "See official schedule",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "date_awaited",
+      "notification_pdf_url": "https://jeemain.nta.nic.in/",
+      "apply_url": "https://jeemain.nta.nic.in/",
+      "cap_url": "https://jeemain.nta.nic.in/",
+      "official_website_url": "https://jeemain.nta.nic.in/",
+      "details_url": "https://jeemain.nta.nic.in/",
+      "notes": "For Maharashtra admissions, check the current CAP brochure for accepted score and seat-category rules.",
+      "source_urls": [
+        "https://jeemain.nta.nic.in/",
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "nata-2027",
+      "name": "National Aptitude Test in Architecture",
+      "short_name": "NATA",
+      "category_id": "engineering-architecture",
+      "exam_level": "National UG",
+      "exam_type": "national_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "B.Arch"
+      ],
+      "conducting_authority": "Council of Architecture",
+      "eligibility_summary": "12वीं or eligible diploma route with prescribed subject and marks requirements under current CoA rules.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": null,
+        "display_start": "See official notice",
+        "display_end": "See official notice"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "See official schedule",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "date_awaited",
+      "notification_pdf_url": "https://www.nata.in/",
+      "apply_url": "https://www.nata.in/",
+      "cap_url": "https://www.nata.in/",
+      "official_website_url": "https://www.nata.in/",
+      "details_url": "https://www.nata.in/",
+      "notes": "NATA is national architecture aptitude test; Maharashtra B.Arch CAP is a separate admission step.",
+      "source_urls": [
+        "https://www.nata.in/",
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "clat-2027",
+      "name": "Common Law Admission Test",
+      "short_name": "CLAT",
+      "category_id": "law",
+      "exam_level": "National UG / PG",
+      "exam_type": "national_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "5-year integrated LL.B.",
+        "LL.M."
+      ],
+      "conducting_authority": "Consortium of National Law Universities",
+      "eligibility_summary": "UG: 12वीं; PG: LL.B. or equivalent. Minimum marks and eligibility as per CLAT 2027 notification.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": null,
+        "display_start": "See official notice",
+        "display_end": "See official notice"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "See official schedule",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "date_awaited",
+      "notification_pdf_url": "https://consortiumofnlus.ac.in/",
+      "apply_url": "https://consortiumofnlus.ac.in/",
+      "cap_url": "https://consortiumofnlus.ac.in/",
+      "official_website_url": "https://consortiumofnlus.ac.in/",
+      "details_url": "https://consortiumofnlus.ac.in/",
+      "notes": "Relevant to Maharashtra National Law Universities and other CLAT-accepting institutions; verify each university admission rules.",
+      "source_urls": [
+        "https://consortiumofnlus.ac.in/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "mah-llb-3-cet",
+      "name": "MAH-LLB 3 Years CET",
+      "short_name": "LLB 3 Years CET",
+      "category_id": "law",
+      "exam_level": "PG / Professional",
+      "exam_type": "state_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "Three-year LL.B."
+      ],
+      "conducting_authority": "State Common Entrance Test Cell, Maharashtra",
+      "eligibility_summary": "Recognised bachelor degree; general and reserved-category minimum marks as per current brochure.",
+      "application": {
+        "start_date": "2026-01-06",
+        "initial_end_date": null,
+        "final_end_date": "2026-02-28",
+        "display_start": "2026-01-06",
+        "display_end": "2026-02-28"
+      },
+      "examination": {
+        "start_date": "2026-04-01",
+        "end_date": "2026-04-02",
+        "display_date": "2026-04-01 to 2026-04-02",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "closed",
+      "notification_pdf_url": "https://cetcell.mahacet.org/cet-3/",
+      "apply_url": "https://portal-2026.maharashtracet.org/",
+      "cap_url": "https://llb3cap26.mahacet.org/",
+      "official_website_url": "https://cetcell.mahacet.org/",
+      "details_url": "https://cetcell.mahacet.org/",
+      "notes": "Separate 3-year LLB CAP after CET.",
+      "source_urls": [
+        "https://cetcell.mahacet.org/cet-3/",
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "mah-llb-5-cet",
+      "name": "MAH-LLB 5 Years CET",
+      "short_name": "LLB 5 Years CET",
+      "category_id": "law",
+      "exam_level": "UG / Integrated",
+      "exam_type": "state_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "Five-year integrated LL.B. programmes"
+      ],
+      "conducting_authority": "State Common Entrance Test Cell, Maharashtra",
+      "eligibility_summary": "12वीं or equivalent; minimum marks and category relaxations as per brochure.",
+      "application": {
+        "start_date": "2026-01-08",
+        "initial_end_date": null,
+        "final_end_date": "2026-03-31",
+        "display_start": "2026-01-08",
+        "display_end": "2026-03-31"
+      },
+      "examination": {
+        "start_date": "2026-05-08",
+        "end_date": "2026-05-08",
+        "display_date": "2026-05-08",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "closed",
+      "notification_pdf_url": "https://cetcell.mahacet.org/cet-3/",
+      "apply_url": "https://portal-2026.maharashtracet.org/",
+      "cap_url": "https://llb5cap26.mahacet.org/",
+      "official_website_url": "https://cetcell.mahacet.org/",
+      "details_url": "https://cetcell.mahacet.org/",
+      "notes": "Separate 5-year LLB CAP after CET.",
+      "source_urls": [
+        "https://cetcell.mahacet.org/cet-3/",
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "mah-bed-elct",
+      "name": "B.Ed ELCT (English Language Content Test)",
+      "short_name": "B.Ed ELCT",
+      "category_id": "teaching",
+      "exam_level": "UG / Professional",
+      "exam_type": "additional_test",
+      "academic_year": "2026-27",
+      "courses": [
+        "B.Ed admission for applicable English-medium/ELCT seats"
+      ],
+      "conducting_authority": "State Common Entrance Test Cell, Maharashtra",
+      "eligibility_summary": "B.Ed CET eligibility plus ELCT-specific conditions in current information brochure.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": "2026-02-27",
+        "display_start": "See official notice",
+        "display_end": "2026-02-27"
+      },
+      "examination": {
+        "start_date": "2026-03-27",
+        "end_date": "2026-03-29",
+        "display_date": "2026-03-27 to 2026-03-29",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "closed",
+      "notification_pdf_url": "https://cetcell.mahacet.org/cet-3/",
+      "apply_url": "https://portal-2026.maharashtracet.org/",
+      "cap_url": "https://bedcap26.mahacet.org/",
+      "official_website_url": "https://cetcell.mahacet.org/",
+      "details_url": "https://cetcell.mahacet.org/",
+      "notes": "ELCT is an additional test/component for applicable admissions; do not describe it as a separate degree programme.",
+      "source_urls": [
+        "https://cetcell.mahacet.org/cet-3/",
+        "https://bedcap26.mahacet.org/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "mah-bed-cet",
+      "name": "MAH-B.Ed CET",
+      "short_name": "B.Ed CET",
+      "category_id": "teaching",
+      "exam_level": "UG / Professional",
+      "exam_type": "state_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "Bachelor of Education"
+      ],
+      "conducting_authority": "State Common Entrance Test Cell, Maharashtra",
+      "eligibility_summary": "Bachelor degree and/or master degree with prescribed marks; subject/category rules as per brochure.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": "2026-02-27",
+        "display_start": "See official notice",
+        "display_end": "2026-02-27"
+      },
+      "examination": {
+        "start_date": "2026-03-27",
+        "end_date": "2026-03-29",
+        "display_date": "2026-03-27 to 2026-03-29",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "closed",
+      "notification_pdf_url": "https://cetcell.mahacet.org/cet-3/",
+      "apply_url": "https://portal-2026.maharashtracet.org/",
+      "cap_url": "https://bedcap26.mahacet.org/",
+      "official_website_url": "https://cetcell.mahacet.org/",
+      "details_url": "https://cetcell.mahacet.org/",
+      "notes": "2026 final application closing date recorded as 27 February; separate CAP registration was later.",
+      "source_urls": [
+        "https://cetcell.mahacet.org/cet-3/",
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "mah-bed-med-integrated-cet",
+      "name": "MAH-B.Ed-M.Ed Integrated CET",
+      "short_name": "B.Ed-M.Ed CET",
+      "category_id": "teaching",
+      "exam_level": "Integrated PG",
+      "exam_type": "state_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "Three-year integrated B.Ed-M.Ed"
+      ],
+      "conducting_authority": "State Common Entrance Test Cell, Maharashtra",
+      "eligibility_summary": "Relevant postgraduate degree and subject-specific eligibility as per official brochure.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": "2026-02-28",
+        "display_start": "See official notice",
+        "display_end": "2026-02-28"
+      },
+      "examination": {
+        "start_date": "2026-04-09",
+        "end_date": "2026-04-09",
+        "display_date": "2026-04-09",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "closed",
+      "notification_pdf_url": "https://cetcell.mahacet.org/cet-3/",
+      "apply_url": "https://portal-2026.maharashtracet.org/",
+      "cap_url": "https://bedmedcap26.mahacet.org/",
+      "official_website_url": "https://cetcell.mahacet.org/",
+      "details_url": "https://cetcell.mahacet.org/",
+      "notes": "Separate CAP portal: B.Ed-M.Ed Integrated.",
+      "source_urls": [
+        "https://cetcell.mahacet.org/cet-3/",
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "mah-bped-cet",
+      "name": "MAH-B.P.Ed CET",
+      "short_name": "B.P.Ed CET",
+      "category_id": "teaching",
+      "exam_level": "UG / Professional",
+      "exam_type": "state_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "Bachelor of Physical Education"
+      ],
+      "conducting_authority": "State Common Entrance Test Cell, Maharashtra",
+      "eligibility_summary": "Bachelor degree and physical education/sports-related eligibility as per brochure.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": "2026-02-28",
+        "display_start": "See official notice",
+        "display_end": "2026-02-28"
+      },
+      "examination": {
+        "start_date": "2026-04-04",
+        "end_date": "2026-04-07",
+        "display_date": "CET: 4 Apr 2026; Field Test: 5–7 Apr 2026",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "closed",
+      "notification_pdf_url": "https://cetcell.mahacet.org/cet-3/",
+      "apply_url": "https://portal-2026.maharashtracet.org/",
+      "cap_url": "https://bpedcap26.mahacet.org/",
+      "official_website_url": "https://cetcell.mahacet.org/",
+      "details_url": "https://cetcell.mahacet.org/",
+      "notes": "Includes practical/field-test stage; check current timetable and physical test requirements.",
+      "source_urls": [
+        "https://cetcell.mahacet.org/cet-3/",
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "mah-med-cet",
+      "name": "MAH-M.Ed CET",
+      "short_name": "M.Ed CET",
+      "category_id": "teaching",
+      "exam_level": "PG",
+      "exam_type": "state_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "Master of Education"
+      ],
+      "conducting_authority": "State Common Entrance Test Cell, Maharashtra",
+      "eligibility_summary": "B.Ed or equivalent recognised teacher education degree and marks as prescribed.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": "2026-02-27",
+        "display_start": "See official notice",
+        "display_end": "2026-02-27"
+      },
+      "examination": {
+        "start_date": "2026-03-25",
+        "end_date": "2026-03-25",
+        "display_date": "2026-03-25",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "closed",
+      "notification_pdf_url": "https://cetcell.mahacet.org/cet-3/",
+      "apply_url": "https://portal-2026.maharashtracet.org/",
+      "cap_url": "https://medcap26.mahacet.org/",
+      "official_website_url": "https://cetcell.mahacet.org/",
+      "details_url": "https://cetcell.mahacet.org/",
+      "notes": "2026 final application close 27 February; M.Ed CAP is separate.",
+      "source_urls": [
+        "https://cetcell.mahacet.org/cet-3/",
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "mah-mped-cet",
+      "name": "MAH-M.P.Ed CET",
+      "short_name": "M.P.Ed CET",
+      "category_id": "teaching",
+      "exam_level": "PG",
+      "exam_type": "state_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "Master of Physical Education"
+      ],
+      "conducting_authority": "State Common Entrance Test Cell, Maharashtra",
+      "eligibility_summary": "B.P.Ed or equivalent qualification and physical education eligibility as per brochure.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": "2026-02-27",
+        "display_start": "See official notice",
+        "display_end": "2026-02-27"
+      },
+      "examination": {
+        "start_date": "2026-03-24",
+        "end_date": "2026-03-24",
+        "display_date": "2026-03-24",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "closed",
+      "notification_pdf_url": "https://cetcell.mahacet.org/cet-3/",
+      "apply_url": "https://portal-2026.maharashtracet.org/",
+      "cap_url": "https://mpedcap26.mahacet.org/",
+      "official_website_url": "https://cetcell.mahacet.org/",
+      "details_url": "https://cetcell.mahacet.org/",
+      "notes": "2026 final application close 27 February; CAP portal is separate.",
+      "source_urls": [
+        "https://cetcell.mahacet.org/cet-3/",
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "mah-aac-cet",
+      "name": "MAH-AAC-CET",
+      "short_name": "AAC CET",
+      "category_id": "design-arts",
+      "exam_level": "UG",
+      "exam_type": "state_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "Applied Arts",
+        "Fine Arts / Crafts programmes as notified"
+      ],
+      "conducting_authority": "State Common Entrance Test Cell, Maharashtra",
+      "eligibility_summary": "12वीं या समकक्ष; course-specific practical/portfolio and eligibility rules brochure के अनुसार.",
+      "application": {
+        "start_date": "2026-01-29",
+        "initial_end_date": null,
+        "final_end_date": "2026-03-03",
+        "display_start": "2026-01-29",
+        "display_end": "2026-03-03"
+      },
+      "examination": {
+        "start_date": "2026-04-10",
+        "end_date": "2026-04-10",
+        "display_date": "2026-04-10",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "closed",
+      "notification_pdf_url": "https://cetcell.mahacet.org/cet-3/",
+      "apply_url": "https://portal-2026.maharashtracet.org/",
+      "cap_url": "https://fineart2026.mahacet.org/",
+      "official_website_url": "https://cetcell.mahacet.org/",
+      "details_url": "https://cetcell.mahacet.org/",
+      "notes": "2026 brochure published 29 January 2026.",
+      "source_urls": [
+        "https://cetcell.mahacet.org/cet-3/",
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "mah-bdesign-cet",
+      "name": "MAH-B.Design CET",
+      "short_name": "B.Design CET",
+      "category_id": "design-arts",
+      "exam_level": "UG",
+      "exam_type": "state_entrance",
+      "academic_year": "2026-27",
+      "courses": [
+        "Bachelor of Design (B.Des)"
+      ],
+      "conducting_authority": "State Common Entrance Test Cell, Maharashtra",
+      "eligibility_summary": "12वीं या समकक्ष; marks/stream conditions official information brochure के अनुसार.",
+      "application": {
+        "start_date": "2026-01-22",
+        "initial_end_date": null,
+        "final_end_date": "2026-02-27",
+        "display_start": "2026-01-22",
+        "display_end": "2026-02-27"
+      },
+      "examination": {
+        "start_date": "2026-04-05",
+        "end_date": "2026-04-05",
+        "display_date": "2026-04-05",
+        "mode": "See brochure"
+      },
+      "status_as_of_2026_10_30": "closed",
+      "notification_pdf_url": "https://cetcell.mahacet.org/cet-3/",
+      "apply_url": "https://portal-2026.maharashtracet.org/",
+      "cap_url": "https://bdesign2026.mahacet.org/",
+      "official_website_url": "https://cetcell.mahacet.org/",
+      "details_url": "https://cetcell.mahacet.org/",
+      "notes": "2026 brochure published 16 March 2026; confirm detailed eligibility and exam mode from brochure.",
+      "source_urls": [
+        "https://cetcell.mahacet.org/cet-3/",
+        "https://cetcell.mahacet.org/cap-_2026-27/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    },
+    {
+      "id": "agriculture-allied-cap",
+      "name": "Agriculture & Allied Admissions",
+      "short_name": "Agriculture CAP",
+      "category_id": "agriculture",
+      "exam_level": "UG",
+      "exam_type": "cap_admission_route",
+      "academic_year": "2026-27",
+      "courses": [
+        "B.Sc. (Hons.) Agriculture",
+        "B.Sc. (Hons.) Horticulture",
+        "B.Sc. (Hons.) Community Science",
+        "B.Sc. (Hons.) Agri-Business Management",
+        "B.Sc. (Hons.) Forestry",
+        "B.F.Sc.",
+        "B.Tech Agricultural Engineering",
+        "B.Tech Food Technology",
+        "B.Tech Biotechnology",
+        "Direct Second Year B.Sc. Agriculture"
+      ],
+      "conducting_authority": "Maharashtra State CET Cell / Agriculture admission authorities",
+      "eligibility_summary": "12वीं with eligible subjects/marks; qualifying exam route depends on programme and current agriculture admission brochure.",
+      "application": {
+        "start_date": null,
+        "initial_end_date": null,
+        "final_end_date": null,
+        "display_start": "See official notice",
+        "display_end": "See official notice"
+      },
+      "examination": {
+        "start_date": null,
+        "end_date": null,
+        "display_date": "See official schedule",
+        "mode": null
+      },
+      "status_as_of_2026_10_30": "cap_admission_route",
+      "notification_pdf_url": "https://cetcell.mahacet.org/cet-3/",
+      "apply_url": "https://agri2026.mahacet.org/",
+      "cap_url": "https://agri2026.mahacet.org/",
+      "official_website_url": "https://cetcell.mahacet.org/",
+      "details_url": "https://cetcell.mahacet.org/",
+      "notes": "Official CAP page lists Agriculture & Allied Courses and the course-wise admission portal. MHT-CET PCM/PCB subject group and eligibility differ by course; check brochure before generalising.",
+      "source_urls": [
+        "https://cetcell.mahacet.org/cap-_2026-27/",
+        "https://cetcell.mahacet.org/cet-3/"
+      ],
+      "last_verified_date": "2026-10-30",
+      "date_scope": "2026-27 cycle only; do not reuse as 2027-28 dates"
+    }
+  ],
+  "global_links": {
+    "cet_cell_home": "https://cetcell.mahacet.org/",
+    "cet_brochure_index": "https://cetcell.mahacet.org/cet-3/",
+    "cet_notices": "https://cetcell.mahacet.org/notices/",
+    "cet_exam_portal_2026": "https://portal-2026.maharashtracet.org/",
+    "cet_cap_directory_2026_27": "https://cetcell.mahacet.org/cap-_2026-27/"
+  }
+}
