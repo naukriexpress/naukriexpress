@@ -3,16 +3,16 @@
 import { useEffect, useState, type FormEvent } from "react";
 
 const EDUCATION_CATEGORIES = [
-  { value: "ug-entrance-exams", label: "UG Entrance Exams" },
-  { value: "pg-entrance-exams", label: "PG Entrance Exams" },
+  { value: "ug", label: "UG Entrance Exams" },
+  { value: "pg", label: "PG Entrance Exams" },
   { value: "mba-management", label: "MBA / Management" },
   { value: "phd-research", label: "PhD / Research" },
   { value: "medical-health", label: "Medical / Health" },
   { value: "engineering-architecture", label: "Engineering / Architecture" },
-  { value: "law-entrance-exams", label: "Law Entrance Exams" },
-  { value: "teaching-education", label: "Teaching / Education" },
+  { value: "law", label: "Law Entrance Exams" },
+  { value: "teaching", label: "Teaching / Education" },
   { value: "design-arts", label: "Design & Arts" },
-  { value: "agriculture", label: "Agriculture" },
+  { value: "agriculture", label: "Agriculture & Allied Admissions" },
 ] as const;
 
 type EducationItem = {
