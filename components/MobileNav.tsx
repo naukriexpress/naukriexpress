@@ -13,6 +13,7 @@ const NAV_LINKS = [
   { href: "/jobs?jobType=government", label: "Government Jobs" },
   { href: "/jobs?state=Maharashtra", label: "Maharashtra Jobs" },
   { href: "/apprentice", label: "Apprentice" },
+  { href: "/education", label: "Education" },
   { href: "/results", label: "Results" },
   { href: "/answer-key", label: "Answer Key" },
   { href: "/syllabus", label: "Syllabus" },
