@@ -1996,44 +1996,39 @@ html[data-theme="dark"] .highest-vacancy-countdown[data-tone="copper"] { --count
   }
 }
 
-/* Keep the original coloured outline and show countdown progress as a visible inner ring. */
-@property --countdown-progress {
-  syntax: "<percentage>";
-  inherits: true;
-  initial-value: 0%;
-}
-
+/* Smooth SVG ring: rounded ends meet cleanly when the countdown reaches 100%. */
 .highest-vacancy-countdown {
-  --countdown-track-color: #e2eaf3;
   border-color: var(--countdown-color);
-  transition:
-    --countdown-progress 280ms linear,
-    transform 180ms ease,
-    box-shadow 180ms ease;
 }
 
-.highest-vacancy-countdown::before {
-  content: "";
+.highest-vacancy-countdown-ring {
   position: absolute;
-  inset: 2px;
+  inset: 0;
   z-index: 0;
-  border-radius: inherit;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transform: rotate(-90deg);
   pointer-events: none;
-  background: conic-gradient(
-    from -90deg,
-    var(--countdown-color) var(--countdown-progress, 0%),
-    var(--countdown-track-color) 0
-  );
-  -webkit-mask: radial-gradient(
-    farthest-side,
-    transparent calc(100% - 6px),
-    #000 calc(100% - 5px)
-  );
-  mask: radial-gradient(
-    farthest-side,
-    transparent calc(100% - 6px),
-    #000 calc(100% - 5px)
-  );
+}
+
+.highest-vacancy-countdown-ring-track,
+.highest-vacancy-countdown-ring-progress {
+  fill: none;
+  stroke-width: 4;
+}
+
+.highest-vacancy-countdown-ring-track {
+  stroke: #e2eaf3;
+}
+
+.highest-vacancy-countdown-ring-progress {
+  stroke: var(--countdown-color);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke-dashoffset 280ms cubic-bezier(0.22, 0.8, 0.32, 1);
+  will-change: stroke-dashoffset;
 }
 
 .highest-vacancy-countdown > span {
@@ -2042,12 +2037,16 @@ html[data-theme="dark"] .highest-vacancy-countdown[data-tone="copper"] { --count
 }
 
 html[data-theme="dark"] .highest-vacancy-countdown {
-  --countdown-track-color: #34485e;
   border-color: var(--countdown-color);
 }
 
+html[data-theme="dark"] .highest-vacancy-countdown-ring-track {
+  stroke: #34485e;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .highest-vacancy-countdown {
+  .highest-vacancy-countdown-ring-progress {
     transition: none !important;
+    will-change: auto;
   }
 }
