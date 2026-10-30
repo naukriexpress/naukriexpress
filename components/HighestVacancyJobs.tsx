@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import type { CSSProperties } from "react";
 import Link from "next/link";
 import type { JobPosting } from "@/lib/types";
 import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
@@ -95,17 +94,34 @@ function AnimatedCountdownCircle({
 
   const finalDays = Math.min(displayedDays, daysLeft);
   const progress = daysLeft <= 0 ? 100 : (finalDays / daysLeft) * 100;
+  const circleRadius = 29;
+  const circleCircumference = 2 * Math.PI * circleRadius;
+  const strokeDashoffset = circleCircumference * (1 - progress / 100);
   const countdown = getCountdownCopy(daysLeft);
-  const progressStyle = { "--countdown-progress": `${progress}%` } as CSSProperties;
 
   return (
     <span
       className="highest-vacancy-countdown grid h-[68px] w-[68px] shrink-0 content-center justify-items-center rounded-full text-center"
       data-tone={tone}
-      style={progressStyle}
       aria-label={countdown.accessible}
       title={`Last date: ${lastDate}`}
     >
+      <svg className="highest-vacancy-countdown-ring" viewBox="0 0 68 68" aria-hidden="true">
+        <circle
+          className="highest-vacancy-countdown-ring-track"
+          cx="34"
+          cy="34"
+          r={circleRadius}
+        />
+        <circle
+          className="highest-vacancy-countdown-ring-progress"
+          cx="34"
+          cy="34"
+          r={circleRadius}
+          strokeDasharray={`${circleCircumference} ${circleCircumference}`}
+          strokeDashoffset={strokeDashoffset}
+        />
+      </svg>
       <span className={`highest-vacancy-countdown-value ${daysLeft === 0 ? "highest-vacancy-countdown-today" : ""}`}>
         {daysLeft === 0 ? countdown.value : (
           <span key={finalDays} className="highest-vacancy-countdown-slide">
