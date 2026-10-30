@@ -6,6 +6,7 @@ const NAV = [
   { href: "/admin/jobs", label: "Manage Jobs", icon: "🗂️" },
   { href: "/admin/jobs/new", label: "Add New Job", icon: "➕" },
   { href: "/admin/apprentice", label: "Manage Apprentice", icon: "🛠️" },
+  { href: "/admin/education", label: "Manage Education", icon: "🎓" },
   { href: "/admin/apprentice/new", label: "Add Apprentice", icon: "➕" },
   { href: "/admin/admit-card", label: "Manage Admit Card", icon: "📄" },
   { href: "/admin/ticker", label: "Manage Ticker", icon: "⚡" },
