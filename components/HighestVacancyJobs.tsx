@@ -84,7 +84,13 @@ function AnimatedCountdownNumber({ daysLeft }: { daysLeft: number }) {
     return () => window.clearInterval(interval);
   }, [daysLeft]);
 
-  return <>{Math.min(displayedDays, daysLeft)}</>;
+  const finalDays = Math.min(displayedDays, daysLeft);
+
+  return (
+    <span key={finalDays} className="highest-vacancy-countdown-flip">
+      {finalDays}
+    </span>
+  );
 }
 
 function VacancyButtonSkeleton() {
