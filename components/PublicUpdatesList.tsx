@@ -25,6 +25,7 @@ const CATEGORY_PRESENTATION: Record<SiteUpdateCategory, { icon: string; label: s
   "answer-key": { icon: "📝", label: "ANSWER KEY", tone: "update-card--violet", primaryAction: "View Answer Key" },
   syllabus: { icon: "📚", label: "SYLLABUS", tone: "update-card--teal", primaryAction: "View Syllabus / PDF" },
   scholarship: { icon: "🎓", label: "SCHOLARSHIP", tone: "update-card--amber", primaryAction: "Official Notification" },
+  education: { icon: "🎓", label: "EDUCATION", tone: "update-card--sky", primaryAction: "View Entrance Exam" },
 };
 
 function SkeletonCard() {
