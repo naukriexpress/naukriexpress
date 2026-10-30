@@ -28,6 +28,13 @@ type EducationItem = {
   exam_date: string | null;
   item_url: string | null;
   apply_url: string | null;
+  cap_url: string | null;
+  official_website_url: string | null;
+  application_start_display: string | null;
+  application_end_display: string | null;
+  exam_date_display: string | null;
+  academic_year: string | null;
+  status_as_of: string | null;
   is_new: boolean;
 };
 
@@ -46,9 +53,9 @@ function todayIndia() {
   return `${values.year}-${values.month}-${values.day}`;
 }
 
-function formatDate(value: string | null | undefined) {
+function formatDate(value: string | null | undefined, display?: string | null) {
   const date = dateOnly(value);
-  if (!date) return "To be announced";
+  if (!date) return display || "To be announced";
   const parsed = new Date(`${date}T00:00:00Z`);
   return new Intl.DateTimeFormat("en-IN", {
     day: "2-digit",
@@ -64,7 +71,23 @@ function getStatus(item: EducationItem) {
   const end = dateOnly(item.last_date);
   if (end && end < today) return { label: "Registration Closed", style: "bg-ink-900/5 text-ink-700" };
   if (start && start > today) return { label: "Upcoming", style: "bg-brand-50 text-brand-700" };
-  if (end && end >= today) return { label: "Registration Open", style: "bg-leaf-50 text-leaf-700" };
+  if (end && end >= today && (!start || start <= today)) return { label: "Registration Open", style: "bg-leaf-50 text-leaf-700" };
+
+  const statusMap: Record<string, { label: string; style: string }> = {
+    registration_open: { label: "Registration Open", style: "bg-leaf-50 text-leaf-700" },
+    exam_upcoming: { label: "Exam Upcoming", style: "bg-brand-50 text-brand-700" },
+    date_awaited: { label: "Dates Awaited", style: "bg-saffron-50 text-saffron-700" },
+    closed: { label: "Registration Closed", style: "bg-ink-900/5 text-ink-700" },
+    year_round: { label: "Year Round", style: "bg-leaf-50 text-leaf-700" },
+    university_schedule_required: { label: "University Schedule Required", style: "bg-saffron-50 text-saffron-700" },
+    university_admission_notice_published: { label: "Admission Notice Published", style: "bg-brand-50 text-brand-700" },
+    department_wise_notice: { label: "Department-wise Notice", style: "bg-saffron-50 text-saffron-700" },
+    see_board_notification: { label: "See Board Notification", style: "bg-saffron-50 text-saffron-700" },
+    see_official_admission_schedule: { label: "Admission Schedule Awaited", style: "bg-saffron-50 text-saffron-700" },
+    notice_published_dates_to_confirm: { label: "Notice Published – Dates to Confirm", style: "bg-saffron-50 text-saffron-700" },
+    cap_admission_route: { label: "CAP Admission Route", style: "bg-brand-50 text-brand-700" },
+  };
+  if (item.status_as_of && statusMap[item.status_as_of]) return statusMap[item.status_as_of];
   if (!start && !end) return { label: "Dates Awaited", style: "bg-saffron-50 text-saffron-700" };
   return { label: "Check Official Notice", style: "bg-saffron-50 text-saffron-700" };
 }
@@ -72,9 +95,11 @@ function getStatus(item: EducationItem) {
 export default function EducationDirectory({
   items,
   activeCategory,
+  categoryCounts,
 }: {
   items: EducationItem[];
   activeCategory: string;
+  categoryCounts: Record<string, number>;
 }) {
   const [search, setSearch] = useState("");
   const currentCategory = CATEGORIES.find((category) => category.slug === activeCategory);
@@ -153,6 +178,7 @@ export default function EducationDirectory({
                       </svg>
                     </span>
                     <span className="min-w-0 flex-1">{category.label}</span>
+                    <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold tabular-nums ${selected ? "bg-white text-brand-700" : "bg-paper text-ink-700/60"}`}>{categoryCounts[category.slug] || 0}</span>
                     <span className="text-ink-700/40 transition group-hover:translate-x-0.5 group-hover:text-brand-700" aria-hidden="true">›</span>
                   </Link>
                 );
@@ -207,6 +233,7 @@ export default function EducationDirectory({
                     <div className="flex flex-wrap gap-1.5">
                       {item.is_new && <span className="rounded-full bg-saffron-50 px-2.5 py-1 text-[11px] font-bold text-saffron-700">NEW ADDED</span>}
                       <span className={`rounded-full px-2.5 py-1 text-[11px] font-bold ${status.style}`}>{status.label}</span>
+                      {item.academic_year && <span className="rounded-full bg-ink-900/5 px-2.5 py-1 text-[11px] font-bold text-ink-700">{item.academic_year}</span>}
                     </div>
                   </div>
                   <h3 className="mt-3 font-display text-lg font-extrabold leading-snug text-ink-900">{item.title}</h3>
@@ -216,15 +243,15 @@ export default function EducationDirectory({
                   <div className="mt-4 grid grid-cols-2 gap-2 rounded-xl bg-paper p-3 sm:grid-cols-3">
                     <div>
                       <p className="text-[10px] font-bold uppercase tracking-wide text-ink-700/50">Start Date</p>
-                      <p className="mt-1 text-xs font-semibold text-ink-900">{formatDate(item.start_date)}</p>
+                      <p className="mt-1 text-xs font-semibold text-ink-900">{formatDate(item.start_date, item.application_start_display)}</p>
                     </div>
                     <div>
                       <p className="text-[10px] font-bold uppercase tracking-wide text-ink-700/50">Last Date</p>
-                      <p className="mt-1 text-xs font-semibold text-ink-900">{formatDate(item.last_date)}</p>
+                      <p className="mt-1 text-xs font-semibold text-ink-900">{formatDate(item.last_date, item.application_end_display)}</p>
                     </div>
                     <div className="col-span-2 sm:col-span-1">
                       <p className="text-[10px] font-bold uppercase tracking-wide text-ink-700/50">Exam Date</p>
-                      <p className="mt-1 text-xs font-semibold text-ink-900">{formatDate(item.exam_date)}</p>
+                      <p className="mt-1 text-xs font-semibold text-ink-900">{formatDate(item.exam_date, item.exam_date_display)}</p>
                     </div>
                   </div>
 
@@ -245,6 +272,16 @@ export default function EducationDirectory({
                     {item.apply_url && (
                       <a href={item.apply_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 rounded-lg bg-leaf-600 px-3 py-2 text-xs font-bold text-white transition hover:bg-leaf-700">
                         Apply Online <span aria-hidden="true">↗</span>
+                      </a>
+                    )}
+                    {item.cap_url && (
+                      <a href={item.cap_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 rounded-lg border border-saffron-400 bg-saffron-50 px-3 py-2 text-xs font-bold text-saffron-700 transition hover:bg-saffron-100">
+                        CAP / Admission <span aria-hidden="true">↗</span>
+                      </a>
+                    )}
+                    {item.official_website_url && (
+                      <a href={item.official_website_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 rounded-lg border border-ink-900/15 px-3 py-2 text-xs font-bold text-ink-700 transition hover:bg-paper">
+                        Official Website <span aria-hidden="true">↗</span>
                       </a>
                     )}
                   </div>
