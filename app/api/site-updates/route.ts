@@ -48,7 +48,23 @@ function dateField(value: unknown): string | null | undefined {
     : undefined;
 }
 
-function validEducationPayload(body: Record<string, unknown>) {
+type EducationPayload = {
+  title: string;
+  educationCategory: string;
+  organization: string | null;
+  description: string | null;
+  eligibility: string | null;
+  startDate: string | null;
+  lastDate: string | null;
+  examDate: string | null;
+  itemUrl: string | null;
+  applyUrl: string | null;
+  isNew: boolean;
+};
+
+function validEducationPayload(
+  body: Record<string, unknown>
+): { error: string; value?: never } | { error?: never; value: EducationPayload } {
   const title = typeof body.title === "string" ? body.title.trim() : "";
   const educationCategory = textField(body.education_category);
   const startDate = dateField(body.start_date);
@@ -172,7 +188,7 @@ export async function POST(request: Request) {
         publishDate,
         textField(body.amount),
         textField(body.eligibility),
-        category === "education" ? education.startDate && lastDate ? lastDate : education.startDate ? lastDate : lastDate : lastDate,
+        lastDate,
         textField(body.item_url),
         textField(body.objection_url),
         textField(body.apply_url),
