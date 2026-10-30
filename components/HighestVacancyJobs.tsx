@@ -51,6 +51,42 @@ function getCountdownCopy(daysLeft: number): { value: string; unit: string; acce
   return { value: String(daysLeft), unit: "Days", accessible: `${daysLeft} days remaining` };
 }
 
+/** Animate the countdown upward from 1 and stop on the actual days remaining. */
+function AnimatedCountdownNumber({ daysLeft }: { daysLeft: number }) {
+  const [displayedDays, setDisplayedDays] = useState(1);
+
+  useEffect(() => {
+    if (daysLeft <= 1) {
+      setDisplayedDays(1);
+      return;
+    }
+
+    // Respect visitors who prefer reduced motion.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setDisplayedDays(daysLeft);
+      return;
+    }
+
+    let current = 1;
+    setDisplayedDays(1);
+
+    // Keep the full count-up quick even when a deadline is far away.
+    const stepDelay = Math.max(10, Math.min(220, Math.floor(1000 / (daysLeft - 1))));
+    const interval = window.setInterval(() => {
+      current += 1;
+      setDisplayedDays(current);
+
+      if (current >= daysLeft) {
+        window.clearInterval(interval);
+      }
+    }, stepDelay);
+
+    return () => window.clearInterval(interval);
+  }, [daysLeft]);
+
+  return <>{Math.min(displayedDays, daysLeft)}</>;
+}
+
 function VacancyButtonSkeleton() {
   return (
     <div
@@ -192,7 +228,7 @@ export default function HighestVacancyJobs() {
                       title={`Last date: ${job.dates.lastDate}`}
                     >
                       <span className={`highest-vacancy-countdown-value ${daysLeft === 0 ? "highest-vacancy-countdown-today" : ""}`}>
-                        {countdown.value}
+                        {daysLeft === 0 ? countdown.value : <AnimatedCountdownNumber daysLeft={daysLeft} />}
                       </span>
                       <span className="highest-vacancy-countdown-unit">{countdown.unit}</span>
                     </span>
