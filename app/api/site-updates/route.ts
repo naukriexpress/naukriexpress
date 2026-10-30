@@ -147,6 +147,13 @@ export async function POST(request: Request) {
     const category = typeof body.category === "string" ? body.category : "";
     const title = typeof body.title === "string" ? body.title.trim() : "";
 
+    if (category === "education") {
+      return NextResponse.json(
+        { error: "Education exam details GitHub dataset mein fixed hain. Admin se sirf dates aur links edit karein." },
+        { status: 403 }
+      );
+    }
+
     if (!SITE_UPDATE_CATEGORIES.includes(category as SiteUpdateCategory) || !title || title.length > 300) {
       return NextResponse.json({ error: "Valid category aur title zaroori hain" }, { status: 400 });
     }
@@ -257,55 +264,62 @@ export async function PUT(request: Request) {
 
   try {
     const id = new URL(request.url).searchParams.get("id");
-    if (!id || !/^\d+$/.test(id)) {
+    if (!id || !/^\\d+$/.test(id)) {
       return NextResponse.json({ error: "Valid ID zaroori hai" }, { status: 400 });
     }
 
     const body = await request.json() as Record<string, unknown>;
-    const validation = validEducationPayload(body);
-    if (validation.error || !validation.value) {
-      return NextResponse.json({ error: validation.error }, { status: 400 });
+    const startDate = dateField(body.start_date);
+    const lastDate = dateField(body.last_date);
+    if (startDate === undefined || lastDate === undefined) {
+      return NextResponse.json({ error: "Dates valid YYYY-MM-DD format mein honi chahiye" }, { status: 400 });
+    }
+    if (startDate && lastDate && startDate > lastDate) {
+      return NextResponse.json({ error: "Last date, start date ke baad honi chahiye" }, { status: 400 });
+    }
+
+    const urlFields = ["item_url", "apply_url", "cap_url", "official_website_url"] as const;
+    for (const field of urlFields) {
+      if (!validOptionalUrl(body[field])) {
+        return NextResponse.json({ error: `${field} mein valid HTTP/HTTPS link daalein` }, { status: 400 });
+      }
     }
 
     await ensurePublicContentTables();
     const pool = getPool();
-    const existing = await pool.query(
-      "SELECT id FROM site_updates WHERE id = $1 AND category = 'education'",
-      [id]
-    );
-    if (existing.rowCount === 0) {
-      return NextResponse.json({ error: "Education exam nahi mila" }, { status: 404 });
-    }
-
-    const item = validation.value;
     const result = await pool.query(
       `UPDATE site_updates SET
-        title = $1, education_category = $2, organization = $3,
-        description = $4, eligibility = $5, start_date = $6,
-        last_date = $7, exam_date = $8, item_url = $9,
-        apply_url = $10, is_new = $11, cap_url = $12,
-        official_website_url = $13, application_start_display = $14,
-        application_end_display = $15, exam_date_display = $16,
-        academic_year = $17, status_as_of = $18
-       WHERE id = $19 AND category = 'education'
+        start_date = $1,
+        last_date = $2,
+        item_url = $3,
+        apply_url = $4,
+        cap_url = $5,
+        official_website_url = $6
+       WHERE id = $7 AND category = 'education'
        RETURNING *`,
       [
-        item.title, item.educationCategory, item.organization, item.description,
-        item.eligibility, item.startDate, item.lastDate, item.examDate,
-        item.itemUrl, item.applyUrl, item.isNew, item.capUrl,
-        item.officialWebsiteUrl, item.applicationStartDisplay,
-        item.applicationEndDisplay, item.examDateDisplay,
-        item.academicYear, item.statusAsOf, id,
+        startDate,
+        lastDate,
+        textField(body.item_url),
+        textField(body.apply_url),
+        textField(body.cap_url),
+        textField(body.official_website_url),
+        id,
       ]
     );
 
+    if (result.rowCount === 0) {
+      return NextResponse.json({ error: "Education exam nahi mila" }, { status: 404 });
+    }
+
     revalidateTag("site-updates");
+    revalidateTag("education-overrides");
     revalidatePath("/education");
     revalidatePath("/api/site-updates");
     return NextResponse.json({ update: result.rows[0] });
   } catch (error) {
     console.error("Site updates PUT error:", error);
-    return NextResponse.json({ error: "Education exam update nahi hua" }, { status: 500 });
+    return NextResponse.json({ error: "Education dates / links update nahi hue" }, { status: 500 });
   }
 }
 
@@ -329,6 +343,12 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: "Update nahi mila" }, { status: 404 });
     }
     const category = existing.rows[0].category as SiteUpdateCategory;
+    if (category === "education") {
+      return NextResponse.json(
+        { error: "Education exam records GitHub dataset mein fixed hain; admin se delete nahi kiye ja sakte." },
+        { status: 403 }
+      );
+    }
     const result = await pool.query(
       "DELETE FROM site_updates WHERE id = $1 RETURNING id",
       [id]
