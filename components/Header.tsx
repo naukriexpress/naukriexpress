@@ -12,6 +12,7 @@ const NAV_LINKS = [
   { href: "/jobs?jobType=government", label: "Government Jobs" },
   { href: "/jobs?state=Maharashtra", label: "Maharashtra Jobs" },
   { href: "/apprentice", label: "Apprentice" },
+  { href: "/education", label: "Education" },
   { href: "/admit-card", label: "Admit Card" },
   { href: "/results", label: "Results" },
   { href: "/answer-key", label: "Answer Key" },
@@ -49,6 +50,18 @@ export default function Header() {
         <div className="hidden shrink-0 items-center gap-2 lg:flex">
           <ThemeToggle />
           <Link
+            href="/education"
+            aria-label="Education"
+            title="Education"
+            className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-saffron-600 bg-saffron-500 px-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-saffron-600"
+          >
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="m2.5 9 9.5-5 9.5 5-9.5 5-9.5-5Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+              <path d="M6 11v5.2c3.2 2.6 8.8 2.6 12 0V11M21.5 9v6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <span>Education</span>
+          </Link>
+          <Link
             href="/jobs"
             className="hidden rounded-lg bg-saffron-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-saffron-600 2xl:inline-flex"
           >
@@ -60,6 +73,18 @@ export default function Header() {
           <div className="lg:hidden">
             <ThemeToggle compact />
           </div>
+          <Link
+            href="/education"
+            aria-label="Education"
+            title="Education"
+            className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-lg border border-saffron-600 bg-saffron-500 px-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-saffron-600 sm:px-3"
+          >
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="m2.5 9 9.5-5 9.5 5-9.5 5-9.5-5Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+              <path d="M6 11v5.2c3.2 2.6 8.8 2.6 12 0V11M21.5 9v6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <span className="hidden sm:inline">Education</span>
+          </Link>
           <Suspense fallback={<div className="h-10 w-10 rounded-lg border border-ink-900/15 bg-white" aria-hidden="true" />}>
             <MobileNav states={[]} />
           </Suspense>
