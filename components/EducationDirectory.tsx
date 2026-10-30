@@ -4,16 +4,16 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 
 const CATEGORIES = [
-  { slug: "ug-entrance-exams", label: "UG Entrance Exams" },
-  { slug: "pg-entrance-exams", label: "PG Entrance Exams" },
+  { slug: "ug", label: "UG Entrance Exams" },
+  { slug: "pg", label: "PG Entrance Exams" },
   { slug: "mba-management", label: "MBA / Management" },
   { slug: "phd-research", label: "PhD / Research" },
   { slug: "medical-health", label: "Medical / Health" },
   { slug: "engineering-architecture", label: "Engineering / Architecture" },
-  { slug: "law-entrance-exams", label: "Law Entrance Exams" },
-  { slug: "teaching-education", label: "Teaching / Education" },
+  { slug: "law", label: "Law Entrance Exams" },
+  { slug: "teaching", label: "Teaching / Education" },
   { slug: "design-arts", label: "Design & Arts" },
-  { slug: "agriculture", label: "Agriculture" },
+  { slug: "agriculture", label: "Agriculture & Allied Admissions" },
 ] as const;
 
 type EducationItem = {
