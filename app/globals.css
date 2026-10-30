@@ -1995,3 +1995,42 @@ html[data-theme="dark"] .highest-vacancy-countdown[data-tone="copper"] { --count
     transform: none;
   }
 }
+
+/* Fill the Highest Vacancy countdown ring in sync with its animated number. */
+@property --countdown-progress {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+
+.highest-vacancy-countdown {
+  --countdown-track-color: #d9e3ee;
+  border-color: var(--countdown-track-color);
+  background:
+    radial-gradient(circle, #ffffff 0 72%, transparent 73%),
+    conic-gradient(
+      var(--countdown-color) var(--countdown-progress, 0%),
+      var(--countdown-track-color) 0
+    ) !important;
+  transition:
+    --countdown-progress 450ms linear,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+html[data-theme="dark"] .highest-vacancy-countdown {
+  --countdown-track-color: #34485e;
+  border-color: var(--countdown-track-color);
+  background:
+    radial-gradient(circle, #0f1c2c 0 72%, transparent 73%),
+    conic-gradient(
+      var(--countdown-color) var(--countdown-progress, 0%),
+      var(--countdown-track-color) 0
+    ) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .highest-vacancy-countdown {
+    transition: none !important;
+  }
+}
