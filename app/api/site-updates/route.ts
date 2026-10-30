@@ -12,14 +12,14 @@ import {
 export const dynamic = "force-dynamic";
 
 const EDUCATION_CATEGORIES = [
-  "ug-entrance-exams",
-  "pg-entrance-exams",
+  "ug",
+  "pg",
   "mba-management",
   "phd-research",
   "medical-health",
   "engineering-architecture",
-  "law-entrance-exams",
-  "teaching-education",
+  "law",
+  "teaching",
   "design-arts",
   "agriculture",
 ] as const;
