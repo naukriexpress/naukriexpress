@@ -25,6 +25,11 @@ type EducationItem = {
   start_date: string | null;
   last_date: string | null;
   exam_date: string | null;
+  application_start_display: string | null;
+  application_end_display: string | null;
+  exam_date_display: string | null;
+  academic_year: string | null;
+  status_as_of: string | null;
   item_url: string | null;
   apply_url: string | null;
   cap_url: string | null;
