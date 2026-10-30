@@ -108,7 +108,7 @@ function AnimatedCountdownCircle({
     >
       <span className={`highest-vacancy-countdown-value ${daysLeft === 0 ? "highest-vacancy-countdown-today" : ""}`}>
         {daysLeft === 0 ? countdown.value : (
-          <span key={finalDays} className="highest-vacancy-countdown-flip">
+          <span key={finalDays} className="highest-vacancy-countdown-slide">
             {finalDays}
           </span>
         )}
