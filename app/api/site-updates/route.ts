@@ -59,6 +59,13 @@ type EducationPayload = {
   examDate: string | null;
   itemUrl: string | null;
   applyUrl: string | null;
+  capUrl: string | null;
+  officialWebsiteUrl: string | null;
+  applicationStartDisplay: string | null;
+  applicationEndDisplay: string | null;
+  examDateDisplay: string | null;
+  academicYear: string | null;
+  statusAsOf: string | null;
   isNew: boolean;
 };
 
@@ -81,7 +88,7 @@ function validEducationPayload(
   if (startDate && lastDate && startDate > lastDate) {
     return { error: "Application end date, start date ke baad honi chahiye" };
   }
-  for (const field of ["item_url", "apply_url"] as const) {
+  for (const field of ["item_url", "apply_url", "cap_url", "official_website_url"] as const) {
     if (!validOptionalUrl(body[field])) {
       return { error: `${field} mein valid HTTP/HTTPS link daalein` };
     }
@@ -98,6 +105,13 @@ function validEducationPayload(
       examDate,
       itemUrl: textField(body.item_url),
       applyUrl: textField(body.apply_url),
+      capUrl: textField(body.cap_url),
+      officialWebsiteUrl: textField(body.official_website_url),
+      applicationStartDisplay: textField(body.application_start_display),
+      applicationEndDisplay: textField(body.application_end_display),
+      examDateDisplay: textField(body.exam_date_display),
+      academicYear: textField(body.academic_year),
+      statusAsOf: textField(body.status_as_of),
       isNew: body.is_new === true,
     },
   };
@@ -137,7 +151,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Valid category aur title zaroori hain" }, { status: 400 });
     }
 
-    const urlFields = ["item_url", "objection_url", "apply_url"] as const;
+    const urlFields = ["item_url", "objection_url", "apply_url", "cap_url", "official_website_url"] as const;
     for (const field of urlFields) {
       if (!validOptionalUrl(body[field])) {
         return NextResponse.json({ error: `${field} mein valid HTTP/HTTPS link daalein` }, { status: 400 });
@@ -155,6 +169,13 @@ export async function POST(request: Request) {
       startDate: null as string | null,
       examDate: null as string | null,
       isNew: false,
+      capUrl: null as string | null,
+      officialWebsiteUrl: null as string | null,
+      applicationStartDisplay: null as string | null,
+      applicationEndDisplay: null as string | null,
+      examDateDisplay: null as string | null,
+      academicYear: null as string | null,
+      statusAsOf: null as string | null,
     };
     if (category === "education") {
       const validation = validEducationPayload(body);
@@ -166,6 +187,13 @@ export async function POST(request: Request) {
         startDate: validation.value.startDate,
         examDate: validation.value.examDate,
         isNew: validation.value.isNew,
+        capUrl: validation.value.capUrl,
+        officialWebsiteUrl: validation.value.officialWebsiteUrl,
+        applicationStartDisplay: validation.value.applicationStartDisplay,
+        applicationEndDisplay: validation.value.applicationEndDisplay,
+        examDateDisplay: validation.value.examDateDisplay,
+        academicYear: validation.value.academicYear,
+        statusAsOf: validation.value.statusAsOf,
       };
     }
 
@@ -176,9 +204,12 @@ export async function POST(request: Request) {
         category, title, organization, description,
         publish_date, amount, eligibility, last_date,
         item_url, objection_url, apply_url,
-        education_category, start_date, exam_date, is_new
+        education_category, start_date, exam_date, is_new,
+        cap_url, official_website_url, application_start_display,
+        application_end_display, exam_date_display, academic_year, status_as_of
       ) VALUES (
-        $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15
+        $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15,
+        $16, $17, $18, $19, $20, $21, $22
       ) RETURNING *`,
       [
         category,
@@ -196,6 +227,13 @@ export async function POST(request: Request) {
         category === "education" ? education.startDate : null,
         education.examDate,
         education.isNew,
+        education.capUrl,
+        education.officialWebsiteUrl,
+        education.applicationStartDisplay,
+        education.applicationEndDisplay,
+        education.examDateDisplay,
+        education.academicYear,
+        education.statusAsOf,
       ]
     );
 
@@ -245,13 +283,19 @@ export async function PUT(request: Request) {
         title = $1, education_category = $2, organization = $3,
         description = $4, eligibility = $5, start_date = $6,
         last_date = $7, exam_date = $8, item_url = $9,
-        apply_url = $10, is_new = $11
-       WHERE id = $12 AND category = 'education'
+        apply_url = $10, is_new = $11, cap_url = $12,
+        official_website_url = $13, application_start_display = $14,
+        application_end_display = $15, exam_date_display = $16,
+        academic_year = $17, status_as_of = $18
+       WHERE id = $19 AND category = 'education'
        RETURNING *`,
       [
         item.title, item.educationCategory, item.organization, item.description,
         item.eligibility, item.startDate, item.lastDate, item.examDate,
-        item.itemUrl, item.applyUrl, item.isNew, id,
+        item.itemUrl, item.applyUrl, item.isNew, item.capUrl,
+        item.officialWebsiteUrl, item.applicationStartDisplay,
+        item.applicationEndDisplay, item.examDateDisplay,
+        item.academicYear, item.statusAsOf, id,
       ]
     );
 
