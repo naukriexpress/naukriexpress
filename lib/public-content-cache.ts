@@ -1,8 +1,7 @@
 import { unstable_cache } from "next/cache";
-import { gunzipSync } from "node:zlib";
 import { getPool } from "@/lib/pgClient";
 import type { PoolClient } from "pg";
-import { EDUCATION_SEED_GZIP_BASE64 } from "@/data/educationSeed";
+import educationDirectory from "@/data/educationDirectory.json";
 import admitCardLinksSnapshot from "@/data/admit-card-links.json";
 
 export const SITE_UPDATE_CATEGORIES = [
@@ -43,40 +42,7 @@ async function seedEducationDataset(client: PoolClient) {
   );
   if (existing.rowCount) return;
 
-  const dataset = JSON.parse(
-    gunzipSync(Buffer.from(EDUCATION_SEED_GZIP_BASE64, "base64")).toString("utf8")
-  ) as {
-    last_verified_date: string;
-    exams: Array<{
-      id: string;
-      name: string;
-      short_name: string;
-      category_id: string;
-      academic_year: string;
-      courses: string[];
-      exam_level: string;
-      exam_type: string;
-      conducting_authority: string;
-      eligibility_summary: string;
-      application: {
-        start_date: string | null;
-        initial_end_date: string | null;
-        final_end_date: string | null;
-        display_start: string;
-        display_end: string;
-      };
-      examination: {
-        start_date: string | null;
-        display_date: string;
-      };
-      status_as_of_2026_10_30: string;
-      notification_pdf_url: string | null;
-      apply_url: string | null;
-      cap_url: string | null;
-      official_website_url: string | null;
-      notes?: string;
-    }>;
-  };
+  const dataset = educationSeed;
 
   for (const exam of dataset.exams) {
     const applicationEnd = exam.application.final_end_date || exam.application.initial_end_date;
@@ -259,9 +225,7 @@ type EducationOverride = {
   official_website_url: string | null;
 };
 
-const educationSeed = JSON.parse(
-  gunzipSync(Buffer.from(EDUCATION_SEED_GZIP_BASE64, "base64")).toString("utf8")
-) as EducationSeed;
+const educationSeed = educationDirectory as EducationSeed;
 
 const cachedEducationOverrides = unstable_cache(
   async (): Promise<EducationOverride[]> => {
@@ -321,8 +285,12 @@ export async function getEducationDirectory(): Promise<SiteUpdateItem[]> {
       start_date: startDate,
       exam_date: exam.examination.start_date,
       is_new: false,
-      application_start_display: startDate || exam.application.display_start || null,
-      application_end_display: lastDate || exam.application.display_end || null,
+      application_start_display: override
+        ? startDate || "See official notice"
+        : startDate || exam.application.display_start || null,
+      application_end_display: override
+        ? lastDate || "See official notice"
+        : lastDate || exam.application.display_end || null,
       exam_date_display: exam.examination.display_date || null,
       academic_year: exam.academic_year,
       status_as_of: exam.status_as_of_2026_10_30,
