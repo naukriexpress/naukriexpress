@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import type { JobPosting } from "@/lib/types";
 import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
@@ -51,8 +52,16 @@ function getCountdownCopy(daysLeft: number): { value: string; unit: string; acce
   return { value: String(daysLeft), unit: "Days", accessible: `${daysLeft} days remaining` };
 }
 
-/** Animate the countdown upward from 1 and stop on the actual days remaining. */
-function AnimatedCountdownNumber({ daysLeft }: { daysLeft: number }) {
+/** Animate the number and circular progress ring together, stopping at the real deadline. */
+function AnimatedCountdownCircle({
+  daysLeft,
+  tone,
+  lastDate,
+}: {
+  daysLeft: number;
+  tone: (typeof CARD_TONES)[number];
+  lastDate: string;
+}) {
   const [displayedDays, setDisplayedDays] = useState(1);
 
   useEffect(() => {
@@ -70,7 +79,7 @@ function AnimatedCountdownNumber({ daysLeft }: { daysLeft: number }) {
     let current = 1;
     setDisplayedDays(1);
 
-    // Keep the full count-up quick even when a deadline is far away.
+    // Keep the number and ring moving together at the existing pace.
     const stepDelay = 450;
     const interval = window.setInterval(() => {
       current += 1;
@@ -85,10 +94,26 @@ function AnimatedCountdownNumber({ daysLeft }: { daysLeft: number }) {
   }, [daysLeft]);
 
   const finalDays = Math.min(displayedDays, daysLeft);
+  const progress = daysLeft <= 0 ? 100 : (finalDays / daysLeft) * 100;
+  const countdown = getCountdownCopy(daysLeft);
+  const progressStyle = { "--countdown-progress": `${progress}%` } as CSSProperties;
 
   return (
-    <span key={finalDays} className="highest-vacancy-countdown-flip">
-      {finalDays}
+    <span
+      className="highest-vacancy-countdown grid h-[68px] w-[68px] shrink-0 content-center justify-items-center rounded-full text-center"
+      data-tone={tone}
+      style={progressStyle}
+      aria-label={countdown.accessible}
+      title={`Last date: ${lastDate}`}
+    >
+      <span className={`highest-vacancy-countdown-value ${daysLeft === 0 ? "highest-vacancy-countdown-today" : ""}`}>
+        {daysLeft === 0 ? countdown.value : (
+          <span key={finalDays} className="highest-vacancy-countdown-flip">
+            {finalDays}
+          </span>
+        )}
+      </span>
+      <span className="highest-vacancy-countdown-unit">{countdown.unit}</span>
     </span>
   );
 }
@@ -227,17 +252,11 @@ export default function HighestVacancyJobs() {
                         {formatVacancies(vacancies)} Posts
                       </span>
                     </span>
-                    <span
-                      className="highest-vacancy-countdown grid h-[68px] w-[68px] shrink-0 content-center justify-items-center rounded-full text-center"
-                      data-tone={tone}
-                      aria-label={countdown.accessible}
-                      title={`Last date: ${job.dates.lastDate}`}
-                    >
-                      <span className={`highest-vacancy-countdown-value ${daysLeft === 0 ? "highest-vacancy-countdown-today" : ""}`}>
-                        {daysLeft === 0 ? countdown.value : <AnimatedCountdownNumber daysLeft={daysLeft} />}
-                      </span>
-                      <span className="highest-vacancy-countdown-unit">{countdown.unit}</span>
-                    </span>
+                    <AnimatedCountdownCircle
+                      daysLeft={daysLeft}
+                      tone={tone}
+                      lastDate={job.dates.lastDate}
+                    />
                   </Link>
                 );
               })
