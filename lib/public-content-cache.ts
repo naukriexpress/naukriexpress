@@ -1,6 +1,7 @@
 import { unstable_cache } from "next/cache";
 import { gunzipSync } from "node:zlib";
 import { getPool } from "@/lib/pgClient";
+import type { PoolClient } from "pg";
 import { EDUCATION_SEED_GZIP_BASE64 } from "@/data/educationSeed";
 import admitCardLinksSnapshot from "@/data/admit-card-links.json";
 
@@ -34,7 +35,7 @@ export type AdmitCardLink = { id: number; title: string; url: string };
 
 let contentTablesReady: Promise<void> | null = null;
 
-async function seedEducationDataset(client: Awaited<ReturnType<ReturnType<typeof getPool>["connect"]>>) {
+async function seedEducationDataset(client: PoolClient) {
   const version = "maharashtra-entrance-directory-2026-27-v1";
   const existing = await client.query(
     "SELECT version FROM education_dataset_imports WHERE version = $1",
