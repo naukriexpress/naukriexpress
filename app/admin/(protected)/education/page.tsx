@@ -34,11 +34,6 @@ type EducationItem = {
   apply_url: string | null;
   cap_url: string | null;
   official_website_url: string | null;
-  application_start_display: string | null;
-  application_end_display: string | null;
-  exam_date_display: string | null;
-  academic_year: string | null;
-  status_as_of: string | null;
   is_new: boolean;
 };
 
