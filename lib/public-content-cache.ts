@@ -7,6 +7,7 @@ export const SITE_UPDATE_CATEGORIES = [
   "answer-key",
   "syllabus",
   "scholarship",
+  "education",
 ] as const;
 
 export type SiteUpdateCategory = (typeof SITE_UPDATE_CATEGORIES)[number];
@@ -16,6 +17,8 @@ export type SiteUpdateItem = {
   publish_date: string | null; amount: string | null;
   eligibility: string | null; last_date: string | null;
   item_url: string | null; objection_url: string | null; apply_url: string | null;
+  education_category: string | null; start_date: string | null;
+  exam_date: string | null; is_new: boolean;
 };
 export type AdmitCardLink = { id: number; title: string; url: string };
 
@@ -25,23 +28,35 @@ let contentTablesReady: Promise<void> | null = null;
 export async function ensurePublicContentTables(): Promise<void> {
   if (!contentTablesReady) {
     const pool = getPool();
-    contentTablesReady = Promise.all([
-      pool.query(`
+    contentTablesReady = (async () => {
+      await pool.query(`
         CREATE TABLE IF NOT EXISTS site_updates (
           id BIGSERIAL PRIMARY KEY,
-          category TEXT NOT NULL CHECK (category IN ('results', 'answer-key', 'syllabus', 'scholarship')),
+          category TEXT NOT NULL,
           title TEXT NOT NULL, organization TEXT, description TEXT, publish_date DATE,
           amount TEXT, eligibility TEXT, last_date DATE, item_url TEXT,
           objection_url TEXT, apply_url TEXT, created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
         )
-      `),
-      pool.query(`
+      `);
+      // Extend the existing content store without disturbing Results, Syllabus,
+      // Answer Key or Scholarship records.
+      await pool.query(`
+        ALTER TABLE site_updates DROP CONSTRAINT IF EXISTS site_updates_category_check;
+        ALTER TABLE site_updates
+          ADD CONSTRAINT site_updates_category_check
+          CHECK (category IN ('results', 'answer-key', 'syllabus', 'scholarship', 'education'));
+        ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS education_category TEXT;
+        ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS start_date DATE;
+        ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS exam_date DATE;
+        ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS is_new BOOLEAN NOT NULL DEFAULT FALSE;
+      `);
+      await pool.query(`
         CREATE TABLE IF NOT EXISTS admit_card_links (
           id BIGSERIAL PRIMARY KEY, title TEXT NOT NULL, url TEXT NOT NULL,
           created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
         )
-      `),
-    ]).then(() => undefined).catch((error) => {
+      `);
+    })().catch((error) => {
       contentTablesReady = null;
       throw error;
     });
@@ -55,10 +70,12 @@ const cachedSiteUpdates = unstable_cache(
     const pool = getPool();
     const result = category === "all"
       ? await pool.query(`SELECT id, category, title, organization, description, publish_date,
-          amount, eligibility, last_date, item_url, objection_url, apply_url
+          amount, eligibility, last_date, item_url, objection_url, apply_url,
+          education_category, start_date, exam_date, is_new
           FROM site_updates ORDER BY created_at DESC`)
       : await pool.query(`SELECT id, category, title, organization, description, publish_date,
-          amount, eligibility, last_date, item_url, objection_url, apply_url
+          amount, eligibility, last_date, item_url, objection_url, apply_url,
+          education_category, start_date, exam_date, is_new
           FROM site_updates WHERE category = $1 ORDER BY created_at DESC`, [category]);
     return result.rows as SiteUpdateItem[];
   },
