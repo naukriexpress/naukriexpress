@@ -155,8 +155,8 @@ export async function ensurePublicContentTables(): Promise<void> {
           ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS academic_year TEXT;
           ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS status_as_of TEXT;
           ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS source_id TEXT;
-          CREATE UNIQUE INDEX IF NOT EXISTS site_updates_source_id_unique
-            ON site_updates(source_id) WHERE source_id IS NOT NULL;
+          CREATE UNIQUE INDEX IF NOT EXISTS site_updates_source_id_all_unique
+            ON site_updates(source_id);
         `);
         await client.query(`
           CREATE TABLE IF NOT EXISTS education_dataset_imports (
