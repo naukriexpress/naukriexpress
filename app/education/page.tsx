@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import EducationDirectory from "@/components/EducationDirectory";
-import { getPublicSiteUpdates } from "@/lib/public-content-cache";
+import { getEducationDirectory } from "@/lib/public-content-cache";
 
 export const metadata: Metadata = {
   title: "Education Entrance Exams & Admission Updates",
@@ -26,7 +26,7 @@ export default async function EducationPage({
 }: {
   searchParams: { category?: string };
 }) {
-  const allItems = await getPublicSiteUpdates("education");
+  const allItems = await getEducationDirectory();
   const requestedCategory = searchParams?.category || "all";
   const activeCategory = VALID_CATEGORIES.includes(requestedCategory)
     ? requestedCategory
