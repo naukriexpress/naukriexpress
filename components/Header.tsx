@@ -12,7 +12,6 @@ const NAV_LINKS = [
   { href: "/jobs?jobType=government", label: "Government Jobs" },
   { href: "/jobs?state=Maharashtra", label: "Maharashtra Jobs" },
   { href: "/apprentice", label: "Apprentice" },
-  { href: "/education", label: "Education" },
   { href: "/admit-card", label: "Admit Card" },
   { href: "/results", label: "Results" },
   { href: "/answer-key", label: "Answer Key" },
@@ -77,7 +76,7 @@ export default function Header() {
             href="/education"
             aria-label="Education"
             title="Education"
-            className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-lg border border-saffron-600 bg-saffron-500 px-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-saffron-600 sm:px-3"
+            className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-lg border border-saffron-600 bg-saffron-500 px-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-saffron-600 sm:px-3 lg:hidden"
           >
             <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="m2.5 9 9.5-5 9.5 5-9.5 5-9.5-5Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
