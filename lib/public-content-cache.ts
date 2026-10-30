@@ -26,6 +26,8 @@ export type SiteUpdateItem = {
   exam_date_display: string | null;
   academic_year: string | null;
   status_as_of: string | null;
+  cap_url: string | null;
+  official_website_url: string | null;
   source_id: string | null;
 };
 export type AdmitCardLink = { id: number; title: string; url: string };
@@ -69,6 +71,8 @@ async function seedEducationDataset(client: Awaited<ReturnType<ReturnType<typeof
       status_as_of_2026_10_30: string;
       notification_pdf_url: string | null;
       apply_url: string | null;
+      cap_url: string | null;
+      official_website_url: string | null;
       notes?: string;
     }>;
   };
@@ -89,10 +93,11 @@ async function seedEducationDataset(client: Awaited<ReturnType<ReturnType<typeof
         eligibility, last_date, item_url, apply_url,
         education_category, start_date, exam_date, is_new,
         application_start_display, application_end_display,
-        exam_date_display, academic_year, status_as_of, source_id
+        exam_date_display, academic_year, status_as_of, cap_url,
+        official_website_url, source_id
       ) VALUES (
         'education', $1, $2, $3, $4, $5, $6, $7, $8,
-        $9, $10, $11, FALSE, $12, $13, $14, $15, $16, $17
+        $9, $10, $11, FALSE, $12, $13, $14, $15, $16, $17, $18, $19
       ) ON CONFLICT (source_id) DO NOTHING`,
       [
         exam.name,
@@ -111,6 +116,8 @@ async function seedEducationDataset(client: Awaited<ReturnType<ReturnType<typeof
         exam.examination.display_date || null,
         exam.academic_year,
         exam.status_as_of_2026_10_30,
+        exam.cap_url,
+        exam.official_website_url,
         exam.id,
       ]
     );
@@ -154,6 +161,8 @@ export async function ensurePublicContentTables(): Promise<void> {
           ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS exam_date_display TEXT;
           ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS academic_year TEXT;
           ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS status_as_of TEXT;
+          ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS cap_url TEXT;
+          ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS official_website_url TEXT;
           ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS source_id TEXT;
           CREATE UNIQUE INDEX IF NOT EXISTS site_updates_source_id_all_unique
             ON site_updates(source_id);
@@ -194,7 +203,7 @@ const cachedSiteUpdates = unstable_cache(
       amount, eligibility, last_date, item_url, objection_url, apply_url,
       education_category, start_date, exam_date, is_new,
       application_start_display, application_end_display, exam_date_display,
-      academic_year, status_as_of, source_id`;
+      academic_year, status_as_of, cap_url, official_website_url, source_id`;
     const result = category === "all"
       ? await pool.query(`SELECT ${fields} FROM site_updates ORDER BY created_at DESC`)
       : await pool.query(`SELECT ${fields} FROM site_updates WHERE category = $1 ORDER BY created_at DESC`, [category]);
