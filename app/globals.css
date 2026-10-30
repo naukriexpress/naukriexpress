@@ -1631,7 +1631,7 @@ html[data-theme="dark"] .highest-vacancy-post-badge[data-tone="copper"] { backgr
   transform-origin: 50% 55%;
   transform-style: preserve-3d;
   backface-visibility: hidden;
-  animation: highest-vacancy-countdown-flip-in 380ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+  animation: highest-vacancy-countdown-flip-in 280ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
   will-change: transform, opacity;
 }
 
@@ -1996,37 +1996,54 @@ html[data-theme="dark"] .highest-vacancy-countdown[data-tone="copper"] { --count
   }
 }
 
-/* Fill the Highest Vacancy countdown ring in sync with its animated number. */
+/* Keep the original coloured outline and show countdown progress as a visible inner ring. */
 @property --countdown-progress {
   syntax: "<percentage>";
-  inherits: false;
+  inherits: true;
   initial-value: 0%;
 }
 
 .highest-vacancy-countdown {
-  --countdown-track-color: #d9e3ee;
-  border-color: var(--countdown-track-color);
-  background:
-    radial-gradient(circle, #ffffff 0 72%, transparent 73%),
-    conic-gradient(
-      var(--countdown-color) var(--countdown-progress, 0%),
-      var(--countdown-track-color) 0
-    ) !important;
+  --countdown-track-color: #e2eaf3;
+  border-color: var(--countdown-color);
   transition:
-    --countdown-progress 450ms linear,
+    --countdown-progress 280ms linear,
     transform 180ms ease,
     box-shadow 180ms ease;
 }
 
+.highest-vacancy-countdown::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: conic-gradient(
+    from -90deg,
+    var(--countdown-color) var(--countdown-progress, 0%),
+    var(--countdown-track-color) 0
+  );
+  -webkit-mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 6px),
+    #000 calc(100% - 5px)
+  );
+  mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 6px),
+    #000 calc(100% - 5px)
+  );
+}
+
+.highest-vacancy-countdown > span {
+  position: relative;
+  z-index: 1;
+}
+
 html[data-theme="dark"] .highest-vacancy-countdown {
   --countdown-track-color: #34485e;
-  border-color: var(--countdown-track-color);
-  background:
-    radial-gradient(circle, #0f1c2c 0 72%, transparent 73%),
-    conic-gradient(
-      var(--countdown-color) var(--countdown-progress, 0%),
-      var(--countdown-track-color) 0
-    ) !important;
+  border-color: var(--countdown-color);
 }
 
 @media (prefers-reduced-motion: reduce) {
