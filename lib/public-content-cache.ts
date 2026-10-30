@@ -1,5 +1,7 @@
 import { unstable_cache } from "next/cache";
+import { gunzipSync } from "node:zlib";
 import { getPool } from "@/lib/pgClient";
+import { EDUCATION_SEED_GZIP_BASE64 } from "@/data/educationSeed";
 import admitCardLinksSnapshot from "@/data/admit-card-links.json";
 
 export const SITE_UPDATE_CATEGORIES = [
@@ -19,43 +21,163 @@ export type SiteUpdateItem = {
   item_url: string | null; objection_url: string | null; apply_url: string | null;
   education_category: string | null; start_date: string | null;
   exam_date: string | null; is_new: boolean;
+  application_start_display: string | null;
+  application_end_display: string | null;
+  exam_date_display: string | null;
+  academic_year: string | null;
+  status_as_of: string | null;
+  source_id: string | null;
 };
 export type AdmitCardLink = { id: number; title: string; url: string };
 
 let contentTablesReady: Promise<void> | null = null;
 
-/** Initialize content tables once per warm server instance, not on each visitor request. */
+async function seedEducationDataset(client: Awaited<ReturnType<ReturnType<typeof getPool>["connect"]>>) {
+  const version = "maharashtra-entrance-directory-2026-27-v1";
+  const existing = await client.query(
+    "SELECT version FROM education_dataset_imports WHERE version = $1",
+    [version]
+  );
+  if (existing.rowCount) return;
+
+  const dataset = JSON.parse(
+    gunzipSync(Buffer.from(EDUCATION_SEED_GZIP_BASE64, "base64")).toString("utf8")
+  ) as {
+    last_verified_date: string;
+    exams: Array<{
+      id: string;
+      name: string;
+      short_name: string;
+      category_id: string;
+      academic_year: string;
+      courses: string[];
+      exam_level: string;
+      exam_type: string;
+      conducting_authority: string;
+      eligibility_summary: string;
+      application: {
+        start_date: string | null;
+        initial_end_date: string | null;
+        final_end_date: string | null;
+        display_start: string;
+        display_end: string;
+      };
+      examination: {
+        start_date: string | null;
+        display_date: string;
+      };
+      status_as_of_2026_10_30: string;
+      notification_pdf_url: string | null;
+      apply_url: string | null;
+      notes?: string;
+    }>;
+  };
+
+  for (const exam of dataset.exams) {
+    const applicationEnd = exam.application.final_end_date || exam.application.initial_end_date;
+    const description = [
+      `Short name: ${exam.short_name}`,
+      `Academic year: ${exam.academic_year}`,
+      exam.courses?.length ? `Courses: ${exam.courses.join(", ")}` : "",
+      `Exam level: ${exam.exam_level}; Type: ${exam.exam_type}`,
+      exam.notes || "",
+    ].filter(Boolean).join("\n");
+
+    await client.query(
+      `INSERT INTO site_updates (
+        category, title, organization, description, publish_date,
+        eligibility, last_date, item_url, apply_url,
+        education_category, start_date, exam_date, is_new,
+        application_start_display, application_end_display,
+        exam_date_display, academic_year, status_as_of, source_id
+      ) VALUES (
+        'education', $1, $2, $3, $4, $5, $6, $7, $8,
+        $9, $10, $11, FALSE, $12, $13, $14, $15, $16, $17
+      ) ON CONFLICT (source_id) DO NOTHING`,
+      [
+        exam.name,
+        exam.conducting_authority || null,
+        description || null,
+        dataset.last_verified_date,
+        exam.eligibility_summary || null,
+        applicationEnd,
+        exam.notification_pdf_url,
+        exam.apply_url,
+        exam.category_id,
+        exam.application.start_date,
+        exam.examination.start_date,
+        exam.application.display_start || null,
+        exam.application.display_end || null,
+        exam.examination.display_date || null,
+        exam.academic_year,
+        exam.status_as_of_2026_10_30,
+        exam.id,
+      ]
+    );
+  }
+
+  await client.query(
+    "INSERT INTO education_dataset_imports (version) VALUES ($1) ON CONFLICT (version) DO NOTHING",
+    [version]
+  );
+}
+
+/** Initialize content tables and import the supplied 2026-27 starter directory once. */
 export async function ensurePublicContentTables(): Promise<void> {
   if (!contentTablesReady) {
     const pool = getPool();
     contentTablesReady = (async () => {
-      await pool.query(`
-        CREATE TABLE IF NOT EXISTS site_updates (
-          id BIGSERIAL PRIMARY KEY,
-          category TEXT NOT NULL,
-          title TEXT NOT NULL, organization TEXT, description TEXT, publish_date DATE,
-          amount TEXT, eligibility TEXT, last_date DATE, item_url TEXT,
-          objection_url TEXT, apply_url TEXT, created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-        )
-      `);
-      // Extend the existing content store without disturbing Results, Syllabus,
-      // Answer Key or Scholarship records.
-      await pool.query(`
-        ALTER TABLE site_updates DROP CONSTRAINT IF EXISTS site_updates_category_check;
-        ALTER TABLE site_updates
-          ADD CONSTRAINT site_updates_category_check
-          CHECK (category IN ('results', 'answer-key', 'syllabus', 'scholarship', 'education'));
-        ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS education_category TEXT;
-        ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS start_date DATE;
-        ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS exam_date DATE;
-        ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS is_new BOOLEAN NOT NULL DEFAULT FALSE;
-      `);
-      await pool.query(`
-        CREATE TABLE IF NOT EXISTS admit_card_links (
-          id BIGSERIAL PRIMARY KEY, title TEXT NOT NULL, url TEXT NOT NULL,
-          created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-        )
-      `);
+      const client = await pool.connect();
+      try {
+        await client.query("BEGIN");
+        await client.query("SELECT pg_advisory_xact_lock(74620301)");
+        await client.query(`
+          CREATE TABLE IF NOT EXISTS site_updates (
+            id BIGSERIAL PRIMARY KEY,
+            category TEXT NOT NULL,
+            title TEXT NOT NULL, organization TEXT, description TEXT, publish_date DATE,
+            amount TEXT, eligibility TEXT, last_date DATE, item_url TEXT,
+            objection_url TEXT, apply_url TEXT, created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+          )
+        `);
+        await client.query(`
+          ALTER TABLE site_updates DROP CONSTRAINT IF EXISTS site_updates_category_check;
+          ALTER TABLE site_updates
+            ADD CONSTRAINT site_updates_category_check
+            CHECK (category IN ('results', 'answer-key', 'syllabus', 'scholarship', 'education'));
+          ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS education_category TEXT;
+          ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS start_date DATE;
+          ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS exam_date DATE;
+          ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS is_new BOOLEAN NOT NULL DEFAULT FALSE;
+          ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS application_start_display TEXT;
+          ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS application_end_display TEXT;
+          ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS exam_date_display TEXT;
+          ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS academic_year TEXT;
+          ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS status_as_of TEXT;
+          ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS source_id TEXT;
+          CREATE UNIQUE INDEX IF NOT EXISTS site_updates_source_id_unique
+            ON site_updates(source_id) WHERE source_id IS NOT NULL;
+        `);
+        await client.query(`
+          CREATE TABLE IF NOT EXISTS education_dataset_imports (
+            version TEXT PRIMARY KEY,
+            imported_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+          )
+        `);
+        await client.query(`
+          CREATE TABLE IF NOT EXISTS admit_card_links (
+            id BIGSERIAL PRIMARY KEY, title TEXT NOT NULL, url TEXT NOT NULL,
+            created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+          )
+        `);
+        await seedEducationDataset(client);
+        await client.query("COMMIT");
+      } catch (error) {
+        await client.query("ROLLBACK");
+        throw error;
+      } finally {
+        client.release();
+      }
     })().catch((error) => {
       contentTablesReady = null;
       throw error;
@@ -68,18 +190,17 @@ const cachedSiteUpdates = unstable_cache(
   async (category: string): Promise<SiteUpdateItem[]> => {
     await ensurePublicContentTables();
     const pool = getPool();
+    const fields = `id, category, title, organization, description, publish_date,
+      amount, eligibility, last_date, item_url, objection_url, apply_url,
+      education_category, start_date, exam_date, is_new,
+      application_start_display, application_end_display, exam_date_display,
+      academic_year, status_as_of, source_id`;
     const result = category === "all"
-      ? await pool.query(`SELECT id, category, title, organization, description, publish_date,
-          amount, eligibility, last_date, item_url, objection_url, apply_url,
-          education_category, start_date, exam_date, is_new
-          FROM site_updates ORDER BY created_at DESC`)
-      : await pool.query(`SELECT id, category, title, organization, description, publish_date,
-          amount, eligibility, last_date, item_url, objection_url, apply_url,
-          education_category, start_date, exam_date, is_new
-          FROM site_updates WHERE category = $1 ORDER BY created_at DESC`, [category]);
+      ? await pool.query(`SELECT ${fields} FROM site_updates ORDER BY created_at DESC`)
+      : await pool.query(`SELECT ${fields} FROM site_updates WHERE category = $1 ORDER BY created_at DESC`, [category]);
     return result.rows as SiteUpdateItem[];
   },
-  ["naukriexpress-public-site-updates-v1"],
+  ["naukriexpress-public-site-updates-v2"],
   { revalidate: 300, tags: ["site-updates"] }
 );
 
