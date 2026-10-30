@@ -35,6 +35,18 @@ export default async function EducationPage({
     activeCategory === "all"
       ? allItems
       : allItems.filter((item) => item.education_category === activeCategory);
+  const categoryCounts = Object.fromEntries(
+    VALID_CATEGORIES.map((category) => [
+      category,
+      allItems.filter((item) => item.education_category === category).length,
+    ])
+  );
 
-  return <EducationDirectory items={items} activeCategory={activeCategory} />;
+  return (
+    <EducationDirectory
+      items={items}
+      activeCategory={activeCategory}
+      categoryCounts={categoryCounts}
+    />
+  );
 }
