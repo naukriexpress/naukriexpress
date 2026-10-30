@@ -218,6 +218,121 @@ export function getPublicSiteUpdates(category?: SiteUpdateCategory): Promise<Sit
   return cachedSiteUpdates(category ?? "all");
 }
 
+type EducationSeedExam = {
+  id: string;
+  name: string;
+  short_name: string;
+  category_id: string;
+  academic_year: string;
+  courses: string[];
+  exam_level: string;
+  exam_type: string;
+  conducting_authority: string;
+  eligibility_summary: string;
+  application: {
+    start_date: string | null;
+    initial_end_date: string | null;
+    final_end_date: string | null;
+    display_start: string;
+    display_end: string;
+  };
+  examination: {
+    start_date: string | null;
+    display_date: string;
+  };
+  status_as_of_2026_10_30: string;
+  notification_pdf_url: string | null;
+  apply_url: string | null;
+  cap_url: string | null;
+  official_website_url: string | null;
+  notes?: string;
+};
+type EducationSeed = { last_verified_date: string; exams: EducationSeedExam[] };
+type EducationOverride = {
+  id: number;
+  source_id: string;
+  start_date: string | null;
+  last_date: string | null;
+  item_url: string | null;
+  apply_url: string | null;
+  cap_url: string | null;
+  official_website_url: string | null;
+};
+
+const educationSeed = JSON.parse(
+  gunzipSync(Buffer.from(EDUCATION_SEED_GZIP_BASE64, "base64")).toString("utf8")
+) as EducationSeed;
+
+const cachedEducationOverrides = unstable_cache(
+  async (): Promise<EducationOverride[]> => {
+    const pool = getPool();
+    const result = await pool.query(
+      `SELECT id, source_id, start_date, last_date, item_url, apply_url,
+              cap_url, official_website_url
+       FROM site_updates
+       WHERE category = 'education' AND source_id IS NOT NULL
+       ORDER BY id ASC`
+    );
+    return result.rows as EducationOverride[];
+  },
+  ["naukriexpress-education-editable-overrides-v1"],
+  { revalidate: 300, tags: ["education-overrides"] }
+);
+
+/** GitHub owns all fixed exam content; the database stores only admin-editable dates and URLs. */
+export async function getEducationDirectory(): Promise<SiteUpdateItem[]> {
+  const overrides = await cachedEducationOverrides();
+  const bySourceId = new Map(overrides.map((item) => [item.source_id, item]));
+
+  return educationSeed.exams.map((exam, index) => {
+    const override = bySourceId.get(exam.id);
+    const startDate = override ? override.start_date : exam.application.start_date;
+    const lastDate = override
+      ? override.last_date
+      : exam.application.final_end_date || exam.application.initial_end_date;
+    const notificationUrl = override ? override.item_url : exam.notification_pdf_url;
+    const applyUrl = override ? override.apply_url : exam.apply_url;
+    const capUrl = override ? override.cap_url : exam.cap_url;
+    const officialWebsiteUrl = override
+      ? override.official_website_url
+      : exam.official_website_url;
+    const description = [
+      `Short name: ${exam.short_name}`,
+      `Academic year: ${exam.academic_year}`,
+      exam.courses?.length ? `Courses: ${exam.courses.join(", ")}` : "",
+      `Exam level: ${exam.exam_level}; Type: ${exam.exam_type}`,
+      exam.notes || "",
+    ].filter(Boolean).join("\\n");
+
+    return {
+      id: override?.id ?? index + 1,
+      category: "education",
+      title: exam.name,
+      organization: exam.conducting_authority || null,
+      description: description || null,
+      publish_date: educationSeed.last_verified_date,
+      amount: null,
+      eligibility: exam.eligibility_summary || null,
+      last_date: lastDate,
+      item_url: notificationUrl,
+      objection_url: null,
+      apply_url: applyUrl,
+      education_category: exam.category_id,
+      start_date: startDate,
+      exam_date: exam.examination.start_date,
+      is_new: false,
+      application_start_display: startDate || exam.application.display_start || null,
+      application_end_display: lastDate || exam.application.display_end || null,
+      exam_date_display: exam.examination.display_date || null,
+      academic_year: exam.academic_year,
+      status_as_of: exam.status_as_of_2026_10_30,
+      cap_url: capUrl,
+      official_website_url: officialWebsiteUrl,
+      source_id: exam.id,
+    };
+  });
+}
+
 type AdmitCardSnapshotItem = AdmitCardLink & { created_at: string };
 const admitCardSnapshot = admitCardLinksSnapshot as AdmitCardSnapshotItem[];
 const admitCardSnapshotIds = admitCardSnapshot.map((item) => item.id);
