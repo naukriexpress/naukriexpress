@@ -27,20 +27,34 @@ type EducationItem = {
   exam_date: string | null;
   item_url: string | null;
   apply_url: string | null;
+  cap_url: string | null;
+  official_website_url: string | null;
+  application_start_display: string | null;
+  application_end_display: string | null;
+  exam_date_display: string | null;
+  academic_year: string | null;
+  status_as_of: string | null;
   is_new: boolean;
 };
 
 const emptyForm = {
   title: "",
-  education_category: "ug-entrance-exams",
+  education_category: "ug",
   organization: "",
   description: "",
   eligibility: "",
   start_date: "",
   last_date: "",
   exam_date: "",
+  application_start_display: "",
+  application_end_display: "",
+  exam_date_display: "",
+  academic_year: "2026-27",
+  status_as_of: "date_awaited",
   item_url: "",
   apply_url: "",
+  cap_url: "",
+  official_website_url: "",
   is_new: false,
 };
 
@@ -88,15 +102,22 @@ export default function ManageEducationPage() {
     setEditingId(item.id);
     setForm({
       title: item.title || "",
-      education_category: item.education_category || "ug-entrance-exams",
+      education_category: item.education_category || "ug",
       organization: item.organization || "",
       description: item.description || "",
       eligibility: item.eligibility || "",
       start_date: dateInput(item.start_date),
       last_date: dateInput(item.last_date),
       exam_date: dateInput(item.exam_date),
+      application_start_display: item.application_start_display || "",
+      application_end_display: item.application_end_display || "",
+      exam_date_display: item.exam_date_display || "",
+      academic_year: item.academic_year || "",
+      status_as_of: item.status_as_of || "date_awaited",
       item_url: item.item_url || "",
       apply_url: item.apply_url || "",
+      cap_url: item.cap_url || "",
+      official_website_url: item.official_website_url || "",
       is_new: item.is_new === true,
     });
     setMessage("");
@@ -218,6 +239,47 @@ export default function ManageEducationPage() {
               Show “New Added” badge
             </label>
           </div>
+          <div>
+            <label className={labelClass}>Application Start Display</label>
+            <input className={inputClass} value={form.application_start_display} onChange={(e) => updateForm("application_start_display", e.target.value)} placeholder="e.g. 14 Jan 2026 / See official notice" />
+          </div>
+          <div>
+            <label className={labelClass}>Application End Display</label>
+            <input className={inputClass} value={form.application_end_display} onChange={(e) => updateForm("application_end_display", e.target.value)} placeholder="e.g. 25 Mar 2026 / To be announced" />
+          </div>
+          <div>
+            <label className={labelClass}>Exam Date Display</label>
+            <input className={inputClass} value={form.exam_date_display} onChange={(e) => updateForm("exam_date_display", e.target.value)} placeholder="e.g. 28–30 Apr 2026 / Schedule awaited" />
+          </div>
+          <div>
+            <label className={labelClass}>Academic Year</label>
+            <input className={inputClass} value={form.academic_year} onChange={(e) => updateForm("academic_year", e.target.value)} placeholder="e.g. 2026-27" />
+          </div>
+          <div>
+            <label className={labelClass}>Current Status</label>
+            <select className={inputClass} value={form.status_as_of} onChange={(e) => updateForm("status_as_of", e.target.value)}>
+              <option value="registration_open">Registration Open</option>
+              <option value="exam_upcoming">Exam Upcoming</option>
+              <option value="date_awaited">Dates Awaited</option>
+              <option value="closed">Registration Closed</option>
+              <option value="year_round">Year Round</option>
+              <option value="university_schedule_required">University Schedule Required</option>
+              <option value="university_admission_notice_published">University Admission Notice Published</option>
+              <option value="department_wise_notice">Department-wise Notice</option>
+              <option value="see_board_notification">See Board Notification</option>
+              <option value="see_official_admission_schedule">See Official Admission Schedule</option>
+              <option value="notice_published_dates_to_confirm">Notice Published – Dates to Confirm</option>
+              <option value="cap_admission_route">CAP Admission Route</option>
+            </select>
+          </div>
+          <div>
+            <label className={labelClass}>CAP / Admission Link</label>
+            <input className={inputClass} type="url" value={form.cap_url} onChange={(e) => updateForm("cap_url", e.target.value)} placeholder="https://official-cap-portal.gov.in/" />
+          </div>
+          <div>
+            <label className={labelClass}>Official Website Link</label>
+            <input className={inputClass} type="url" value={form.official_website_url} onChange={(e) => updateForm("official_website_url", e.target.value)} placeholder="https://official-website.gov.in/" />
+          </div>
           <div className="sm:col-span-2">
             <label className={labelClass}>Exam / Admission Details</label>
             <textarea className={inputClass} rows={3} value={form.description} onChange={(e) => updateForm("description", e.target.value)} placeholder="Short description, course options, admission details..." />
@@ -273,7 +335,7 @@ export default function ManageEducationPage() {
                   </div>
                   <p className="mt-1 text-xs text-ink-700/60">{EDUCATION_CATEGORIES.find((category) => category.value === item.education_category)?.label || item.education_category || "Uncategorized"}</p>
                   <p className="mt-1 text-xs text-ink-700/60">
-                    Start: {dateInput(item.start_date) || "—"} · Last date: {dateInput(item.last_date) || "—"} · Exam: {dateInput(item.exam_date) || "—"}
+                    Start: {item.application_start_display || dateInput(item.start_date) || "—"} · Last date: {item.application_end_display || dateInput(item.last_date) || "—"} · Exam: {item.exam_date_display || dateInput(item.exam_date) || "—"} · {item.academic_year || "—"}
                   </p>
                 </div>
                 <div className="flex shrink-0 gap-2">
