@@ -71,7 +71,7 @@ function AnimatedCountdownNumber({ daysLeft }: { daysLeft: number }) {
     setDisplayedDays(1);
 
     // Keep the full count-up quick even when a deadline is far away.
-    const stepDelay = Math.max(10, Math.min(220, Math.floor(1000 / (daysLeft - 1))));
+    const stepDelay = 450;
     const interval = window.setInterval(() => {
       current += 1;
       setDisplayedDays(current);
