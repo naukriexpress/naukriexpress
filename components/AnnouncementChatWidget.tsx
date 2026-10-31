@@ -420,7 +420,7 @@ export default function AnnouncementChatWidget({ compact = false }: { compact?: 
 
       <button
         type="button"
-        className={"nx-updates-header-trigger " + (open ? "is-open" : "") + (unreadCount > 0 ? " has-unread" : "") + (compact ? " is-compact" : "")}
+        className={"nx-updates-header-trigger site-header-orange-action " + (open ? "is-open" : "") + (unreadCount > 0 ? " has-unread" : "") + (compact ? " is-compact" : "")}
         onClick={() => {
           if (open) closePanel();
           else {
