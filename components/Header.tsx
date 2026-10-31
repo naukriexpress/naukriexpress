@@ -35,12 +35,12 @@ export default function Header() {
         </div>
       </div>
 
-      <div className="container-page flex items-center justify-between gap-3 py-3">
-        <Link href="/" className="flex min-w-0 shrink items-center gap-2.5">
-          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl2 bg-brand-700 font-display text-lg font-bold text-white">BGi</span>
-          <span className="flex min-w-0 flex-col leading-tight">
-            <span className="font-display text-lg font-bold text-ink-900">NaukriExpress</span>
-            <span className="text-[11px] font-medium tracking-wide text-brand-600">सरकारी नोकरी अपडेट • India</span>
+      <div className="site-header-main-row container-page flex items-center justify-between gap-3 py-3">
+        <Link href="/" className="site-header-brand flex min-w-0 shrink items-center gap-2.5">
+          <span className="site-header-brand-mark grid h-10 w-10 shrink-0 place-items-center rounded-xl2 bg-brand-700 font-display text-lg font-bold text-white">BGi</span>
+          <span className="site-header-brand-copy flex min-w-0 flex-col leading-tight">
+            <span className="site-header-brand-title font-display text-lg font-bold text-ink-900">NaukriExpress</span>
+            <span className="site-header-brand-subtitle text-[11px] font-medium tracking-wide text-brand-600">सरकारी नोकरी अपडेट • India</span>
           </span>
         </Link>
 
@@ -48,15 +48,15 @@ export default function Header() {
           <HeroSearch />
         </div>
 
-        <div className="flex shrink-0 items-center gap-2">
-          <div className="hidden items-center gap-2 lg:flex">
+        <div className="site-header-actions flex shrink-0 items-center gap-2">
+          <div className="site-header-theme-desktop hidden items-center gap-2 lg:flex">
             <ThemeToggle />
           </div>
-          <div className="flex items-center gap-2 lg:hidden">
+          <div className="site-header-theme-mobile flex items-center gap-2 lg:hidden">
             <ThemeToggle compact />
           </div>
           <AnnouncementChatWidget />
-          <div className="hidden items-center gap-2 lg:flex">
+          <div className="site-header-desktop-links hidden items-center gap-2 lg:flex">
             <EducationNavLink variant="desktop" />
             <Link
               href="/jobs"
@@ -65,7 +65,7 @@ export default function Header() {
               Find My Eligible Jobs
             </Link>
           </div>
-          <div className="flex shrink-0 items-center gap-2 2xl:hidden">
+          <div className="site-header-mobile-links flex shrink-0 items-center gap-2 2xl:hidden">
             <EducationNavLink variant="compact" />
             <Suspense fallback={<div className="h-10 w-10 rounded-lg border border-ink-900/15 bg-white" aria-hidden="true" />}>
               <MobileNav states={[]} />
