@@ -4105,3 +4105,27 @@ html[data-theme="dark"] .nx-updates-panel {
     gap: 5px !important;
   }
 }
+
+
+/* Match all four compact mobile header controls to the Search button styling. */
+@media (max-width: 767px) {
+  .site-header-theme-mobile .theme-toggle-button.site-header-orange-action,
+  .site-header-actions .nx-updates-header-trigger.site-header-orange-action,
+  .site-header-mobile-links > a.site-header-orange-action,
+  .site-header-mobile-links .menu-button-moving-border.site-header-orange-action {
+    @apply border-saffron-600 bg-saffron-500 text-white shadow-sm;
+    border-radius: 8px !important;
+    color: #ffffff !important;
+  }
+
+  .site-header-theme-mobile .theme-toggle-button.site-header-orange-action:hover,
+  .site-header-actions .nx-updates-header-trigger.site-header-orange-action:hover,
+  .site-header-mobile-links > a.site-header-orange-action:hover,
+  .site-header-mobile-links .menu-button-moving-border.site-header-orange-action:hover {
+    @apply bg-saffron-600;
+  }
+
+  .site-header-theme-mobile .theme-toggle-button.site-header-orange-action .theme-toggle-icon {
+    filter: brightness(0) invert(1);
+  }
+}
