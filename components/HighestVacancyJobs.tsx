@@ -160,7 +160,6 @@ export default function HighestVacancyJobs() {
     const controller = new AbortController();
 
     fetch(JOBS_ENDPOINT, {
-      cache: "no-store",
       signal: controller.signal,
     })
       .then((response) => {
