@@ -23,9 +23,14 @@ export default async function AdminDashboardPage() {
           <h1 className="font-display text-2xl font-bold text-ink-900">Dashboard</h1>
           <p className="text-sm text-ink-700/70 mt-1">Overview of your job portal</p>
         </div>
-        <Link href="/admin/jobs/new" className="rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-700">
-          + Add New Job
-        </Link>
+        <div className="flex flex-wrap items-center gap-2">
+          <Link href="/admin/updates#new-message" className="rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700">
+            + Add Message
+          </Link>
+          <Link href="/admin/jobs/new" className="rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-700">
+            + Add New Job
+          </Link>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
