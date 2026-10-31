@@ -72,6 +72,7 @@ export default function AnnouncementChatWidget() {
   }, []);
 
   useEffect(() => {
+    if (pathname.startsWith("/admin")) return;
     try {
       const stored = JSON.parse(window.localStorage.getItem(READ_KEY) || "[]");
       if (Array.isArray(stored)) setReadIds(stored.filter((id): id is string => typeof id === "string"));
@@ -82,7 +83,21 @@ export default function AnnouncementChatWidget() {
     const handleFocus = () => void loadUpdates();
     window.addEventListener("focus", handleFocus);
     return () => window.removeEventListener("focus", handleFocus);
-  }, [loadUpdates]);
+  }, [loadUpdates, pathname]);
+
+  useEffect(() => {
+    if (!open) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") closePanel();
+    }
+    window.addEventListener("keydown", handleEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [open]);
 
   const selected = items.find((item) => item.id === selectedId) || null;
   const unreadCount = items.filter((item) => !readIds.includes(item.id)).length;
