@@ -46,7 +46,7 @@ function AnnouncementMark({ small = false }: { small?: boolean }) {
   );
 }
 
-export default function AnnouncementChatWidget() {
+export default function AnnouncementChatWidget({ compact = false }: { compact?: boolean }) {
   const pathname = usePathname();
   const [items, setItems] = useState<Announcement[]>([]);
   const [readIds, setReadIds] = useState<string[]>([]);
@@ -81,8 +81,12 @@ export default function AnnouncementChatWidget() {
     }
     void loadUpdates();
     const handleFocus = () => void loadUpdates();
+    const refreshInterval = window.setInterval(() => void loadUpdates(), 30_000);
     window.addEventListener("focus", handleFocus);
-    return () => window.removeEventListener("focus", handleFocus);
+    return () => {
+      window.clearInterval(refreshInterval);
+      window.removeEventListener("focus", handleFocus);
+    };
   }, [loadUpdates, pathname]);
 
   useEffect(() => {
@@ -134,8 +138,6 @@ export default function AnnouncementChatWidget() {
     setOpen(false);
     setSelectedId(null);
   }
-
-  if (pathname.startsWith("/admin")) return null;
 
   return (
     <>
@@ -296,7 +298,7 @@ export default function AnnouncementChatWidget() {
 
       <button
         type="button"
-        className={"nx-updates-launcher " + (open ? "is-open" : "")}
+        className={"nx-updates-header-trigger " + (open ? "is-open" : "") + (unreadCount > 0 ? " has-unread" : "") + (compact ? " is-compact" : "")}
         onClick={() => {
           if (open) closePanel();
           else {
@@ -304,15 +306,19 @@ export default function AnnouncementChatWidget() {
             void loadUpdates();
           }
         }}
-        aria-label={open ? "Close NaukriExpress updates" : "Open NaukriExpress updates"}
+        aria-label={open ? "Close NaukriExpress updates" : `Open NaukriExpress updates, ${unreadCount} unread messages`}
+        title={unreadCount > 0 ? `${unreadCount} unread NaukriExpress updates` : "NaukriExpress Updates"}
         aria-expanded={open}
       >
         {open ? (
-          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"/></svg>
+          <svg viewBox="0 0 24 24" width="21" height="21" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"/></svg>
         ) : (
-          <AnnouncementMark small />
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
+            <path d="M4 13.5v-3a1.5 1.5 0 0 1 1.5-1.5H8l9-4v14l-9-4H5.5A1.5 1.5 0 0 1 4 13.5Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round"/>
+            <path d="m8 15 1.5 4h3L11 16.3M20 9l1.5-1.5M20 15l1.5 1.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
         )}
-        {!open && unreadCount > 0 && <span className="nx-updates-launcher-count">{unreadCount > 99 ? "99+" : unreadCount}</span>}
+        {!open && unreadCount > 0 && <span className="nx-updates-header-count" aria-live="polite">{unreadCount > 99 ? "99+" : unreadCount}</span>}
       </button>
     </>
   );
