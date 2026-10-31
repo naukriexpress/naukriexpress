@@ -4067,3 +4067,41 @@ html[data-theme="dark"] .nx-updates-panel {
     font-size: 15.5px !important;
   }
 }
+
+
+/* Restore the compact mobile header controls to the earlier reference size. */
+@media (max-width: 767px) {
+  .site-header-actions {
+    gap: 6px !important;
+  }
+  .site-header-theme-mobile .theme-toggle-button,
+  .site-header-actions .nx-updates-header-trigger,
+  .site-header-mobile-links > a,
+  .site-header-mobile-links > button,
+  .site-header-mobile-links .menu-button-moving-border {
+    width: 34px !important;
+    min-width: 34px !important;
+    height: 36px !important;
+    flex: 0 0 34px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .site-header-theme-mobile .theme-toggle-icon-shell {
+    width: 20px !important;
+    height: 20px !important;
+    flex-basis: 20px !important;
+  }
+  .site-header-theme-mobile .theme-toggle-icon,
+  .site-header-mobile-links > a svg,
+  .site-header-mobile-links .menu-button-moving-border > svg:not(.menu-button-border-svg) {
+    width: 18px !important;
+    height: 18px !important;
+  }
+  .site-header-actions .nx-updates-header-trigger > svg {
+    width: 22px !important;
+    height: 22px !important;
+  }
+  .site-header-mobile-links {
+    gap: 5px !important;
+  }
+}
