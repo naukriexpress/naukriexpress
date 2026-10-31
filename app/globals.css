@@ -3594,3 +3594,173 @@ html[data-theme="dark"] .nx-updates-panel {
     animation: none !important;
   }
 }
+
+
+/* Compact announcement popup: site/browser zoom remains at the visitor's 100%.
+   The popup is a small floating card, never a full-screen takeover. */
+.nx-updates-layer {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 10000 !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: flex-end !important;
+  overflow: hidden !important;
+  padding: clamp(88px, 16vh, 112px) 14px 14px !important;
+  background: rgb(7 16 25 / 22%) !important;
+  pointer-events: auto !important;
+}
+.nx-updates-panel {
+  position: relative !important;
+  inset: auto !important;
+  width: min(380px, calc(100vw - 28px)) !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: min(540px, calc(100dvh - 104px)) !important;
+  margin: 0 !important;
+  border: 1px solid #d8e5df !important;
+  border-radius: 18px !important;
+  box-shadow: 0 14px 42px rgb(0 0 0 / 22%) !important;
+}
+.nx-updates-header {
+  min-height: 68px !important;
+  padding: 10px 13px !important;
+}
+.nx-updates-brand-title {
+  font-size: 20px !important;
+}
+.nx-updates-avatar {
+  width: 40px !important;
+  height: 40px !important;
+}
+.nx-updates-avatar--small {
+  width: 42px !important;
+  height: 42px !important;
+}
+.nx-updates-search-wrap {
+  padding: 9px 12px 6px !important;
+}
+.nx-updates-search {
+  min-height: 44px !important;
+  gap: 9px !important;
+  padding: 0 13px !important;
+}
+.nx-updates-search input {
+  font-size: 14px !important;
+}
+.nx-updates-filters {
+  gap: 7px !important;
+  padding: 6px 12px 9px !important;
+}
+.nx-updates-filters button {
+  min-height: 34px !important;
+  padding: 0 13px !important;
+  font-size: 12px !important;
+}
+.nx-updates-list {
+  min-height: 72px !important;
+  max-height: min(260px, max(72px, calc(100dvh - 380px))) !important;
+  flex: 1 1 auto !important;
+}
+.nx-updates-list-heading {
+  padding: 10px 14px 7px !important;
+  font-size: 9px !important;
+}
+.nx-updates-row {
+  min-height: 76px !important;
+  gap: 10px !important;
+  padding: 10px 13px !important;
+}
+.nx-updates-row-top strong {
+  font-size: 13px !important;
+}
+.nx-updates-row-preview {
+  margin-top: 3px !important;
+  font-size: 11px !important;
+}
+.nx-updates-row-meta {
+  margin-top: 3px !important;
+  font-size: 9px !important;
+}
+.nx-updates-empty {
+  min-height: 82px !important;
+  padding: 14px !important;
+}
+.nx-updates-bottom-nav {
+  min-height: 60px !important;
+  padding: 5px 5px 6px !important;
+}
+.nx-updates-bottom-nav button {
+  gap: 2px !important;
+  font-size: 9px !important;
+}
+.nx-updates-bottom-nav button svg {
+  width: 19px !important;
+  height: 19px !important;
+}
+.nx-updates-detail {
+  max-height: min(360px, calc(100dvh - 260px)) !important;
+  padding: 15px 14px 18px !important;
+}
+.nx-updates-detail h3 {
+  margin: 16px 0 10px !important;
+  font-size: 19px !important;
+}
+.nx-updates-detail-message {
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+}
+.nx-updates-readonly-note {
+  margin-top: 18px !important;
+  padding: 10px !important;
+}
+@media (max-width: 639px) {
+  .nx-updates-layer {
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 14px !important;
+    background: rgb(7 16 25 / 34%) !important;
+  }
+  .nx-updates-panel {
+    position: relative !important;
+    inset: auto !important;
+    width: min(390px, calc(100vw - 28px)) !important;
+    height: auto !important;
+    max-height: calc(100dvh - 28px) !important;
+    border: 1px solid #d8e5df !important;
+    border-radius: 18px !important;
+    padding-bottom: 0 !important;
+  }
+  .nx-updates-header {
+    min-height: 64px !important;
+    padding: 9px 12px !important;
+  }
+  .nx-updates-search-wrap {
+    padding: 8px 10px 5px !important;
+  }
+  .nx-updates-search {
+    min-height: 42px !important;
+  }
+  .nx-updates-filters {
+    padding: 5px 10px 8px !important;
+  }
+  .nx-updates-list {
+    min-height: 58px !important;
+    max-height: max(45px, min(220px, calc(100dvh - 400px))) !important;
+  }
+  .nx-updates-bottom-nav {
+    min-height: 58px !important;
+    padding: 4px 4px 5px !important;
+  }
+  .nx-updates-detail {
+    max-height: calc(100dvh - 250px) !important;
+  }
+}
+html[data-theme="dark"] .nx-updates-panel {
+  border-color: #2d455c !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nx-updates-header-trigger.has-unread .nx-updates-header-count {
+    animation: none !important;
+  }
+}
