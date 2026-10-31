@@ -4124,3 +4124,17 @@ html[data-theme="dark"] .nx-updates-panel {
     padding-right: 0 !important;
   }
 }
+
+/* Distinct purple accent for the mobile Education shortcut only. */
+@media (max-width: 767px) {
+  .site-header-mobile-links > a.site-header-education-action {
+    background: #7655d6 !important;
+    border-color: #6544c1 !important;
+    color: #ffffff !important;
+    box-shadow: 0 1px 3px rgb(45 25 100 / 22%) !important;
+  }
+  .site-header-mobile-links > a.site-header-education-action:hover {
+    background: #6544c1 !important;
+    border-color: #5738b2 !important;
+  }
+}
