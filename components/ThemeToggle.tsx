@@ -1,17 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { applySiteTheme } from "./siteTheme";
 
 type Theme = "light" | "dark";
 
 export default function ThemeToggle({ compact = false }: { compact?: boolean }) {
   const [theme, setTheme] = useState<Theme>("light");
+  const pathname = usePathname();
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
     const resolveTheme = (): Theme => {
+      if (pathname === "/education") return "dark";
       const savedTheme = window.localStorage.getItem("naukriexpress-theme");
       if (savedTheme === "dark" || savedTheme === "light") return savedTheme;
       return mediaQuery.matches ? "dark" : "light";
@@ -22,6 +25,8 @@ export default function ThemeToggle({ compact = false }: { compact?: boolean }) 
     setTheme(initialTheme);
 
     const handleSystemThemeChange = () => {
+      // Education always opens dark; other pages follow the saved preference or device theme.
+      if (pathname === "/education") return;
       // Follow the phone/computer theme until the visitor manually chooses a theme.
       const savedTheme = window.localStorage.getItem("naukriexpress-theme");
       if (savedTheme === "dark" || savedTheme === "light") return;
@@ -42,7 +47,7 @@ export default function ThemeToggle({ compact = false }: { compact?: boolean }) 
       mediaQuery.removeEventListener("change", handleSystemThemeChange);
       window.removeEventListener("naukriexpress-theme-change", handleExternalThemeChange);
     };
-  }, []);
+  }, [pathname]);
 
   function toggleTheme() {
     const nextTheme = theme === "dark" ? "light" : "dark";
