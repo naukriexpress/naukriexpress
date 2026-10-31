@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import type { JobPosting } from "@/lib/types";
-import { CATEGORY_LABELS, QUALIFICATION_LABELS } from "@/lib/types";
+import { QUALIFICATION_LABELS } from "@/lib/types";
 import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
 import { hasPendingVacancyDetails } from "@/lib/jobMarkers";
 import StatusBadge from "./StatusBadge";
@@ -88,14 +88,6 @@ function DetailCard({
     </div>
   );
 }
-
-const CATEGORY_TONES = [
-  "job-card-category--sky",
-  "job-card-category--emerald",
-  "job-card-category--violet",
-  "job-card-category--amber",
-  "job-card-category--rose",
-];
 
 export default function JobCard({ job, rank }: { job: JobPosting; rank?: number }) {
   const initials = job.organization
@@ -225,19 +217,6 @@ export default function JobCard({ job, rank }: { job: JobPosting; rank?: number 
             ) : undefined}
           />
         </dl>
-
-        {job.eligibility.categories.length > 0 && (
-          <div className="job-card-categories mt-4 flex flex-wrap gap-1.5" aria-label="Eligible categories">
-            {job.eligibility.categories.map((category, index) => (
-              <span
-                key={category}
-                className={`job-card-category rounded-full border px-3 py-1 text-xs font-bold ${CATEGORY_TONES[index % CATEGORY_TONES.length]}`}
-              >
-                {CATEGORY_LABELS[category]}
-              </span>
-            ))}
-          </div>
-        )}
 
         <div className="job-card-actions mt-auto grid grid-cols-3 gap-2 border-t border-slate-200 pt-4 mt-4">
           <Link
