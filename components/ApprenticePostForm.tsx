@@ -7,6 +7,7 @@ import { JOB_LOCATION_OPTIONS } from "@/lib/locations";
 type Trade = {
   id: number;
   title: string;
+  qualification: string;
   positions: number;
   applyOnline: string;
 };
@@ -16,7 +17,7 @@ const inputClass =
 
 export default function ApprenticePostForm() {
   const [trades, setTrades] = useState<Trade[]>([
-    { id: 1, title: "", positions: 0, applyOnline: "" },
+    { id: 1, title: "", qualification: "", positions: 0, applyOnline: "" },
   ]);
 
   const [nextId, setNextId] = useState(2);
@@ -32,6 +33,7 @@ export default function ApprenticePostForm() {
       {
         id: nextId,
         title: "",
+        qualification: "",
         positions: 0,
         applyOnline: "",
       },
@@ -45,7 +47,7 @@ export default function ApprenticePostForm() {
 
   function updateTrade(
     id: number,
-    field: "title" | "positions" | "applyOnline",
+    field: "title" | "qualification" | "positions" | "applyOnline",
     value: string
   ) {
     setTrades((previous) =>
@@ -162,6 +164,7 @@ export default function ApprenticePostForm() {
               <tr>
                 <th className="border p-3">Sr. No.</th>
                 <th className="border p-3 text-left">Trade Name *</th>
+                <th className="border p-3 text-left">Required Qualification</th>
                 <th className="border p-3 text-left">Positions *</th>
                 <th className="border p-3 text-left">Apply Online Link</th>
                 <th className="border p-3">Action</th>
@@ -188,6 +191,18 @@ export default function ApprenticePostForm() {
                       type="hidden"
                       name="vacancy_category"
                       value=""
+                    />
+                  </td>
+
+                  <td className="border p-2">
+                    <input
+                      name="vacancy_qualification"
+                      value={trade.qualification}
+                      onChange={(event) =>
+                        updateTrade(trade.id, "qualification", event.target.value)
+                      }
+                      className={inputClass}
+                      placeholder="e.g. 10th Pass / ITI in Fitter"
                     />
                   </td>
 
@@ -243,7 +258,7 @@ export default function ApprenticePostForm() {
 
             <tfoot>
               <tr className="bg-gray-50 font-bold">
-                <td colSpan={2} className="border p-3">
+                <td colSpan={3} className="border p-3">
                   Total Positions
                 </td>
                 <td className="border p-3 text-green-700">
