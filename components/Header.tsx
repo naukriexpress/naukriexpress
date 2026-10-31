@@ -48,27 +48,29 @@ export default function Header() {
           <HeroSearch />
         </div>
 
-        <div className="hidden shrink-0 items-center gap-2 lg:flex">
-          <ThemeToggle />
-          <AnnouncementChatWidget />
-          <EducationNavLink variant="desktop" />
-          <Link
-            href="/jobs"
-            className="hidden rounded-lg bg-saffron-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-saffron-600 2xl:inline-flex"
-          >
-            Find My Eligible Jobs
-          </Link>
-        </div>
-
-        <div className="flex shrink-0 items-center gap-2 2xl:hidden">
+        <div className="flex shrink-0 items-center gap-2">
+          <div className="hidden items-center gap-2 lg:flex">
+            <ThemeToggle />
+          </div>
           <div className="flex items-center gap-2 lg:hidden">
             <ThemeToggle compact />
-            <AnnouncementChatWidget compact />
           </div>
-          <EducationNavLink variant="compact" />
-          <Suspense fallback={<div className="h-10 w-10 rounded-lg border border-ink-900/15 bg-white" aria-hidden="true" />}>
-            <MobileNav states={[]} />
-          </Suspense>
+          <AnnouncementChatWidget />
+          <div className="hidden items-center gap-2 lg:flex">
+            <EducationNavLink variant="desktop" />
+            <Link
+              href="/jobs"
+              className="hidden rounded-lg bg-saffron-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-saffron-600 2xl:inline-flex"
+            >
+              Find My Eligible Jobs
+            </Link>
+          </div>
+          <div className="flex shrink-0 items-center gap-2 2xl:hidden">
+            <EducationNavLink variant="compact" />
+            <Suspense fallback={<div className="h-10 w-10 rounded-lg border border-ink-900/15 bg-white" aria-hidden="true" />}>
+              <MobileNav states={[]} />
+            </Suspense>
+          </div>
         </div>
       </div>
 
