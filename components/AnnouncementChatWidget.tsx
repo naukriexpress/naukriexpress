@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
 
@@ -17,6 +17,18 @@ type Announcement = {
 
 type Filter = "all" | "unread" | "pinned";
 const READ_KEY = "naukriexpress-announcement-read-v1";
+const POSITION_KEY = "naukriexpress-announcement-position-v1";
+
+type PopupPosition = { left: number; top: number };
+type DragState = { pointerId: number; startX: number; startY: number; startLeft: number; startTop: number; width: number; height: number };
+
+function clampPopupPosition(left: number, top: number, width: number, height: number): PopupPosition {
+  const margin = 8;
+  return {
+    left: Math.max(margin, Math.min(left, window.innerWidth - width - margin)),
+    top: Math.max(margin, Math.min(top, window.innerHeight - height - margin)),
+  };
+}
 
 function shortDate(value: string) {
   const date = new Date(value);
@@ -57,6 +69,10 @@ export default function AnnouncementChatWidget({ compact = false }: { compact?: 
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
+  const [dragPosition, setDragPosition] = useState<PopupPosition | null>(null);
+  const panelRef = useRef<HTMLElement | null>(null);
+  const dragRef = useRef<DragState | null>(null);
+  const dragPositionRef = useRef<PopupPosition | null>(null);
 
   const loadUpdates = useCallback(async () => {
     try {
@@ -92,6 +108,24 @@ export default function AnnouncementChatWidget({ compact = false }: { compact?: 
 
   useEffect(() => {
     if (!open) return;
+    const frame = window.requestAnimationFrame(() => {
+      const panel = panelRef.current;
+      if (!panel) return;
+      try {
+        const stored = window.localStorage.getItem(POSITION_KEY);
+        if (stored) {
+          const parsed = JSON.parse(stored) as Partial<PopupPosition>;
+          if (typeof parsed.left === "number" && typeof parsed.top === "number") {
+            const rect = panel.getBoundingClientRect();
+            const safe = clampPopupPosition(parsed.left, parsed.top, rect.width, rect.height);
+            dragPositionRef.current = safe;
+            setDragPosition(safe);
+          }
+        }
+      } catch {
+        // Ignore invalid saved positions and use the default centered/corner position.
+      }
+    });
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     function handleEscape(event: KeyboardEvent) {
@@ -99,10 +133,83 @@ export default function AnnouncementChatWidget({ compact = false }: { compact?: 
     }
     window.addEventListener("keydown", handleEscape);
     return () => {
+      window.cancelAnimationFrame(frame);
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleEscape);
     };
   }, [open]);
+
+  useEffect(() => {
+    if (!open || !dragPosition) return;
+    function handleResize() {
+      const panel = panelRef.current;
+      if (!panel || !dragPositionRef.current) return;
+      const rect = panel.getBoundingClientRect();
+      const safe = clampPopupPosition(
+        dragPositionRef.current.left,
+        dragPositionRef.current.top,
+        rect.width,
+        rect.height
+      );
+      dragPositionRef.current = safe;
+      setDragPosition(safe);
+      try {
+        window.localStorage.setItem(POSITION_KEY, JSON.stringify(safe));
+      } catch {
+        // Position persistence is optional if browser storage is unavailable.
+      }
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [open, dragPosition !== null]);
+
+  function handleHeaderPointerDown(event: React.PointerEvent<HTMLElement>) {
+    if (event.target instanceof Element && event.target.closest("button, a, input, textarea, select")) return;
+    const panel = panelRef.current;
+    if (!panel) return;
+    const rect = panel.getBoundingClientRect();
+    const origin = dragPositionRef.current ?? { left: rect.left, top: rect.top };
+    dragRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      startLeft: origin.left,
+      startTop: origin.top,
+      width: rect.width,
+      height: rect.height,
+    };
+    event.currentTarget.setPointerCapture(event.pointerId);
+  }
+
+  function handleHeaderPointerMove(event: React.PointerEvent<HTMLElement>) {
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    const next = clampPopupPosition(
+      drag.startLeft + event.clientX - drag.startX,
+      drag.startTop + event.clientY - drag.startY,
+      drag.width,
+      drag.height
+    );
+    dragPositionRef.current = next;
+    setDragPosition(next);
+  }
+
+  function handleHeaderPointerUp(event: React.PointerEvent<HTMLElement>) {
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    dragRef.current = null;
+    const position = dragPositionRef.current;
+    if (position) {
+      try {
+        window.localStorage.setItem(POSITION_KEY, JSON.stringify(position));
+      } catch {
+        // Keep the current position for this session if storage is unavailable.
+      }
+    }
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+  }
 
   const selected = items.find((item) => item.id === selectedId) || null;
   const unreadCount = items.filter((item) => !readIds.includes(item.id)).length;
@@ -145,13 +252,26 @@ export default function AnnouncementChatWidget({ compact = false }: { compact?: 
       {open && createPortal(
         <div className="nx-updates-layer" onClick={closePanel}>
           <section
-            className="nx-updates-panel"
+            ref={panelRef}
+            className={"nx-updates-panel" + (dragPosition ? " is-dragged" : "")}
+            style={dragPosition ? {
+              "--nx-drag-top": dragPosition.top + "px",
+              "--nx-drag-left": dragPosition.left + "px",
+            } as React.CSSProperties : undefined}
             role="dialog"
             aria-modal="true"
             aria-label="NaukriExpress Admin Updates"
             onClick={(event) => event.stopPropagation()}
           >
-            <header className="nx-updates-header">
+            <header
+              className="nx-updates-header"
+              onPointerDown={handleHeaderPointerDown}
+              onPointerMove={handleHeaderPointerMove}
+              onPointerUp={handleHeaderPointerUp}
+              onPointerCancel={handleHeaderPointerUp}
+              title="Drag this header to move the updates popup"
+              aria-label="Drag header to move updates popup"
+            >
               <div className="flex min-w-0 items-center gap-3">
                 {selected ? (
                   <button
