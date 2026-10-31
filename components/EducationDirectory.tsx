@@ -121,8 +121,8 @@ export default function EducationDirectory({
 
   return (
     <section className="container-page py-7 sm:py-10">
-      <div className="overflow-hidden rounded-3xl border border-brand-100 bg-gradient-to-br from-blue-50 via-white to-orange-50 shadow-card">
-        <div className="px-5 py-8 text-center sm:px-10 sm:py-11">
+      <div className="education-directory-shell overflow-hidden rounded-3xl border border-brand-100 bg-gradient-to-br from-blue-50 via-white to-orange-50 shadow-card">
+        <div className="education-directory-hero px-5 py-8 text-center sm:px-10 sm:py-11">
           <span className="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-saffron-100 text-brand-700 shadow-sm">
             <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="m2.5 9 9.5-5 9.5 5-9.5 5-9.5-5Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
@@ -135,26 +135,26 @@ export default function EducationDirectory({
             Maharashtra and All India entrance exams, admission schedules, official notifications and application links — all in one place.
           </p>
           <div className="mx-auto mt-6 grid max-w-lg grid-cols-3 gap-2">
-            <div className="rounded-xl border border-white bg-white/90 px-2 py-3 shadow-sm">
+            <div className="education-stat-card rounded-xl border border-white bg-white/90 px-2 py-3 shadow-sm">
               <p className="font-display text-xl font-extrabold text-brand-700">{items.length}</p>
-              <p className="text-[11px] font-semibold text-ink-700/60">Listed Exams</p>
+              <p className="education-stat-label text-[11px] font-semibold text-ink-700/60">Listed Exams</p>
             </div>
             <div className="rounded-xl border border-white bg-white/90 px-2 py-3 shadow-sm">
               <p className="font-display text-xl font-extrabold text-leaf-600">{openCount}</p>
-              <p className="text-[11px] font-semibold text-ink-700/60">Registration Open</p>
+              <p className="education-stat-label text-[11px] font-semibold text-ink-700/60">Registration Open</p>
             </div>
             <div className="rounded-xl border border-white bg-white/90 px-2 py-3 shadow-sm">
               <p className="font-display text-xl font-extrabold text-saffron-600">{upcomingCount}</p>
-              <p className="text-[11px] font-semibold text-ink-700/60">Upcoming</p>
+              <p className="education-stat-label text-[11px] font-semibold text-ink-700/60">Upcoming</p>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-brand-100 bg-white/80 px-4 py-6 sm:px-8 sm:py-8">
+        <div className="education-category-panel border-t border-brand-100 bg-white/80 px-4 py-6 sm:px-8 sm:py-8">
           <div className="mx-auto max-w-5xl">
             <div className="flex flex-wrap items-end justify-between gap-3">
               <div>
-                <h2 className="font-display text-lg font-bold text-ink-900">Explore by Category</h2>
+                <h2 className="education-section-title font-display text-lg font-bold text-ink-900">Explore by Category</h2>
                 <p className="mt-1 text-xs text-ink-700/60">Category par click karke uske entrance exams dekhein.</p>
               </div>
               {activeCategory !== "all" && (
@@ -169,7 +169,7 @@ export default function EducationDirectory({
                     key={category.slug}
                     href={selected ? "/education" : `/education?category=${category.slug}`}
                     aria-current={selected ? "page" : undefined}
-                    className={`group flex min-h-12 items-center gap-2 rounded-xl border px-3 py-3 text-sm font-semibold shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand-300 hover:bg-brand-50 hover:shadow-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${selected ? "border-brand-400 bg-brand-50 text-brand-800 ring-1 ring-brand-200" : "border-ink-900/10 bg-white text-ink-800"}`}
+                    className={`education-category-card group flex min-h-12 items-center gap-2 rounded-xl border px-3 py-3 text-sm font-semibold shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand-300 hover:bg-brand-50 hover:shadow-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${selected ? "border-brand-400 bg-brand-50 text-brand-800 ring-1 ring-brand-200" : "border-ink-900/10 bg-white text-ink-800"}`}
                   >
                     <span className={`grid h-7 w-7 shrink-0 place-items-center rounded-lg ${selected ? "bg-brand-700 text-white" : "bg-brand-50 text-brand-700"}`} aria-hidden="true">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
@@ -188,18 +188,18 @@ export default function EducationDirectory({
         </div>
       </div>
 
-      <div className="mt-7" id="entrance-exams">
+      <div className="education-exam-list mt-7" id="entrance-exams">
         <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
           <div>
             <p className="text-xs font-bold uppercase tracking-wider text-brand-700">Entrance Exam Updates</p>
-            <h2 className="mt-1 font-display text-xl font-extrabold text-ink-900">
+            <h2 className="education-section-title mt-1 font-display text-xl font-extrabold text-ink-900">
               {currentCategory ? currentCategory.label : "All Entrance Exams"}
             </h2>
           </div>
-          <span className="rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-ink-700 shadow-sm">{filteredItems.length} exams</span>
+          <span className="education-results-count rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-ink-700 shadow-sm">{filteredItems.length} exams</span>
         </div>
 
-        <label className="mb-4 flex items-center gap-2 rounded-xl border border-ink-900/15 bg-white px-3 py-2.5 shadow-sm focus-within:border-brand-500 focus-within:ring-2 focus-within:ring-brand-100">
+        <label className="education-search-box mb-4 flex items-center gap-2 rounded-xl border border-ink-900/15 bg-white px-3 py-2.5 shadow-sm focus-within:border-brand-500 focus-within:ring-2 focus-within:ring-brand-100">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" className="text-ink-700/50">
             <circle cx="10.8" cy="10.8" r="6.8" stroke="currentColor" strokeWidth="1.7" />
             <path d="m16 16 4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
@@ -227,7 +227,7 @@ export default function EducationDirectory({
               const status = getStatus(item);
               const categoryLabel = CATEGORIES.find((category) => category.slug === item.education_category)?.label;
               return (
-                <article key={item.id} className="rounded-2xl border border-ink-900/10 bg-white p-4 shadow-card transition hover:-translate-y-0.5 hover:shadow-lg sm:p-5">
+                <article key={item.id} className="education-exam-card rounded-2xl border border-ink-900/10 bg-white p-4 shadow-card transition hover:-translate-y-0.5 hover:shadow-lg sm:p-5">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="rounded-full bg-brand-50 px-2.5 py-1 text-[11px] font-bold text-brand-700">{categoryLabel || "Entrance Exam"}</span>
                     <div className="flex flex-wrap gap-1.5">
@@ -238,27 +238,27 @@ export default function EducationDirectory({
                   </div>
                   <h3 className="mt-3 font-display text-lg font-extrabold leading-snug text-ink-900">{item.title}</h3>
                   {item.organization && <p className="mt-1 text-xs font-medium text-ink-700/60">{item.organization}</p>}
-                  {item.description && <p className="mt-3 text-sm leading-6 text-ink-700">{item.description}</p>}
+                  {item.description && <p className="education-exam-description mt-3 whitespace-pre-line text-sm leading-6 text-ink-700">{item.description}</p>}
 
-                  <div className="mt-4 grid grid-cols-2 gap-2 rounded-xl bg-paper p-3 sm:grid-cols-3">
+                  <div className="education-date-panel mt-4 grid grid-cols-2 gap-2 rounded-xl bg-paper p-3 sm:grid-cols-3">
                     <div>
-                      <p className="text-[10px] font-bold uppercase tracking-wide text-ink-700/50">Start Date</p>
+                      <p className="education-date-label text-[10px] font-bold uppercase tracking-wide text-ink-700/50">Start Date</p>
                       <p className="mt-1 text-xs font-semibold text-ink-900">{formatDate(item.start_date, item.application_start_display)}</p>
                     </div>
                     <div>
-                      <p className="text-[10px] font-bold uppercase tracking-wide text-ink-700/50">Last Date</p>
+                      <p className="education-date-label text-[10px] font-bold uppercase tracking-wide text-ink-700/50">Last Date</p>
                       <p className="mt-1 text-xs font-semibold text-ink-900">{formatDate(item.last_date, item.application_end_display)}</p>
                     </div>
                     <div className="col-span-2 sm:col-span-1">
-                      <p className="text-[10px] font-bold uppercase tracking-wide text-ink-700/50">Exam Date</p>
+                      <p className="education-date-label text-[10px] font-bold uppercase tracking-wide text-ink-700/50">Exam Date</p>
                       <p className="mt-1 text-xs font-semibold text-ink-900">{formatDate(item.exam_date, item.exam_date_display)}</p>
                     </div>
                   </div>
 
                   {item.eligibility && (
                     <div className="mt-3">
-                      <p className="text-[10px] font-bold uppercase tracking-wide text-ink-700/50">Eligibility</p>
-                      <p className="mt-1 text-sm leading-5 text-ink-800">{item.eligibility}</p>
+                      <p className="education-eligibility-label text-[10px] font-bold uppercase tracking-wide text-ink-700/50">Eligibility</p>
+                      <p className="education-eligibility-copy mt-1 text-sm leading-5 text-ink-800">{item.eligibility}</p>
                     </div>
                   )}
 
