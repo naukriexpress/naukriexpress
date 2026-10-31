@@ -188,6 +188,9 @@ export default function HighestVacancyJobs() {
 
     return jobs
       .filter((job) => {
+        // Keep apprenticeship recruitments exclusively in the separate
+        // "Highest Vacancy Apprentice" section.
+        if (job.jobType === "apprenticeship") return false;
         if (job.status !== "published" || job.noticeDetailsPending) return false;
         const vacancies = getVerifiedVacancyCount(job);
         const daysLeft = getDaysUntilDate(job.dates.lastDate, today);
