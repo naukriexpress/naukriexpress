@@ -137,10 +137,17 @@ export async function POST(request: Request) {
         );
       }
 
-      const publishAt =
+      const rawPublishAt =
         typeof raw.publishAt === "string" && raw.publishAt.trim()
-          ? new Date(raw.publishAt).toISOString()
+          ? new Date(raw.publishAt)
           : null;
+      if (rawPublishAt && Number.isNaN(rawPublishAt.getTime())) {
+        return NextResponse.json(
+          { error: "Publish date and time is invalid." },
+          { status: 400 }
+        );
+      }
+      const publishAt = rawPublishAt ? rawPublishAt.toISOString() : null;
 
       if (status === "scheduled" && !publishAt) {
         return NextResponse.json(
