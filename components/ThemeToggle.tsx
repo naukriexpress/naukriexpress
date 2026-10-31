@@ -64,7 +64,7 @@ export default function ThemeToggle({ compact = false }: { compact?: boolean }) 
       aria-label={"Switch to " + nextLabel}
       title={"Switch to " + nextLabel}
       data-action={theme === "dark" ? "light" : "dark"}
-      className={`theme-toggle-button inline-flex shrink-0 items-center justify-center gap-2 rounded-lg border border-ink-900/15 bg-white px-3 py-2 text-sm font-semibold text-ink-800 transition-colors hover:bg-brand-50 ${compact ? "theme-toggle-button--compact" : ""}`}
+      className={`theme-toggle-button inline-flex shrink-0 items-center justify-center gap-2 rounded-lg border border-ink-900/15 bg-white px-3 py-2 text-sm font-semibold text-ink-800 transition-colors hover:bg-brand-50 ${compact ? "theme-toggle-button--compact site-header-orange-action" : ""}`}
     >
       <span className="theme-toggle-icon-shell" aria-hidden="true">
         {theme === "dark" ? (
