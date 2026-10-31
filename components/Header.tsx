@@ -6,6 +6,7 @@ import HeaderLiveStats from "./HeaderLiveStats";
 import MobileNav from "./MobileNav";
 import ThemeToggle from "./ThemeToggle";
 import EducationNavLink from "./EducationNavLink";
+import AnnouncementChatWidget from "./AnnouncementChatWidget";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -49,6 +50,7 @@ export default function Header() {
 
         <div className="hidden shrink-0 items-center gap-2 lg:flex">
           <ThemeToggle />
+          <AnnouncementChatWidget />
           <EducationNavLink variant="desktop" />
           <Link
             href="/jobs"
@@ -59,8 +61,9 @@ export default function Header() {
         </div>
 
         <div className="flex shrink-0 items-center gap-2 2xl:hidden">
-          <div className="lg:hidden">
+          <div className="flex items-center gap-2 lg:hidden">
             <ThemeToggle compact />
+            <AnnouncementChatWidget compact />
           </div>
           <EducationNavLink variant="compact" />
           <Suspense fallback={<div className="h-10 w-10 rounded-lg border border-ink-900/15 bg-white" aria-hidden="true" />}>
