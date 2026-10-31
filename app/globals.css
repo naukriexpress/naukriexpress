@@ -3337,3 +3337,42 @@ html[data-theme="dark"] .nx-updates-launcher.is-open {
     transition: none !important;
   }
 }
+
+
+/* Screenshot-inspired white app bar with NaukriExpress's own green identity. */
+.nx-updates-header {
+  border-bottom: 1px solid #edf0ef;
+  background: #ffffff;
+  color: #18342b;
+}
+.nx-updates-brand-title {
+  color: #159b62;
+  font-size: 23px;
+  letter-spacing: -.035em;
+}
+.nx-updates-subtitle {
+  color: #728078;
+}
+.nx-updates-icon-button {
+  color: #33433d;
+}
+.nx-updates-icon-button:hover {
+  background: #eef5f1;
+}
+html[data-theme="dark"] .nx-updates-header {
+  border-color: #293e52;
+  background: #111d2b;
+  color: #e7eef5;
+}
+html[data-theme="dark"] .nx-updates-brand-title {
+  color: #69d6a7;
+}
+html[data-theme="dark"] .nx-updates-subtitle {
+  color: #a9bacb;
+}
+html[data-theme="dark"] .nx-updates-icon-button {
+  color: #d7e5ef;
+}
+html[data-theme="dark"] .nx-updates-icon-button:hover {
+  background: #263c50;
+}
