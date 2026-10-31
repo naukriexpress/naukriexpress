@@ -3764,3 +3764,28 @@ html[data-theme="dark"] .nx-updates-panel {
     animation: none !important;
   }
 }
+
+
+/* Drag the updates popup from its title/header area with mouse or touch. */
+.nx-updates-header {
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.nx-updates-header:active {
+  cursor: grabbing;
+}
+.nx-updates-header button {
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.nx-updates-panel.is-dragged {
+  position: fixed !important;
+  inset: auto !important;
+  top: var(--nx-drag-top) !important;
+  left: var(--nx-drag-left) !important;
+  right: auto !important;
+  bottom: auto !important;
+  margin: 0 !important;
+}
