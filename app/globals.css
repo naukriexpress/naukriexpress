@@ -3376,3 +3376,110 @@ html[data-theme="dark"] .nx-updates-icon-button {
 html[data-theme="dark"] .nx-updates-icon-button:hover {
   background: #263c50;
 }
+
+
+/* Header-only NaukriExpress announcement control (replaces the floating launcher). */
+.nx-updates-header-trigger {
+  position: relative;
+  display: inline-flex;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #b8ddcb;
+  border-radius: 12px;
+  background: #eef9f2;
+  color: #087b51;
+  box-shadow: 0 1px 2px rgb(15 65 44 / 8%);
+  transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+.nx-updates-header-trigger:hover {
+  transform: translateY(-1px);
+  border-color: #79c7a0;
+  background: #ddf4e6;
+}
+.nx-updates-header-trigger.is-open {
+  background: #d5f0df;
+  color: #075d40;
+}
+.nx-updates-header-count {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  display: grid;
+  min-width: 20px;
+  height: 20px;
+  place-items: center;
+  padding: 0 4px;
+  border: 2px solid #ffffff;
+  border-radius: 999px;
+  background: #e44747;
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: 900;
+  line-height: 1;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 18%);
+}
+.nx-updates-header-trigger.has-unread .nx-updates-header-count {
+  animation: nx-updates-badge-pulse 1.8s ease-in-out infinite;
+}
+@keyframes nx-updates-badge-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgb(228 71 71 / 28%); }
+  50% { box-shadow: 0 0 0 5px rgb(228 71 71 / 0%); }
+}
+html[data-theme="dark"] .nx-updates-header-trigger {
+  border-color: #2e7258;
+  background: #12382e;
+  color: #90e2bb;
+}
+html[data-theme="dark"] .nx-updates-header-trigger:hover,
+html[data-theme="dark"] .nx-updates-header-trigger.is-open {
+  border-color: #40956f;
+  background: #194a39;
+  color: #b7f3d0;
+}
+html[data-theme="dark"] .nx-updates-header-count {
+  border-color: #111d2b;
+}
+
+/* Desktop opens below the header, aligned to the top-right controls.
+   On phones the earlier full-screen layout is retained. */
+.nx-updates-layer {
+  display: block;
+  overflow: hidden;
+  background: rgb(7 16 25 / 26%);
+  pointer-events: auto;
+}
+@media (min-width: 640px) {
+  .nx-updates-layer {
+    inset: 0;
+    background: rgb(7 16 25 / 20%);
+    pointer-events: auto;
+  }
+  .nx-updates-panel {
+    inset: 88px 18px auto auto;
+    width: min(430px, calc(100vw - 36px));
+    height: min(690px, calc(100dvh - 108px));
+    border: 1px solid #d8e5df;
+    border-radius: 20px;
+    pointer-events: auto;
+  }
+}
+@media (max-width: 639px) {
+  .nx-updates-header-trigger {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+  }
+}
+html[data-theme="dark"] .nx-updates-panel {
+  border-color: #2d455c;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nx-updates-header-trigger,
+  .nx-updates-header-trigger.has-unread .nx-updates-header-count {
+    animation: none !important;
+    transition: none !important;
+  }
+}
