@@ -229,11 +229,11 @@ export default function EducationDirectory({
               return (
                 <article key={item.id} className="education-exam-card rounded-2xl border border-ink-900/10 bg-white p-4 shadow-card transition hover:-translate-y-0.5 hover:shadow-lg sm:p-5">
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="rounded-full bg-brand-50 px-2.5 py-1 text-[11px] font-bold text-brand-700">{categoryLabel || "Entrance Exam"}</span>
+                    <span className="education-exam-category rounded-full bg-brand-50 px-2.5 py-1 text-[11px] font-bold text-brand-700">{categoryLabel || "Entrance Exam"}</span>
                     <div className="flex flex-wrap gap-1.5">
                       {item.is_new && <span className="rounded-full bg-saffron-50 px-2.5 py-1 text-[11px] font-bold text-saffron-700">NEW ADDED</span>}
-                      <span className={`rounded-full px-2.5 py-1 text-[11px] font-bold ${status.style}`}>{status.label}</span>
-                      {item.academic_year && <span className="rounded-full bg-ink-900/5 px-2.5 py-1 text-[11px] font-bold text-ink-700">{item.academic_year}</span>}
+                      <span className={`education-status-badge rounded-full px-2.5 py-1 text-[11px] font-bold ${status.style}`}>{status.label}</span>
+                      {item.academic_year && <span className="education-year-badge rounded-full bg-ink-900/5 px-2.5 py-1 text-[11px] font-bold text-ink-700">{item.academic_year}</span>}
                     </div>
                   </div>
                   <h3 className="mt-3 font-display text-lg font-extrabold leading-snug text-ink-900">{item.title}</h3>
@@ -264,23 +264,23 @@ export default function EducationDirectory({
 
                   <div className="mt-4 flex flex-wrap gap-2">
                     {item.item_url && (
-                      <a href={item.item_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 rounded-lg border border-brand-600 px-3 py-2 text-xs font-bold text-brand-700 transition hover:bg-brand-50">
+                      <a href={item.item_url} target="_blank" rel="noopener noreferrer" className="education-notification-link inline-flex items-center gap-1.5 rounded-lg border border-brand-600 px-3 py-2 text-xs font-bold text-brand-700 transition hover:bg-brand-50">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 3h7l5 5v13H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round"/><path d="M14 3v5h5M8 14h8M8 17h8" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"/></svg>
                         Notification / PDF
                       </a>
                     )}
                     {item.apply_url && (
-                      <a href={item.apply_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 rounded-lg bg-leaf-600 px-3 py-2 text-xs font-bold text-white transition hover:bg-leaf-700">
+                      <a href={item.apply_url} target="_blank" rel="noopener noreferrer" className="education-apply-link inline-flex items-center gap-1.5 rounded-lg bg-leaf-600 px-3 py-2 text-xs font-bold text-white transition hover:bg-leaf-700">
                         Apply Online <span aria-hidden="true">↗</span>
                       </a>
                     )}
                     {item.cap_url && (
-                      <a href={item.cap_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 rounded-lg border border-saffron-400 bg-saffron-50 px-3 py-2 text-xs font-bold text-saffron-700 transition hover:bg-saffron-100">
+                      <a href={item.cap_url} target="_blank" rel="noopener noreferrer" className="education-cap-link inline-flex items-center gap-1.5 rounded-lg border border-saffron-400 bg-saffron-50 px-3 py-2 text-xs font-bold text-saffron-700 transition hover:bg-saffron-100">
                         CAP / Admission <span aria-hidden="true">↗</span>
                       </a>
                     )}
                     {item.official_website_url && (
-                      <a href={item.official_website_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 rounded-lg border border-ink-900/15 px-3 py-2 text-xs font-bold text-ink-700 transition hover:bg-paper">
+                      <a href={item.official_website_url} target="_blank" rel="noopener noreferrer" className="education-official-link inline-flex items-center gap-1.5 rounded-lg border border-ink-900/15 px-3 py-2 text-xs font-bold text-ink-700 transition hover:bg-paper">
                         Official Website <span aria-hidden="true">↗</span>
                       </a>
                     )}
