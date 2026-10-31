@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { createJobAction } from "@/lib/actions";
 import { JOB_LOCATION_OPTIONS } from "@/lib/locations";
+import RichTextEditor from "@/components/RichTextEditor";
 
 type Trade = {
   id: number;
@@ -454,17 +455,19 @@ export default function ApprenticePostForm() {
       </section>
 
       <section className="space-y-4">
-        <h3 className="text-lg font-bold">Additional Information</h3>
+        <h3 className="text-lg font-bold">Content</h3>
+        <p className="text-xs text-gray-600">
+          Use normal rich text, or enter one item per line as Label | Value to show a specification-style table on the public page.
+        </p>
+        <RichTextEditor
+          name="content_eligibility"
+          label="Eligibility Details"
+          placeholder="Example: Age Limit | 18–25 years (one Label | Value item per line)"
+        />
+      </section>
 
-        <label className="block space-y-1.5">
-          <span className="text-sm font-semibold">Eligibility Details</span>
-          <textarea
-            name="content_eligibility"
-            rows={3}
-            className={inputClass}
-            placeholder="Eligibility conditions..."
-          />
-        </label>
+      <section className="space-y-4">
+        <h3 className="text-lg font-bold">Additional Information</h3>
 
         <label className="block space-y-1.5">
           <span className="text-sm font-semibold">Selection Process</span>
