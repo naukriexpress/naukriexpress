@@ -28,12 +28,25 @@ export async function GET(req: NextRequest) {
   };
 
   const { results, total } = await queryJobs(filters);
-  return NextResponse.json({
+  const response = NextResponse.json({
     data: results,
     total,
     page: filters.page,
     pageSize: filters.pageSize,
   });
+
+  // Public published-job listings are identical for every visitor. Let the
+  // browser and Vercel edge reuse them briefly instead of querying Postgres
+  // on every homepage visit. Never shared-cache drafts or admin-wide results.
+  const isPublicListing = !sp.get("status") || sp.get("status") === "published";
+  response.headers.set(
+    "Cache-Control",
+    isPublicListing
+      ? "public, max-age=15, s-maxage=60, stale-while-revalidate=300"
+      : "private, no-store"
+  );
+
+  return response;
 }
 
 // Admin-only programmatic job creation. Public /admin/jobs/new form is the
