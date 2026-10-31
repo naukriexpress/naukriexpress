@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { applySiteTheme } from "./siteTheme";
+import { applyEducationDarkMode } from "./siteTheme";
 
 export default function EducationNavLink({ variant = "desktop" }: { variant?: "desktop" | "compact" }) {
   const compact = variant === "compact";
@@ -10,7 +10,7 @@ export default function EducationNavLink({ variant = "desktop" }: { variant?: "d
       href="/education"
       aria-label="Education"
       title="Education"
-      onClick={() => applySiteTheme("dark")}
+      onClick={applyEducationDarkMode}
       className={`inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-lg border border-saffron-600 bg-saffron-500 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-saffron-600 ${compact ? "px-2.5 sm:px-3 lg:hidden" : "px-3"}`}
     >
       <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true">
