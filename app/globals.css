@@ -4107,25 +4107,20 @@ html[data-theme="dark"] .nx-updates-panel {
 }
 
 
-/* Match all four compact mobile header controls to the Search button styling. */
+
+/* Mobile header actions use the same 40px control height as the Search button.
+   Preserve each control's original color treatment; keep icon buttons square. */
 @media (max-width: 767px) {
-  .site-header-theme-mobile .theme-toggle-button.site-header-orange-action,
-  .site-header-actions .nx-updates-header-trigger.site-header-orange-action,
-  .site-header-mobile-links > a.site-header-orange-action,
-  .site-header-mobile-links .menu-button-moving-border.site-header-orange-action {
-    @apply border-saffron-600 bg-saffron-500 text-white shadow-sm;
-    border-radius: 8px !important;
-    color: #ffffff !important;
-  }
-
-  .site-header-theme-mobile .theme-toggle-button.site-header-orange-action:hover,
-  .site-header-actions .nx-updates-header-trigger.site-header-orange-action:hover,
-  .site-header-mobile-links > a.site-header-orange-action:hover,
-  .site-header-mobile-links .menu-button-moving-border.site-header-orange-action:hover {
-    @apply bg-saffron-600;
-  }
-
-  .site-header-theme-mobile .theme-toggle-button.site-header-orange-action .theme-toggle-icon {
-    filter: brightness(0) invert(1);
+  .site-header-theme-mobile .theme-toggle-button,
+  .site-header-actions .nx-updates-header-trigger,
+  .site-header-mobile-links > a,
+  .site-header-mobile-links > button,
+  .site-header-mobile-links .menu-button-moving-border {
+    width: 40px !important;
+    min-width: 40px !important;
+    height: 40px !important;
+    flex: 0 0 40px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 }
