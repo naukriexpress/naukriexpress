@@ -4138,3 +4138,72 @@ html[data-theme="dark"] .nx-updates-panel {
     border-color: #5738b2 !important;
   }
 }
+
+
+/* Purple glass finish for the mobile Education shortcut, with a soft shimmer. */
+@media (max-width: 767px) {
+  .site-header-mobile-links > a.site-header-education-action {
+    position: relative !important;
+    isolation: isolate;
+    overflow: hidden;
+    border: 1px solid rgb(255 255 255 / 72%) !important;
+    background: linear-gradient(135deg, rgb(163 143 255 / 84%), rgb(102 76 199 / 76%)) !important;
+    color: #ffffff !important;
+    -webkit-backdrop-filter: blur(12px) saturate(155%);
+    backdrop-filter: blur(12px) saturate(155%);
+    box-shadow:
+      0 5px 14px rgb(67 45 145 / 24%),
+      inset 0 1px 0 rgb(255 255 255 / 72%),
+      inset 0 -1px 0 rgb(54 34 127 / 15%) !important;
+    transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease !important;
+  }
+
+  .site-header-mobile-links > a.site-header-education-action::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      108deg,
+      transparent 18%,
+      rgb(255 255 255 / 5%) 34%,
+      rgb(255 255 255 / 58%) 50%,
+      rgb(255 255 255 / 5%) 66%,
+      transparent 82%
+    );
+    transform: translateX(-135%) skewX(-18deg);
+    animation: education-glass-shimmer 3.8s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .site-header-mobile-links > a.site-header-education-action > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .site-header-mobile-links > a.site-header-education-action:hover {
+    filter: brightness(1.07);
+    transform: translateY(-1px);
+    box-shadow:
+      0 7px 17px rgb(67 45 145 / 30%),
+      inset 0 1px 0 rgb(255 255 255 / 78%) !important;
+  }
+
+  .site-header-mobile-links > a.site-header-education-action:active {
+    transform: scale(.96);
+  }
+}
+
+@keyframes education-glass-shimmer {
+  0%, 12% { transform: translateX(-135%) skewX(-18deg); }
+  58%, 100% { transform: translateX(135%) skewX(-18deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header-mobile-links > a.site-header-education-action,
+  .site-header-mobile-links > a.site-header-education-action::before {
+    animation: none !important;
+    transition: none !important;
+  }
+}
