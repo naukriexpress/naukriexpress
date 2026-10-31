@@ -3789,3 +3789,48 @@ html[data-theme="dark"] .nx-updates-panel {
   bottom: auto !important;
   margin: 0 !important;
 }
+
+
+/* Taller message window: keep search and filters visible while 3 messages fit. */
+.nx-updates-panel {
+  height: min(610px, calc(100dvh - 104px)) !important;
+  max-height: min(610px, calc(100dvh - 104px)) !important;
+}
+.nx-updates-list {
+  min-height: min(262px, calc(100dvh - 330px)) !important;
+  max-height: none !important;
+  flex: 1 1 0% !important;
+  overflow-y: auto !important;
+  scrollbar-width: thin;
+  overscroll-behavior: contain;
+}
+.nx-updates-row {
+  min-height: 76px !important;
+}
+.nx-updates-search-wrap,
+.nx-updates-filters,
+.nx-updates-bottom-nav {
+  flex-shrink: 0 !important;
+}
+@media (max-width: 639px) {
+  .nx-updates-panel {
+    height: min(610px, calc(100dvh - 28px)) !important;
+    max-height: calc(100dvh - 28px) !important;
+  }
+  .nx-updates-list {
+    min-height: min(262px, calc(100dvh - 310px)) !important;
+    max-height: none !important;
+  }
+}
+@media (max-height: 560px) {
+  .nx-updates-panel {
+    height: calc(100dvh - 16px) !important;
+    max-height: calc(100dvh - 16px) !important;
+  }
+  .nx-updates-list {
+    min-height: 110px !important;
+  }
+  .nx-updates-row {
+    min-height: 68px !important;
+  }
+}
