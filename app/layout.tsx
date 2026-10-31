@@ -5,7 +5,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import RunningTicker from "@/components/RunningTicker";
 import SiteVisitTracker from "@/components/SiteVisitTracker";
-import AnnouncementChatWidget from "@/components/AnnouncementChatWidget";
 
 const SITE_URL = "https://www.naukriexpress.space";
 
@@ -119,7 +118,6 @@ export default function RootLayout({
         <Header />
         <main className="min-h-[70vh]">{children}</main>
         <Footer />
-        <AnnouncementChatWidget />
       </body>
     </html>
   );
