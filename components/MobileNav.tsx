@@ -6,7 +6,7 @@ import { createPortal } from "react-dom";
 import { usePathname, useSearchParams } from "next/navigation";
 import AdmitCardButton from "./AdmitCardButton";
 import EligibilityFinder from "./EligibilityFinder";
-import { applySiteTheme } from "./siteTheme";
+import { applyEducationDarkMode } from "./siteTheme";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -164,7 +164,7 @@ export default function MobileNav({ states }: { states: string[] }) {
                       key={item.label}
                       href={item.href}
                       onClick={() => {
-                        if (item.href === "/education") applySiteTheme("dark");
+                        if (item.href === "/education") applyEducationDarkMode();
                         setOpen(false);
                       }}
                       className="flex items-center justify-between rounded-xl px-4 py-3.5 text-sm font-semibold text-ink-800 transition-colors hover:bg-brand-50 hover:text-brand-700"
@@ -181,7 +181,7 @@ export default function MobileNav({ states }: { states: string[] }) {
                       key={item.label}
                       href={item.href}
                       onClick={() => {
-                        if (item.href === "/education") applySiteTheme("dark");
+                        if (item.href === "/education") applyEducationDarkMode();
                         setOpen(false);
                       }}
                       className="flex items-center justify-between rounded-xl px-4 py-3.5 text-sm font-semibold text-ink-800 transition-colors hover:bg-brand-50 hover:text-brand-700"
