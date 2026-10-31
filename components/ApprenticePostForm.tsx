@@ -159,7 +159,7 @@ export default function ApprenticePostForm() {
         <h3 className="text-lg font-bold">Trade / Post Details</h3>
 
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[760px] border-collapse text-sm">
+          <table className="w-full min-w-[1000px] border-collapse text-sm">
             <thead className="bg-gray-100">
               <tr>
                 <th className="border p-3">Sr. No.</th>
