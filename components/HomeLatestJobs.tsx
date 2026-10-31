@@ -102,7 +102,6 @@ export default function HomeLatestJobs() {
 
     async function fetchPage(page: number): Promise<{ data: JobPosting[]; total?: number }> {
       const response = await fetch(getJobsEndpoint(page), {
-        cache: "no-store",
         signal: controller.signal,
       });
       if (!response.ok) throw new Error("Unable to load jobs");
