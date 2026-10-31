@@ -3834,3 +3834,100 @@ html[data-theme="dark"] .nx-updates-panel {
     min-height: 68px !important;
   }
 }
+
+
+/* Keep the complete NaukriExpress name visible in the compact phone header. */
+@media (max-width: 639px) {
+  .site-header-main-row {
+    gap: 5px !important;
+    padding-top: 9px !important;
+    padding-bottom: 9px !important;
+  }
+  .site-header-brand {
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+    gap: 6px !important;
+  }
+  .site-header-brand-mark {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 10px !important;
+    font-size: 16px !important;
+  }
+  .site-header-brand-copy {
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+    overflow: visible !important;
+  }
+  .site-header-brand-title {
+    display: block !important;
+    overflow: visible !important;
+    white-space: nowrap !important;
+    text-overflow: clip !important;
+    font-size: 16px !important;
+    line-height: 1.15 !important;
+    letter-spacing: -0.035em !important;
+  }
+  .site-header-brand-subtitle {
+    font-size: 9px !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0 !important;
+  }
+  .site-header-actions {
+    min-width: max-content !important;
+    flex: 0 0 auto !important;
+    gap: 4px !important;
+  }
+  .site-header-theme-mobile {
+    gap: 0 !important;
+  }
+  .site-header-theme-mobile .theme-toggle-button {
+    width: 34px !important;
+    min-width: 34px !important;
+    height: 36px !important;
+    padding: 0 !important;
+    border-radius: 10px !important;
+  }
+  .site-header-theme-mobile .theme-toggle-icon-shell {
+    width: 20px !important;
+    height: 20px !important;
+    flex-basis: 20px !important;
+  }
+  .site-header-theme-mobile .theme-toggle-icon {
+    width: 18px !important;
+    height: 18px !important;
+  }
+  .site-header-actions .nx-updates-header-trigger {
+    width: 34px !important;
+    min-width: 34px !important;
+    height: 36px !important;
+    border-radius: 10px !important;
+  }
+  .site-header-mobile-links {
+    gap: 4px !important;
+  }
+  .site-header-mobile-links > a,
+  .site-header-mobile-links > button,
+  .site-header-mobile-links .menu-button-moving-border {
+    width: 34px !important;
+    min-width: 34px !important;
+    height: 36px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    border-radius: 10px !important;
+  }
+  .site-header-mobile-links > a svg,
+  .site-header-mobile-links .menu-button-moving-border > svg:not(.menu-button-border-svg) {
+    width: 18px !important;
+    height: 18px !important;
+  }
+}
+@media (max-width: 380px) {
+  /* Education is still available inside the hamburger menu on narrow phones. */
+  .site-header-mobile-links > a[aria-label="Education"] {
+    display: none !important;
+  }
+  .site-header-brand-title {
+    font-size: 15.5px !important;
+  }
+}
