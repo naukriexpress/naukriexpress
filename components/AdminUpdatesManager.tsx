@@ -183,7 +183,7 @@ export default function AdminUpdatesManager() {
         </span>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-6">
+      <form id="new-message" onSubmit={handleSubmit} className="space-y-4 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-6">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h2 className="text-lg font-bold text-ink-900">
             {editingId ? "Edit Announcement" : "Create Announcement"}
