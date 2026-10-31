@@ -3931,3 +3931,47 @@ html[data-theme="dark"] .nx-updates-panel {
     font-size: 15.5px !important;
   }
 }
+
+
+/* Keep Education shortcut visible on every phone width, including <=380px. */
+@media (max-width: 639px) {
+  .site-header-mobile-links > a[aria-label="Education"] {
+    display: inline-flex !important;
+    visibility: visible !important;
+  }
+}
+@media (max-width: 380px) {
+  .site-header-main-row {
+    gap: 3px !important;
+  }
+  .site-header-brand {
+    gap: 4px !important;
+  }
+  .site-header-brand-mark {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 14px !important;
+  }
+  .site-header-brand-title {
+    font-size: 14.5px !important;
+    letter-spacing: -0.045em !important;
+  }
+  .site-header-brand-subtitle {
+    display: none !important;
+  }
+  .site-header-actions {
+    gap: 2px !important;
+  }
+  .site-header-theme-mobile .theme-toggle-button,
+  .site-header-actions .nx-updates-header-trigger,
+  .site-header-mobile-links > a,
+  .site-header-mobile-links > button,
+  .site-header-mobile-links .menu-button-moving-border {
+    width: 30px !important;
+    min-width: 30px !important;
+    height: 34px !important;
+  }
+  .site-header-mobile-links {
+    gap: 2px !important;
+  }
+}
