@@ -2257,3 +2257,47 @@ html[data-theme="dark"] .education-directory-hero .education-stat-label {
   color: #c5d5e7 !important;
   opacity: 1 !important;
 }
+
+
+/* Simple Education title layout: one title, with the graduation mark tucked at top-right. */
+.education-directory-shell {
+  background: #ffffff !important;
+  background-image: none !important;
+  border-color: #dbe5ef !important;
+  box-shadow: 0 3px 14px rgb(15 23 42 / 5%) !important;
+}
+.education-directory-hero {
+  background: #f7f9fc !important;
+}
+.education-directory-logo {
+  background: #fff0d8 !important;
+  color: #174477 !important;
+  border: 1px solid #f1d7ad !important;
+  box-shadow: none !important;
+}
+.education-directory-title {
+  margin: 0 auto;
+  max-width: 100%;
+}
+.education-category-panel {
+  background: #ffffff !important;
+}
+
+html[data-theme="dark"] .education-directory-shell {
+  background: #101e30 !important;
+  background-image: none !important;
+}
+html[data-theme="dark"] .education-directory-hero {
+  background: #162a40 !important;
+}
+html[data-theme="dark"] .education-directory-logo {
+  background: #3c3329 !important;
+  color: #ffd28b !important;
+  border-color: #665033 !important;
+}
+html[data-theme="dark"] .education-directory-title {
+  color: #f1f6fd !important;
+}
+html[data-theme="dark"] .education-category-panel {
+  background: #111f31 !important;
+}
