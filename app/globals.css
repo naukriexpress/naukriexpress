@@ -2275,8 +2275,12 @@ html[data-theme="dark"] .education-directory-hero .education-stat-label {
   border: 1px solid #f1d7ad !important;
   box-shadow: none !important;
 }
+.education-directory-heading {
+  width: 100%;
+}
+
 .education-directory-title {
-  margin: 0 auto;
+  margin: 0;
   max-width: 100%;
 }
 .education-category-panel {
