@@ -122,14 +122,18 @@ export default function EducationDirectory({
   return (
     <section className="container-page py-7 sm:py-10">
       <div className="education-directory-shell overflow-hidden rounded-3xl border border-brand-100 bg-gradient-to-br from-blue-50 via-white to-orange-50 shadow-card">
-        <div className="education-directory-hero relative px-5 pb-8 pt-20 text-center sm:px-10 sm:pb-10 sm:pt-20">
-          <span className="education-directory-logo absolute right-5 top-5 grid h-11 w-11 place-items-center rounded-xl bg-saffron-100 text-brand-700 sm:right-8 sm:top-6">
-            <svg width="25" height="25" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="m2.5 9 9.5-5 9.5 5-9.5 5-9.5-5Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
-              <path d="M6 11v5.2c3.2 2.6 8.8 2.6 12 0V11M21.5 9v6" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </span>
-          <h1 className="education-directory-title font-display text-3xl font-extrabold tracking-tight text-ink-900 sm:text-4xl">Education Entrance Directory</h1>
+        <div className="education-directory-hero px-5 py-8 sm:px-10 sm:py-10">
+          <div className="education-directory-heading mx-auto flex max-w-3xl items-center justify-center gap-3 sm:gap-4">
+            <span className="education-directory-logo grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-saffron-100 text-brand-700 sm:h-12 sm:w-12">
+              <svg width="25" height="25" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="m2.5 9 9.5-5 9.5 5-9.5 5-9.5-5Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
+                <path d="M6 11v5.2c3.2 2.6 8.8 2.6 12 0V11M21.5 9v6" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
+            <h1 className="education-directory-title text-left font-display text-2xl font-extrabold leading-tight tracking-tight text-ink-900 sm:text-4xl">
+              Education Entrance Directory
+            </h1>
+          </div>
           <div className="mx-auto mt-6 grid max-w-lg grid-cols-3 gap-2">
             <div className="education-stat-card rounded-xl border border-white bg-white/90 px-2 py-3 shadow-sm">
               <p className="education-stat-number education-stat-number--total font-display text-xl font-extrabold text-brand-700">{items.length}</p>
