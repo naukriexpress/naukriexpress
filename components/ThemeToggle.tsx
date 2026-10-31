@@ -1,13 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { applySiteTheme } from "./siteTheme";
 
 type Theme = "light" | "dark";
-
-function applyTheme(theme: Theme) {
-  document.documentElement.dataset.theme = theme;
-  window.localStorage.setItem("naukriexpress-theme", theme);
-}
 
 export default function ThemeToggle({ compact = false }: { compact?: boolean }) {
   const [theme, setTheme] = useState<Theme>("light");
@@ -35,13 +31,22 @@ export default function ThemeToggle({ compact = false }: { compact?: boolean }) 
       setTheme(nextTheme);
     };
 
+    const handleExternalThemeChange = (event: Event) => {
+      const nextTheme = (event as CustomEvent<Theme>).detail;
+      if (nextTheme === "dark" || nextTheme === "light") setTheme(nextTheme);
+    };
+
     mediaQuery.addEventListener("change", handleSystemThemeChange);
-    return () => mediaQuery.removeEventListener("change", handleSystemThemeChange);
+    window.addEventListener("naukriexpress-theme-change", handleExternalThemeChange);
+    return () => {
+      mediaQuery.removeEventListener("change", handleSystemThemeChange);
+      window.removeEventListener("naukriexpress-theme-change", handleExternalThemeChange);
+    };
   }, []);
 
   function toggleTheme() {
     const nextTheme = theme === "dark" ? "light" : "dark";
-    applyTheme(nextTheme);
+    applySiteTheme(nextTheme);
     setTheme(nextTheme);
   }
 
