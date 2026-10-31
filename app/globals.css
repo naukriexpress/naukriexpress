@@ -2050,3 +2050,187 @@ html[data-theme="dark"] .highest-vacancy-countdown-ring-track {
     will-change: auto;
   }
 }
+
+
+/* Education directory dark mode: keep every surface and its text in the same contrast palette. */
+html[data-theme="dark"] .education-directory-shell {
+  background: #101e30 !important;
+  background-image: none !important;
+  border-color: #314963 !important;
+  color: #eaf2fb !important;
+}
+html[data-theme="dark"] .education-directory-hero {
+  background: linear-gradient(135deg, #142941 0%, #17283a 55%, #2a2c36 100%) !important;
+}
+html[data-theme="dark"] .education-directory-hero h1,
+html[data-theme="dark"] .education-directory-hero p {
+  color: #edf5ff !important;
+}
+html[data-theme="dark"] .education-directory-hero > p:first-of-type {
+  color: #9bcaff !important;
+}
+html[data-theme="dark"] .education-directory-hero > span:first-child {
+  background: #3c3329 !important;
+  color: #ffd28b !important;
+}
+html[data-theme="dark"] .education-stat-card {
+  background: #1a2d43 !important;
+  border-color: #3a526d !important;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 18%) !important;
+}
+html[data-theme="dark"] .education-stat-label {
+  color: #b8c9dc !important;
+}
+html[data-theme="dark"] .education-category-panel {
+  background: #111f31 !important;
+  border-color: #314963 !important;
+}
+html[data-theme="dark"] .education-section-title {
+  color: #f1f6fd !important;
+}
+html[data-theme="dark"] .education-category-panel p {
+  color: #b7c9dd !important;
+}
+html[data-theme="dark"] .education-category-card {
+  background: #192b40 !important;
+  border-color: #3a526d !important;
+  color: #edf5ff !important;
+}
+html[data-theme="dark"] .education-category-card:hover {
+  background: #223b56 !important;
+  border-color: #76b8f5 !important;
+  color: #ffffff !important;
+}
+html[data-theme="dark"] .education-category-card > span:first-child {
+  background: #294563 !important;
+  color: #c8e3ff !important;
+}
+html[data-theme="dark"] .education-category-card > span:nth-last-child(2) {
+  background: #263d57 !important;
+  color: #d8e8f8 !important;
+}
+html[data-theme="dark"] .education-category-card > span:last-child {
+  color: #9bb6d2 !important;
+}
+html[data-theme="dark"] .education-category-card[aria-current="page"] {
+  background: #214267 !important;
+  border-color: #7dbdff !important;
+  color: #ffffff !important;
+}
+html[data-theme="dark"] .education-category-card[aria-current="page"] > span:first-child {
+  background: #3475b5 !important;
+  color: #ffffff !important;
+}
+html[data-theme="dark"] .education-category-card[aria-current="page"] > span:nth-last-child(2) {
+  background: #e7f2ff !important;
+  color: #17436c !important;
+}
+html[data-theme="dark"] .education-results-count {
+  background: #1a2d43 !important;
+  color: #e7f1fc !important;
+  border: 1px solid #3a526d !important;
+}
+html[data-theme="dark"] .education-search-box {
+  background: #14263b !important;
+  border-color: #3a526d !important;
+}
+html[data-theme="dark"] .education-search-box svg {
+  color: #a9c3df !important;
+}
+html[data-theme="dark"] .education-search-box input {
+  background: transparent !important;
+  color: #f0f6ff !important;
+}
+html[data-theme="dark"] .education-search-box input::placeholder {
+  color: #9fb2c8 !important;
+}
+html[data-theme="dark"] .education-exam-card {
+  background: #111f31 !important;
+  background-image: none !important;
+  border-color: #354e69 !important;
+  color: #eaf2fb !important;
+  box-shadow: 0 5px 16px rgb(0 0 0 / 18%) !important;
+}
+html[data-theme="dark"] .education-exam-card h3 {
+  color: #f2f7ff !important;
+}
+html[data-theme="dark"] .education-exam-card > div:first-child > span {
+  color: #c5e0ff !important;
+  background: #203b59 !important;
+}
+html[data-theme="dark"] .education-exam-card .education-exam-category {
+  background: #203b59 !important;
+  color: #c5e0ff !important;
+}
+html[data-theme="dark"] .education-exam-card .education-status-badge {
+  background: #25364a !important;
+  color: #e0ebf7 !important;
+  border: 1px solid #51677f !important;
+}
+html[data-theme="dark"] .education-exam-card .education-year-badge {
+  background: #28394e !important;
+  color: #d7e6f6 !important;
+}
+html[data-theme="dark"] .education-exam-card .education-exam-description,
+html[data-theme="dark"] .education-exam-card .education-eligibility-copy {
+  color: #d4e0ed !important;
+}
+html[data-theme="dark"] .education-exam-card .education-date-panel {
+  background: #1a2d43 !important;
+  border: 1px solid #354f6b !important;
+}
+html[data-theme="dark"] .education-exam-card .education-date-label,
+html[data-theme="dark"] .education-exam-card .education-eligibility-label {
+  color: #a9c5e1 !important;
+}
+html[data-theme="dark"] .education-exam-card .education-date-panel p:not(.education-date-label) {
+  color: #f0f6ff !important;
+}
+html[data-theme="dark"] .education-notification-link {
+  background: #1b3652 !important;
+  border-color: #6da9e7 !important;
+  color: #c9e4ff !important;
+}
+html[data-theme="dark"] .education-notification-link:hover {
+  background: #25496d !important;
+}
+html[data-theme="dark"] .education-apply-link {
+  background: #17613f !important;
+  color: #f0fff6 !important;
+}
+html[data-theme="dark"] .education-cap-link {
+  background: #49371c !important;
+  border-color: #b88b3e !important;
+  color: #ffe2a6 !important;
+}
+html[data-theme="dark"] .education-cap-link:hover {
+  background: #62491f !important;
+}
+html[data-theme="dark"] .education-official-link {
+  background: #1c2e43 !important;
+  border-color: #526a84 !important;
+  color: #d4e5f7 !important;
+}
+html[data-theme="dark"] .education-official-link:hover {
+  background: #2a4059 !important;
+}
+html[data-theme="dark"] .education-exam-list > div > div,
+html[data-theme="dark"] .education-exam-list > div.rounded-2xl {
+  background: #14263a !important;
+  border-color: #3a526d !important;
+  color: #eaf2fb !important;
+}
+html[data-theme="dark"] .education-exam-list > div h3,
+html[data-theme="dark"] .education-exam-list > div p {
+  color: #d9e6f4 !important;
+}
+html[data-theme="dark"] .education-exam-list > div a {
+  color: #9bcaff !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .education-category-card,
+  .education-exam-card {
+    transition: none !important;
+    transform: none !important;
+  }
+}
