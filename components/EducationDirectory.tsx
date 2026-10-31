@@ -136,15 +136,15 @@ export default function EducationDirectory({
           </p>
           <div className="mx-auto mt-6 grid max-w-lg grid-cols-3 gap-2">
             <div className="education-stat-card rounded-xl border border-white bg-white/90 px-2 py-3 shadow-sm">
-              <p className="font-display text-xl font-extrabold text-brand-700">{items.length}</p>
+              <p className="education-stat-number education-stat-number--total font-display text-xl font-extrabold text-brand-700">{items.length}</p>
               <p className="education-stat-label text-[11px] font-semibold text-ink-700/60">Listed Exams</p>
             </div>
-            <div className="rounded-xl border border-white bg-white/90 px-2 py-3 shadow-sm">
-              <p className="font-display text-xl font-extrabold text-leaf-600">{openCount}</p>
+            <div className="education-stat-card rounded-xl border border-white bg-white/90 px-2 py-3 shadow-sm">
+              <p className="education-stat-number education-stat-number--open font-display text-xl font-extrabold text-leaf-600">{openCount}</p>
               <p className="education-stat-label text-[11px] font-semibold text-ink-700/60">Registration Open</p>
             </div>
-            <div className="rounded-xl border border-white bg-white/90 px-2 py-3 shadow-sm">
-              <p className="font-display text-xl font-extrabold text-saffron-600">{upcomingCount}</p>
+            <div className="education-stat-card rounded-xl border border-white bg-white/90 px-2 py-3 shadow-sm">
+              <p className="education-stat-number education-stat-number--upcoming font-display text-xl font-extrabold text-saffron-600">{upcomingCount}</p>
               <p className="education-stat-label text-[11px] font-semibold text-ink-700/60">Upcoming</p>
             </div>
           </div>
