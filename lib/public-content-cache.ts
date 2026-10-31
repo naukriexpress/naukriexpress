@@ -266,7 +266,7 @@ export async function getEducationDirectory(): Promise<SiteUpdateItem[]> {
       exam.courses?.length ? `Courses: ${exam.courses.join(", ")}` : "",
       `Exam level: ${exam.exam_level}; Type: ${exam.exam_type}`,
       exam.notes || "",
-    ].filter(Boolean).join("\\n");
+    ].filter(Boolean).join("\n");
 
     return {
       id: override?.id ?? index + 1,
