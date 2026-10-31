@@ -122,18 +122,14 @@ export default function EducationDirectory({
   return (
     <section className="container-page py-7 sm:py-10">
       <div className="education-directory-shell overflow-hidden rounded-3xl border border-brand-100 bg-gradient-to-br from-blue-50 via-white to-orange-50 shadow-card">
-        <div className="education-directory-hero px-5 py-8 text-center sm:px-10 sm:py-11">
-          <span className="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-saffron-100 text-brand-700 shadow-sm">
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <div className="education-directory-hero relative px-5 pb-8 pt-20 text-center sm:px-10 sm:pb-10 sm:pt-20">
+          <span className="education-directory-logo absolute right-5 top-5 grid h-11 w-11 place-items-center rounded-xl bg-saffron-100 text-brand-700 sm:right-8 sm:top-6">
+            <svg width="25" height="25" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="m2.5 9 9.5-5 9.5 5-9.5 5-9.5-5Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
               <path d="M6 11v5.2c3.2 2.6 8.8 2.6 12 0V11M21.5 9v6" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </span>
-          <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-brand-700">NaukriExpress Education</p>
-          <h1 className="font-display text-3xl font-extrabold tracking-tight text-ink-900 sm:text-4xl">Education Entrance Directory</h1>
-          <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-ink-700 sm:text-base">
-            Maharashtra and All India entrance exams, admission schedules, official notifications and application links — all in one place.
-          </p>
+          <h1 className="education-directory-title font-display text-3xl font-extrabold tracking-tight text-ink-900 sm:text-4xl">Education Entrance Directory</h1>
           <div className="mx-auto mt-6 grid max-w-lg grid-cols-3 gap-2">
             <div className="education-stat-card rounded-xl border border-white bg-white/90 px-2 py-3 shadow-sm">
               <p className="education-stat-number education-stat-number--total font-display text-xl font-extrabold text-brand-700">{items.length}</p>
@@ -155,7 +151,7 @@ export default function EducationDirectory({
             <div className="flex flex-wrap items-end justify-between gap-3">
               <div>
                 <h2 className="education-section-title font-display text-lg font-bold text-ink-900">Explore by Category</h2>
-                <p className="mt-1 text-xs text-ink-700/60">Category par click karke uske entrance exams dekhein.</p>
+                
               </div>
               {activeCategory !== "all" && (
                 <Link href="/education" className="text-xs font-semibold text-brand-700 hover:underline">View all categories</Link>
