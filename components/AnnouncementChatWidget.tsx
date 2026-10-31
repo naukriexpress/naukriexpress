@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
 
 type Announcement = {
@@ -141,7 +142,7 @@ export default function AnnouncementChatWidget({ compact = false }: { compact?: 
 
   return (
     <>
-      {open && (
+      {open && createPortal(
         <div className="nx-updates-layer" onClick={closePanel}>
           <section
             className="nx-updates-panel"
@@ -293,7 +294,8 @@ export default function AnnouncementChatWidget({ compact = false }: { compact?: 
               </article>
             )}
           </section>
-        </div>
+        </div>,
+        document.body
       )}
 
       <button
