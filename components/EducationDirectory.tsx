@@ -227,60 +227,60 @@ export default function EducationDirectory({
               const status = getStatus(item);
               const categoryLabel = CATEGORIES.find((category) => category.slug === item.education_category)?.label;
               return (
-                <article key={item.id} className="education-exam-card rounded-2xl border border-ink-900/10 bg-white p-4 shadow-card transition hover:-translate-y-0.5 hover:shadow-lg sm:p-5">
+                <article key={item.id} className="education-exam-card education-exam-card--colorful relative overflow-hidden rounded-2xl border p-4 shadow-card transition-all sm:p-5">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="education-exam-category rounded-full bg-brand-50 px-2.5 py-1 text-[11px] font-bold text-brand-700">{categoryLabel || "Entrance Exam"}</span>
                     <div className="flex flex-wrap gap-1.5">
                       {item.is_new && <span className="rounded-full bg-saffron-50 px-2.5 py-1 text-[11px] font-bold text-saffron-700">NEW ADDED</span>}
-                      <span className={`education-status-badge rounded-full px-2.5 py-1 text-[11px] font-bold ${status.style}`}>{status.label}</span>
+                      <span data-status={status.label} className={`education-status-badge rounded-full px-2.5 py-1 text-[11px] font-bold ${status.style}`}>{status.label}</span>
                       {item.academic_year && <span className="education-year-badge rounded-full bg-ink-900/5 px-2.5 py-1 text-[11px] font-bold text-ink-700">{item.academic_year}</span>}
                     </div>
                   </div>
-                  <h3 className="mt-3 font-display text-lg font-extrabold leading-snug text-ink-900">{item.title}</h3>
-                  {item.organization && <p className="mt-1 text-xs font-medium text-ink-700/60">{item.organization}</p>}
+                  <h3 className="education-exam-title mt-3 font-display text-lg font-extrabold leading-snug text-ink-900">{item.title}</h3>
+                  {item.organization && <p className="education-exam-organization mt-1 text-xs font-medium text-ink-700/60">{item.organization}</p>}
                   {item.description && <p className="education-exam-description mt-3 whitespace-pre-line text-sm leading-6 text-ink-700">{item.description}</p>}
 
-                  <div className="education-date-panel mt-4 grid grid-cols-2 gap-2 rounded-xl bg-paper p-3 sm:grid-cols-3">
-                    <div>
-                      <p className="education-date-label text-[10px] font-bold uppercase tracking-wide text-ink-700/50">Start Date</p>
-                      <p className="mt-1 text-xs font-semibold text-ink-900">{formatDate(item.start_date, item.application_start_display)}</p>
+                  <div className="education-date-panel mt-4 grid grid-cols-1 gap-2 rounded-xl p-2 sm:grid-cols-3">
+                    <div className="education-date-item education-date-item--start">
+                      <p className="education-date-label text-[10px] font-bold uppercase tracking-wide">Start Date</p>
+                      <p className="education-date-value mt-1 text-sm font-extrabold">{formatDate(item.start_date, item.application_start_display)}</p>
                     </div>
-                    <div>
-                      <p className="education-date-label text-[10px] font-bold uppercase tracking-wide text-ink-700/50">Last Date</p>
-                      <p className="mt-1 text-xs font-semibold text-ink-900">{formatDate(item.last_date, item.application_end_display)}</p>
+                    <div className="education-date-item education-date-item--last">
+                      <p className="education-date-label text-[10px] font-bold uppercase tracking-wide">Last Date</p>
+                      <p className="education-date-value mt-1 text-sm font-extrabold">{formatDate(item.last_date, item.application_end_display)}</p>
                     </div>
-                    <div className="col-span-2 sm:col-span-1">
-                      <p className="education-date-label text-[10px] font-bold uppercase tracking-wide text-ink-700/50">Exam Date</p>
-                      <p className="mt-1 text-xs font-semibold text-ink-900">{formatDate(item.exam_date, item.exam_date_display)}</p>
+                    <div className="education-date-item education-date-item--exam">
+                      <p className="education-date-label text-[10px] font-bold uppercase tracking-wide">Exam Date</p>
+                      <p className="education-date-value mt-1 text-sm font-extrabold">{formatDate(item.exam_date, item.exam_date_display)}</p>
                     </div>
                   </div>
 
                   {item.eligibility && (
-                    <div className="mt-3">
-                      <p className="education-eligibility-label text-[10px] font-bold uppercase tracking-wide text-ink-700/50">Eligibility</p>
+                    <div className="education-eligibility-panel mt-3 rounded-xl px-3 py-3">
+                      <p className="education-eligibility-label text-[10px] font-extrabold uppercase tracking-wide">Eligibility</p>
                       <p className="education-eligibility-copy mt-1 text-sm leading-5 text-ink-800">{item.eligibility}</p>
                     </div>
                   )}
 
-                  <div className="mt-4 flex flex-wrap gap-2">
+                  <div className="education-actions mt-4 flex flex-wrap gap-2">
                     {item.item_url && (
-                      <a href={item.item_url} target="_blank" rel="noopener noreferrer" className="education-notification-link inline-flex items-center gap-1.5 rounded-lg border border-brand-600 px-3 py-2 text-xs font-bold text-brand-700 transition hover:bg-brand-50">
+                      <a href={item.item_url} target="_blank" rel="noopener noreferrer" className="education-notification-link inline-flex items-center gap-1.5 rounded-lg px-3 py-2.5 text-xs font-extrabold text-white transition-all">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 3h7l5 5v13H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round"/><path d="M14 3v5h5M8 14h8M8 17h8" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"/></svg>
                         Notification / PDF
                       </a>
                     )}
                     {item.apply_url && (
-                      <a href={item.apply_url} target="_blank" rel="noopener noreferrer" className="education-apply-link inline-flex items-center gap-1.5 rounded-lg bg-leaf-600 px-3 py-2 text-xs font-bold text-white transition hover:bg-leaf-700">
+                      <a href={item.apply_url} target="_blank" rel="noopener noreferrer" className="education-apply-link inline-flex items-center gap-1.5 rounded-lg px-3 py-2.5 text-xs font-extrabold text-white transition-all">
                         Apply Online <span aria-hidden="true">↗</span>
                       </a>
                     )}
                     {item.cap_url && (
-                      <a href={item.cap_url} target="_blank" rel="noopener noreferrer" className="education-cap-link inline-flex items-center gap-1.5 rounded-lg border border-saffron-400 bg-saffron-50 px-3 py-2 text-xs font-bold text-saffron-700 transition hover:bg-saffron-100">
+                      <a href={item.cap_url} target="_blank" rel="noopener noreferrer" className="education-cap-link inline-flex items-center gap-1.5 rounded-lg px-3 py-2.5 text-xs font-extrabold text-white transition-all">
                         CAP / Admission <span aria-hidden="true">↗</span>
                       </a>
                     )}
                     {item.official_website_url && (
-                      <a href={item.official_website_url} target="_blank" rel="noopener noreferrer" className="education-official-link inline-flex items-center gap-1.5 rounded-lg border border-ink-900/15 px-3 py-2 text-xs font-bold text-ink-700 transition hover:bg-paper">
+                      <a href={item.official_website_url} target="_blank" rel="noopener noreferrer" className="education-official-link inline-flex items-center gap-1.5 rounded-lg px-3 py-2.5 text-xs font-extrabold text-white transition-all">
                         Official Website <span aria-hidden="true">↗</span>
                       </a>
                     )}
