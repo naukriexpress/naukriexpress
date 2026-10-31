@@ -11,7 +11,7 @@ export default function EducationNavLink({ variant = "desktop" }: { variant?: "d
       aria-label="Education"
       title="Education"
       onClick={applyEducationDarkMode}
-      className={`inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-lg border border-saffron-600 bg-saffron-500 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-saffron-600 ${compact ? "px-2.5 sm:px-3 lg:hidden site-header-orange-action" : "px-3"}`}
+      className={`inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-lg border border-saffron-600 bg-saffron-500 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-saffron-600 ${compact ? "px-2.5 sm:px-3 lg:hidden site-header-education-action" : "px-3"}`}
     >
       <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="m2.5 9 9.5-5 9.5 5-9.5 5-9.5-5Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
