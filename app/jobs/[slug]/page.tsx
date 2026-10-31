@@ -5,7 +5,6 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getJobBySlug, incrementViews } from "@/lib/db";
 import {
-  CATEGORY_LABELS,
   QUALIFICATION_LABELS,
   JOB_TYPE_LABELS,
 } from "@/lib/types";
@@ -407,16 +406,6 @@ export default async function JobDetailsPage({
               </div>
             </div>
 
-            <div className="job-category-tags mt-5 flex flex-wrap gap-2">
-              {job.eligibility.categories.map((c) => (
-                <span
-                  key={c}
-                  className="chip chip-inactive px-2.5 py-1 text-xs"
-                >
-                  {CATEGORY_LABELS[c]}
-                </span>
-              ))}
-            </div>
           </div>
 
           {/* Post-wise Vacancy Details and Apply Online Links */}
