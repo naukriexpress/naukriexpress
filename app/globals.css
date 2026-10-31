@@ -2565,3 +2565,240 @@ html[data-theme="dark"] .education-eligibility-copy {
     transform: none !important;
   }
 }
+
+
+/* Full-width reference-matched Education cards. The exam card remains deep navy in both site themes. */
+.education-exam-card--reference {
+  isolation: isolate;
+  border: 2px solid transparent !important;
+  background:
+    linear-gradient(145deg, #061a38 0%, #081b38 52%, #101a3b 100%) padding-box,
+    linear-gradient(120deg, #ffc52f 0%, #ff8a35 19%, #f33cae 43%, #8545f3 67%, #08c9ec 100%) border-box !important;
+  box-shadow: 0 12px 34px rgb(3 12 32 / 24%), inset 0 1px 0 rgb(255 255 255 / 5%) !important;
+}
+.education-exam-card--reference::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border-radius: 16px;
+  border: 1px solid rgb(100 170 255 / 8%);
+  pointer-events: none;
+  z-index: -1;
+}
+.education-exam-card--reference::after {
+  content: "";
+  position: absolute;
+  width: 420px;
+  height: 260px;
+  top: 65px;
+  right: 80px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgb(26 104 226 / 17%), transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+.education-exam-card--reference:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 42px rgb(3 12 32 / 32%), 0 0 24px rgb(63 110 255 / 12%) !important;
+}
+.education-exam-card--reference .education-exam-category {
+  background: linear-gradient(105deg, #08bce9, #263fd8) !important;
+  border: 1px solid #348dfd !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 16px rgb(18 129 255 / 28%);
+}
+.education-exam-card--reference .education-status-badge {
+  border: 1px solid #ef667b !important;
+  background: linear-gradient(105deg, #b91c35, #ef3158) !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 15px rgb(238 49 88 / 24%);
+}
+.education-exam-card--reference .education-status-badge[data-status="Registration Open"] {
+  border-color: #26d99a !important;
+  background: linear-gradient(105deg, #087d59, #10b981) !important;
+  color: #ffffff !important;
+}
+.education-exam-card--reference .education-status-badge[data-status="Upcoming"],
+.education-exam-card--reference .education-status-badge[data-status="Exam Upcoming"] {
+  border-color: #63a9ff !important;
+  background: linear-gradient(105deg, #1554ba, #277de8) !important;
+  color: #ffffff !important;
+}
+.education-exam-card--reference .education-status-badge[data-status="Dates Awaited"],
+.education-exam-card--reference .education-status-badge[data-status="Check Official Notice"] {
+  border-color: #f2be56 !important;
+  background: linear-gradient(105deg, #98610e, #d79520) !important;
+  color: #ffffff !important;
+}
+.education-exam-card--reference .education-year-badge {
+  background: #132b4a !important;
+  color: #f4f8ff !important;
+  border: 1px solid #486482 !important;
+}
+.education-exam-card--reference .education-new-badge {
+  background: linear-gradient(100deg, #a441df, #ec4899) !important;
+  color: #ffffff !important;
+  border: 1px solid #db70ff !important;
+}
+.education-exam-card--reference .education-exam-title {
+  color: #f4f7ff !important;
+  font-size: clamp(1.55rem, 2.3vw, 2.35rem) !important;
+  text-shadow: 0 2px 18px rgb(66 121 255 / 13%);
+}
+.education-exam-card--reference .education-exam-organization {
+  color: #bcd4f3 !important;
+  font-size: clamp(.875rem, 1.2vw, 1.1rem) !important;
+}
+.education-exam-card--reference .education-detail-copy {
+  color: #e2ecff !important;
+}
+.education-exam-card--reference .education-detail-label {
+  color: #aacfff !important;
+  font-weight: 700;
+}
+.education-exam-card--reference .education-detail-icon {
+  background: #14345c;
+  color: #e4f2ff;
+  box-shadow: inset 0 0 0 1px rgb(116 181 255 / 12%);
+}
+.education-exam-card--reference .education-card-art {
+  min-height: 245px;
+  position: relative;
+}
+.education-exam-card--reference .education-card-art svg {
+  width: min(100%, 350px);
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 16px 24px rgb(0 0 0 / 24%));
+}
+.education-exam-card--reference .education-date-panel--reference {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(105deg, #062d35, #151b45 53%, #062b53) padding-box,
+    linear-gradient(100deg, #00d69b, #7635d9 52%, #087df5) border-box !important;
+  box-shadow: inset 0 0 22px rgb(13 97 184 / 10%);
+}
+.education-exam-card--reference .education-date-item {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0;
+  padding: 10px 14px !important;
+}
+.education-exam-card--reference .education-date-item + .education-date-item {
+  border-color: rgb(104 158 226 / 45%) !important;
+}
+.education-exam-card--reference .education-date-icon {
+  border: 2px solid transparent;
+  box-shadow: 0 0 15px currentColor;
+}
+.education-exam-card--reference .education-date-item--start .education-date-icon {
+  background: linear-gradient(145deg, #08a95f, #034b43);
+  border-color: #09e68a;
+  color: #d1ffe8;
+}
+.education-exam-card--reference .education-date-item--last .education-date-icon {
+  background: linear-gradient(145deg, #e9435b, #761a38);
+  border-color: #ff5b72;
+  color: #ffe0e7;
+}
+.education-exam-card--reference .education-date-item--exam .education-date-icon {
+  background: linear-gradient(145deg, #138cf2, #123baf);
+  border-color: #16b5ff;
+  color: #e0f4ff;
+}
+.education-exam-card--reference .education-date-item--start .education-date-label,
+.education-exam-card--reference .education-date-item--start .education-date-value {
+  color: #1cf2a6 !important;
+}
+.education-exam-card--reference .education-date-item--last .education-date-label,
+.education-exam-card--reference .education-date-item--last .education-date-value {
+  color: #ff778a !important;
+}
+.education-exam-card--reference .education-date-item--exam .education-date-label,
+.education-exam-card--reference .education-date-item--exam .education-date-value {
+  color: #2bc5ff !important;
+}
+.education-exam-card--reference .education-date-value {
+  font-size: clamp(.98rem, 1.35vw, 1.3rem) !important;
+}
+.education-exam-card--reference .education-eligibility-panel--reference {
+  background: linear-gradient(105deg, #25134f, #181b4b 55%, #101f57) !important;
+  border: 1px solid #9142ee !important;
+  box-shadow: inset 0 0 22px rgb(167 85 247 / 12%);
+}
+.education-exam-card--reference .education-eligibility-icon {
+  color: #e58cff;
+}
+.education-exam-card--reference .education-eligibility-divider {
+  background: #8c43dc;
+}
+.education-exam-card--reference .education-eligibility-label {
+  color: #e28aff !important;
+  font-size: .88rem !important;
+}
+.education-exam-card--reference .education-eligibility-copy {
+  color: #f1eaff !important;
+  font-size: clamp(.9rem, 1.2vw, 1.1rem) !important;
+}
+.education-exam-card--reference .education-actions--reference a {
+  min-height: 60px;
+  padding: 13px 12px !important;
+  border-radius: 17px !important;
+  font-size: clamp(.78rem, 1.05vw, .98rem) !important;
+  border: 2px solid transparent !important;
+  box-shadow: 0 6px 0 rgb(0 0 0 / 24%), 0 0 17px rgb(0 0 0 / 12%);
+  text-decoration: none;
+}
+.education-exam-card--reference .education-actions--reference a:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.12);
+  box-shadow: 0 9px 0 rgb(0 0 0 / 22%), 0 0 22px currentColor;
+}
+.education-exam-card--reference .education-notification-link {
+  background: linear-gradient(120deg, #05bceb, #0759e9 65%, #3929b7) !important;
+  border-color: #35caff !important;
+  color: #ffffff !important;
+}
+.education-exam-card--reference .education-apply-link {
+  background: linear-gradient(120deg, #0be94a, #00a84c 62%, #007a50) !important;
+  border-color: #17f26b !important;
+  color: #ffffff !important;
+}
+.education-exam-card--reference .education-cap-link {
+  background: linear-gradient(120deg, #ffc21a, #ff8a00 62%, #e75b00) !important;
+  border-color: #ffd34a !important;
+  color: #ffffff !important;
+}
+.education-exam-card--reference .education-official-link {
+  background: linear-gradient(120deg, #ce53f5, #8b25e8 62%, #5b19bb) !important;
+  border-color: #df8aff !important;
+  color: #ffffff !important;
+}
+html[data-theme="dark"] .education-exam-card--reference {
+  background:
+    linear-gradient(145deg, #061a38 0%, #081b38 52%, #101a3b 100%) padding-box,
+    linear-gradient(120deg, #ffc52f 0%, #ff8a35 19%, #f33cae 43%, #8545f3 67%, #08c9ec 100%) border-box !important;
+}
+@media (max-width: 767px) {
+  .education-exam-card--reference .education-card-art {
+    display: flex;
+    min-height: 150px;
+    margin: 0 auto;
+  }
+  .education-exam-card--reference .education-card-art svg {
+    max-width: 210px;
+  }
+  .education-exam-card--reference .education-date-item {
+    padding: 10px !important;
+  }
+  .education-exam-card--reference .education-actions--reference a {
+    min-height: 52px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .education-exam-card--reference,
+  .education-exam-card--reference .education-actions--reference a {
+    transition: none !important;
+    transform: none !important;
+  }
+}
