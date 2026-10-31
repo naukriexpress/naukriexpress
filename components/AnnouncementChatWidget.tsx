@@ -90,7 +90,7 @@ export default function AnnouncementChatWidget() {
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     function handleEscape(event: KeyboardEvent) {
-      if (event.key === "Escape") closePanel();
+      if (event.key === "Escape") { setOpen(false); setSelectedId(null); }
     }
     window.addEventListener("keydown", handleEscape);
     return () => {
