@@ -4563,26 +4563,40 @@ html[data-theme="dark"] .jobs-filter-close:hover {
 
 @media (max-width: 767px) {
   .admit-card-floating-button {
-    min-width: 0;
+    min-width: 190px !important;
     gap: 7px !important;
     padding: 11px 13px !important;
     font-size: 12px !important;
+    container-type: normal !important;
   }
 
   .admit-card-floating-label {
     font-size: 12px !important;
   }
 
-  /* The squirrel stays on desktop; on phones it cannot cover the label. */
+  /* Show the squirrel above the button, without covering its label or count. */
   .admit-card-squirrel-runner {
-    display: none !important;
+    display: block !important;
+    top: -34px;
+    left: 0;
+    animation: admit-card-squirrel-mobile-cross 6.4s linear infinite !important;
+    transform: translateX(-48px);
   }
+}
+
+@keyframes admit-card-squirrel-mobile-cross {
+  0% { transform: translateX(-48px); opacity: 0; }
+  8% { opacity: 1; }
+  82% { transform: translateX(132px); opacity: 1; }
+  94% { transform: translateX(132px); opacity: 0; }
+  100% { transform: translateX(-48px); opacity: 0; }
 }
 
 @media (max-width: 360px) {
   .admit-card-floating-button {
     right: 10px !important;
     bottom: calc(12px + env(safe-area-inset-bottom)) !important;
+    min-width: 178px !important;
     gap: 6px !important;
     padding: 10px 11px !important;
     font-size: 11px !important;
@@ -4591,4 +4605,16 @@ html[data-theme="dark"] .jobs-filter-close:hover {
   .admit-card-floating-label {
     font-size: 11px !important;
   }
+
+  .admit-card-squirrel-runner {
+    animation-name: admit-card-squirrel-mobile-cross-small !important;
+  }
+}
+
+@keyframes admit-card-squirrel-mobile-cross-small {
+  0% { transform: translateX(-48px); opacity: 0; }
+  8% { opacity: 1; }
+  82% { transform: translateX(116px); opacity: 1; }
+  94% { transform: translateX(116px); opacity: 0; }
+  100% { transform: translateX(-48px); opacity: 0; }
 }
