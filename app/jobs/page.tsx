@@ -120,6 +120,7 @@ function num(v: string | string[] | undefined): number | undefined {
 
 function buildFilters(searchParams: SP): JobFilters {
   const page = num(searchParams.page) || 1;
+  const requestedPageSize = num(searchParams.pageSize) || 9;
   return {
     q: str(searchParams.q),
     gender: (str(searchParams.gender) as JobFilters["gender"]) || "all",
@@ -131,7 +132,7 @@ function buildFilters(searchParams: SP): JobFilters {
     maxAge: num(searchParams.maxAge),
     lastDate: str(searchParams.lastDate) as JobFilters["lastDate"],
     page,
-    pageSize: 9,
+    pageSize: Math.min(Math.max(requestedPageSize, 1), 50),
   };
 }
 
