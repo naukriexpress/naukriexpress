@@ -1,9 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import HomeSmoothScroll from "@/components/HomeSmoothScroll";
 import HomeLatestJobs from "@/components/HomeLatestJobs";
-import HighestVacancyJobs from "@/components/HighestVacancyJobs";
-import HighestVacancyApprentice from "@/components/HighestVacancyApprentice";
+import HighestVacancySections from "@/components/HighestVacancySections";
 
 const SITE_URL = "https://www.naukriexpress.space";
 
@@ -41,15 +39,13 @@ export default function HomePage() {
 
   return (
     <>
-      <HomeSmoothScroll />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
       />
 
       {/* Highlight the currently open recruitments with the most confirmed vacancies. */}
-      <HighestVacancyJobs />
-      <HighestVacancyApprentice />
+      <HighestVacancySections />
 
       {/* Static page shell renders immediately; job data loads in the client feed. */}
       <HomeLatestJobs />
