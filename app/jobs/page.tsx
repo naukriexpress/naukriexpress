@@ -28,18 +28,23 @@ export async function generateMetadata({
     if (key.startsWith("utm_") || key === "gclid" || key === "fbclid") return false;
     return (Array.isArray(value) ? value.length > 0 : Boolean(value));
   });
+  // The 50-card View All Jobs setting changes only how many cards are
+  // rendered per page; it does not create a separate SEO listing.
+  const indexableParams = relevantParams.filter(
+    ([key, value]) => !(key === "pageSize" && firstValue(value) === "50")
+  );
   const isPageOneOnly =
-    relevantParams.length === 1 &&
-    relevantParams[0][0] === "page" &&
-    firstValue(relevantParams[0][1]) === "1";
-  const isBaseListing = relevantParams.length === 0 || isPageOneOnly;
+    indexableParams.length === 1 &&
+    indexableParams[0][0] === "page" &&
+    firstValue(indexableParams[0][1]) === "1";
+  const isBaseListing = indexableParams.length === 0 || isPageOneOnly;
   const isSingleFacet =
-    relevantParams.length === 1 &&
-    ["state", "jobType"].includes(relevantParams[0][0]) &&
-    Boolean(firstValue(relevantParams[0][1]));
-  const facetName = isSingleFacet ? relevantParams[0][0] : "";
+    indexableParams.length === 1 &&
+    ["state", "jobType"].includes(indexableParams[0][0]) &&
+    Boolean(firstValue(indexableParams[0][1]));
+  const facetName = isSingleFacet ? indexableParams[0][0] : "";
   const facetValue = isSingleFacet
-    ? firstValue(relevantParams[0][1]) || ""
+    ? firstValue(indexableParams[0][1]) || ""
     : "";
   const isIndexable = isBaseListing || isSingleFacet;
 
