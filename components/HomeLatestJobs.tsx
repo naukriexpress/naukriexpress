@@ -263,7 +263,7 @@ export default function HomeLatestJobs() {
         </nav>
       )}
 
-      <Link href="/jobs" className="mt-6 block rounded-lg border border-brand-600 px-4 py-3 text-center text-sm font-semibold text-brand-700 transition-colors hover:bg-brand-50">
+      <Link href="/jobs?pageSize=50" className="mt-6 block rounded-lg border border-brand-600 px-4 py-3 text-center text-sm font-semibold text-brand-700 transition-colors hover:bg-brand-50">
         View all jobs →
       </Link>
     </section>
