@@ -6,7 +6,7 @@ import HighestVacancyJobs from "./HighestVacancyJobs";
 import HighestVacancyApprentice from "./HighestVacancyApprentice";
 import HomeLatestJobs from "./HomeLatestJobs";
 
-// Both highlight sections share one cached request and become visible together.
+// Both vacancy highlights and Latest Job Updates reuse one cached homepage request.
 const JOBS_PAGE_SIZE = 500;
 const JOBS_ENDPOINT = `/api/jobs?status=published&sort=latest&page=1&pageSize=${JOBS_PAGE_SIZE}`;
 
