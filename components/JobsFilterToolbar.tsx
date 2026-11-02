@@ -21,9 +21,11 @@ const JOB_TYPES: JobType[] = [
   "government", "private", "contract", "apprenticeship", "internship",
 ];
 
-function selectedLabel(selected: string[], labels: Partial<Record<string, string>>, empty: string): string {
+function selectedLabel(selected: string[], labels: object, empty: string): string {
   if (selected.length === 0) return empty;
-  if (selected.length === 1) return labels[selected[0]] || selected[0];
+  if (selected.length === 1) {
+    return (labels as Record<string, string>)[selected[0]] || selected[0];
+  }
   return selected.length + " selected";
 }
 
