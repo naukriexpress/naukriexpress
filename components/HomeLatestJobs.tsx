@@ -9,12 +9,48 @@ import { hasPendingVacancyDetails } from "@/lib/jobMarkers";
 
 const HOME_PAGE_SIZE = 12;
 const JOBS_FETCH_PAGE_SIZE = 100;
+const HIGHEST_VACANCY_ENDPOINT = "/api/jobs?status=published&sort=latest&page=1&pageSize=500";
 
 function getJobsEndpoint(page: number): string {
   return (
     `/api/jobs?status=published&sort=latest&page=${page}&pageSize=${JOBS_FETCH_PAGE_SIZE}` +
     "&jobType=government&jobType=private&jobType=contract&jobType=internship"
   );
+}
+
+async function fetchHighestVacancyJobIds(signal: AbortSignal): Promise<Set<string>> {
+  try {
+    const response = await fetch(HIGHEST_VACANCY_ENDPOINT, { signal });
+    if (!response.ok) return new Set();
+
+    const result = (await response.json()) as { data?: JobPosting[] };
+    if (!Array.isArray(result.data)) return new Set();
+
+    const today = getIndiaTodayDate();
+    return new Set(
+      result.data
+        .filter((job) => {
+          // Match the exact eligibility rules used by the Highest Vacancy Jobs section.
+          if (job.jobType === "apprenticeship") return false;
+          if (job.status !== "published" || job.noticeDetailsPending) return false;
+
+          const vacancies = getVerifiedVacancyCount(job);
+          const daysLeft = getDaysUntilDate(job.dates.lastDate, today);
+          return vacancies > 0 && daysLeft !== null && daysLeft >= 0;
+        })
+        .sort((a, b) => {
+          const vacancyDifference = getVerifiedVacancyCount(b) - getVerifiedVacancyCount(a);
+          if (vacancyDifference !== 0) return vacancyDifference;
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        })
+        .slice(0, 12)
+        .map((job) => job.id)
+    );
+  } catch (error: unknown) {
+    if (error instanceof Error && error.name === "AbortError") throw error;
+    // Keep the Latest Job Updates feed available if the highlight request fails.
+    return new Set();
+  }
 }
 
 function isNoticeAwaited(job: JobPosting): boolean {
@@ -113,7 +149,10 @@ export default function HomeLatestJobs() {
 
     async function loadJobs() {
       try {
-        const firstPage = await fetchPage(1);
+        const [firstPage, highestVacancyIds] = await Promise.all([
+          fetchPage(1),
+          fetchHighestVacancyJobIds(controller.signal),
+        ]);
         const totalJobs =
           typeof firstPage.total === "number" && Number.isFinite(firstPage.total)
             ? firstPage.total
@@ -131,7 +170,10 @@ export default function HomeLatestJobs() {
           ...firstPage.data,
           ...remainingPages.flatMap((page) => page.data),
         ];
-        setJobs(sortPriorityJobs(allJobs));
+        // Do not repeat the same recruitment in Latest Job Updates when it
+        // is already highlighted in the Highest Vacancy Jobs section.
+        const latestJobs = allJobs.filter((job) => !highestVacancyIds.has(job.id));
+        setJobs(sortPriorityJobs(latestJobs));
       } catch (error: unknown) {
         if (error instanceof Error && error.name !== "AbortError") setLoadFailed(true);
       }
