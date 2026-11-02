@@ -6,8 +6,6 @@ import type { JobPosting } from "@/lib/types";
 import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
 import { hasPendingVacancyDetails } from "@/lib/jobMarkers";
 
-const JOBS_ENDPOINT = "/api/jobs?status=published&sort=latest&page=1&pageSize=500";
-
 const CARD_TONES = [
   "blue", "orange", "teal", "violet", "rose", "indigo",
   "amber", "cyan", "emerald", "pink", "royal", "copper",
@@ -61,38 +59,9 @@ function AnimatedCountdownCircle({
   tone: (typeof CARD_TONES)[number];
   lastDate: string;
 }) {
-  const [displayedDays, setDisplayedDays] = useState(1);
-
-  useEffect(() => {
-    if (daysLeft <= 1) {
-      setDisplayedDays(1);
-      return;
-    }
-
-    // Respect visitors who prefer reduced motion.
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setDisplayedDays(daysLeft);
-      return;
-    }
-
-    let current = 1;
-    setDisplayedDays(1);
-
-    // Keep the number and ring moving together at the requested pace.
-    const stepDelay = 280;
-    const interval = window.setInterval(() => {
-      current += 1;
-      setDisplayedDays(current);
-
-      if (current >= daysLeft) {
-        window.clearInterval(interval);
-      }
-    }, stepDelay);
-
-    return () => window.clearInterval(interval);
-  }, [daysLeft]);
-
-  const finalDays = Math.min(displayedDays, daysLeft);
+  // Render the verified deadline immediately. A short CSS slide-in remains,
+  // while removing one interval per card keeps mobile scrolling responsive.
+  const finalDays = Math.max(0, daysLeft);
   const progress = daysLeft <= 0 ? 100 : (finalDays / daysLeft) * 100;
   const circleRadius = 29;
   const circleCircumference = 2 * Math.PI * circleRadius;
@@ -137,7 +106,7 @@ function AnimatedCountdownCircle({
 function VacancyButtonSkeleton() {
   return (
     <div
-      className="h-[92px] animate-pulse rounded-xl border border-ink-900/10 bg-white p-3 shadow-card"
+      className="h-[92px] rounded-xl border border-ink-900/10 bg-white p-3 shadow-card"
       aria-hidden="true"
     >
       <div className="flex h-full items-center gap-3">
@@ -151,31 +120,14 @@ function VacancyButtonSkeleton() {
   );
 }
 
-export default function HighestVacancyJobs() {
-  const [jobs, setJobs] = useState<JobPosting[] | null>(null);
-  const [loadFailed, setLoadFailed] = useState(false);
+export default function HighestVacancyJobs({
+  jobs,
+  loadFailed,
+}: {
+  jobs: JobPosting[] | null;
+  loadFailed: boolean;
+}) {
   const [today, setToday] = useState(getIndiaTodayDate);
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    fetch(JOBS_ENDPOINT, {
-      signal: controller.signal,
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error("Unable to load vacancy highlights");
-        return response.json();
-      })
-      .then((result: { data?: JobPosting[] }) => {
-        if (!Array.isArray(result.data)) throw new Error("Unexpected jobs response");
-        setJobs(result.data);
-      })
-      .catch((error: unknown) => {
-        if (error instanceof Error && error.name !== "AbortError") setLoadFailed(true);
-      });
-
-    return () => controller.abort();
-  }, []);
 
   // Keep deadlines accurate if a visitor leaves the homepage open across midnight IST.
   useEffect(() => {
@@ -246,7 +198,7 @@ export default function HighestVacancyJobs() {
                   <Link
                     key={job.id}
                     href={`/jobs/${job.slug}`}
-                    prefetch={false}
+                    
                     aria-label={`View details for ${job.title}; ${formatVacancies(vacancies)} vacancies; ${countdown.accessible}`}
                     title={`View details for ${job.title}`}
                     className="highest-vacancy-card group flex min-h-[92px] min-w-0 items-center gap-3 rounded-xl border p-3 transition-all duration-200 focus-visible:outline-offset-4"
