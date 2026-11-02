@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { queryJobs } from "@/lib/db";
+import { getDistinctStates, queryJobs } from "@/lib/db";
 import type { Category, JobFilters, JobType, Qualification } from "@/lib/types";
 import JobCard from "@/components/JobCard";
-import FilterPanel from "@/components/FilterPanel";
+import JobsFilterToolbar from "@/components/JobsFilterToolbar";
 
 type SP = Record<string, string | string[] | undefined>;
 
@@ -157,7 +157,10 @@ function pageHref(searchParams: SP, page: number) {
 
 export default async function JobsPage({ searchParams }: { searchParams: SP }) {
   const filters = buildFilters(searchParams);
-  const { results, total } = await queryJobs(filters);
+  const [{ results, total }, states] = await Promise.all([
+    queryJobs(filters),
+    getDistinctStates(),
+  ]);
   const pageSize = filters.pageSize || 9;
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   const currentPage = filters.page || 1;
@@ -178,36 +181,8 @@ export default async function JobsPage({ searchParams }: { searchParams: SP }) {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[280px_1fr]">
-        {/* Desktop sidebar - sticky */}
-        <aside className="hidden lg:block">
-          <div className="sticky top-24 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card">
-            <FilterPanel searchParams={searchParams} id="desktop-filters" />
-          </div>
-        </aside>
-
-        {/* Mobile filter drawer trigger */}
-        <div className="lg:hidden flex items-center justify-between">
-          <input type="checkbox" id="mobile-filter-toggle" className="peer hidden" />
-          <label
-            htmlFor="mobile-filter-toggle"
-            className="flex-1 cursor-pointer rounded-lg border border-ink-900/15 bg-white px-4 py-3 text-center text-sm font-semibold text-ink-800 shadow-card"
-          >
-            Filter Jobs
-          </label>
-          <div className="fixed inset-0 z-50 hidden peer-checked:block">
-            <label htmlFor="mobile-filter-toggle" className="absolute inset-0 bg-ink-900/40" />
-            <div className="absolute bottom-0 left-0 right-0 max-h-[85vh] overflow-y-auto rounded-t-2xl bg-white p-5">
-              <div className="mb-4 flex items-center justify-between">
-                <span className="font-display font-bold text-ink-900">Filter Jobs</span>
-                <label htmlFor="mobile-filter-toggle" className="grid h-9 w-9 place-items-center rounded-lg border border-ink-900/15">
-                  ✕
-                </label>
-              </div>
-              <FilterPanel searchParams={searchParams} id="mobile-filters" />
-            </div>
-          </div>
-        </div>
+      <div className="space-y-5">
+        <JobsFilterToolbar searchParams={searchParams} states={states} />
 
         {/* Results */}
         <div>
