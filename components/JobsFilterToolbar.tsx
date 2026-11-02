@@ -23,14 +23,6 @@ const JOB_TYPES: JobType[] = [
   "government", "private", "contract", "apprenticeship", "internship",
 ];
 
-function selectedLabel(selected: string[], labels: object, empty: string): string {
-  if (selected.length === 0) return empty;
-  if (selected.length === 1) {
-    return (labels as Record<string, string>)[selected[0]] || selected[0];
-  }
-  return selected.length + " selected";
-}
-
 function CloseFilterPopover() {
   return (
     <div className="jobs-filter-popover-footer">
@@ -67,24 +59,6 @@ export default function JobsFilterToolbar({
   const pageSize = value(searchParams.pageSize, "9");
   const sort = value(searchParams.sort, pageSize === "50" ? "closing_soon" : "latest");
 
-  const genderLabels: Record<string, string> = {
-    all: "All",
-    male: "Male",
-    female: "Female",
-    both: "Male & Female",
-  };
-  const lastDateLabels: Record<string, string> = {
-    "": "Any time",
-    today: "Today",
-    week: "This week",
-    month: "This month",
-    upcoming: "Upcoming",
-  };
-  const sortLabels: Record<string, string> = {
-    latest: "Newest first",
-    closing_soon: "Nearest last date",
-    most_viewed: "Most viewed",
-  };
   const resetHref = pageSize === "50" ? "/jobs?pageSize=50" : "/jobs";
 
   return (
@@ -105,8 +79,8 @@ export default function JobsFilterToolbar({
         </span>
       </div>
 
-      <div className="flex flex-wrap items-center gap-2">
-        <label className="min-w-[190px] flex-1">
+      <div className="jobs-filter-row flex items-center gap-1.5">
+        <label className="jobs-filter-search min-w-[150px] flex-1">
           <span className="sr-only">Search jobs</span>
           <input
             type="search"
@@ -119,7 +93,7 @@ export default function JobsFilterToolbar({
 
         <details className="jobs-filter-dropdown">
           <summary className="jobs-filter-trigger">
-            Gender <span className="jobs-filter-current">{genderLabels[gender] || "All"}</span>
+            Gender
             <span className="jobs-filter-chevron" aria-hidden="true">⌄</span>
           </summary>
           <div className="jobs-filter-popover">
@@ -141,7 +115,7 @@ export default function JobsFilterToolbar({
 
         <details className="jobs-filter-dropdown">
           <summary className="jobs-filter-trigger">
-            Category <span className="jobs-filter-current">{selectedLabel(categories, CATEGORY_LABELS, "Any")}</span>
+            Category
             <span className="jobs-filter-chevron" aria-hidden="true">⌄</span>
           </summary>
           <div className="jobs-filter-popover">
@@ -159,7 +133,7 @@ export default function JobsFilterToolbar({
 
         <details className="jobs-filter-dropdown">
           <summary className="jobs-filter-trigger">
-            Qualification <span className="jobs-filter-current">{selectedLabel(qualifications, QUALIFICATION_LABELS, "Any")}</span>
+            Qualification
             <span className="jobs-filter-chevron" aria-hidden="true">⌄</span>
           </summary>
           <div className="jobs-filter-popover jobs-filter-popover-tall">
@@ -176,7 +150,7 @@ export default function JobsFilterToolbar({
 
         <details className="jobs-filter-dropdown">
           <summary className="jobs-filter-trigger">
-            Job Type <span className="jobs-filter-current">{selectedLabel(jobTypes, JOB_TYPE_LABELS, "All")}</span>
+            Job Type
             <span className="jobs-filter-chevron" aria-hidden="true">⌄</span>
           </summary>
           <div className="jobs-filter-popover">
@@ -193,7 +167,7 @@ export default function JobsFilterToolbar({
 
         <details className="jobs-filter-dropdown">
           <summary className="jobs-filter-trigger">
-            Location <span className="jobs-filter-current">{state === "all" ? "All India" : state}</span>
+            Location
             <span className="jobs-filter-chevron" aria-hidden="true">⌄</span>
           </summary>
           <div className="jobs-filter-popover">
@@ -208,7 +182,7 @@ export default function JobsFilterToolbar({
 
         <details className="jobs-filter-dropdown">
           <summary className="jobs-filter-trigger">
-            Age <span className="jobs-filter-current">{minAge || maxAge ? [minAge || "Any", maxAge || "Any"].join("–") : "Any"}</span>
+            Age
             <span className="jobs-filter-chevron" aria-hidden="true">⌄</span>
           </summary>
           <div className="jobs-filter-popover">
@@ -229,7 +203,7 @@ export default function JobsFilterToolbar({
 
         <details className="jobs-filter-dropdown">
           <summary className="jobs-filter-trigger">
-            Last Date <span className="jobs-filter-current">{lastDateLabels[lastDate] || "Any time"}</span>
+            Last Date
             <span className="jobs-filter-chevron" aria-hidden="true">⌄</span>
           </summary>
           <div className="jobs-filter-popover">
@@ -247,7 +221,7 @@ export default function JobsFilterToolbar({
 
         <details className="jobs-filter-dropdown">
           <summary className="jobs-filter-trigger">
-            Sort By <span className="jobs-filter-current">{sortLabels[sort] || "Newest first"}</span>
+            Sort By
             <span className="jobs-filter-chevron" aria-hidden="true">⌄</span>
           </summary>
           <div className="jobs-filter-popover">
