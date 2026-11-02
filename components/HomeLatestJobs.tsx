@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import JobCard from "@/components/JobCard";
 import type { JobPosting } from "@/lib/types";
@@ -8,50 +8,6 @@ import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
 import { hasPendingVacancyDetails } from "@/lib/jobMarkers";
 
 const HOME_PAGE_SIZE = 12;
-const JOBS_FETCH_PAGE_SIZE = 100;
-const HIGHEST_VACANCY_ENDPOINT = "/api/jobs?status=published&sort=latest&page=1&pageSize=500";
-
-function getJobsEndpoint(page: number): string {
-  return (
-    `/api/jobs?status=published&sort=latest&page=${page}&pageSize=${JOBS_FETCH_PAGE_SIZE}` +
-    "&jobType=government&jobType=private&jobType=contract&jobType=internship"
-  );
-}
-
-async function fetchHighestVacancyJobIds(signal: AbortSignal): Promise<Set<string>> {
-  try {
-    const response = await fetch(HIGHEST_VACANCY_ENDPOINT, { signal });
-    if (!response.ok) return new Set();
-
-    const result = (await response.json()) as { data?: JobPosting[] };
-    if (!Array.isArray(result.data)) return new Set();
-
-    const today = getIndiaTodayDate();
-    return new Set(
-      result.data
-        .filter((job) => {
-          // Match the exact eligibility rules used by the Highest Vacancy Jobs section.
-          if (job.jobType === "apprenticeship") return false;
-          if (job.status !== "published" || job.noticeDetailsPending) return false;
-
-          const vacancies = getVerifiedVacancyCount(job);
-          const daysLeft = getDaysUntilDate(job.dates.lastDate, today);
-          return vacancies > 0 && daysLeft !== null && daysLeft >= 0;
-        })
-        .sort((a, b) => {
-          const vacancyDifference = getVerifiedVacancyCount(b) - getVerifiedVacancyCount(a);
-          if (vacancyDifference !== 0) return vacancyDifference;
-          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-        })
-        .slice(0, 12)
-        .map((job) => job.id)
-    );
-  } catch (error: unknown) {
-    if (error instanceof Error && error.name === "AbortError") throw error;
-    // Keep the Latest Job Updates feed available if the highlight request fails.
-    return new Set();
-  }
-}
 
 function isNoticeAwaited(job: JobPosting): boolean {
   return Boolean(job.noticeDetailsPending);
@@ -78,8 +34,7 @@ function isClosingSoon(job: JobPosting, today: string): boolean {
   return days !== null && days >= 0 && days <= 7;
 }
 
-function sortPriorityJobs(jobs: JobPosting[]): JobPosting[] {
-  const today = getIndiaTodayDate();
+function sortPriorityJobs(jobs: JobPosting[], today: string): JobPosting[] {
   return [...jobs].sort((a, b) => {
     const urgentA = isClosingSoon(a, today);
     const urgentB = isClosingSoon(b, today);
@@ -123,60 +78,44 @@ function JobCardSkeleton() {
   );
 }
 
-export default function HomeLatestJobs() {
-  const [jobs, setJobs] = useState<JobPosting[] | null>(null);
-  const [loadFailed, setLoadFailed] = useState(false);
+export default function HomeLatestJobs({
+  sourceJobs,
+  loadFailed,
+}: {
+  sourceJobs: JobPosting[] | null;
+  loadFailed: boolean;
+}) {
   const [currentPage, setCurrentPage] = useState(1);
 
-  useEffect(() => {
-    const controller = new AbortController();
+  // Reuse the exact same published-job batch that powers both Highest Vacancy
+  // sections. Exclude the highlighted top 12 so homepage cards never duplicate.
+  const jobs = useMemo(() => {
+    if (!sourceJobs) return null;
 
-    async function fetchPage(page: number): Promise<{ data: JobPosting[]; total?: number }> {
-      const response = await fetch(getJobsEndpoint(page), {
-        signal: controller.signal,
-      });
-      if (!response.ok) throw new Error("Unable to load jobs");
+    const today = getIndiaTodayDate();
+    const highestVacancyIds = new Set(
+      sourceJobs
+        .filter((job) => {
+          if (job.jobType === "apprenticeship") return false;
+          if (job.status !== "published" || job.noticeDetailsPending) return false;
+          const vacancies = getVerifiedVacancyCount(job);
+          const daysLeft = getDaysUntilDate(job.dates.lastDate, today);
+          return vacancies > 0 && daysLeft !== null && daysLeft >= 0;
+        })
+        .sort((a, b) => {
+          const vacancyDifference = getVerifiedVacancyCount(b) - getVerifiedVacancyCount(a);
+          if (vacancyDifference !== 0) return vacancyDifference;
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        })
+        .slice(0, 12)
+        .map((job) => job.id)
+    );
 
-      const result = (await response.json()) as { data?: JobPosting[]; total?: number };
-      if (!Array.isArray(result.data)) throw new Error("Unexpected jobs response");
-      return { data: result.data, total: result.total };
-    }
-
-    async function loadJobs() {
-      try {
-        const [firstPage, highestVacancyIds] = await Promise.all([
-          fetchPage(1),
-          fetchHighestVacancyJobIds(controller.signal),
-        ]);
-        const totalJobs =
-          typeof firstPage.total === "number" && Number.isFinite(firstPage.total)
-            ? firstPage.total
-            : firstPage.data.length;
-        const totalPages = Math.ceil(totalJobs / JOBS_FETCH_PAGE_SIZE);
-
-        const remainingPages = await Promise.all(
-          Array.from(
-            { length: Math.max(0, totalPages - 1) },
-            (_, index) => fetchPage(index + 2)
-          )
-        );
-
-        const allJobs = [
-          ...firstPage.data,
-          ...remainingPages.flatMap((page) => page.data),
-        ];
-        // Do not repeat the same recruitment in Latest Job Updates when it
-        // is already highlighted in the Highest Vacancy Jobs section.
-        const latestJobs = allJobs.filter((job) => !highestVacancyIds.has(job.id));
-        setJobs(sortPriorityJobs(latestJobs));
-      } catch (error: unknown) {
-        if (error instanceof Error && error.name !== "AbortError") setLoadFailed(true);
-      }
-    }
-
-    void loadJobs();
-    return () => controller.abort();
-  }, []);
+    const latestJobs = sourceJobs.filter(
+      (job) => job.jobType !== "apprenticeship" && !highestVacancyIds.has(job.id)
+    );
+    return sortPriorityJobs(latestJobs, today);
+  }, [sourceJobs]);
 
   const totalPages = jobs ? Math.max(1, Math.ceil(jobs.length / HOME_PAGE_SIZE)) : 1;
   const pageStart = (currentPage - 1) * HOME_PAGE_SIZE;
@@ -200,8 +139,6 @@ export default function HomeLatestJobs() {
           <button
             type="button"
             onClick={() => {
-              setLoadFailed(false);
-              setJobs(null);
               window.location.reload();
             }}
             className="mt-4 rounded-lg bg-brand-700 px-4 py-2 text-sm font-semibold text-white"
