@@ -1,5 +1,3 @@
-"use client";
-
 import { CATEGORY_LABELS, JOB_TYPE_LABELS, QUALIFICATION_LABELS } from "@/lib/types";
 import type { Category, JobType, Qualification } from "@/lib/types";
 
@@ -23,7 +21,7 @@ const JOB_TYPES: JobType[] = [
   "government", "private", "contract", "apprenticeship", "internship",
 ];
 
-function selectedLabel(selected: string[], labels: Record<string, string>, empty: string): string {
+function selectedLabel(selected: string[], labels: Partial<Record<string, string>>, empty: string): string {
   if (selected.length === 0) return empty;
   if (selected.length === 1) return labels[selected[0]] || selected[0];
   return selected.length + " selected";
