@@ -101,28 +101,23 @@ function sortPriorityJobs(jobs: JobPosting[]): JobPosting[] {
 
 function JobCardSkeleton() {
   return (
-    <article className="job-card-skeleton animate-pulse rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-hidden="true">
+    <article className="job-card-skeleton rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-hidden="true">
       <div className="flex items-start gap-3">
         <div className="h-14 w-14 shrink-0 rounded-xl bg-slate-200 sm:h-16 sm:w-16" />
         <div className="flex-1 space-y-2 pt-1">
           <div className="h-4 w-5/6 rounded bg-slate-200" />
-          <div className="h-4 w-2/3 rounded bg-slate-200" />
-          <div className="h-3 w-1/2 rounded bg-slate-100" />
+          <div className="h-3 w-2/3 rounded bg-slate-100" />
         </div>
       </div>
       <div className="mt-4 grid grid-cols-2 gap-2.5">
-        {Array.from({ length: 6 }).map((_, index) => (
-          <div key={index} className="h-[76px] rounded-xl bg-slate-100" />
+        {Array.from({ length: 4 }).map((_, index) => (
+          <div key={index} className="h-12 rounded-xl bg-slate-100" />
         ))}
       </div>
-      <div className="mt-4 flex gap-2">
-        <div className="h-7 w-24 rounded-full bg-slate-100" />
-        <div className="h-7 w-14 rounded-full bg-slate-100" />
-      </div>
       <div className="mt-4 grid grid-cols-3 gap-2 border-t border-slate-100 pt-4">
-        <div className="h-10 rounded-lg bg-slate-100" />
-        <div className="h-10 rounded-lg bg-slate-200" />
-        <div className="h-10 rounded-lg bg-orange-100" />
+        {Array.from({ length: 3 }).map((_, index) => (
+          <div key={index} className="h-9 rounded-lg bg-slate-100" />
+        ))}
       </div>
     </article>
   );
