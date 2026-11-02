@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import Link from "next/link";
 import type { JobPosting } from "@/lib/types";
 import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
@@ -89,6 +89,7 @@ function AnimatedCountdownCircle({
           r={circleRadius}
           strokeDasharray={`${circleCircumference} ${circleCircumference}`}
           strokeDashoffset={strokeDashoffset}
+          style={{ "--countdown-target-offset": strokeDashoffset } as CSSProperties}
         />
       </svg>
       <span className={`highest-vacancy-countdown-value ${daysLeft === 0 ? "highest-vacancy-countdown-today" : ""}`}>
