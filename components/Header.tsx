@@ -24,7 +24,7 @@ const NAV_LINKS = [
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-40 border-b border-ink-900/10 bg-white/95 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-ink-900/10 bg-white/95">
       <div className="bg-ink-900 text-xs text-white sm:text-sm">
         <div className="container-page flex items-center gap-2 overflow-x-auto whitespace-nowrap py-1.5">
           <span className="inline-flex items-center gap-1 font-semibold text-saffron-400">
