@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import type { JobPosting } from "@/lib/types";
 import HighestVacancyJobs from "./HighestVacancyJobs";
 import HighestVacancyApprentice from "./HighestVacancyApprentice";
+import HomeLatestJobs from "./HomeLatestJobs";
 
 // Both highlight sections share one cached request and become visible together.
-const JOBS_ENDPOINT = "/api/jobs?status=published&sort=latest&page=1&pageSize=500";
+const JOBS_PAGE_SIZE = 500;
+const JOBS_ENDPOINT = `/api/jobs?status=published&sort=latest&page=1&pageSize=${JOBS_PAGE_SIZE}`;
 
 export default function HighestVacancySections() {
   const [jobs, setJobs] = useState<JobPosting[] | null>(null);
@@ -14,20 +16,55 @@ export default function HighestVacancySections() {
 
   useEffect(() => {
     const controller = new AbortController();
+    let firstPageLoaded = false;
 
-    fetch(JOBS_ENDPOINT, { signal: controller.signal })
-      .then((response) => {
-        if (!response.ok) throw new Error("Unable to load vacancy highlights");
-        return response.json();
-      })
-      .then((result: { data?: JobPosting[] }) => {
-        if (!Array.isArray(result.data)) throw new Error("Unexpected jobs response");
-        setJobs(result.data);
-      })
-      .catch((error: unknown) => {
-        if (error instanceof Error && error.name !== "AbortError") setLoadFailed(true);
-      });
+    async function loadHomepageJobs() {
+      try {
+        const response = await fetch(JOBS_ENDPOINT, { signal: controller.signal });
+        if (!response.ok) throw new Error("Unable to load homepage jobs");
 
+        const firstPage = (await response.json()) as {
+          data?: JobPosting[];
+          total?: number;
+        };
+        if (!Array.isArray(firstPage.data)) throw new Error("Unexpected jobs response");
+
+        firstPageLoaded = true;
+        // Render the highlight sections and Latest Job Updates from this same batch.
+        setJobs(firstPage.data);
+
+        const total = Number.isFinite(firstPage.total)
+          ? Number(firstPage.total)
+          : firstPage.data.length;
+        const totalPages = Math.ceil(total / JOBS_PAGE_SIZE);
+        if (totalPages <= 1) return;
+
+        // Only fetch more if the published dataset exceeds the first 500 jobs.
+        const remainingPages = await Promise.all(
+          Array.from({ length: totalPages - 1 }, async (_, index) => {
+            const page = index + 2;
+            const pageResponse = await fetch(
+              `/api/jobs?status=published&sort=latest&page=${page}&pageSize=${JOBS_PAGE_SIZE}`,
+              { signal: controller.signal }
+            );
+            if (!pageResponse.ok) throw new Error("Unable to load the next homepage jobs batch");
+            const pageResult = (await pageResponse.json()) as { data?: JobPosting[] };
+            if (!Array.isArray(pageResult.data)) throw new Error("Unexpected jobs page response");
+            return pageResult.data;
+          })
+        );
+
+        if (!controller.signal.aborted) {
+          setJobs([...firstPage.data, ...remainingPages.flat()]);
+        }
+      } catch (error: unknown) {
+        if (error instanceof Error && error.name !== "AbortError" && !firstPageLoaded) {
+          setLoadFailed(true);
+        }
+      }
+    }
+
+    void loadHomepageJobs();
     return () => controller.abort();
   }, []);
 
@@ -35,6 +72,7 @@ export default function HighestVacancySections() {
     <>
       <HighestVacancyJobs jobs={jobs} loadFailed={loadFailed} />
       <HighestVacancyApprentice jobs={jobs} loadFailed={loadFailed} />
+      <HomeLatestJobs sourceJobs={jobs} loadFailed={loadFailed} />
     </>
   );
 }
