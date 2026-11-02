@@ -136,6 +136,10 @@ function buildFilters(searchParams: SP): JobFilters {
     minAge: num(searchParams.minAge),
     maxAge: num(searchParams.maxAge),
     lastDate: str(searchParams.lastDate) as JobFilters["lastDate"],
+    // View All Jobs (50 cards) defaults to the nearest application deadline first.
+    sort:
+      (str(searchParams.sort) as JobFilters["sort"]) ||
+      (requestedPageSize === 50 ? "closing_soon" : "latest"),
     page,
     pageSize: Math.min(Math.max(requestedPageSize, 1), 50),
   };
