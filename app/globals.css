@@ -4618,3 +4618,12 @@ html[data-theme="dark"] .jobs-filter-close:hover {
   94% { transform: translateX(116px); opacity: 0; }
   100% { transform: translateX(-48px); opacity: 0; }
 }
+
+
+/* Keep Admit Card popup on native browser scrolling (no wheel-event animation lag). */
+.admit-card-links-scroll {
+  scroll-behavior: auto !important;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+}
