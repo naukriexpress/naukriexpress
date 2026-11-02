@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 
 type AdmitCardLink = {
@@ -16,7 +16,6 @@ export default function AdmitCardButton() {
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const linksScrollRef = useRef<HTMLDivElement>(null);
 
   const filteredLinks = useMemo(() => {
     const query = searchQuery.trim().toLocaleLowerCase();
@@ -182,7 +181,7 @@ export default function AdmitCardButton() {
               />
             </div>
 
-            <div ref={linksScrollRef} className="admit-card-links-scroll min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain">
+            <div className="admit-card-links-scroll min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain">
               {loading && (
                 <p className="text-sm text-gray-500">
                   Loading updates...
