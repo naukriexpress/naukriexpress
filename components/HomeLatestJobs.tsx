@@ -7,7 +7,7 @@ import type { JobPosting } from "@/lib/types";
 import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
 import { hasPendingVacancyDetails } from "@/lib/jobMarkers";
 
-const HOME_PAGE_SIZE = 21;
+const HOME_PAGE_SIZE = 12;
 const JOBS_FETCH_PAGE_SIZE = 100;
 
 function getJobsEndpoint(page: number): string {
