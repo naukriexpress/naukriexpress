@@ -4524,3 +4524,20 @@ html[data-theme="dark"] .jobs-filter-close:hover {
     transform: none !important;
   }
 }
+
+
+/* Animate the countdown ring once on mount without per-card JavaScript timers. */
+.highest-vacancy-countdown-ring-progress {
+  animation: highest-vacancy-countdown-ring-fill 420ms cubic-bezier(.2,.75,.25,1) both;
+}
+
+@keyframes highest-vacancy-countdown-ring-fill {
+  from { stroke-dashoffset: 182.22; }
+  to { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .highest-vacancy-countdown-ring-progress {
+    animation: none !important;
+  }
+}
