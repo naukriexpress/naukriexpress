@@ -4372,3 +4372,73 @@ html[data-theme="dark"] .jobs-filter-select {
     width: min(300px, calc(100vw - 2rem));
   }
 }
+
+
+/* Smoothly reveal and dismiss the filter option popovers. */
+.jobs-filter-dropdown > .jobs-filter-popover {
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-7px) scale(0.98);
+  transform-origin: top left;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease,
+    visibility 180ms ease;
+}
+
+.jobs-filter-dropdown[open] > .jobs-filter-popover {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.jobs-filter-popover-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 9px;
+  padding-top: 9px;
+  border-top: 1px solid #e1e8f0;
+}
+
+.jobs-filter-close {
+  min-height: 32px;
+  border: 1px solid #cbd8e6;
+  border-radius: 7px;
+  background: #f7faff;
+  padding: 5px 13px;
+  color: #294866;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  transition: background-color 140ms ease, border-color 140ms ease;
+}
+
+.jobs-filter-close:hover {
+  border-color: #347fc4;
+  background: #eaf3fc;
+}
+
+html[data-theme="dark"] .jobs-filter-popover-footer {
+  border-top-color: #3a526e;
+}
+
+html[data-theme="dark"] .jobs-filter-close {
+  border-color: #3a526e;
+  background: #17263a;
+  color: #e5edf7;
+}
+
+html[data-theme="dark"] .jobs-filter-close:hover {
+  border-color: #6ea9e0;
+  background: #203851;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jobs-filter-dropdown > .jobs-filter-popover,
+  .jobs-filter-close {
+    transition: none !important;
+  }
+}
