@@ -122,21 +122,21 @@ export default function AdmitCardButton() {
 
   return createPortal(
     <>
-      {links.length > 0 && (
-        <button
-          type="button"
-          onClick={() => {
-            setIsOpen(true);
-            setSearchQuery("");
-            void loadLinks(false);
-          }}
-          className="admit-card-floating-button fixed bottom-6 right-4 z-[9998] flex items-center gap-2 rounded-full bg-brand-600 px-4 py-3 text-sm font-bold text-white shadow-xl hover:bg-brand-700 active:scale-95 sm:right-6"
-        >
-          <span className="relative z-10">📄 Admit Card Updates</span>
-          <span className="relative z-10 rounded-full bg-white px-2 py-0.5 text-xs font-extrabold text-brand-700">
-            {links.length}
-          </span>
-          <span className="admit-card-squirrel-runner" aria-hidden="true">
+      <button
+        type="button"
+        onClick={() => {
+          setIsOpen(true);
+          setSearchQuery("");
+          void loadLinks(false);
+        }}
+        aria-label={`Open Admit Card Updates. ${links.length} updates available.`}
+        className="admit-card-floating-button fixed bottom-6 right-4 z-[9998] flex items-center gap-2 rounded-full bg-brand-600 px-4 py-3 text-sm font-bold text-white shadow-xl hover:bg-brand-700 active:scale-95 sm:right-6"
+      >
+        <span className="admit-card-floating-label relative z-10">📄 Admit Card Updates</span>
+        <span className="admit-card-floating-count relative z-10 rounded-full bg-white px-2 py-0.5 text-xs font-extrabold text-brand-700">
+          {links.length}
+        </span>
+        <span className="admit-card-squirrel-runner" aria-hidden="true">
             <svg className="admit-card-squirrel" viewBox="0 0 100 70" role="presentation">
               <g className="admit-card-squirrel-body">
                 <g className="admit-card-squirrel-tail">
@@ -175,9 +175,8 @@ export default function AdmitCardButton() {
                 </g>
               </g>
             </svg>
-          </span>
-        </button>
-      )}
+        </span>
+      </button>
 
       {isOpen && (
         <div
