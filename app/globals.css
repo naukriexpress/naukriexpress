@@ -1738,11 +1738,14 @@ html[data-theme="dark"] .highest-vacancy-countdown[data-tone="copper"] { --count
 .admit-card-floating-button {
   isolation: isolate;
   overflow: visible;
+  container-type: inline-size;
+  width: max-content;
+  max-width: calc(100vw - 2rem);
 }
 
 .admit-card-squirrel-runner {
   position: absolute;
-  left: -48px;
+  left: 0;
   top: -35px;
   z-index: 3;
   display: block;
@@ -1750,7 +1753,8 @@ html[data-theme="dark"] .highest-vacancy-countdown[data-tone="copper"] { --count
   height: 38px;
   pointer-events: none;
   animation: admit-card-squirrel-cross 5.6s linear infinite;
-  will-change: left, opacity;
+  transform: translateX(-48px);
+  will-change: transform, opacity;
 }
 
 .admit-card-squirrel {
@@ -1758,7 +1762,6 @@ html[data-theme="dark"] .highest-vacancy-countdown[data-tone="copper"] { --count
   width: 48px;
   height: 38px;
   overflow: visible;
-  filter: drop-shadow(0 2px 2px rgb(3 20 54 / 28%));
 }
 
 .admit-card-squirrel-body {
@@ -1800,11 +1803,11 @@ html[data-theme="dark"] .highest-vacancy-countdown[data-tone="copper"] { --count
 }
 
 @keyframes admit-card-squirrel-cross {
-  0% { left: -48px; opacity: 0; }
+  0% { transform: translateX(-48px); opacity: 0; }
   7% { opacity: 1; }
-  84% { left: calc(100% - 4px); opacity: 1; }
-  94% { left: calc(100% - 4px); opacity: 0; }
-  100% { left: -48px; opacity: 0; }
+  84% { transform: translateX(calc(100cqw - 4px)); opacity: 1; }
+  94% { transform: translateX(calc(100cqw - 4px)); opacity: 0; }
+  100% { transform: translateX(-48px); opacity: 0; }
 }
 
 @keyframes admit-card-squirrel-bounce {
@@ -1830,7 +1833,7 @@ html[data-theme="dark"] .highest-vacancy-countdown[data-tone="copper"] { --count
 @media (prefers-reduced-motion: reduce) {
   .admit-card-squirrel-runner {
     animation: none;
-    left: calc(100% - 48px);
+    transform: translateX(calc(100cqw - 4px));
     opacity: 1;
   }
   .admit-card-squirrel-body,
@@ -4059,8 +4062,8 @@ html[data-theme="dark"] .nx-updates-panel {
     border: 1px solid rgb(255 255 255 / 72%) !important;
     background: linear-gradient(135deg, rgb(163 143 255 / 84%), rgb(102 76 199 / 76%)) !important;
     color: #ffffff !important;
-    -webkit-backdrop-filter: blur(12px) saturate(155%);
-    backdrop-filter: blur(12px) saturate(155%);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
     box-shadow:
       0 5px 14px rgb(67 45 145 / 24%),
       inset 0 1px 0 rgb(255 255 255 / 72%),
@@ -4069,22 +4072,8 @@ html[data-theme="dark"] .nx-updates-panel {
   }
 
   .site-header-mobile-links > a.site-header-education-action::before {
-    content: "";
-    position: absolute;
-    z-index: 0;
-    inset: 0;
-    border-radius: inherit;
-    background: linear-gradient(
-      108deg,
-      transparent 18%,
-      rgb(255 255 255 / 5%) 34%,
-      rgb(255 255 255 / 58%) 50%,
-      rgb(255 255 255 / 5%) 66%,
-      transparent 82%
-    );
-    transform: translateX(-135%) skewX(-18deg);
-    animation: education-glass-shimmer 3.8s ease-in-out infinite;
-    pointer-events: none;
+    content: none;
+    animation: none;
   }
 
   .site-header-mobile-links > a.site-header-education-action > * {
@@ -4103,11 +4092,6 @@ html[data-theme="dark"] .nx-updates-panel {
   .site-header-mobile-links > a.site-header-education-action:active {
     transform: scale(.96);
   }
-}
-
-@keyframes education-glass-shimmer {
-  0%, 12% { transform: translateX(-135%) skewX(-18deg); }
-  58%, 100% { transform: translateX(135%) skewX(-18deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {
