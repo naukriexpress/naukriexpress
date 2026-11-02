@@ -1631,7 +1631,7 @@ html[data-theme="dark"] .highest-vacancy-post-badge[data-tone="copper"] { backgr
 .highest-vacancy-countdown-slide {
   display: inline-block;
   vertical-align: bottom;
-  animation: highest-vacancy-countdown-slide-up 280ms cubic-bezier(0.22, 0.75, 0.25, 1) both;
+  animation: highest-vacancy-countdown-slide-up 440ms cubic-bezier(0.22, 0.75, 0.25, 1) both;
   will-change: transform, opacity;
 }
 
@@ -4528,12 +4528,12 @@ html[data-theme="dark"] .jobs-filter-close:hover {
 
 /* Animate the countdown ring once on mount without per-card JavaScript timers. */
 .highest-vacancy-countdown-ring-progress {
-  animation: highest-vacancy-countdown-ring-fill 420ms cubic-bezier(.2,.75,.25,1) both;
+  animation: highest-vacancy-countdown-ring-fill 620ms cubic-bezier(.22,.75,.25,1) both;
 }
 
 @keyframes highest-vacancy-countdown-ring-fill {
   from { stroke-dashoffset: 182.22; }
-  to { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: var(--countdown-target-offset, 0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
