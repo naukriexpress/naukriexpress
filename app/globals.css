@@ -4442,3 +4442,60 @@ html[data-theme="dark"] .jobs-filter-close:hover {
     transition: none !important;
   }
 }
+
+
+/* Compact desktop jobs filters into one continuous horizontal row. */
+.jobs-filter-row {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.jobs-filter-search {
+  flex: 1 1 150px;
+  min-width: 135px;
+  max-width: 230px;
+}
+
+.jobs-filter-dropdown {
+  flex: 0 0 auto;
+}
+
+.jobs-filter-trigger {
+  gap: 5px;
+  padding-left: 8px;
+  padding-right: 8px;
+  font-size: 12px;
+}
+
+.jobs-filter-row > button,
+.jobs-filter-row > a {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+@media (max-width: 1099px) {
+  .jobs-filter-row {
+    flex-wrap: wrap;
+  }
+
+  .jobs-filter-search {
+    flex: 1 1 100%;
+    max-width: none;
+  }
+}
+
+@media (max-width: 639px) {
+  .jobs-filter-row {
+    gap: 7px;
+  }
+
+  .jobs-filter-search {
+    flex: 1 1 100%;
+    min-width: 100%;
+  }
+}
