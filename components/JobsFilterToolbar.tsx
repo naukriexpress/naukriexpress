@@ -1,3 +1,5 @@
+"use client";
+
 import { CATEGORY_LABELS, JOB_TYPE_LABELS, QUALIFICATION_LABELS } from "@/lib/types";
 import type { Category, JobType, Qualification } from "@/lib/types";
 
@@ -27,6 +29,23 @@ function selectedLabel(selected: string[], labels: object, empty: string): strin
     return (labels as Record<string, string>)[selected[0]] || selected[0];
   }
   return selected.length + " selected";
+}
+
+function CloseFilterPopover() {
+  return (
+    <div className="jobs-filter-popover-footer">
+      <button
+        type="button"
+        className="jobs-filter-close"
+        onClick={(event) => {
+          const dropdown = event.currentTarget.closest("details");
+          if (dropdown) dropdown.open = false;
+        }}
+      >
+        Close
+      </button>
+    </div>
+  );
 }
 
 export default function JobsFilterToolbar({
@@ -80,7 +99,6 @@ export default function JobsFilterToolbar({
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
         <div>
           <h2 className="text-sm font-bold text-ink-900">Filter Jobs</h2>
-          <p className="text-xs text-ink-700/65">Choose one or more options, then apply filters.</p>
         </div>
         <span className="rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">
           {pageSize === "50" ? "50 jobs per page" : "Job filters"}
@@ -117,6 +135,7 @@ export default function JobsFilterToolbar({
                 <span>{option.label}</span>
               </label>
             ))}
+            <CloseFilterPopover />
           </div>
         </details>
 
@@ -134,6 +153,7 @@ export default function JobsFilterToolbar({
               </label>
             ))}
             <p className="jobs-filter-note">You can select multiple categories.</p>
+            <CloseFilterPopover />
           </div>
         </details>
 
@@ -150,6 +170,7 @@ export default function JobsFilterToolbar({
                 <span>{QUALIFICATION_LABELS[qualification]}</span>
               </label>
             ))}
+            <CloseFilterPopover />
           </div>
         </details>
 
@@ -166,6 +187,7 @@ export default function JobsFilterToolbar({
                 <span>{JOB_TYPE_LABELS[jobType]}</span>
               </label>
             ))}
+            <CloseFilterPopover />
           </div>
         </details>
 
@@ -180,6 +202,7 @@ export default function JobsFilterToolbar({
               <option value="all">All India</option>
               {states.map((item) => <option key={item} value={item}>{item}</option>)}
             </select>
+            <CloseFilterPopover />
           </div>
         </details>
 
@@ -200,6 +223,7 @@ export default function JobsFilterToolbar({
                 <input type="number" name="maxAge" defaultValue={maxAge} min={15} max={65} placeholder="65" className="jobs-filter-select mt-1" />
               </label>
             </div>
+            <CloseFilterPopover />
           </div>
         </details>
 
@@ -217,6 +241,7 @@ export default function JobsFilterToolbar({
               <option value="month">Last Date This Month</option>
               <option value="upcoming">Upcoming Last Dates</option>
             </select>
+            <CloseFilterPopover />
           </div>
         </details>
 
@@ -232,6 +257,7 @@ export default function JobsFilterToolbar({
               <option value="latest">Newest first</option>
               <option value="most_viewed">Most viewed</option>
             </select>
+            <CloseFilterPopover />
           </div>
         </details>
 
