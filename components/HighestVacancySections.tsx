@@ -66,7 +66,10 @@ export default function HighestVacancySections() {
     }
 
     void loadHomepageJobs();
-    return (
+    return () => controller.abort();
+  }, []);
+
+  return (
     <>
       <div className="container-page mt-6 sm:mt-8">
         <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-2">
