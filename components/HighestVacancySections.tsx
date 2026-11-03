@@ -5,6 +5,7 @@ import type { JobPosting } from "@/lib/types";
 import HighestVacancyJobs from "./HighestVacancyJobs";
 import HighestVacancyApprentice from "./HighestVacancyApprentice";
 import HomeLatestJobs from "./HomeLatestJobs";
+import HomepageQuickUpdates from "./HomepageQuickUpdates";
 
 // Both vacancy highlights and Latest Job Updates reuse one cached homepage request.
 const JOBS_PAGE_SIZE = 500;
@@ -65,13 +66,17 @@ export default function HighestVacancySections() {
     }
 
     void loadHomepageJobs();
-    return () => controller.abort();
-  }, []);
-
-  return (
+    return (
     <>
-      <HighestVacancyJobs jobs={jobs} loadFailed={loadFailed} />
-      <HighestVacancyApprentice jobs={jobs} loadFailed={loadFailed} />
+      <div className="container-page mt-6 sm:mt-8">
+        <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-2">
+          <div className="min-w-0 space-y-4">
+            <HighestVacancyJobs jobs={jobs} loadFailed={loadFailed} />
+            <HighestVacancyApprentice jobs={jobs} loadFailed={loadFailed} />
+          </div>
+          <HomepageQuickUpdates />
+        </div>
+      </div>
       <HomeLatestJobs sourceJobs={jobs} loadFailed={loadFailed} />
     </>
   );
