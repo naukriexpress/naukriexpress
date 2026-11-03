@@ -26,8 +26,8 @@ export default function Header() {
     <header className="sticky top-0 z-40 border-b border-ink-900/10 bg-white/95">
       <div className="bg-ink-900 text-xs text-white sm:text-sm">
         <div className="container-page flex items-center gap-2 overflow-x-auto whitespace-nowrap py-1.5">
-          <span className="inline-flex items-center gap-1 font-semibold text-saffron-400">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-saffron-400" aria-hidden="true" />
+          <span className="inline-flex items-center gap-1 font-semibold text-sky-300">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-sky-400" aria-hidden="true" />
             LIVE
           </span>
           <HeaderLiveStats />
@@ -54,7 +54,7 @@ export default function Header() {
           <div className="site-header-desktop-links hidden items-center gap-2 lg:flex">
             <Link
               href="/jobs"
-              className="hidden rounded-lg bg-saffron-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-saffron-600 2xl:inline-flex"
+              className="hidden rounded-lg bg-brand-700 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 2xl:inline-flex"
             >
               Find My Eligible Jobs
             </Link>

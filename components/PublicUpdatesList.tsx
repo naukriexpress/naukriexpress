@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import type { SiteUpdateCategory } from "@/lib/public-content-cache";
 
 type UpdateItem = {
@@ -83,11 +84,9 @@ function UpdateCard({ item }: { item: UpdateItem }) {
               {presentation.icon} {presentation.label}
             </span>
             <h2 className="update-card-title break-words text-base font-extrabold leading-snug tracking-tight text-slate-950 sm:text-[17px]">
-              {item.item_url ? (
-                <a href={item.item_url} target="_blank" rel="noopener noreferrer" className="rounded-sm transition-colors hover:text-sky-700 focus-visible:outline-offset-4">
-                  {item.title}
-                </a>
-              ) : item.title}
+              <Link href={`/updates/${item.category}/${item.id}`} className="rounded-sm transition-colors hover:text-brand-700 focus-visible:outline-offset-4">
+                {item.title}
+              </Link>
             </h2>
             {item.organization && (
               <p className="update-card-organization mt-1 break-words text-sm font-semibold text-sky-800">

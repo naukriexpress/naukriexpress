@@ -42,26 +42,26 @@ export async function GET() {
 
     const payload = {
       admitCards: admitCards.slice(0, 4).map((item) =>
-        toItem(item.id, item.title, item.url)
+        toItem(item.id, item.title, `/updates/admit-card/${item.id}`)
       ),
       results: newestFirst(results).slice(0, 4).map((item) =>
-        toItem(item.id, item.title, item.item_url || item.apply_url || "/results")
+        toItem(item.id, item.title, `/updates/results/${item.id}`)
       ),
       syllabus: newestFirst(syllabus).slice(0, 4).map((item) =>
-        toItem(item.id, item.title, item.item_url || item.apply_url || "/syllabus")
+        toItem(item.id, item.title, `/updates/syllabus/${item.id}`)
       ),
       education: upcomingEducation.slice(0, 4).map((item) =>
         toItem(
           item.id,
           item.title,
-          `/education?category=${encodeURIComponent(item.education_category || "all")}`
+          `/updates/education/${item.id}`
         )
       ),
       answerKey: newestFirst(answerKey).slice(0, 4).map((item) =>
-        toItem(item.id, item.title, item.item_url || item.apply_url || "/answer-key")
+        toItem(item.id, item.title, `/updates/answer-key/${item.id}`)
       ),
       scholarship: newestFirst(scholarship).slice(0, 4).map((item) =>
-        toItem(item.id, item.title, item.item_url || item.apply_url || "/scholarship")
+        toItem(item.id, item.title, `/updates/scholarship/${item.id}`)
       ),
     };
 

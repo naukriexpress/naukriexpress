@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getPublicAdmitCardLinks } from "@/lib/public-content-cache";
 
 type AdmitCardLink = {
@@ -44,11 +45,9 @@ export default async function InfoListingPage({
       ) : (
         <div className="admit-card-page-list mt-8 divide-y divide-ink-900/10 rounded-xl2 border border-ink-900/10 bg-white">
           {links.map((item) => (
-            <a
+            <Link
               key={item.id}
-              href={item.url}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={`/updates/admit-card/${item.id}`}
               className="flex items-center justify-between gap-4 px-5 py-4 transition-colors hover:bg-brand-50/50"
             >
               <div className="min-w-0">
@@ -58,7 +57,7 @@ export default async function InfoListingPage({
               <span className="shrink-0 rounded-lg border border-brand-600 px-3 py-1.5 text-xs font-semibold text-brand-700">
                 {ctaLabel}
               </span>
-            </a>
+            </Link>
           ))}
         </div>
       )}

@@ -4753,3 +4753,281 @@ html[data-theme="dark"] .jobs-filter-close:hover {
     font-size: 10px;
   }
 }
+
+
+/* NaukriExpress shared blue palette with red reserved for urgent deadlines. */
+:root {
+  --nx-blue: #1769aa;
+  --nx-navy: #14365e;
+  --nx-blue-soft: #edf5ff;
+  --nx-blue-border: #c7ddf7;
+  --nx-urgent: #dc2626;
+}
+html[data-theme="light"] .highest-vacancy-panel {
+  background: #f7fbff !important;
+  border-color: var(--nx-blue-border) !important;
+}
+html[data-theme="light"] .highest-vacancy-card,
+html[data-theme="light"] .highest-vacancy-card[data-tone="blue"] {
+  background: #edf5ff !important;
+  border-color: #c5dcf5 !important;
+  border-left: 4px solid var(--nx-blue) !important;
+  box-shadow: 0 2px 7px rgb(20 54 94 / 7%) !important;
+}
+html[data-theme="light"] .highest-vacancy-job-title {
+  color: var(--nx-navy) !important;
+}
+html[data-theme="dark"] .highest-vacancy-panel {
+  background: #111f32 !important;
+  border-color: #2b4968 !important;
+}
+html[data-theme="dark"] .highest-vacancy-card,
+html[data-theme="dark"] .highest-vacancy-card[data-tone="blue"] {
+  background: #172d46 !important;
+  border-color: #315474 !important;
+  border-left: 4px solid #55a6ed !important;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 22%) !important;
+}
+html[data-theme="dark"] .highest-vacancy-job-title {
+  color: #f3f7fc !important;
+}
+.highest-vacancy-heading {
+  font-size: 1.2rem !important;
+  font-weight: 900 !important;
+  line-height: 1.2 !important;
+}
+.highest-vacancy-job-title {
+  font-size: 14px !important;
+  font-weight: 850 !important;
+  line-height: 1.35 !important;
+  letter-spacing: -0.01em;
+}
+.highest-vacancy-post-badge[data-tone="blue"] {
+  background: #1769aa !important;
+  color: #ffffff !important;
+  font-weight: 850 !important;
+}
+.highest-vacancy-countdown:not([data-urgent="true"]) {
+  color: #1769aa !important;
+  border-color: #4b9be0 !important;
+}
+html[data-theme="dark"] .highest-vacancy-countdown:not([data-urgent="true"]) {
+  color: #a9d5ff !important;
+  border-color: #63b2f4 !important;
+  background: #203d5b !important;
+}
+.highest-vacancy-countdown[data-urgent="true"] {
+  color: #dc2626 !important;
+  border-color: #dc2626 !important;
+  background: #fff1f2 !important;
+  --countdown-color: #dc2626 !important;
+}
+html[data-theme="dark"] .highest-vacancy-countdown[data-urgent="true"] {
+  color: #fecaca !important;
+  border-color: #ef4444 !important;
+  background: #451d28 !important;
+  --countdown-color: #f87171 !important;
+}
+@media (max-width: 639px) {
+  .highest-vacancy-job-title { font-size: 12.5px !important; }
+  .highest-vacancy-heading { font-size: 1.08rem !important; }
+}
+
+/* Sidebar cards: explicit day/night colours for reliable contrast. */
+.homepage-quick-panel {
+  background: #ffffff;
+  border-color: #c7ddf7;
+  color: #14365e;
+}
+.homepage-quick-panel-header {
+  background: #eaf3ff;
+  border-color: #d7e7f8;
+}
+.homepage-quick-panel-title { color: #14365e; }
+.homepage-quick-link { color: #1769aa; }
+.homepage-quick-row {
+  color: #163b63;
+  background: #ffffff;
+}
+.homepage-quick-row:hover { background: #edf5ff; }
+.homepage-quick-row > span:first-child { color: #1769aa; }
+.homepage-search-spacer { padding-top: 1.5rem; }
+.homepage-search-input {
+  border-color: #b8cfe8 !important;
+  background: #ffffff !important;
+  color: #14365e !important;
+}
+.homepage-search-input::placeholder { color: #617b98 !important; }
+.homepage-search-submit { background: #1769aa !important; }
+.homepage-search-submit:hover { background: #12558e !important; }
+html[data-theme="dark"] .homepage-quick-panel {
+  background: #111f32 !important;
+  border-color: #304e6d !important;
+  color: #edf5ff !important;
+  box-shadow: 0 5px 18px rgb(0 0 0 / 20%) !important;
+}
+html[data-theme="dark"] .homepage-quick-panel-header {
+  background: #1b3450 !important;
+  border-color: #304e6d !important;
+}
+html[data-theme="dark"] .homepage-quick-panel-title { color: #f1f6fd !important; }
+html[data-theme="dark"] .homepage-quick-link { color: #90c9ff !important; }
+html[data-theme="dark"] .homepage-quick-row {
+  background: #12263d !important;
+  color: #e7f1fc !important;
+  border-color: #2a4664 !important;
+}
+html[data-theme="dark"] .homepage-quick-row:hover { background: #1b3653 !important; }
+html[data-theme="dark"] .homepage-quick-row > span:first-child { color: #8bc4ff !important; }
+html[data-theme="dark"] .homepage-search-input {
+  border-color: #365573 !important;
+  background: #12243a !important;
+  color: #f1f6fd !important;
+}
+html[data-theme="dark"] .homepage-search-input::placeholder { color: #a3b9d1 !important; }
+html[data-theme="dark"] .homepage-search-submit { background: #2478bd !important; }
+html[data-theme="dark"] .homepage-search-submit:hover { background: #318bd3 !important; }
+
+/* Notification and mode toggle have matching width, height and icon size. */
+.site-header-theme-desktop .theme-toggle-button,
+.nx-updates-header-trigger.has-label {
+  width: 116px !important;
+  min-width: 116px !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  flex: 0 0 116px !important;
+  padding: 0 9px !important;
+  gap: 7px !important;
+  border-radius: 9px !important;
+  font-size: 14px !important;
+  line-height: 1 !important;
+  justify-content: center !important;
+}
+.nx-updates-header-trigger.has-label {
+  border: 1px solid #82b8e8 !important;
+  background: #eaf3ff !important;
+  color: #14365e !important;
+  box-shadow: 0 1px 3px rgb(20 54 94 / 10%) !important;
+}
+.nx-updates-header-trigger.has-label:hover,
+.nx-updates-header-trigger.has-label.is-open {
+  border-color: #4b94d3 !important;
+  background: #dcecff !important;
+  color: #10345b !important;
+}
+.nx-updates-header-label {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+}
+.nx-updates-header-trigger.has-label > svg {
+  width: 20px !important;
+  height: 20px !important;
+  flex: 0 0 20px !important;
+}
+html[data-theme="dark"] .site-header-theme-desktop .theme-toggle-button,
+html[data-theme="dark"] .nx-updates-header-trigger.has-label {
+  border-color: #385879 !important;
+  background: #142943 !important;
+  color: #eff6ff !important;
+}
+html[data-theme="dark"] .site-header-theme-desktop .theme-toggle-button:hover,
+html[data-theme="dark"] .nx-updates-header-trigger.has-label:hover {
+  background: #1b3a5a !important;
+}
+.menu-button-moving-border.site-header-orange-action {
+  background: #1769aa !important;
+  border-color: #1769aa !important;
+}
+.menu-button-moving-border.site-header-orange-action:hover {
+  background: #12558e !important;
+  border-color: #12558e !important;
+}
+@media (max-width: 1023px) {
+  .site-header-theme-mobile .theme-toggle-button,
+  .nx-updates-header-trigger.has-label {
+    width: 100px !important;
+    min-width: 100px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    flex: 0 0 100px !important;
+    padding: 0 6px !important;
+    gap: 5px !important;
+    font-size: 11px !important;
+  }
+  .site-header-theme-mobile .theme-toggle-icon-shell,
+  .nx-updates-header-trigger.has-label > svg {
+    width: 18px !important;
+    height: 18px !important;
+    flex: 0 0 18px !important;
+  }
+  .nx-updates-header-label { font-size: 11px !important; }
+}
+
+/* Public update pages use the same blue palette. */
+.update-listing-card {
+  border-color: #c7ddf7 !important;
+  background: #ffffff !important;
+}
+.update-card-icon, .update-card-kicker {
+  border-color: #c7ddf7 !important;
+  background: #edf5ff !important;
+  color: #174f82 !important;
+}
+.update-card-organization { color: #1b5f99 !important; }
+.update-detail,
+.update-detail--emerald,
+.update-detail--violet,
+.update-detail--sky,
+.update-detail--rose {
+  border-color: #c7ddf7 !important;
+  background: #edf5ff !important;
+}
+.update-detail-label { color: #1b5f99 !important; }
+.update-detail-value { color: #14365e !important; }
+.update-action--apply {
+  border-color: #1769aa !important;
+  background: #1769aa !important;
+}
+.update-action--secondary {
+  border-color: #c7d8eb !important;
+  color: #14365e !important;
+}
+html[data-theme="dark"] .update-listing-card {
+  border-color: #304e6d !important;
+  background: #13253a !important;
+  color: #edf5ff !important;
+}
+html[data-theme="dark"] .update-card-title,
+html[data-theme="dark"] .update-card-title a,
+html[data-theme="dark"] .update-card-description,
+html[data-theme="dark"] .update-detail-value {
+  color: #edf5ff !important;
+}
+html[data-theme="dark"] .update-card-organization,
+html[data-theme="dark"] .update-detail-label {
+  color: #9acbfa !important;
+}
+html[data-theme="dark"] .update-card-icon,
+html[data-theme="dark"] .update-card-kicker,
+html[data-theme="dark"] .update-detail,
+html[data-theme="dark"] .update-detail--emerald,
+html[data-theme="dark"] .update-detail--violet,
+html[data-theme="dark"] .update-detail--sky,
+html[data-theme="dark"] .update-detail--rose {
+  border-color: #365675 !important;
+  background: #1a3450 !important;
+  color: #eaf4ff !important;
+}
+html[data-theme="dark"] .update-card-actions { border-color: #365675 !important; }
+html[data-theme="dark"] .update-action--primary,
+html[data-theme="dark"] .update-action--secondary {
+  border-color: #4b8fc8 !important;
+  color: #a9d6ff !important;
+  background: #142c45 !important;
+}
+html[data-theme="dark"] .update-action--apply {
+  border-color: #317fbe !important;
+  background: #246da7 !important;
+  color: #ffffff !important;
+}

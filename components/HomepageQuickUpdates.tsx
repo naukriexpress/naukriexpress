@@ -91,7 +91,7 @@ export default function HomepageQuickUpdates() {
 
   return (
     <aside className="min-w-0 space-y-3" aria-label="Search, admit cards, results, syllabus, education, answer key and scholarship updates">
-      <div className="mb-1 pt-6">
+      <div className="homepage-search-spacer mb-1 pt-6">
         <HeroSearch />
       </div>
       {GROUPS.map((group) => {
@@ -99,17 +99,17 @@ export default function HomepageQuickUpdates() {
         return (
           <section
             key={group.key}
-            className="overflow-hidden rounded-xl border border-[#c7ddf7] bg-[#f2f7ff] shadow-sm"
+            className="homepage-quick-panel overflow-hidden rounded-xl border shadow-sm"
             aria-labelledby={`home-panel-${group.key}`}
           >
-            <div className="flex items-center justify-between gap-2 border-b border-[#d8e7fa] bg-[#eaf3ff] px-3 py-2">
+            <div className="homepage-quick-panel-header flex items-center justify-between gap-2 border-b px-3 py-2">
               <div className="flex min-w-0 items-center gap-2">
                 <GroupIcon kind={group.icon} />
-                <h2 id={`home-panel-${group.key}`} className="truncate text-sm font-extrabold text-[#14365e] sm:text-base">
+                <h2 id={`home-panel-${group.key}`} className="homepage-quick-panel-title truncate text-sm font-extrabold sm:text-base">
                   {group.title}
                 </h2>
               </div>
-              <Link href={group.href} className="shrink-0 text-[11px] font-bold text-brand-700 hover:underline sm:text-xs">
+              <Link href={group.href} className="homepage-quick-link shrink-0 text-[11px] font-bold hover:underline sm:text-xs">
                 View All →
               </Link>
             </div>
@@ -129,7 +129,7 @@ export default function HomepageQuickUpdates() {
                     href={item.href}
                     target={isExternal(item.href) ? "_blank" : undefined}
                     rel={isExternal(item.href) ? "noopener noreferrer" : undefined}
-                    className="group flex min-w-0 items-start gap-2 px-3 py-2 text-[12px] font-semibold leading-snug text-[#15385f] transition-colors hover:bg-[#e5f0ff] sm:text-[13px]"
+                    className="homepage-quick-row group flex min-w-0 items-start gap-2 px-3 py-2 text-[12px] font-semibold leading-snug transition-colors sm:text-[13px]"
                   >
                     <span className="mt-0.5 shrink-0 font-black text-brand-700" aria-hidden="true">»</span>
                     <span className="min-w-0 flex-1 whitespace-normal break-words">{item.title}</span>

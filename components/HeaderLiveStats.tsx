@@ -41,7 +41,7 @@ export default function HeaderLiveStats() {
     <>
       <span>{data ? `${data.liveJobs} open recruitments tracked` : "Open recruitments loading…"}</span>
       <span className="opacity-40">•</span>
-      <span className="font-medium text-leaf-400">
+      <span className="font-medium text-sky-300">
         {data ? `${data.closingToday} closing today — apply now` : "Closing today updates"}
       </span>
       <span className="opacity-40">•</span>

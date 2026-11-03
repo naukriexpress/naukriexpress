@@ -47,8 +47,8 @@ export default function HomePage() {
       <HighestVacancySections />
 
       {/* Important Links */}
-      <section className="container-page mt-16 mb-16">
-        <div className="rounded-xl2 bg-brand-50 p-6 sm:p-8">
+      <section className="container-page mt-6 mb-8">
+        <div className="rounded-xl2 bg-brand-50 p-4 sm:p-6">
           <h2 className="mb-4 font-display text-xl font-bold text-ink-900">Important Links</h2>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             {[

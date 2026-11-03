@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import type { JobPosting } from "@/lib/types";
 import HighestVacancyJobs from "./HighestVacancyJobs";
 import HighestVacancyApprentice from "./HighestVacancyApprentice";
-import HomeLatestJobs from "./HomeLatestJobs";
 import HomepageQuickUpdates from "./HomepageQuickUpdates";
 
 // Both vacancy highlights and Latest Job Updates reuse one cached homepage request.
@@ -80,7 +79,6 @@ export default function HighestVacancySections() {
           <HomepageQuickUpdates />
         </div>
       </div>
-      <HomeLatestJobs sourceJobs={jobs} loadFailed={loadFailed} />
     </>
   );
 }

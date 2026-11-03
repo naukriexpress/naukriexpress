@@ -323,7 +323,7 @@ export default function EducationDirectory({
 
                   <div className="education-card-main mt-5 grid items-center gap-3 lg:grid-cols-[minmax(0,1.55fr)_minmax(190px,.8fr)] lg:gap-6">
                     <div className="min-w-0">
-                      <h3 className="education-exam-title font-display text-2xl font-extrabold leading-tight tracking-tight sm:text-3xl">{item.title}</h3>
+                      <h3 className="education-exam-title font-display text-2xl font-extrabold leading-tight tracking-tight sm:text-3xl"><Link href={`/updates/education/${item.id}`} className="hover:underline decoration-brand-400 underline-offset-4">{item.title}</Link></h3>
                       {item.organization && <p className="education-exam-organization mt-2 text-sm font-medium sm:text-base">{item.organization}</p>}
                       {item.description && <EducationDetailRows description={item.description}/>}
                     </div>

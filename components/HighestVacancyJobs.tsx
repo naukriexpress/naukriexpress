@@ -161,7 +161,7 @@ export default function HighestVacancyJobs({
             <div className="min-w-0">
               <h2
                 id="highest-vacancy-heading"
-                className="font-display text-base font-extrabold tracking-tight text-ink-900 sm:text-lg"
+                className="highest-vacancy-heading font-display text-lg font-black tracking-tight text-ink-900 sm:text-xl"
               >
                 Highest Vacancy Jobs
               </h2>
@@ -198,7 +198,7 @@ export default function HighestVacancyJobs({
                     >
                       {getJobIcon(job)}
                     </span>
-                    <span className="highest-vacancy-job-title min-w-0 flex-1 whitespace-normal break-words text-[11px] font-extrabold leading-snug sm:text-sm">
+                    <span className="highest-vacancy-job-title min-w-0 flex-1 whitespace-normal break-words text-[13px] font-extrabold leading-snug sm:text-[15px]">
                       {job.title}
                     </span>
                     <span
