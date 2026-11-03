@@ -1,33 +1,16 @@
-import { Suspense } from "react";
 import Link from "next/link";
-import AdmitCardButton from "./AdmitCardButton";
 import HeaderLiveStats from "./HeaderLiveStats";
-import MobileNav from "./MobileNav";
 import ThemeToggle from "./ThemeToggle";
 import AnnouncementChatWidget from "./AnnouncementChatWidget";
-
-const NAV_LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/jobs", label: "Latest Jobs" },
-  { href: "/jobs?jobType=government", label: "Government Jobs" },
-  { href: "/jobs?state=Maharashtra", label: "Maharashtra Jobs" },
-  { href: "/apprentice", label: "Apprentice" },
-  { href: "/education", label: "Education" },
-  { href: "/admit-card", label: "Admit Card" },
-  { href: "/results", label: "Results" },
-  { href: "/answer-key", label: "Answer Key" },
-  { href: "/syllabus", label: "Syllabus" },
-  { href: "/scholarship", label: "Scholarship" },
-  { href: "/contact", label: "Contact Us" },
-];
+import QuickNavigation from "./QuickNavigation";
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-40 border-b border-ink-900/10 bg-white/95">
-      <div className="bg-ink-900 text-xs text-white sm:text-sm">
+    <header className="site-header-shell sticky top-0 z-40 border-b">
+      <div className="site-header-live-strip text-xs text-white sm:text-sm">
         <div className="container-page flex items-center gap-2 overflow-x-auto whitespace-nowrap py-1.5">
-          <span className="inline-flex items-center gap-1 font-semibold text-sky-300">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-sky-400" aria-hidden="true" />
+          <span className="site-header-live-label inline-flex items-center gap-1 font-bold">
+            <span className="site-header-live-dot h-1.5 w-1.5 animate-pulse rounded-full" aria-hidden="true" />
             LIVE
           </span>
           <HeaderLiveStats />
@@ -36,10 +19,10 @@ export default function Header() {
 
       <div className="site-header-main-row container-page flex items-center justify-between gap-3 py-3">
         <Link href="/" className="site-header-brand flex min-w-0 shrink items-center gap-2.5">
-          <span className="site-header-brand-mark grid h-10 w-10 shrink-0 place-items-center rounded-xl2 bg-brand-700 font-display text-lg font-bold text-white">BGi</span>
+          <span className="site-header-brand-mark grid h-10 w-10 shrink-0 place-items-center rounded-xl2 font-display text-lg font-bold text-white">BGi</span>
           <span className="site-header-brand-copy flex min-w-0 flex-col leading-tight">
-            <span className="site-header-brand-title font-display text-lg font-bold text-ink-900">NaukriExpress</span>
-            <span className="site-header-brand-subtitle text-[11px] font-medium tracking-wide text-brand-600">सरकारी नोकरी अपडेट • India</span>
+            <span className="site-header-brand-title font-display text-lg font-bold">NaukriExpress</span>
+            <span className="site-header-brand-subtitle text-[11px] font-medium tracking-wide">सरकारी नोकरी अपडेट • India</span>
           </span>
         </Link>
 
@@ -62,35 +45,10 @@ export default function Header() {
             <span>Home</span>
           </Link>
           <AnnouncementChatWidget showLabel />
-          <div className="site-header-desktop-links hidden items-center gap-2 lg:flex">
-            <Link
-              href="/jobs"
-              className="hidden rounded-lg bg-brand-700 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 2xl:inline-flex"
-            >
-              Find My Eligible Jobs
-            </Link>
-          </div>
-          <div className="site-header-mobile-links flex shrink-0 items-center gap-2 2xl:hidden">
-            <Suspense fallback={<div className="h-10 w-10 rounded-lg border border-ink-900/15 bg-white" aria-hidden="true" />}>
-              <MobileNav states={[]} />
-            </Suspense>
-          </div>
         </div>
       </div>
 
-      <div className="hidden border-t border-ink-900/10 2xl:block">
-        <nav aria-label="Main navigation" className="container-page flex items-center justify-center gap-1 text-sm font-medium">
-          {NAV_LINKS.map((item) =>
-            item.label === "Admit Card" ? (
-              <AdmitCardButton key={item.label} />
-            ) : (
-              <Link key={item.label} href={item.href} className="rounded-md px-3 py-2 text-ink-700 transition-colors hover:bg-brand-50 hover:text-brand-700">
-                {item.label}
-              </Link>
-            )
-          )}
-        </nav>
-      </div>
+      <QuickNavigation />
     </header>
   );
 }

@@ -39,13 +39,13 @@ export default function HeaderLiveStats() {
 
   return (
     <>
-      <span>{data ? `${data.liveJobs} open recruitments tracked` : "Open recruitments loading…"}</span>
-      <span className="opacity-40">•</span>
-      <span className="font-medium text-sky-300">
+      <span className="site-header-live-open">{data ? `${data.liveJobs} open recruitments tracked` : "Open recruitments loading…"}</span>
+      <span className="site-header-live-separator">•</span>
+      <span className="site-header-closing-today">
         {data ? `${data.closingToday} closing today — apply now` : "Closing today updates"}
       </span>
-      <span className="opacity-40">•</span>
-      <Link href="/sitemap/" className="font-semibold text-white underline-offset-2 transition-colors hover:text-sky-200 hover:underline" aria-label="Open complete NaukriExpress HTML sitemap">
+      <span className="site-header-live-separator">•</span>
+      <Link href="/sitemap/" className="site-header-sitemap-link" aria-label="Open complete NaukriExpress HTML sitemap">
         Sitemap
       </Link>
     </>
