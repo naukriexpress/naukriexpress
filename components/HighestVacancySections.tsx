@@ -72,7 +72,7 @@ export default function HighestVacancySections() {
   return (
     <>
       <div className="container-page mt-6 sm:mt-8">
-        <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-2">
+        <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)]">
           <div className="min-w-0 space-y-4">
             <HighestVacancyJobs jobs={jobs} loadFailed={loadFailed} />
             <HighestVacancyApprentice jobs={jobs} loadFailed={loadFailed} />
