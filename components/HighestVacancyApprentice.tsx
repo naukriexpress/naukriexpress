@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import type { JobPosting } from "@/lib/types";
 import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
@@ -43,6 +43,11 @@ function formatVacancies(value: number): string {
   return value.toLocaleString("en-IN");
 }
 
+function formatLastDate(value: string): string {
+  const [year, month, day] = value.slice(0, 10).split("-");
+  return year && month && day ? `${day}/${month}/${year}` : "—";
+}
+
 function getCountdownCopy(daysLeft: number): { value: string; unit: string; accessible: string } {
   if (daysLeft <= 0) return { value: "Today", unit: "Last Day", accessible: "Last date is today" };
   if (daysLeft === 1) return { value: "1", unit: "Day", accessible: "1 day remaining" };
@@ -70,36 +75,23 @@ function AnimatedCountdownCircle({
 
   return (
     <span
-      className="highest-vacancy-countdown grid h-[68px] w-[68px] shrink-0 content-center justify-items-center rounded-full text-center"
+      className="highest-vacancy-countdown !flex !h-8 !w-[76px] !shrink-0 !items-center !justify-center !gap-1 !rounded-full !px-1 !py-0 sm:!h-10 sm:!w-[94px] sm:!gap-1.5 sm:!px-1.5"
       data-tone={tone}
       aria-label={countdown.accessible}
       title={`Last date: ${lastDate}`}
     >
-      <svg className="highest-vacancy-countdown-ring" viewBox="0 0 68 68" aria-hidden="true">
-        <circle
-          className="highest-vacancy-countdown-ring-track"
-          cx="34"
-          cy="34"
-          r={circleRadius}
-        />
-        <circle
-          className="highest-vacancy-countdown-ring-progress"
-          cx="34"
-          cy="34"
-          r={circleRadius}
-          strokeDasharray={`${circleCircumference} ${circleCircumference}`}
-          strokeDashoffset={strokeDashoffset}
-          style={{ "--countdown-target-offset": strokeDashoffset } as CSSProperties}
-        />
-      </svg>
-      <span className={`highest-vacancy-countdown-value ${daysLeft === 0 ? "highest-vacancy-countdown-today" : ""}`}>
+      <span
+        className={`highest-vacancy-countdown-value !grid !h-[22px] !w-[22px] !shrink-0 !place-items-center !rounded-full !border !border-current !text-xs !font-black !leading-none sm:!h-[27px] sm:!w-[27px] sm:!text-sm ${daysLeft === 0 ? "highest-vacancy-countdown-today !h-auto !w-auto !border-0 !px-1 !text-[10px] sm:!text-xs" : ""}`}
+      >
         {daysLeft === 0 ? countdown.value : (
           <span key={finalDays} className="highest-vacancy-countdown-slide">
             {finalDays}
           </span>
         )}
       </span>
-      <span className="highest-vacancy-countdown-unit">{countdown.unit}</span>
+      <span className="highest-vacancy-countdown-unit !mt-0 !text-[9px] sm:!text-[11px]">
+        {countdown.unit}
+      </span>
     </span>
   );
 }
@@ -107,16 +99,14 @@ function AnimatedCountdownCircle({
 function VacancyButtonSkeleton() {
   return (
     <div
-      className="h-[92px] rounded-xl border border-ink-900/10 bg-white p-3 shadow-card"
+      className="flex h-[58px] items-center gap-2 rounded-xl border border-ink-900/10 bg-white px-2 shadow-card sm:gap-3 sm:px-3"
       aria-hidden="true"
     >
-      <div className="flex h-full items-center gap-3">
-        <div className="h-12 w-12 shrink-0 rounded-full bg-brand-50" />
-        <div className="min-w-0 flex-1 space-y-2">
-          <div className="h-4 w-5/6 rounded bg-ink-900/10" />
-          <div className="h-5 w-24 rounded-full bg-saffron-100" />
-        </div>
-      </div>
+      <div className="h-8 w-8 shrink-0 rounded-full bg-brand-50 sm:h-9 sm:w-9" />
+      <div className="h-4 min-w-0 flex-1 rounded bg-ink-900/10" />
+      <div className="h-6 w-16 shrink-0 rounded-full bg-saffron-100" />
+      <div className="h-4 w-[88px] shrink-0 rounded bg-red-100 sm:w-[116px]" />
+      <div className="h-8 w-[76px] shrink-0 rounded-full bg-brand-100 sm:h-10 sm:w-[94px]" />
     </div>
   );
 }
@@ -152,7 +142,7 @@ export default function HighestVacancyApprentice({
         if (vacancyDifference !== 0) return vacancyDifference;
         return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
       })
-      .slice(0, 12);
+;
   }, [jobs, today]);
 
   if (loadFailed || (jobs && topJobs.length === 0)) return null;
@@ -185,7 +175,7 @@ export default function HighestVacancyApprentice({
           </span>
         </div>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3" aria-busy={!jobs}>
+        <div className="flex flex-col gap-2" aria-busy={!jobs}>
           {jobs
             ? topJobs.map((job, index) => {
                 const vacancies = getVerifiedVacancyCount(job);
@@ -196,29 +186,33 @@ export default function HighestVacancyApprentice({
                   <Link
                     key={job.id}
                     href={`/jobs/${job.slug}`}
-                    
-                    aria-label={`View details for ${job.title}; ${formatVacancies(vacancies)} vacancies; ${countdown.accessible}`}
-                    title={`View details for ${job.title}`}
-                    className="highest-vacancy-card group flex min-h-[92px] min-w-0 items-center gap-3 rounded-xl border p-3 transition-all duration-200 focus-visible:outline-offset-4"
+                    aria-label={`View details for ${job.title}; ${formatVacancies(vacancies)} vacancies; last date ${formatLastDate(job.dates.lastDate)}; ${countdown.accessible}`}
+                    title={`View details for ${job.title} — ${formatVacancies(vacancies)} Posts — Last date: ${formatLastDate(job.dates.lastDate)}`}
+                    className="highest-vacancy-card group flex !h-[58px] !min-h-[58px] w-full min-w-0 items-center !gap-1.5 rounded-xl border !px-2 !py-1.5 transition-all duration-200 focus-visible:outline-offset-4 sm:!gap-3 sm:!px-3"
                     data-tone={tone}
                   >
                     <span
-                      className="highest-vacancy-job-icon grid h-12 w-12 shrink-0 place-items-center rounded-full text-2xl"
+                      className="highest-vacancy-job-icon grid !h-8 !w-8 shrink-0 place-items-center rounded-full text-lg sm:!h-9 sm:!w-9 sm:text-xl"
                       data-tone={tone}
                       aria-hidden="true"
                     >
                       {getJobIcon(job)}
                     </span>
-                    <span className="min-w-0 flex-1">
-                      <span className="highest-vacancy-job-title line-clamp-2 block text-sm font-extrabold leading-snug transition-colors">
-                        {job.title}
-                      </span>
-                      <span
-                        className="highest-vacancy-post-badge mt-2 inline-flex max-w-full items-center rounded-full px-2.5 py-1 text-xs font-extrabold"
-                        data-tone={tone}
-                      >
-                        {formatVacancies(vacancies)} Posts
-                      </span>
+                    <span className="highest-vacancy-job-title min-w-0 flex-1 truncate whitespace-nowrap text-[11px] font-extrabold leading-snug sm:text-sm">
+                      {job.title}
+                    </span>
+                    <span
+                      className="highest-vacancy-post-badge highest-vacancy-row-post inline-flex shrink-0 items-center rounded-full !px-2 !py-1 !text-[10px] font-extrabold sm:!text-xs"
+                      data-tone={tone}
+                    >
+                      {formatVacancies(vacancies)} Posts
+                    </span>
+                    <span
+                      className="highest-vacancy-last-date inline-flex w-[88px] shrink-0 items-center justify-center gap-0.5 whitespace-nowrap text-[9px] font-extrabold tabular-nums text-red-600 sm:w-[116px] sm:gap-1 sm:text-xs"
+                      title={`Last date: ${formatLastDate(job.dates.lastDate)}`}
+                    >
+                      <span aria-hidden="true">📅</span>
+                      <time dateTime={job.dates.lastDate}>{formatLastDate(job.dates.lastDate)}</time>
                     </span>
                     <AnimatedCountdownCircle
                       daysLeft={daysLeft}
@@ -228,7 +222,7 @@ export default function HighestVacancyApprentice({
                   </Link>
                 );
               })
-            : Array.from({ length: 12 }).map((_, index) => (
+            : Array.from({ length: 6 }).map((_, index) => (
                 <VacancyButtonSkeleton key={index} />
               ))}
         </div>
