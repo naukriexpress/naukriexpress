@@ -3,7 +3,6 @@ import Script from "next/script";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import RunningTicker from "@/components/RunningTicker";
 import SiteVisitTracker from "@/components/SiteVisitTracker";
 
 const SITE_URL = "https://www.naukriexpress.space";
@@ -114,7 +113,6 @@ export default function RootLayout({
           }}
         />
 
-        <RunningTicker />
         <Header />
         <main className="min-h-[70vh]">{children}</main>
         <Footer />
