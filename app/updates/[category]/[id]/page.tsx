@@ -24,7 +24,7 @@ async function findRecord(category: string, idValue: string): Promise<DetailReco
 
   if (category === "admit-card") {
     const links = await getPublicAdmitCardLinks();
-    const item = links.find((entry) => entry.id === id);
+    const item = links.find((entry) => Number(entry.id) === id);
     return item ? { kind: "admit-card", item } : null;
   }
 
@@ -33,7 +33,7 @@ async function findRecord(category: string, idValue: string): Promise<DetailReco
   const items = categoryType === "education"
     ? await getEducationDirectory()
     : await getPublicSiteUpdates(categoryType);
-  const item = items.find((entry) => entry.id === id);
+  const item = items.find((entry) => Number(entry.id) === id);
   return item ? { kind: "site-update", item } : null;
 }
 
