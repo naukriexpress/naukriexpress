@@ -14,6 +14,8 @@ type HomePanelData = {
   results: HomePanelItem[];
   syllabus: HomePanelItem[];
   education: HomePanelItem[];
+  answerKey: HomePanelItem[];
+  scholarship: HomePanelItem[];
 };
 
 type GroupKey = keyof HomePanelData;
@@ -22,12 +24,14 @@ const GROUPS: Array<{
   key: GroupKey;
   title: string;
   href: string;
-  icon: "card" | "result" | "book" | "education";
+  icon: "card" | "result" | "book" | "education" | "answerKey" | "scholarship";
 }> = [
   { key: "admitCards", title: "Admit Card", href: "/admit-card", icon: "card" },
   { key: "results", title: "Results", href: "/results", icon: "result" },
   { key: "syllabus", title: "Syllabus", href: "/syllabus", icon: "book" },
   { key: "education", title: "Education", href: "/education", icon: "education" },
+  { key: "answerKey", title: "Answer Key", href: "/answer-key", icon: "answerKey" },
+  { key: "scholarship", title: "Scholarship", href: "/scholarship", icon: "scholarship" },
 ];
 
 function GroupIcon({ kind }: { kind: (typeof GROUPS)[number]["icon"] }) {
@@ -50,7 +54,10 @@ function GroupIcon({ kind }: { kind: (typeof GROUPS)[number]["icon"] }) {
   if (kind === "book") {
     return <svg {...common}><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v17H6.5A2.5 2.5 0 0 0 4 22V5.5Z" /><path d="M4 6h13M8 8h7M8 12h7" /></svg>;
   }
-  return <svg {...common}><path d="m3 9 9-5 9 5-9 5-9-5Z" /><path d="M7 12v4c3 2 7 2 10 0v-4M21 9v6" /></svg>;
+  if (kind === "answerKey") {
+    return <svg {...common}><path d="M8 3h8l4 4v14H4V3h4Z" /><path d="M14 3v5h6M8 12h8M8 16h5" /><path d="m9 8 1.5 1.5L13 7" /></svg>;
+  }
+  return <svg {...common}><path d="M12 3v18M3 8h18M5 8l-2 8h6L7 8M17 8l-2 8h6l-2-8M8 21h8" /></svg>;
 }
 
 function isExternal(url: string) {
@@ -79,7 +86,7 @@ export default function HomepageQuickUpdates() {
   }, []);
 
   return (
-    <aside className="min-w-0 space-y-3" aria-label="Admit cards, results, syllabus and education updates">
+    <aside className="min-w-0 space-y-3" aria-label="Admit cards, results, syllabus, education, answer key and scholarship updates">
       {GROUPS.map((group) => {
         const items = data?.[group.key] ?? [];
         return (
