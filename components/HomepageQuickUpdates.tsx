@@ -114,7 +114,7 @@ export default function HomepageQuickUpdates() {
               </Link>
             </div>
 
-            <div className="divide-y divide-[#dce9f8]">
+            <div className="homepage-quick-panel-divider divide-y">
               {data === null && !failed ? (
                 Array.from({ length: 3 }).map((_, index) => (
                   <div key={index} className="flex h-9 items-center gap-2 px-3" aria-hidden="true">
@@ -137,7 +137,7 @@ export default function HomepageQuickUpdates() {
                   </a>
                 ))
               ) : (
-                <p className="px-3 py-3 text-xs text-[#54708f]">
+                <p className="homepage-quick-empty px-3 py-3 text-xs">
                   {failed ? "Updates could not be loaded." : "New updates will appear here."}
                 </p>
               )}

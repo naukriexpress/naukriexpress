@@ -69,6 +69,7 @@ export async function POST(request: Request) {
     revalidateTag("admit-cards");
     revalidatePath("/api/admit-cards");
     revalidatePath("/admit-card");
+    revalidatePath("/sitemap-content.xml");
 
     return NextResponse.json(
       { link: result.rows[0] },

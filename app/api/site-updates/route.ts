@@ -245,7 +245,7 @@ export async function POST(request: Request) {
     );
 
     revalidateTag("site-updates");
-    for (const revalidate of ["/api/site-updates", "/education", "/scholarship", "/syllabus", "/answer-key", "/results"]) {
+    for (const revalidate of ["/api/site-updates", "/sitemap-content.xml", "/education", "/scholarship", "/syllabus", "/answer-key", "/results"]) {
       revalidatePath(revalidate);
     }
     return NextResponse.json({ update: result.rows[0] }, { status: 201 });
@@ -316,6 +316,7 @@ export async function PUT(request: Request) {
     revalidateTag("education-overrides");
     revalidatePath("/education");
     revalidatePath("/api/site-updates");
+    revalidatePath("/sitemap-content.xml");
     return NextResponse.json({ update: result.rows[0] });
   } catch (error) {
     console.error("Site updates PUT error:", error);
@@ -360,6 +361,7 @@ export async function DELETE(request: Request) {
     revalidateTag("site-updates");
     revalidatePath(`/${category}`);
     revalidatePath("/api/site-updates");
+    revalidatePath("/sitemap-content.xml");
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Site updates DELETE error:", error);
