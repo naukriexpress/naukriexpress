@@ -5068,3 +5068,148 @@ html[data-theme="dark"] .human-sitemap-section-heading{border-color:#365675!impo
 html[data-theme="dark"] .human-sitemap-list li{border-color:#2a4664!important}
 html[data-theme="dark"] .human-sitemap-list a,html[data-theme="dark"] .human-sitemap-footer a{color:#9acbfa!important}
 @media(max-width:639px){.human-sitemap-list{grid-template-columns:minmax(0,1fr)}.human-sitemap-summary{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+
+
+/* NaukriExpress modern calm palette: warm neutral + sage teal + urgent red. */
+:root {
+  --nx-page: #f5f7f3;
+  --nx-surface: #ffffff;
+  --nx-soft: #eaf1ed;
+  --nx-border: #d5e1da;
+  --nx-ink: #263b36;
+  --nx-muted: #5c716b;
+  --nx-accent: #356f66;
+  --nx-accent-hover: #2f695f;
+  --nx-accent-deep: #1f514a;
+  --nx-danger: #dc2626;
+}
+html[data-theme="dark"] {
+  --nx-page: #101d1a;
+  --nx-surface: #172923;
+  --nx-soft: #1c342c;
+  --nx-border: #385247;
+  --nx-ink: #eaf1ed;
+  --nx-muted: #b0c1b9;
+  --nx-accent: #a8d2c5;
+  --nx-accent-hover: #c0e0d6;
+  --nx-accent-deep: #356f66;
+}
+html body { background: var(--nx-page) !important; color: var(--nx-ink) !important; }
+.bg-brand-700,.bg-brand-600,.bg-brand-500,.bg-saffron-500,.bg-saffron-600,
+.menu-button-moving-border.site-header-orange-action { background-color: var(--nx-accent) !important; }
+.hover\\:bg-brand-800:hover,.hover\\:bg-brand-700:hover,.hover\\:bg-saffron-600:hover,
+.menu-button-moving-border.site-header-orange-action:hover { background-color: var(--nx-accent-hover) !important; }
+.text-brand-700,.text-brand-600,.text-brand-500,.text-saffron-700,.text-sky-700 { color: var(--nx-accent) !important; }
+.border-brand-100,.border-brand-200,.border-brand-300,.border-brand-400,.border-brand-600,
+.border-sky-100,.border-sky-200 { border-color: var(--nx-border) !important; }
+.bg-brand-50,.bg-brand-100,.bg-saffron-50,.bg-saffron-100,.bg-sky-50,.bg-sky-100 { background: var(--nx-soft) !important; }
+html[data-theme="dark"] .bg-white,html[data-theme="dark"] .bg-paper { background: var(--nx-surface) !important; }
+html[data-theme="dark"] .text-ink-900,html[data-theme="dark"] .text-ink-800,
+html[data-theme="dark"] .text-slate-950,html[data-theme="dark"] .text-slate-900 { color: var(--nx-ink) !important; }
+html[data-theme="dark"] .text-ink-700,html[data-theme="dark"] .text-ink-700\\/70,
+html[data-theme="dark"] .text-ink-600,html[data-theme="dark"] .text-slate-700,
+html[data-theme="dark"] .text-slate-600 { color: var(--nx-muted) !important; }
+html[data-theme="dark"] .border-ink-900\\/10,html[data-theme="dark"] .border-ink-900\\/15,
+html[data-theme="dark"] .border-slate-100,html[data-theme="dark"] .border-slate-200 { border-color: var(--nx-border) !important; }
+html[data-theme="dark"] .bg-brand-50,html[data-theme="dark"] .bg-brand-100,
+html[data-theme="dark"] .bg-sky-50,html[data-theme="dark"] .bg-sky-100,
+html[data-theme="dark"] .bg-saffron-50,html[data-theme="dark"] .bg-saffron-100 { background: var(--nx-soft) !important; }
+
+/* Homepage and Latest/Government/Maharashtra/Apprentice lists share this row style. */
+.highest-vacancy-panel { background: var(--nx-soft) !important; border-color: var(--nx-border) !important; }
+.highest-vacancy-heading { color: var(--nx-ink) !important; }
+.highest-vacancy-count { color: var(--nx-accent-deep) !important; background: var(--nx-surface) !important; }
+.highest-vacancy-card,.highest-vacancy-card[data-tone="blue"] {
+  background: var(--nx-surface) !important;
+  border-color: var(--nx-border) !important;
+  border-left: 4px solid #6f9a8b !important;
+  box-shadow: 0 2px 7px rgb(38 59 54 / 7%) !important;
+}
+.highest-vacancy-card:hover { background: #f9fcf9 !important; border-color: #a9c7b9 !important; box-shadow: 0 5px 14px rgb(38 59 54 / 10%) !important; }
+.highest-vacancy-job-title { color: var(--nx-ink) !important; }
+.highest-vacancy-job-icon { background: var(--nx-soft) !important; border: 1px solid var(--nx-border) !important; }
+.highest-vacancy-post-badge[data-tone="blue"] { background: var(--nx-accent) !important; color: #fff !important; font-weight: 850 !important; }
+.highest-vacancy-countdown:not([data-urgent="true"]):not([data-closed="true"]) {
+  color: var(--nx-accent) !important; border-color: #78a797 !important; background: var(--nx-soft) !important;
+}
+.highest-vacancy-countdown[data-urgent="true"] { color: #b91c1c !important; border-color: #dc6a6a !important; background: #fff1f0 !important; }
+.highest-vacancy-countdown[data-closed="true"] { color: var(--nx-muted) !important; border-color: var(--nx-border) !important; background: var(--nx-soft) !important; }
+.highest-vacancy-countdown-unit { color: inherit !important; }
+html[data-theme="dark"] .highest-vacancy-panel { background: #152720 !important; border-color: #385247 !important; }
+html[data-theme="dark"] .highest-vacancy-count,
+html[data-theme="dark"] .highest-vacancy-card,
+html[data-theme="dark"] .highest-vacancy-card[data-tone="blue"] {
+  background: #1b3028 !important; border-color: #405d50 !important; color: #eaf1ed !important;
+  box-shadow: 0 2px 9px rgb(0 0 0 / 22%) !important;
+}
+html[data-theme="dark"] .highest-vacancy-card:hover { background: #213a31 !important; border-color: #5e8776 !important; }
+html[data-theme="dark"] .highest-vacancy-card,html[data-theme="dark"] .highest-vacancy-card[data-tone="blue"] { border-left-color: #86b8a5 !important; }
+html[data-theme="dark"] .highest-vacancy-heading,html[data-theme="dark"] .highest-vacancy-job-title { color: #eaf1ed !important; }
+html[data-theme="dark"] .highest-vacancy-job-icon { background: #263e34 !important; border-color: #405d50 !important; }
+html[data-theme="dark"] .highest-vacancy-post-badge[data-tone="blue"] { background: #356f66 !important; color: #fff !important; }
+html[data-theme="dark"] .highest-vacancy-countdown:not([data-urgent="true"]):not([data-closed="true"]) {
+  color: #b8ddcf !important; border-color: #6f9c89 !important; background: #263e34 !important;
+}
+html[data-theme="dark"] .highest-vacancy-countdown[data-urgent="true"] { color: #fecaca !important; border-color: #b95353 !important; background: #482527 !important; }
+html[data-theme="dark"] .highest-vacancy-countdown[data-closed="true"] { color: #c0cec7 !important; border-color: #405d50 !important; background: #263e34 !important; }
+@media(max-width:639px) { .compact-job-row { gap: 6px !important; } .compact-job-row .highest-vacancy-job-title { font-size: 12px !important; } }
+
+/* Older job-detail cards and filters now use the same muted palette. */
+.jobs-filter-toolbar,.job-listing-card,.job-card-skeleton {
+  border-color: var(--nx-border) !important; background: var(--nx-surface) !important;
+}
+.job-listing-card { color: var(--nx-ink) !important; box-shadow: 0 3px 12px rgb(38 59 54 / 6%) !important; }
+.job-card-logo,.job-card-detail,.job-card-detail--emerald,.job-card-detail--rose,
+.job-card-detail--violet,.job-card-detail--amber,.job-card-detail--sky {
+  border-color: var(--nx-border) !important; background: var(--nx-soft) !important; color: var(--nx-ink) !important;
+}
+.job-card-detail-label,.job-card-detail-icon { color: var(--nx-accent) !important; }
+.job-card-detail-value,.job-card-title { color: var(--nx-ink) !important; }
+html[data-theme="dark"] .job-listing-card,html[data-theme="dark"] .jobs-filter-toolbar,
+html[data-theme="dark"] .job-card-skeleton { border-color: var(--nx-border) !important; background: var(--nx-surface) !important; color: var(--nx-ink) !important; }
+html[data-theme="dark"] .job-card-logo,html[data-theme="dark"] .job-card-detail,
+html[data-theme="dark"] .job-card-detail--emerald,html[data-theme="dark"] .job-card-detail--rose,
+html[data-theme="dark"] .job-card-detail--violet,html[data-theme="dark"] .job-card-detail--amber,
+html[data-theme="dark"] .job-card-detail--sky { border-color: var(--nx-border) !important; background: var(--nx-soft) !important; color: var(--nx-ink) !important; }
+html[data-theme="dark"] .job-card-detail-label,html[data-theme="dark"] .job-card-detail-icon { color: #b8ddcf !important; }
+html[data-theme="dark"] .job-card-detail-value,html[data-theme="dark"] .job-card-title { color: var(--nx-ink) !important; }
+
+/* Homepage update panels and search field. */
+.homepage-quick-panel { background: var(--nx-surface) !important; border-color: var(--nx-border) !important; color: var(--nx-ink) !important; }
+.homepage-quick-panel-header { background: var(--nx-soft) !important; border-color: var(--nx-border) !important; }
+.homepage-quick-panel-title { color: var(--nx-ink) !important; }
+.homepage-quick-link { color: var(--nx-accent) !important; }
+.homepage-quick-row { background: var(--nx-surface) !important; color: var(--nx-ink) !important; border-color: var(--nx-border) !important; }
+.homepage-quick-row:hover { background: var(--nx-soft) !important; }
+.homepage-quick-row > span:first-child { color: var(--nx-accent) !important; }
+.homepage-search-input { border-color: var(--nx-border) !important; background: var(--nx-surface) !important; color: var(--nx-ink) !important; }
+.homepage-search-input::placeholder { color: var(--nx-muted) !important; }
+.homepage-search-submit { background: var(--nx-accent) !important; }
+html[data-theme="dark"] .homepage-quick-panel,html[data-theme="dark"] .homepage-quick-row,
+html[data-theme="dark"] .homepage-search-input { background: var(--nx-surface) !important; border-color: var(--nx-border) !important; color: var(--nx-ink) !important; }
+html[data-theme="dark"] .homepage-quick-panel-header { background: var(--nx-soft) !important; }
+html[data-theme="dark"] .homepage-quick-panel-title,html[data-theme="dark"] .homepage-quick-row { color: var(--nx-ink) !important; }
+html[data-theme="dark"] .homepage-quick-link,html[data-theme="dark"] .homepage-quick-row > span:first-child { color: #b8ddcf !important; }
+html[data-theme="dark"] .homepage-search-input::placeholder { color: var(--nx-muted) !important; }
+
+/* Header buttons: Home is between Dark Mode and Notification, with matching dimensions. */
+.site-header-home-action { border-color: var(--nx-border) !important; background: var(--nx-surface) !important; color: var(--nx-accent-deep) !important; }
+.site-header-home-action:hover { background: var(--nx-soft) !important; border-color: #8fb3a2 !important; }
+.site-header-actions .nx-updates-header-trigger.has-label { border-color: var(--nx-border) !important; background: var(--nx-soft) !important; color: var(--nx-accent-deep) !important; }
+html[data-theme="dark"] .site-header-home-action,
+html[data-theme="dark"] .site-header-actions .nx-updates-header-trigger.has-label,
+html[data-theme="dark"] .site-header-theme-desktop .theme-toggle-button,
+html[data-theme="dark"] .site-header-theme-mobile .theme-toggle-button {
+  border-color: var(--nx-border) !important; background: var(--nx-surface) !important; color: var(--nx-ink) !important;
+}
+html[data-theme="dark"] .site-header-home-action:hover,
+html[data-theme="dark"] .site-header-actions .nx-updates-header-trigger.has-label:hover,
+html[data-theme="dark"] .site-header-theme-desktop .theme-toggle-button:hover,
+html[data-theme="dark"] .site-header-theme-mobile .theme-toggle-button:hover { background: var(--nx-soft) !important; }
+.site-header-brand-mark { background: var(--nx-accent-deep) !important; }
+.site-header-brand-subtitle { color: var(--nx-accent) !important; }
+.site-header-main-row .site-header-brand-title { color: var(--nx-ink) !important; }
+.site-header-main-row .site-header-home-action { width: 116px !important; min-width: 116px !important; height: 40px !important; flex: 0 0 116px !important; font-size: 14px !important; }
+@media(max-width:1023px) {
+  .site-header-main-row .site-header-home-action { width: 100px !important; min-width: 100px !important; height: 36px !important; flex-basis: 100px !important; padding: 0 6px !important; font-size: 11px !important; }
+}
