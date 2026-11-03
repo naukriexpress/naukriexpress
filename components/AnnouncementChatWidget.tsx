@@ -59,7 +59,7 @@ function AnnouncementMark({ small = false }: { small?: boolean }) {
   );
 }
 
-export default function AnnouncementChatWidget({ compact = false }: { compact?: boolean }) {
+export default function AnnouncementChatWidget({ compact = false, showLabel = false }: { compact?: boolean; showLabel?: boolean }) {
   const pathname = usePathname();
   const [items, setItems] = useState<Announcement[]>([]);
   const [readIds, setReadIds] = useState<string[]>([]);
@@ -420,7 +420,7 @@ export default function AnnouncementChatWidget({ compact = false }: { compact?: 
 
       <button
         type="button"
-        className={"nx-updates-header-trigger site-header-orange-action " + (open ? "is-open" : "") + (unreadCount > 0 ? " has-unread" : "") + (compact ? " is-compact" : "")}
+        className={"nx-updates-header-trigger site-header-orange-action " + (open ? "is-open" : "") + (unreadCount > 0 ? " has-unread" : "") + (compact ? " is-compact" : "") + (showLabel ? " has-label" : "")}
         onClick={() => {
           if (open) closePanel();
           else {
@@ -440,6 +440,7 @@ export default function AnnouncementChatWidget({ compact = false }: { compact?: 
             <path d="m8 15 1.5 4h3L11 16.3M20 9l1.5-1.5M20 15l1.5 1.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         )}
+        {showLabel && <span className="nx-updates-header-label">Notification</span>}
         {!open && unreadCount > 0 && <span className="nx-updates-header-count" aria-live="polite">{unreadCount > 99 ? "99+" : unreadCount}</span>}
       </button>
     </>
