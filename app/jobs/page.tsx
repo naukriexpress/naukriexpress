@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getDistinctStates, queryJobs } from "@/lib/db";
 import type { Category, JobFilters, JobType, Qualification } from "@/lib/types";
-import JobCard from "@/components/JobCard";
+import CompactJobRow from "@/components/CompactJobRow";
 import JobsFilterToolbar from "@/components/JobsFilterToolbar";
 
 type SP = Record<string, string | string[] | undefined>;
@@ -204,9 +204,9 @@ export default async function JobsPage({ searchParams }: { searchParams: SP }) {
               </Link>
             </div>
           ) : (
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="flex flex-col gap-2" aria-label="Job listings">
               {results.map((job) => (
-                <JobCard key={job.id} job={job} />
+                <CompactJobRow key={job.id} job={job} />
               ))}
             </div>
           )}
