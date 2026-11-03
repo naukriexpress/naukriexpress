@@ -1,4 +1,5 @@
 import { unstable_cache } from "next/cache";
+import { NextResponse } from "next/server";
 import { getAllJobsRaw } from "@/lib/db";
 import {
   getEducationDirectory,
@@ -24,11 +25,12 @@ export const SITEMAP_FILE_GROUPS = [
 
 export type SitemapFilePrefix = (typeof SITEMAP_FILE_GROUPS)[number]["prefix"];
 export type SitemapEntry = { url: string; lastModified?: string };
-export type SitemapCollections = Record<SitemapFilePrefix, SitemapEntry[]>;
 
-const UPDATE_CATEGORIES: SiteUpdateCategory[] = [
-  "results", "answer-key", "syllabus", "scholarship",
-];
+function dateValue(value: string | null | undefined): string | undefined {
+  if (!value) return undefined;
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? undefined : date.toISOString();
+}
 
 function uniqueByUrl(entries: SitemapEntry[]): SitemapEntry[] {
   const seen = new Set<string>();
@@ -39,94 +41,119 @@ function uniqueByUrl(entries: SitemapEntry[]): SitemapEntry[] {
   });
 }
 
-function dateValue(value: string | null | undefined): string | undefined {
-  if (!value) return undefined;
-  const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? undefined : date.toISOString();
-}
+// Each category has its own cached data loader. A missing or temporarily
+// unavailable source for one category must not prevent other sitemaps working.
+const cachedPublicJobs = unstable_cache(
+  async () => getAllJobsRaw(),
+  ["naukriexpress-sitemap-public-jobs-v2"],
+  { revalidate: 300, tags: ["jobs", "sitemaps"] }
+);
 
-async function loadSitemapCollections(): Promise<SitemapCollections> {
-  const [jobs, updates, education, admitCards] = await Promise.all([
-    getAllJobsRaw(),
-    getPublicSiteUpdates(),
-    getEducationDirectory(),
-    getPublicAdmitCardLinks(),
-  ]);
+const cachedAdmitCardEntries = unstable_cache(
+  async (): Promise<SitemapEntry[]> => {
+    const records = await getPublicAdmitCardLinks();
+    return uniqueByUrl(records.map((item) => ({
+      url: SITE_URL + "/updates/admit-card/" + item.id,
+    })));
+  },
+  ["naukriexpress-sitemap-admit-cards-v2"],
+  { revalidate: 300, tags: ["admit-cards", "sitemaps"] }
+);
 
+const cachedUpdateEntries = unstable_cache(
+  async (category: SiteUpdateCategory): Promise<SitemapEntry[]> => {
+    const records = await getPublicSiteUpdates(category);
+    return uniqueByUrl(records.map((item) => ({
+      url: SITE_URL + "/updates/" + category + "/" + item.id,
+      lastModified: dateValue(item.publish_date),
+    })));
+  },
+  ["naukriexpress-sitemap-updates-v2"],
+  { revalidate: 300, tags: ["site-updates", "sitemaps"] }
+);
+
+const cachedEducationEntries = unstable_cache(
+  async (): Promise<SitemapEntry[]> => {
+    const records = await getEducationDirectory();
+    return uniqueByUrl(records.map((item) => ({
+      url: SITE_URL + "/updates/education/" + item.id,
+      lastModified: dateValue(item.publish_date),
+    })));
+  },
+  ["naukriexpress-sitemap-education-v2"],
+  { revalidate: 300, tags: ["education-overrides", "sitemaps"] }
+);
+
+async function getJobEntries(kind: "post" | "apprentice" | "scholarship"): Promise<SitemapEntry[]> {
+  const jobs = await cachedPublicJobs();
   const publicJobs = jobs.filter((job: JobPosting) =>
     (job.status === "published" || job.status === "expired") &&
     typeof job.slug === "string" &&
     job.slug.trim().length > 0
   );
-
-  const uniqueSlugs = new Set<string>();
-  const distinctJobs = publicJobs.filter((job) => {
-    const slug = job.slug.trim();
-    if (uniqueSlugs.has(slug)) return false;
-    uniqueSlugs.add(slug);
-    return true;
-  });
-
-  const jobEntry = (job: JobPosting): SitemapEntry => ({
-    url: SITE_URL + "/jobs/" + job.slug,
-    lastModified: dateValue(job.updatedAt),
-  });
-
-  const updateEntries = (category: SiteUpdateCategory): SitemapEntry[] => {
-    const seenIds = new Set<number>();
-    return updates
-      .filter((item) => item.category === category)
-      .filter((item) => {
-        if (seenIds.has(item.id)) return false;
-        seenIds.add(item.id);
-        return true;
-      })
-      .map((item) => ({
-        url: SITE_URL + "/updates/" + category + "/" + item.id,
-        lastModified: dateValue(item.publish_date),
-      }));
-  };
-
-  return {
-    post: uniqueByUrl(
-      distinctJobs
-        .filter((job) => job.jobType !== "apprenticeship" && String(job.jobType) !== "scholarship")
-        .map(jobEntry)
-    ),
-    apprentice: uniqueByUrl(
-      distinctJobs
-        .filter((job) => job.jobType === "apprenticeship")
-        .map(jobEntry)
-    ),
-    "admit-card": uniqueByUrl(
-      admitCards.map((item) => ({
-        url: SITE_URL + "/updates/admit-card/" + item.id,
-      }))
-    ),
-    result: uniqueByUrl(updateEntries("results")),
-    "answer-key": uniqueByUrl(updateEntries("answer-key")),
-    syllabus: uniqueByUrl(updateEntries("syllabus")),
-    education: uniqueByUrl(
-      education.map((item) => ({
-        url: SITE_URL + "/updates/education/" + item.id,
-        lastModified: dateValue(item.publish_date),
-      }))
-    ),
-    scholarship: uniqueByUrl([
-      ...updateEntries("scholarship"),
-      ...distinctJobs.filter((job) => String(job.jobType) === "scholarship").map(jobEntry),
-    ]),
-  };
+  const seen = new Set<string>();
+  const entries = publicJobs
+    .filter((job) => {
+      const type = String(job.jobType);
+      if (kind === "apprentice") return type === "apprenticeship";
+      if (kind === "scholarship") return type === "scholarship";
+      return type !== "apprenticeship" && type !== "scholarship";
+    })
+    .filter((job) => {
+      const slug = job.slug.trim();
+      if (seen.has(slug)) return false;
+      seen.add(slug);
+      return true;
+    })
+    .map((job) => ({
+      url: SITE_URL + "/jobs/" + encodeURIComponent(job.slug.trim()),
+      lastModified: dateValue(job.updatedAt),
+    }));
+  return uniqueByUrl(entries);
 }
 
-const cachedSitemapCollections = unstable_cache(
-  loadSitemapCollections,
-  ["naukriexpress-category-sitemap-collections-v1"],
-  { revalidate: 300, tags: ["sitemaps"] }
-);
+const cachedJobEntries = {
+  post: unstable_cache(
+    () => getJobEntries("post"),
+    ["naukriexpress-sitemap-posts-v2"],
+    { revalidate: 300, tags: ["jobs", "sitemaps"] }
+  ),
+  apprentice: unstable_cache(
+    () => getJobEntries("apprentice"),
+    ["naukriexpress-sitemap-apprentices-v2"],
+    { revalidate: 300, tags: ["jobs", "sitemaps"] }
+  ),
+  scholarship: unstable_cache(
+    () => getJobEntries("scholarship"),
+    ["naukriexpress-sitemap-scholarship-jobs-v2"],
+    { revalidate: 300, tags: ["jobs", "sitemaps"] }
+  ),
+};
 
-export function getSitemapCollections(): Promise<SitemapCollections> {
-  return cachedSitemapCollections();
+export async function getSitemapEntries(prefix: SitemapFilePrefix): Promise<SitemapEntry[]> {
+  switch (prefix) {
+    case "post":
+      return cachedJobEntries.post();
+    case "apprentice":
+      return cachedJobEntries.apprentice();
+    case "admit-card":
+      return cachedAdmitCardEntries();
+    case "result":
+      return cachedUpdateEntries("results");
+    case "answer-key":
+      return cachedUpdateEntries("answer-key");
+    case "syllabus":
+      return cachedUpdateEntries("syllabus");
+    case "education":
+      return cachedEducationEntries();
+    case "scholarship": {
+      const [updates, jobs] = await Promise.all([
+        cachedUpdateEntries("scholarship"),
+        cachedJobEntries.scholarship(),
+      ]);
+      return uniqueByUrl([...updates, ...jobs]);
+    }
+  }
 }
 
 export function escapeXml(value: string): string {
@@ -143,5 +170,52 @@ export function sitemapUrl(prefix: SitemapFilePrefix, page: number): string {
 }
 
 export function sitemapChunkCount(entries: SitemapEntry[]): number {
-  return Math.ceil(entries.length / SITEMAP_CHUNK_SIZE);
+  return Math.max(1, Math.ceil(entries.length / SITEMAP_CHUNK_SIZE));
+}
+
+export async function createSitemapResponse(
+  prefix: SitemapFilePrefix,
+  page: number
+): Promise<NextResponse> {
+  try {
+    if (!Number.isSafeInteger(page) || page < 1) {
+      return new NextResponse("Not found", { status: 404 });
+    }
+
+    const entries = await getSitemapEntries(prefix);
+    const start = (page - 1) * SITEMAP_CHUNK_SIZE;
+    const chunk = entries.slice(start, start + SITEMAP_CHUNK_SIZE);
+
+    // Keep page 1 a valid XML sitemap even if a category is temporarily empty.
+    // Non-existent later chunks still return 404 to avoid phantom sitemap URLs.
+    if (page > 1 && chunk.length === 0) {
+      return new NextResponse("Not found", { status: 404 });
+    }
+
+    const urls = chunk.map((entry) => {
+      const modified = entry.lastModified
+        ? "<lastmod>" + escapeXml(entry.lastModified) + "</lastmod>"
+        : "";
+      return "<url><loc>" + escapeXml(entry.url) + "</loc>" + modified + "</url>";
+    });
+
+    const xml = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+      urls.join("\n") + "\n</urlset>";
+
+    return new NextResponse(xml, {
+      status: 200,
+      headers: {
+        "Content-Type": "application/xml; charset=utf-8",
+        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=3600",
+        "X-Robots-Tag": "noindex",
+      },
+    });
+  } catch (error) {
+    console.error("Category sitemap generation failed:", prefix, page, error);
+    return new NextResponse("Sitemap temporarily unavailable", {
+      status: 503,
+      headers: { "Retry-After": "60", "Cache-Control": "no-store" },
+    });
+  }
 }

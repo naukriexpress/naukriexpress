@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import {
   escapeXml,
-  getSitemapCollections,
+  getSitemapEntries,
+  SITEMAP_CHUNK_SIZE,
   SITEMAP_FILE_GROUPS,
+  SITE_URL,
   sitemapChunkCount,
   sitemapUrl,
 } from "@/lib/sitemap-data";
@@ -10,47 +12,43 @@ import {
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  try {
-    const collections = await getSitemapCollections();
-    const sitemapEntries: Array<{ url: string; lastModified?: string }> = [
-      { url: "https://www.naukriexpress.space/sitemap.xml" },
-    ];
+  // The index itself must stay available even if one source table is down.
+  // Include every category's first sitemap and compute extra chunks when data
+  // is available. A failed category can still be fetched independently later.
+  const sitemapUrls = new Set<string>([SITE_URL + "/sitemap.xml"]);
 
-    for (const group of SITEMAP_FILE_GROUPS) {
-      const entries = collections[group.prefix];
-      const pages = sitemapChunkCount(entries);
-      for (let page = 1; page <= pages; page += 1) {
-        const chunk = entries.slice((page - 1) * 200, page * 200);
-        const modifiedValues = chunk
-          .map((entry) => entry.lastModified)
-          .filter((value): value is string => Boolean(value))
-          .sort();
-        sitemapEntries.push({
-          url: sitemapUrl(group.prefix, page),
-          lastModified: modifiedValues[modifiedValues.length - 1],
-        });
+  const pageCounts = await Promise.all(
+    SITEMAP_FILE_GROUPS.map(async (group) => {
+      try {
+        const entries = await getSitemapEntries(group.prefix);
+        return { prefix: group.prefix, pages: sitemapChunkCount(entries) };
+      } catch (error) {
+        console.error("Sitemap index could not count category:", group.prefix, error);
+        return { prefix: group.prefix, pages: 1 };
       }
+    })
+  );
+
+  for (const { prefix, pages } of pageCounts) {
+    for (let page = 1; page <= pages; page += 1) {
+      sitemapUrls.add(sitemapUrl(prefix, page));
     }
-
-    const entries = sitemapEntries.map((entry) => {
-      const lastmod = entry.lastModified
-        ? "<lastmod>" + escapeXml(entry.lastModified) + "</lastmod>"
-        : "";
-      return "<sitemap><loc>" + escapeXml(entry.url) + "</loc>" + lastmod + "</sitemap>";
-    });
-
-    const xml = '<?xml version="1.0" encoding="UTF-8"?>\n' +
-      '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-      entries.join("\n") + "\n</sitemapindex>";
-
-    return new NextResponse(xml, {
-      headers: {
-        "Content-Type": "application/xml; charset=utf-8",
-        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=3600",
-      },
-    });
-  } catch (error) {
-    console.error("Sitemap index generation failed:", error);
-    return new NextResponse("Sitemap index temporarily unavailable", { status: 503 });
   }
+
+  const entries = [...sitemapUrls].map((url) =>
+    "<sitemap><loc>" + escapeXml(url) + "</loc></sitemap>"
+  );
+
+  const xml = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+    '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+    entries.join("\n") + "\n</sitemapindex>";
+
+  return new NextResponse(xml, {
+    status: 200,
+    headers: {
+      "Content-Type": "application/xml; charset=utf-8",
+      "Cache-Control": "public, s-maxage=300, stale-while-revalidate=3600",
+      "X-Robots-Tag": "noindex",
+    },
+  });
 }
