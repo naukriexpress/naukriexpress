@@ -108,8 +108,8 @@ export default function ApprenticeJobsList() {
           <p className="mt-2 text-sm text-ink-700/70">Published Apprentice recruitments will appear here.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {jobs.map((job, index) => <CompactJobRow key={job.id} job={job} />)}
+        <div className="flex flex-col gap-2">
+          {jobs.map((job) => <CompactJobRow key={job.id} job={job} />)}
         </div>
       )}
     </section>
