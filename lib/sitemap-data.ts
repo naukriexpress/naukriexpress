@@ -90,7 +90,7 @@ async function loadSitemapCollections(): Promise<SitemapCollections> {
   return {
     post: uniqueByUrl(
       distinctJobs
-        .filter((job) => job.jobType !== "apprenticeship")
+        .filter((job) => job.jobType !== "apprenticeship" && job.jobType !== "scholarship")
         .map(jobEntry)
     ),
     apprentice: uniqueByUrl(
@@ -112,7 +112,10 @@ async function loadSitemapCollections(): Promise<SitemapCollections> {
         lastModified: dateValue(item.publish_date),
       }))
     ),
-    scholarship: uniqueByUrl(updateEntries("scholarship")),
+    scholarship: uniqueByUrl([
+      ...updateEntries("scholarship"),
+      ...distinctJobs.filter((job) => job.jobType === "scholarship").map(jobEntry),
+    ]),
   };
 }
 

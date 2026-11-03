@@ -12,19 +12,31 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     const collections = await getSitemapCollections();
-    const sitemapUrls = ["https://www.naukriexpress.space/sitemap.xml"];
+    const sitemapEntries: Array<{ url: string; lastModified?: string }> = [
+      { url: "https://www.naukriexpress.space/sitemap.xml" },
+    ];
 
     for (const group of SITEMAP_FILE_GROUPS) {
       const entries = collections[group.prefix];
       const pages = sitemapChunkCount(entries);
       for (let page = 1; page <= pages; page += 1) {
-        sitemapUrls.push(sitemapUrl(group.prefix, page));
+        const chunk = entries.slice((page - 1) * 200, page * 200);
+        const modifiedValues = chunk
+          .map((entry) => entry.lastModified)
+          .filter((value): value is string => Boolean(value))
+          .sort();
+        sitemapEntries.push({
+          url: sitemapUrl(group.prefix, page),
+          lastModified: modifiedValues[modifiedValues.length - 1],
+        });
       }
     }
 
-    const entries = sitemapUrls.map((url) => {
-      const lastmod = new Date().toISOString();
-      return "<sitemap><loc>" + escapeXml(url) + "</loc><lastmod>" + lastmod + "</lastmod></sitemap>";
+    const entries = sitemapEntries.map((entry) => {
+      const lastmod = entry.lastModified
+        ? "<lastmod>" + escapeXml(entry.lastModified) + "</lastmod>"
+        : "";
+      return "<sitemap><loc>" + escapeXml(entry.url) + "</loc>" + lastmod + "</sitemap>";
     });
 
     const xml = '<?xml version="1.0" encoding="UTF-8"?>\n' +
