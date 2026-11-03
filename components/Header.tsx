@@ -1,11 +1,9 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import AdmitCardButton from "./AdmitCardButton";
-import HeroSearch from "./HeroSearch";
 import HeaderLiveStats from "./HeaderLiveStats";
 import MobileNav from "./MobileNav";
 import ThemeToggle from "./ThemeToggle";
-import EducationNavLink from "./EducationNavLink";
 import AnnouncementChatWidget from "./AnnouncementChatWidget";
 
 const NAV_LINKS = [
@@ -14,6 +12,7 @@ const NAV_LINKS = [
   { href: "/jobs?jobType=government", label: "Government Jobs" },
   { href: "/jobs?state=Maharashtra", label: "Maharashtra Jobs" },
   { href: "/apprentice", label: "Apprentice" },
+  { href: "/education", label: "Education" },
   { href: "/admit-card", label: "Admit Card" },
   { href: "/results", label: "Results" },
   { href: "/answer-key", label: "Answer Key" },
@@ -44,10 +43,6 @@ export default function Header() {
           </span>
         </Link>
 
-        <div className="hidden min-w-0 flex-1 lg:block lg:max-w-lg lg:px-3">
-          <HeroSearch />
-        </div>
-
         <div className="site-header-actions flex shrink-0 items-center gap-2">
           <div className="site-header-theme-desktop hidden items-center gap-2 lg:flex">
             <ThemeToggle />
@@ -55,9 +50,8 @@ export default function Header() {
           <div className="site-header-theme-mobile flex items-center gap-2 lg:hidden">
             <ThemeToggle compact />
           </div>
-          <AnnouncementChatWidget />
+          <AnnouncementChatWidget showLabel />
           <div className="site-header-desktop-links hidden items-center gap-2 lg:flex">
-            <EducationNavLink variant="desktop" />
             <Link
               href="/jobs"
               className="hidden rounded-lg bg-saffron-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-saffron-600 2xl:inline-flex"
@@ -66,16 +60,11 @@ export default function Header() {
             </Link>
           </div>
           <div className="site-header-mobile-links flex shrink-0 items-center gap-2 2xl:hidden">
-            <EducationNavLink variant="compact" />
             <Suspense fallback={<div className="h-10 w-10 rounded-lg border border-ink-900/15 bg-white" aria-hidden="true" />}>
               <MobileNav states={[]} />
             </Suspense>
           </div>
         </div>
-      </div>
-
-      <div className="container-page pb-3 lg:hidden">
-        <HeroSearch />
       </div>
 
       <div className="hidden border-t border-ink-900/10 2xl:block">
