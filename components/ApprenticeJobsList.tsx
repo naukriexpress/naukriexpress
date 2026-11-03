@@ -72,9 +72,6 @@ export default function ApprenticeJobsList() {
     void loadAllApprentices().catch((reason: unknown) => {
       if (reason instanceof Error && reason.name !== "AbortError") setError(true);
     });
-      .catch((reason: unknown) => {
-        if (reason instanceof Error && reason.name !== "AbortError") setError(true);
-      });
 
     return () => controller.abort();
   }, [retry]);
