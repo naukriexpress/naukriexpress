@@ -6,10 +6,7 @@ import type { JobPosting } from "@/lib/types";
 import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
 import { hasPendingVacancyDetails } from "@/lib/jobMarkers";
 
-const CARD_TONES = [
-  "blue", "orange", "teal", "violet", "rose", "indigo",
-  "amber", "cyan", "emerald", "pink", "royal", "copper",
-] as const;
+const CARD_TONES = ["blue"] as const;
 
 function getVerifiedVacancyCount(job: JobPosting): number {
   const pending = hasPendingVacancyDetails({
@@ -104,8 +101,8 @@ function VacancyButtonSkeleton() {
     >
       <div className="h-8 w-8 shrink-0 rounded-full bg-brand-50 sm:h-9 sm:w-9" />
       <div className="h-4 min-w-0 flex-1 rounded bg-ink-900/10" />
-      <div className="h-6 w-16 shrink-0 rounded-full bg-saffron-100" />
-      <div className="h-4 w-[88px] shrink-0 rounded bg-red-100 sm:w-[116px]" />
+      <div className="h-6 w-16 shrink-0 rounded-full bg-brand-100" />
+      <div className="h-4 w-[88px] shrink-0 rounded bg-brand-100 sm:w-[116px]" />
       <div className="h-8 w-[76px] shrink-0 rounded-full bg-brand-100 sm:h-10 sm:w-[94px]" />
     </div>
   );
@@ -151,12 +148,12 @@ export default function HighestVacancyJobs({
   if (loadFailed || (jobs && topJobs.length === 0)) return null;
 
   return (
-    <section className="container-page mt-6 sm:mt-8" aria-labelledby="highest-vacancy-heading">
-      <div className="highest-vacancy-panel rounded-2xl border border-brand-100 bg-brand-50/70 p-4 shadow-card sm:p-5">
-        <div className="mb-4 flex items-center justify-between gap-3">
+    <section className="min-w-0" aria-labelledby="highest-vacancy-heading">
+      <div className="highest-vacancy-panel rounded-2xl border border-brand-100 bg-brand-50/70 p-3 shadow-card sm:p-3.5">
+        <div className="mb-3 flex items-center justify-between gap-2">
           <div className="flex min-w-0 items-center gap-3">
             <span
-              className="highest-vacancy-icon grid h-12 w-12 shrink-0 place-items-center rounded-full bg-saffron-100 text-2xl"
+              className="highest-vacancy-icon grid h-9 w-9 shrink-0 place-items-center rounded-full bg-brand-100 text-xl"
               aria-hidden="true"
             >
               🏆
@@ -164,7 +161,7 @@ export default function HighestVacancyJobs({
             <div className="min-w-0">
               <h2
                 id="highest-vacancy-heading"
-                className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl"
+                className="font-display text-base font-extrabold tracking-tight text-ink-900 sm:text-lg"
               >
                 Highest Vacancy Jobs
               </h2>
@@ -191,7 +188,7 @@ export default function HighestVacancyJobs({
                     href={`/jobs/${job.slug}`}
                     aria-label={`View details for ${job.title}; ${formatVacancies(vacancies)} vacancies; last date ${formatLastDate(job.dates.lastDate)}; ${countdown.accessible}`}
                     title={`View details for ${job.title} — ${formatVacancies(vacancies)} Posts — Last date: ${formatLastDate(job.dates.lastDate)}`}
-                    className="highest-vacancy-card group flex !h-[58px] !min-h-[58px] w-full min-w-0 items-center !gap-1.5 rounded-xl border !px-2 !py-1.5 transition-all duration-200 focus-visible:outline-offset-4 sm:!gap-3 sm:!px-3"
+                    className="highest-vacancy-card group flex min-h-[58px] h-auto w-full min-w-0 items-center !gap-1.5 rounded-xl border !px-2 !py-2 transition-all duration-200 focus-visible:outline-offset-4 sm:!gap-2 sm:!px-3"
                     data-tone={tone}
                   >
                     <span
@@ -201,7 +198,7 @@ export default function HighestVacancyJobs({
                     >
                       {getJobIcon(job)}
                     </span>
-                    <span className="highest-vacancy-job-title min-w-0 flex-1 truncate whitespace-nowrap text-[11px] font-extrabold leading-snug sm:text-sm">
+                    <span className="highest-vacancy-job-title min-w-0 flex-1 whitespace-normal break-words text-[11px] font-extrabold leading-snug sm:text-sm">
                       {job.title}
                     </span>
                     <span
@@ -211,10 +208,10 @@ export default function HighestVacancyJobs({
                       {formatVacancies(vacancies)} Posts
                     </span>
                     <span
-                      className="highest-vacancy-last-date inline-flex w-[88px] shrink-0 items-center justify-center gap-0.5 whitespace-nowrap text-[9px] font-extrabold tabular-nums text-red-600 sm:w-[116px] sm:gap-1 sm:text-xs"
+                      className={`highest-vacancy-last-date inline-flex w-[88px] shrink-0 items-center justify-center gap-0.5 whitespace-nowrap text-[9px] font-extrabold tabular-nums sm:w-[116px] sm:gap-1 sm:text-xs ${daysLeft === 0 ? "text-red-600" : "text-brand-700"}`}
                       title={`Last date: ${formatLastDate(job.dates.lastDate)}`}
                     >
-                      <span aria-hidden="true">📅</span>
+                      <svg aria-hidden="true" viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M16 3v4M8 3v4M3 10h18" /></svg>
                       <time dateTime={job.dates.lastDate}>{formatLastDate(job.dates.lastDate)}</time>
                     </span>
                     <AnimatedCountdownCircle
