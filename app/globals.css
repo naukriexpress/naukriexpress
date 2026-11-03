@@ -4673,3 +4673,83 @@ html[data-theme="dark"] .jobs-filter-close:hover {
     height: 16px !important;
   }
 }
+
+
+/* The homepage search sits in the 30% right-hand updates column. */
+.homepage-search-spacer {
+  min-height: 1.25rem;
+}
+
+/* Match the Notification label to the visible Dark mode label. */
+.nx-updates-header-trigger.has-label {
+  width: auto !important;
+  min-width: max-content !important;
+  padding: 0 10px !important;
+  gap: 7px !important;
+  border-radius: 9px !important;
+}
+.nx-updates-header-label {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+.site-header-theme-mobile .theme-toggle-button {
+  width: auto !important;
+  min-width: max-content !important;
+  height: 40px !important;
+  flex: 0 0 auto !important;
+  padding: 0 10px !important;
+  gap: 6px !important;
+  border-radius: 9px !important;
+  font-size: 14px !important;
+  line-height: 1 !important;
+}
+.site-header-theme-mobile .theme-toggle-icon-shell {
+  width: 18px !important;
+  height: 18px !important;
+  flex-basis: 18px !important;
+}
+.site-header-theme-mobile .theme-toggle-icon {
+  width: 16px !important;
+  height: 16px !important;
+}
+@media (max-width: 767px) {
+  .site-header-theme-mobile .theme-toggle-button {
+    height: 36px !important;
+    padding: 0 7px !important;
+    gap: 5px !important;
+    font-size: 11px !important;
+  }
+  .nx-updates-header-trigger.has-label {
+    height: 36px !important;
+    padding: 0 7px !important;
+    gap: 5px !important;
+  }
+  .nx-updates-header-label {
+    font-size: 11px;
+  }
+}
+@media (max-width: 420px) {
+  .site-header-brand-mark {
+    width: 34px !important;
+    height: 34px !important;
+  }
+  .site-header-brand-subtitle {
+    display: none !important;
+  }
+  .site-header-brand-title {
+    font-size: 14px !important;
+  }
+  .site-header-theme-mobile .theme-toggle-button,
+  .nx-updates-header-trigger.has-label {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+    gap: 4px !important;
+    font-size: 10px !important;
+  }
+  .nx-updates-header-label {
+    font-size: 10px;
+  }
+}
