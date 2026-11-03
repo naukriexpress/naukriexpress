@@ -44,20 +44,20 @@ export default function CompactJobRow({ job }: { job: JobPosting }) {
       aria-label={`View ${job.title}; ${vacancyLabel}; ${closed ? "Applications closed" : daysLeft === 0 ? "Last date today" : daysLeft === null ? "Deadline unavailable" : daysLeft + " days remaining"}`}
       title={`${job.title} — ${vacancyLabel} — Last date: ${job.dates.lastDate || "Not specified"}`}
       className="highest-vacancy-card compact-job-row group flex min-h-[58px] h-auto w-full min-w-0 items-center gap-2 rounded-xl border px-2.5 py-2 transition-all duration-200 focus-visible:outline-offset-4 sm:gap-3 sm:px-3"
-      data-tone="blue"
+      data-tone="emerald"
     >
-      <span className="highest-vacancy-job-icon grid h-9 w-9 shrink-0 place-items-center rounded-full text-xl" data-tone="blue" aria-hidden="true">
+      <span className="highest-vacancy-job-icon grid h-9 w-9 shrink-0 place-items-center rounded-full text-xl" data-tone="emerald" aria-hidden="true">
         {jobIcon(job)}
       </span>
       <span className="highest-vacancy-job-title min-w-0 flex-1 whitespace-normal break-words text-[13px] font-extrabold leading-snug sm:text-[15px]">
         {job.title}
       </span>
-      <span className="highest-vacancy-post-badge highest-vacancy-row-post inline-flex shrink-0 items-center rounded-full px-2 py-1 text-[10px] font-extrabold sm:text-xs" data-tone="blue">
+      <span className="highest-vacancy-post-badge highest-vacancy-row-post inline-flex shrink-0 items-center rounded-full px-2 py-1 text-[10px] font-extrabold sm:text-xs" data-tone="emerald">
         {vacancyLabel}
       </span>
       <span
         className="highest-vacancy-countdown inline-flex h-8 w-[76px] shrink-0 items-center justify-center gap-1 rounded-full border px-1 py-0 sm:h-10 sm:w-[94px] sm:gap-1.5 sm:px-1.5"
-        data-tone="blue"
+        data-tone="emerald"
         data-urgent={urgent ? "true" : "false"}
         data-closed={closed ? "true" : "false"}
         aria-label={closed ? "Applications closed" : daysLeft === 0 ? "Last date today" : daysLeft === null ? "Deadline unavailable" : daysLeft + " days remaining"}
