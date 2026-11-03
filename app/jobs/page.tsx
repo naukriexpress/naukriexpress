@@ -174,7 +174,15 @@ export default async function JobsPage({ searchParams }: { searchParams: SP }) {
     <div className="container-page py-8">
       <div className="mb-6">
         <h1 className="font-display text-2xl sm:text-3xl font-bold text-ink-900">
-          {filters.q ? `Search results for "${filters.q}"` : "Latest Jobs"}
+          {filters.q
+            ? `Search results for "${filters.q}"`
+            : filters.state
+              ? `Latest Jobs in ${filters.state}`
+              : filters.jobType?.includes("government")
+                ? "Latest Government Jobs"
+                : filters.jobType?.includes("private")
+                  ? "Latest Private Jobs"
+                  : "Latest Jobs"}
         </h1>
       </div>
 
