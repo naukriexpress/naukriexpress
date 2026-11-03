@@ -19,11 +19,13 @@ function newestFirst<T extends { publish_date?: string | null }>(items: T[]) {
 
 export async function GET() {
   try {
-    const [admitCards, results, syllabus, education] = await Promise.all([
+    const [admitCards, results, syllabus, education, answerKey, scholarship] = await Promise.all([
       getPublicAdmitCardLinks(),
       getPublicSiteUpdates("results"),
       getPublicSiteUpdates("syllabus"),
       getEducationDirectory(),
+      getPublicSiteUpdates("answer-key"),
+      getPublicSiteUpdates("scholarship"),
     ]);
 
     const todayParts = new Intl.DateTimeFormat("en-CA", {
@@ -54,6 +56,12 @@ export async function GET() {
           item.title,
           `/education?category=${encodeURIComponent(item.education_category || "all")}`
         )
+      ),
+      answerKey: newestFirst(answerKey).slice(0, 4).map((item) =>
+        toItem(item.id, item.title, item.item_url || item.apply_url || "/answer-key")
+      ),
+      scholarship: newestFirst(scholarship).slice(0, 4).map((item) =>
+        toItem(item.id, item.title, item.item_url || item.apply_url || "/scholarship")
       ),
     };
 
