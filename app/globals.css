@@ -5097,7 +5097,7 @@ html[data-theme="dark"] {
 html body { background: var(--nx-page) !important; color: var(--nx-ink) !important; }
 .bg-brand-700,.bg-brand-600,.bg-brand-500,.bg-saffron-500,.bg-saffron-600,
 .menu-button-moving-border.site-header-orange-action { background-color: var(--nx-accent) !important; }
-.hover\\:bg-brand-800:hover,.hover\\:bg-brand-700:hover,.hover\\:bg-saffron-600:hover,
+:where([class~="hover:bg-brand-800"]):hover,:where([class~="hover:bg-brand-700"]):hover,:where([class~="hover:bg-saffron-600"]):hover,
 .menu-button-moving-border.site-header-orange-action:hover { background-color: var(--nx-accent-hover) !important; }
 .text-brand-700,.text-brand-600,.text-brand-500,.text-saffron-700,.text-sky-700 { color: var(--nx-accent) !important; }
 .border-brand-100,.border-brand-200,.border-brand-300,.border-brand-400,.border-brand-600,
@@ -5106,10 +5106,10 @@ html body { background: var(--nx-page) !important; color: var(--nx-ink) !importa
 html[data-theme="dark"] .bg-white,html[data-theme="dark"] .bg-paper { background: var(--nx-surface) !important; }
 html[data-theme="dark"] .text-ink-900,html[data-theme="dark"] .text-ink-800,
 html[data-theme="dark"] .text-slate-950,html[data-theme="dark"] .text-slate-900 { color: var(--nx-ink) !important; }
-html[data-theme="dark"] .text-ink-700,html[data-theme="dark"] .text-ink-700\\/70,
+html[data-theme="dark"] .text-ink-700,html[data-theme="dark"] [class~="text-ink-700/70"],
 html[data-theme="dark"] .text-ink-600,html[data-theme="dark"] .text-slate-700,
 html[data-theme="dark"] .text-slate-600 { color: var(--nx-muted) !important; }
-html[data-theme="dark"] .border-ink-900\\/10,html[data-theme="dark"] .border-ink-900\\/15,
+html[data-theme="dark"] [class~="border-ink-900/10"],html[data-theme="dark"] [class~="border-ink-900/15"],
 html[data-theme="dark"] .border-slate-100,html[data-theme="dark"] .border-slate-200 { border-color: var(--nx-border) !important; }
 html[data-theme="dark"] .bg-brand-50,html[data-theme="dark"] .bg-brand-100,
 html[data-theme="dark"] .bg-sky-50,html[data-theme="dark"] .bg-sky-100,
