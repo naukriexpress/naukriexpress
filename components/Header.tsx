@@ -48,7 +48,7 @@ export default function Header() {
             <ThemeToggle />
           </div>
           <div className="site-header-theme-mobile flex items-center gap-2 lg:hidden">
-            <ThemeToggle compact />
+            <ThemeToggle />
           </div>
           <AnnouncementChatWidget showLabel />
           <div className="site-header-desktop-links hidden items-center gap-2 lg:flex">
