@@ -4627,3 +4627,49 @@ html[data-theme="dark"] .jobs-filter-close:hover {
   overscroll-behavior: contain;
   touch-action: pan-y;
 }
+
+
+/* Homepage vacancy countdown: highlight only deadlines within three days. */
+.highest-vacancy-countdown[data-urgent="true"] {
+  --countdown-color: #dc2626 !important;
+  color: #dc2626 !important;
+  border-color: #dc2626 !important;
+  background: #fff1f2 !important;
+}
+
+/* Keep the header theme control compact on both desktop and mobile. */
+.site-header-theme-desktop .theme-toggle-button {
+  min-height: 30px !important;
+  padding: 5px 9px !important;
+  gap: 5px !important;
+  font-size: 12px !important;
+  line-height: 1 !important;
+}
+.site-header-theme-desktop .theme-toggle-icon-shell {
+  width: 18px !important;
+  height: 18px !important;
+  flex-basis: 18px !important;
+}
+.site-header-theme-desktop .theme-toggle-icon {
+  width: 16px !important;
+  height: 16px !important;
+}
+@media (max-width: 767px) {
+  .site-header-theme-mobile .theme-toggle-button {
+    width: 30px !important;
+    min-width: 30px !important;
+    height: 32px !important;
+    flex: 0 0 30px !important;
+    padding: 0 !important;
+    border-radius: 8px !important;
+  }
+  .site-header-theme-mobile .theme-toggle-icon-shell {
+    width: 18px !important;
+    height: 18px !important;
+    flex-basis: 18px !important;
+  }
+  .site-header-theme-mobile .theme-toggle-icon {
+    width: 16px !important;
+    height: 16px !important;
+  }
+}
