@@ -74,6 +74,7 @@ function AnimatedCountdownCircle({
     <span
       className="highest-vacancy-countdown !flex !h-8 !w-[76px] !shrink-0 !items-center !justify-center !gap-1 !rounded-full !px-1 !py-0 sm:!h-10 sm:!w-[94px] sm:!gap-1.5 sm:!px-1.5"
       data-tone={tone}
+      data-urgent={daysLeft <= 3 ? "true" : "false"}
       aria-label={countdown.accessible}
       title={`Last date: ${lastDate}`}
     >
@@ -102,7 +103,6 @@ function VacancyButtonSkeleton() {
       <div className="h-8 w-8 shrink-0 rounded-full bg-brand-50 sm:h-9 sm:w-9" />
       <div className="h-4 min-w-0 flex-1 rounded bg-ink-900/10" />
       <div className="h-6 w-16 shrink-0 rounded-full bg-brand-100" />
-      <div className="h-4 w-[88px] shrink-0 rounded bg-brand-100 sm:w-[116px]" />
       <div className="h-8 w-[76px] shrink-0 rounded-full bg-brand-100 sm:h-10 sm:w-[94px]" />
     </div>
   );
@@ -206,13 +206,6 @@ export default function HighestVacancyJobs({
                       data-tone={tone}
                     >
                       {formatVacancies(vacancies)} Posts
-                    </span>
-                    <span
-                      className={`highest-vacancy-last-date inline-flex w-[88px] shrink-0 items-center justify-center gap-0.5 whitespace-nowrap text-[9px] font-extrabold tabular-nums sm:w-[116px] sm:gap-1 sm:text-xs ${daysLeft === 0 ? "text-red-600" : "text-brand-700"}`}
-                      title={`Last date: ${formatLastDate(job.dates.lastDate)}`}
-                    >
-                      <svg aria-hidden="true" viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M16 3v4M8 3v4M3 10h18" /></svg>
-                      <time dateTime={job.dates.lastDate}>{formatLastDate(job.dates.lastDate)}</time>
                     </span>
                     <AnimatedCountdownCircle
                       daysLeft={daysLeft}
