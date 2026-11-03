@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 type HeaderData = {
   closingToday: number;
@@ -36,17 +37,17 @@ export default function HeaderLiveStats() {
     return () => controller.abort();
   }, []);
 
-  if (!data) {
-    return <span className="font-medium">Latest government &amp; private job updates</span>;
-  }
-
   return (
     <>
-      <span>{data.liveJobs} open recruitments tracked</span>
+      <span>{data ? `${data.liveJobs} open recruitments tracked` : "Open recruitments loading…"}</span>
       <span className="opacity-40">•</span>
       <span className="font-medium text-leaf-400">
-        {data.closingToday} closing today — apply now
+        {data ? `${data.closingToday} closing today — apply now` : "Closing today updates"}
       </span>
+      <span className="opacity-40">•</span>
+      <Link href="/sitemap_index.xml" className="font-semibold text-white underline-offset-2 transition-colors hover:text-sky-200 hover:underline" aria-label="Open NaukriExpress XML sitemap">
+        Sitemap
+      </Link>
     </>
   );
 }
