@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: SITE_URL + "/", changeFrequency: "daily", priority: 1 },
     { url: SITE_URL + "/jobs", changeFrequency: "daily", priority: 0.9 },
+    { url: SITE_URL + "/sitemap/", changeFrequency: "daily", priority: 0.7 },
     { url: SITE_URL + "/apprentice", changeFrequency: "daily", priority: 0.8 },
     { url: SITE_URL + "/admit-card", changeFrequency: "daily", priority: 0.8 },
     { url: SITE_URL + "/results", changeFrequency: "daily", priority: 0.8 },

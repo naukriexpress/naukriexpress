@@ -5031,3 +5031,40 @@ html[data-theme="dark"] .update-action--apply {
   background: #246da7 !important;
   color: #ffffff !important;
 }
+
+
+/* Human-readable sitemap: full public directory with matching day/night palette. */
+.human-sitemap-hero,.human-sitemap-jump-links,.human-sitemap-section,.human-sitemap-footer{border-color:#c7ddf7;background:#fff;color:#14365e}
+.human-sitemap-hero{background:linear-gradient(135deg,#edf5ff 0%,#fff 68%)}
+.human-sitemap-hero>p:first-child{color:#1769aa}.human-sitemap-hero h1{color:#14365e}.human-sitemap-hero>p:nth-of-type(2){color:#48627f}
+.human-sitemap-summary>div{display:flex;min-width:0;flex-direction:column;gap:2px;border:1px solid #c7ddf7;border-radius:11px;background:#fff;padding:10px 12px}
+.human-sitemap-summary strong{color:#1769aa;font-size:20px;font-weight:900;line-height:1.1}.human-sitemap-summary span{color:#496582;font-size:11px;font-weight:700}
+.human-sitemap-warning{border:1px solid #e5a33b;border-radius:9px;background:#fff8e8;padding:9px 12px;color:#754a0b;font-size:12px;font-weight:600}
+.human-sitemap-jump-links{display:flex;flex-wrap:wrap;gap:7px}
+.human-sitemap-jump-links a{display:inline-flex;border:1px solid #c7ddf7;border-radius:8px;background:#edf5ff;padding:7px 11px;color:#1769aa;font-size:12px;font-weight:800;text-decoration:none}
+.human-sitemap-jump-links a:hover{background:#dcecff;text-decoration:underline}
+.human-sitemap-groups{display:grid;gap:16px}
+.human-sitemap-section{min-width:0;overflow:hidden;border:1px solid #c7ddf7;border-radius:14px;box-shadow:0 2px 8px rgb(20 54 94 / 5%)}
+.human-sitemap-section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #d7e7f8;background:#eaf3ff;padding:12px 15px}
+.human-sitemap-section-heading h2{color:#14365e;font-size:16px;font-weight:900}
+.human-sitemap-section-heading p{margin-top:3px;color:#536e8c;font-size:11px;line-height:1.5}
+.human-sitemap-count{flex:0 0 auto;border:1px solid #b7d5f5;border-radius:999px;background:#fff;padding:4px 9px;color:#1769aa;font-size:11px;font-weight:900;font-variant-numeric:tabular-nums}
+.human-sitemap-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:22px;padding:5px 15px 9px}
+.human-sitemap-list li{display:flex;min-width:0;flex-direction:column;align-items:flex-start;gap:2px;border-bottom:1px solid #e5eef8;padding:8px 0}
+.human-sitemap-list a{color:#15558c;font-size:13px;font-weight:750;line-height:1.45;text-decoration:none}
+.human-sitemap-list a:hover{color:#0c6db4;text-decoration:underline;text-underline-offset:3px}
+.human-sitemap-list li>span{color:#607b98;font-size:10px;line-height:1.4}
+.human-sitemap-empty{padding:14px 15px;color:#607b98;font-size:13px}
+.human-sitemap-footer p{color:#536e8c;line-height:1.6}.human-sitemap-footer a{color:#1769aa}
+html[data-theme="dark"] .human-sitemap-hero,html[data-theme="dark"] .human-sitemap-jump-links,html[data-theme="dark"] .human-sitemap-section,html[data-theme="dark"] .human-sitemap-footer{border-color:#304e6d!important;background:#111f32!important;color:#edf5ff!important}
+html[data-theme="dark"] .human-sitemap-hero{background:linear-gradient(135deg,#172f49 0%,#111f32 70%)!important}
+html[data-theme="dark"] .human-sitemap-hero h1,html[data-theme="dark"] .human-sitemap-section-heading h2{color:#f1f6fd!important}
+html[data-theme="dark"] .human-sitemap-hero>p:nth-of-type(2),html[data-theme="dark"] .human-sitemap-section-heading p,html[data-theme="dark"] .human-sitemap-footer p{color:#b6c9de!important}
+html[data-theme="dark"] .human-sitemap-summary>div,html[data-theme="dark"] .human-sitemap-count{border-color:#365675!important;background:#1a3450!important}
+html[data-theme="dark"] .human-sitemap-summary strong,html[data-theme="dark"] .human-sitemap-count{color:#9acbfa!important}
+html[data-theme="dark"] .human-sitemap-summary span,html[data-theme="dark"] .human-sitemap-list li>span,html[data-theme="dark"] .human-sitemap-empty{color:#b6c9de!important}
+html[data-theme="dark"] .human-sitemap-jump-links a{border-color:#365675!important;background:#1a3450!important;color:#9acbfa!important}
+html[data-theme="dark"] .human-sitemap-section-heading{border-color:#365675!important;background:#1b3450!important}
+html[data-theme="dark"] .human-sitemap-list li{border-color:#2a4664!important}
+html[data-theme="dark"] .human-sitemap-list a,html[data-theme="dark"] .human-sitemap-footer a{color:#9acbfa!important}
+@media(max-width:639px){.human-sitemap-list{grid-template-columns:minmax(0,1fr)}.human-sitemap-summary{grid-template-columns:repeat(2,minmax(0,1fr))!important}}

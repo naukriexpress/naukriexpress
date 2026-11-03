@@ -13,7 +13,7 @@ export async function GET() {
   const jobs = await getAllJobsRaw();
   const seen = new Set<string>();
   const entries = jobs
-    .filter((job) => job.status === "published" && typeof job.slug === "string" && job.slug.trim().length > 0)
+    .filter((job) => (job.status === "published" || job.status === "expired") && typeof job.slug === "string" && job.slug.trim().length > 0)
     .filter((job) => {
       const slug = job.slug.trim();
       if (seen.has(slug)) return false;
