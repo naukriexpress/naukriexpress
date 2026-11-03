@@ -3,6 +3,7 @@ import HeaderLiveStats from "./HeaderLiveStats";
 import ThemeToggle from "./ThemeToggle";
 import AnnouncementChatWidget from "./AnnouncementChatWidget";
 import QuickNavigation from "./QuickNavigation";
+import DiwaliKandil from "./DiwaliKandil";
 
 export default function Header() {
   return (
@@ -21,7 +22,10 @@ export default function Header() {
         <Link href="/" className="site-header-brand flex min-w-0 shrink items-center gap-2.5">
           <span className="site-header-brand-mark grid h-10 w-10 shrink-0 place-items-center rounded-xl2 font-display text-lg font-bold text-white">BGi</span>
           <span className="site-header-brand-copy flex min-w-0 flex-col leading-tight">
-            <span className="site-header-brand-title font-display text-lg font-bold">NaukriExpress</span>
+            <span className="site-header-brand-titleline inline-flex min-w-0 items-center gap-1.5">
+              <span className="site-header-brand-title font-display text-lg font-bold">NaukriExpress<span className="site-header-domain-suffix">.space</span></span>
+              <DiwaliKandil />
+            </span>
             <span className="site-header-brand-subtitle text-[11px] font-medium tracking-wide">सरकारी नोकरी अपडेट • India</span>
           </span>
         </Link>

@@ -5279,3 +5279,85 @@ html[data-theme="dark"] .site-quicknav-link[data-active="true"] .site-quicknav-i
   .site-quicknav-link { min-height: 36px; gap: 6px; padding: 6px 11px; border-radius: 9px; font-size: 11px; }
   .site-quicknav-icon { width: 15px; height: 15px; flex-basis: 15px; }
 }
+
+
+/* Mobile header: keep desktop labels and sizes unchanged, use compact icon-only controls. */
+@media (max-width: 1023px) {
+  .site-header-main-row { gap: 4px !important; }
+  .site-header-brand { gap: 6px !important; }
+  .site-header-brand-mark {
+    width: 32px !important; height: 32px !important;
+    border-radius: 9px !important; font-size: 14px !important;
+  }
+  .site-header-brand-title {
+    font-size: 13.5px !important; line-height: 1.1 !important;
+    letter-spacing: -0.035em !important; white-space: nowrap !important;
+  }
+  .site-header-domain-suffix { text-transform: lowercase !important; letter-spacing: -0.025em !important; }
+  .site-header-brand-subtitle { display: none !important; }
+  .site-header-brand-titleline { gap: 3px !important; }
+  .site-header-brand-copy { overflow: visible !important; }
+  .site-header-actions { gap: 4px !important; }
+  .site-header-theme-mobile .theme-toggle-button,
+  .site-header-main-row .site-header-home-action,
+  .site-header-actions .nx-updates-header-trigger.has-label {
+    width: 36px !important; min-width: 36px !important;
+    height: 36px !important; min-height: 36px !important;
+    flex: 0 0 36px !important; padding: 0 !important; gap: 0 !important;
+    border-radius: 10px !important; justify-content: center !important;
+  }
+  .site-header-theme-mobile .theme-toggle-button > span:not(.theme-toggle-icon-shell),
+  .site-header-main-row .site-header-home-action > span,
+  .site-header-actions .nx-updates-header-trigger.has-label .nx-updates-header-label {
+    display: none !important;
+  }
+  .site-header-theme-mobile .theme-toggle-icon-shell {
+    display: inline-grid !important; width: 20px !important; height: 20px !important; flex: 0 0 20px !important;
+  }
+  .site-header-theme-mobile .theme-toggle-icon { width: 19px !important; height: 19px !important; }
+  .site-header-main-row .site-header-home-action > svg {
+    width: 19px !important; height: 19px !important; flex: 0 0 19px !important;
+  }
+  .site-header-actions .nx-updates-header-trigger.has-label > svg {
+    width: 20px !important; height: 20px !important; flex: 0 0 20px !important;
+  }
+  .site-header-actions .nx-updates-header-trigger.has-label .nx-updates-header-count {
+    top: -5px !important; right: -5px !important; min-width: 16px !important;
+    height: 16px !important; border-width: 1.5px !important; padding: 0 3px !important; font-size: 8px !important;
+  }
+}
+
+/* Domain casing: brand capitals, lowercase .space. */
+.site-header-domain-suffix {
+  font-size: .9em; font-weight: 750; text-transform: lowercase; letter-spacing: -.02em;
+}
+
+/* Seasonal Diwali kandil: shown from Dhanteras to Bhai Dooj in India time. */
+.diwali-kandil {
+  display: inline-flex; width: 21px; height: 27px; flex: 0 0 21px;
+  align-items: center; justify-content: center;
+  transform-origin: 50% 0; animation: nx-kandil-sway 3.2s ease-in-out infinite;
+}
+.diwali-kandil svg {
+  display: block; width: 21px; height: 27px;
+  filter: drop-shadow(0 1px 2px rgb(183 107 35 / 20%));
+}
+@keyframes nx-kandil-sway {
+  0%,100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .diwali-kandil { animation: none !important; }
+}
+
+/* Replace the old blue footer with a calm green surface. */
+.site-footer {
+  background: #17382f !important;
+  color: #f3f8f4 !important;
+}
+.site-footer a { color: #d0e7d9; transition: color .16s ease; }
+.site-footer a:hover {
+  color: #ffffff; text-decoration: underline; text-underline-offset: 3px;
+}
+.site-footer .bg-saffron-500 { background: #477f67 !important; }
+html[data-theme="dark"] .site-footer { background: #10271f !important; }
