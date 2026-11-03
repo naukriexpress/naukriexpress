@@ -54,10 +54,13 @@ function GroupIcon({ kind }: { kind: (typeof GROUPS)[number]["icon"] }) {
   if (kind === "book") {
     return <svg {...common}><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v17H6.5A2.5 2.5 0 0 0 4 22V5.5Z" /><path d="M4 6h13M8 8h7M8 12h7" /></svg>;
   }
+  if (kind === "education") {
+    return <svg {...common}><path d="m3 9 9-5 9 5-9 5-9-5Z" /><path d="M7 12v4c3 2 7 2 10 0v-4M21 9v6" /></svg>;
+  }
   if (kind === "answerKey") {
     return <svg {...common}><path d="M8 3h8l4 4v14H4V3h4Z" /><path d="M14 3v5h6M8 12h8M8 16h5" /><path d="m9 8 1.5 1.5L13 7" /></svg>;
   }
-  return <svg {...common}><path d="M12 3v18M3 8h18M5 8l-2 8h6L7 8M17 8l-2 8h6l-2-8M8 21h8" /></svg>;
+  return <svg {...common}><circle cx="12" cy="8" r="4" /><path d="M8.5 11 7 21l5-2 5 2-1.5-10" /><path d="m10 8 1.3 1.3L14 6.5" /></svg>;
 }
 
 function isExternal(url: string) {
