@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import JobCard from "@/components/JobCard";
+import CompactJobRow from "@/components/CompactJobRow";
 import type { JobPosting } from "@/lib/types";
 import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
 
@@ -30,31 +30,6 @@ function compareApprenticeDeadlines(a: JobPosting, b: JobPosting, today: string)
   return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
 }
 
-function JobCardSkeleton() {
-  return (
-    <article className="job-card-skeleton animate-pulse rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-hidden="true">
-      <div className="flex items-start gap-3">
-        <div className="h-14 w-14 shrink-0 rounded-xl bg-slate-200 sm:h-16 sm:w-16" />
-        <div className="flex-1 space-y-2 pt-1">
-          <div className="h-4 w-5/6 rounded bg-slate-200" />
-          <div className="h-4 w-2/3 rounded bg-slate-200" />
-          <div className="h-3 w-1/2 rounded bg-slate-100" />
-        </div>
-      </div>
-      <div className="mt-4 grid grid-cols-2 gap-2.5">
-        {Array.from({ length: 6 }).map((_, index) => (
-          <div key={index} className="h-[76px] rounded-xl bg-slate-100" />
-        ))}
-      </div>
-      <div className="mt-4 grid grid-cols-3 gap-2 border-t border-slate-100 pt-4">
-        <div className="h-10 rounded-lg bg-slate-100" />
-        <div className="h-10 rounded-lg bg-slate-200" />
-        <div className="h-10 rounded-lg bg-orange-100" />
-      </div>
-    </article>
-  );
-}
-
 export default function ApprenticeJobsList() {
   const [jobs, setJobs] = useState<JobPosting[] | null>(null);
   const [error, setError] = useState(false);
@@ -63,24 +38,40 @@ export default function ApprenticeJobsList() {
   useEffect(() => {
     const controller = new AbortController();
 
-    fetch("/api/jobs?status=published&sort=latest&page=1&pageSize=100&jobType=apprenticeship", {
-      cache: "no-store",
-      signal: controller.signal,
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error("Apprentice jobs could not be loaded");
-        return response.json();
-      })
-      .then((result: { data?: JobPosting[] }) => {
-        if (!Array.isArray(result.data)) throw new Error("Unexpected jobs response");
-        const today = getIndiaTodayDate();
-        setJobs(
-          [...result.data].sort((a, b) =>
-            compareApprenticeDeadlines(a, b, today)
-          )
-        );
-        setError(false);
-      })
+    async function loadAllApprentices() {
+      const firstResponse = await fetch(
+        "/api/jobs?status=published&sort=latest&page=1&pageSize=100&jobType=apprenticeship",
+        { cache: "no-store", signal: controller.signal }
+      );
+      if (!firstResponse.ok) throw new Error("Apprentice jobs could not be loaded");
+      const firstPage = await firstResponse.json() as { data?: JobPosting[]; total?: number; pageSize?: number };
+      if (!Array.isArray(firstPage.data)) throw new Error("Unexpected jobs response");
+      const total = Math.max(firstPage.total || firstPage.data.length, firstPage.data.length);
+      const pageSize = Math.max(firstPage.pageSize || 100, 1);
+      const pageCount = Math.ceil(total / pageSize);
+      const laterPages = await Promise.all(
+        Array.from({ length: Math.max(0, pageCount - 1) }, async (_, index) => {
+          const page = index + 2;
+          const response = await fetch(
+            `/api/jobs?status=published&sort=latest&page=${page}&pageSize=${pageSize}&jobType=apprenticeship`,
+            { cache: "no-store", signal: controller.signal }
+          );
+          if (!response.ok) throw new Error("Apprentice jobs could not be loaded");
+          const result = await response.json() as { data?: JobPosting[] };
+          if (!Array.isArray(result.data)) throw new Error("Unexpected jobs response");
+          return result.data;
+        })
+      );
+      const today = getIndiaTodayDate();
+      setJobs([...firstPage.data, ...laterPages.flat()].sort((a, b) =>
+        compareApprenticeDeadlines(a, b, today)
+      ));
+      setError(false);
+    }
+
+    void loadAllApprentices().catch((reason: unknown) => {
+      if (reason instanceof Error && reason.name !== "AbortError") setError(true);
+    });
       .catch((reason: unknown) => {
         if (reason instanceof Error && reason.name !== "AbortError") setError(true);
       });
@@ -108,8 +99,8 @@ export default function ApprenticeJobsList() {
           </button>
         </div>
       ) : jobs === null ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, index) => <JobCardSkeleton key={index} />)}
+        <div className="flex flex-col gap-2">
+          {Array.from({ length: 6 }).map((_, index) => <div key={index} className="h-[58px] animate-pulse rounded-xl border border-ink-900/10 bg-brand-50" />)}
         </div>
       ) : jobs.length === 0 ? (
         <div className="rounded-2xl border border-ink-900/10 bg-white p-6 shadow-card">
@@ -118,7 +109,7 @@ export default function ApprenticeJobsList() {
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {jobs.map((job, index) => <JobCard key={job.id} job={job} rank={index + 1} />)}
+          {jobs.map((job, index) => <CompactJobRow key={job.id} job={job} />)}
         </div>
       )}
     </section>
