@@ -50,6 +50,17 @@ export default function Header() {
           <div className="site-header-theme-mobile flex items-center gap-2 lg:hidden">
             <ThemeToggle />
           </div>
+          <Link
+            href="/"
+            aria-label="Home"
+            title="Home"
+            className="site-header-home-action inline-flex h-10 w-[116px] shrink-0 items-center justify-center gap-2 rounded-lg border px-3 text-sm font-bold transition-colors"
+          >
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="m3 10 9-7 9 7" /><path d="M5 9.5V21h14V9.5M9 21v-7h6v7" />
+            </svg>
+            <span>Home</span>
+          </Link>
           <AnnouncementChatWidget showLabel />
           <div className="site-header-desktop-links hidden items-center gap-2 lg:flex">
             <Link
