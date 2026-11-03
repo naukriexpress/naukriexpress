@@ -90,7 +90,7 @@ async function loadSitemapCollections(): Promise<SitemapCollections> {
   return {
     post: uniqueByUrl(
       distinctJobs
-        .filter((job) => job.jobType !== "apprenticeship" && job.jobType !== "scholarship")
+        .filter((job) => job.jobType !== "apprenticeship" && String(job.jobType) !== "scholarship")
         .map(jobEntry)
     ),
     apprentice: uniqueByUrl(
@@ -114,7 +114,7 @@ async function loadSitemapCollections(): Promise<SitemapCollections> {
     ),
     scholarship: uniqueByUrl([
       ...updateEntries("scholarship"),
-      ...distinctJobs.filter((job) => job.jobType === "scholarship").map(jobEntry),
+      ...distinctJobs.filter((job) => String(job.jobType) === "scholarship").map(jobEntry),
     ]),
   };
 }
