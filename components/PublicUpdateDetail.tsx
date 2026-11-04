@@ -36,14 +36,25 @@ function dateLabel(value: string | null | undefined): string | null {
   }).format(parsed);
 }
 
-function ActionLink({ href, children }: { href: string | null; children: React.ReactNode }) {
+function ActionLink({
+  href,
+  children,
+  variant = "primary",
+}: {
+  href: string | null;
+  children: React.ReactNode;
+  variant?: "primary" | "secondary";
+}) {
   if (!href) return null;
+  const styles = variant === "primary"
+    ? "border-[#356F66] bg-[#356F66] text-white hover:border-[#2F625B] hover:bg-[#2F625B]"
+    : "border-[#D5D9DF] bg-white text-[#19334D] hover:bg-[#F7F9FA]";
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex min-h-11 items-center justify-center rounded-lg border border-brand-700 bg-brand-700 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-brand-800"
+      className={`inline-flex min-h-11 items-center justify-center rounded-lg border px-4 py-2 text-sm font-bold transition-colors ${styles}`}
     >
       {children}
     </a>
@@ -132,9 +143,9 @@ export default function PublicUpdateDetail({ record }: { record: RecordData }) {
         <div className="mt-7 flex flex-wrap gap-2 border-t border-ink-900/10 pt-5">
           <ActionLink href={primaryUrl}>{category === "results" ? "Check Official Result ↗" : category === "answer-key" ? "Open Official Answer Key ↗" : category === "syllabus" ? "View Official Syllabus ↗" : category === "education" ? "Open Notification / PDF ↗" : "Open Official Notification ↗"}</ActionLink>
           <ActionLink href={applyUrl}>Apply Online ↗</ActionLink>
-          <ActionLink href={objectionUrl}>Submit Objection ↗</ActionLink>
-          <ActionLink href={capUrl}>CAP / Admission ↗</ActionLink>
-          <ActionLink href={officialUrl}>Official Website ↗</ActionLink>
+          <ActionLink href={objectionUrl} variant="secondary">Submit Objection ↗</ActionLink>
+          <ActionLink href={capUrl} variant="secondary">CAP / Admission ↗</ActionLink>
+          <ActionLink href={officialUrl} variant="secondary">Official Website ↗</ActionLink>
         </div>
       </article>
     </main>
