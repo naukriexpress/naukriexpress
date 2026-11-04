@@ -61,17 +61,13 @@ export const viewport: Viewport = {
 
 const themeInitScript = `try {
   var savedTheme = localStorage.getItem("naukriexpress-theme");
-  var isEducationPage = window.location.pathname === "/education";
   var systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  var initialTheme = isEducationPage
-    ? "dark"
-    : savedTheme === "dark" || savedTheme === "light"
-      ? savedTheme
-      : systemPrefersDark ? "dark" : "light";
+  var initialTheme = savedTheme === "dark" || savedTheme === "light"
+    ? savedTheme
+    : systemPrefersDark ? "dark" : "light";
   document.documentElement.dataset.theme = initialTheme;
 } catch (_) {
-  var isEducationPage = window.location.pathname === "/education";
-  document.documentElement.dataset.theme = isEducationPage || window.matchMedia("(prefers-color-scheme: dark)").matches
+  document.documentElement.dataset.theme = window.matchMedia("(prefers-color-scheme: dark)").matches
     ? "dark"
     : "light";
 }`;
