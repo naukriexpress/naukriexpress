@@ -186,7 +186,7 @@ export default function HighestVacancyJobs({
                     >
                       {getJobIcon(job)}
                     </span>
-                    <span className="highest-vacancy-job-title min-w-0 flex-1 whitespace-normal break-words text-[13px] font-extrabold leading-snug sm:text-[15px]">
+                    <span className="highest-vacancy-job-title min-w-0 flex-1 whitespace-normal break-words text-[20px] font-extrabold leading-snug sm:text-[15px]">
                       {job.title}
                     </span>
                     <span className="flex shrink-0 flex-col items-center gap-1 sm:contents">
