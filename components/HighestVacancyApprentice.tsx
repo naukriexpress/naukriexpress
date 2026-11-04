@@ -45,14 +45,14 @@ function formatLastDate(value: string): string {
   return year && month && day ? `${day}/${month}/${year}` : "—";
 }
 
-function getCountdownCopy(daysLeft: number): { value: string; unit: string; accessible: string } {
-  if (daysLeft <= 0) return { value: "Today", unit: "Last Day", accessible: "Last date is today" };
-  if (daysLeft === 1) return { value: "1", unit: "Day", accessible: "1 day remaining" };
-  return { value: String(daysLeft), unit: "Days", accessible: `${daysLeft} days remaining` };
+function getCountdownCopy(daysLeft: number): { accessible: string } {
+  if (daysLeft <= 0) return { accessible: "Last date is today" };
+  if (daysLeft === 1) return { accessible: "1 day remaining" };
+  return { accessible: `${daysLeft} days remaining` };
 }
 
 /** Animate the number and circular progress ring together, stopping at the real deadline. */
-function AnimatedCountdownCircle({
+function CountdownCircle({
   daysLeft,
   tone,
   lastDate,
@@ -61,35 +61,18 @@ function AnimatedCountdownCircle({
   tone: (typeof CARD_TONES)[number];
   lastDate: string;
 }) {
-  // Render the verified deadline immediately. A short CSS slide-in remains,
-  // while removing one interval per card keeps mobile scrolling responsive.
-  const finalDays = Math.max(0, daysLeft);
-  const progress = daysLeft <= 0 ? 100 : (finalDays / daysLeft) * 100;
-  const circleRadius = 29;
-  const circleCircumference = 2 * Math.PI * circleRadius;
-  const strokeDashoffset = circleCircumference * (1 - progress / 100);
   const countdown = getCountdownCopy(daysLeft);
+  const value = Math.max(0, daysLeft);
 
   return (
     <span
-      className="highest-vacancy-countdown !flex !h-8 !w-[76px] !shrink-0 !items-center !justify-center !gap-1 !rounded-full !px-1 !py-0 sm:!h-10 sm:!w-[94px] sm:!gap-1.5 sm:!px-1.5"
+      className="highest-vacancy-countdown !grid !h-11 !w-11 !shrink-0 !place-items-center !rounded-full !p-0 !text-base !font-black sm:!h-12 sm:!w-12"
       data-tone={tone}
       data-urgent={daysLeft <= 3 ? "true" : "false"}
       aria-label={countdown.accessible}
       title={`Last date: ${lastDate}`}
     >
-      <span
-        className={`highest-vacancy-countdown-value !grid !h-[22px] !w-[22px] !shrink-0 !place-items-center !rounded-full !border !border-current !text-xs !font-black !leading-none sm:!h-[27px] sm:!w-[27px] sm:!text-sm ${daysLeft === 0 ? "highest-vacancy-countdown-today !h-auto !w-auto !border-0 !px-1 !text-[10px] sm:!text-xs" : ""}`}
-      >
-        {daysLeft === 0 ? countdown.value : (
-          <span key={finalDays} className="highest-vacancy-countdown-slide">
-            {finalDays}
-          </span>
-        )}
-      </span>
-      <span className="highest-vacancy-countdown-unit !mt-0 !text-[9px] sm:!text-[11px]">
-        {countdown.unit}
-      </span>
+      {value}
     </span>
   );
 }
@@ -204,7 +187,7 @@ export default function HighestVacancyApprentice({
                     >
                       {formatVacancies(vacancies)} Posts
                     </span>
-                    <AnimatedCountdownCircle
+                    <CountdownCircle
                       daysLeft={daysLeft}
                       tone={tone}
                       lastDate={job.dates.lastDate}
