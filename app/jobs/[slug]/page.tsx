@@ -711,7 +711,7 @@ export default async function JobDetailsPage({
                   href={job.links.applyOnline}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block w-full rounded-lg bg-brand-600 px-4 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-brand-700"
+                  className="block w-full rounded-lg border border-[#287A62] bg-[#287A62] px-4 py-3 text-center text-sm font-semibold text-white transition-colors hover:border-[#21644F] hover:bg-[#21644F]"
                 >
                   Apply Online
                 </a>
@@ -722,7 +722,7 @@ export default async function JobDetailsPage({
                   href={job.links.officialNotification}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-2.5 block w-full rounded-lg bg-saffron-500 px-4 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-saffron-600"
+                  className="mt-2.5 block w-full rounded-lg border border-[#D97706] bg-[#D97706] px-4 py-3 text-center text-sm font-semibold text-white transition-colors hover:border-[#B45309] hover:bg-[#B45309]"
                 >
                   Official Notification (PDF)
                 </a>
@@ -733,7 +733,7 @@ export default async function JobDetailsPage({
                   href={job.links.officialWebsite}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-2.5 block w-full rounded-lg border border-ink-900/15 px-4 py-3 text-center text-sm font-semibold text-ink-800 hover:bg-ink-900/5"
+                  className="mt-2.5 block w-full rounded-lg border border-[#2563EB] bg-[#2563EB] px-4 py-3 text-center text-sm font-semibold text-white transition-colors hover:border-[#1D4ED8] hover:bg-[#1D4ED8]"
                 >
                   Official Website
                 </a>
