@@ -44,7 +44,7 @@ export default function AdmitCardSearchList({
           type="search"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          placeholder="Search Admit Card, Exam or Department..."
+          placeholder="Search Admit Card or Exam Name..."
           autoComplete="off"
           className="w-full rounded-xl border border-ink-900/15 bg-white py-3.5 pl-12 pr-4 text-sm text-ink-900 shadow-sm outline-none transition placeholder:text-ink-700/50 focus:border-[#356F66] focus:ring-2 focus:ring-[#356F66]/15"
         />
