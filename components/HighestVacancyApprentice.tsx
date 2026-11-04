@@ -56,17 +56,19 @@ function CountdownCircle({
   daysLeft,
   tone,
   lastDate,
+  compact = false,
 }: {
   daysLeft: number;
   tone: (typeof CARD_TONES)[number];
   lastDate: string;
+  compact?: boolean;
 }) {
   const countdown = getCountdownCopy(daysLeft);
   const value = Math.max(0, daysLeft);
 
   return (
     <span
-      className="highest-vacancy-countdown !grid !h-11 !w-11 !shrink-0 !place-items-center !rounded-full !p-0 !text-base !font-black sm:!h-12 sm:!w-12"
+      className={`highest-vacancy-countdown !grid ${compact ? "!h-8 !w-8 !text-sm" : "!h-11 !w-11 !text-base sm:!h-12 sm:!w-12"} !shrink-0 !place-items-center !rounded-full !p-0 !font-black`}
       data-tone={tone}
       data-urgent={daysLeft <= 3 ? "true" : "false"}
       aria-label={countdown.accessible}
@@ -183,6 +185,7 @@ export default function HighestVacancyApprentice({
                         daysLeft={daysLeft}
                         tone={tone}
                         lastDate={job.dates.lastDate}
+                        compact
                       />
                     </span>
                     <span className="highest-vacancy-job-title min-w-0 flex-1 whitespace-normal break-words text-[20px] font-extrabold leading-snug sm:text-[15px]">
