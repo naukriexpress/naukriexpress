@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
 export const metadata: Metadata = {
   title: "Contact Us",
   description: "Contact the NaukriExpress team for job-listing corrections, recruitment information queries or advertisement requests. Include the relevant page and official source when reporting an issue.",
