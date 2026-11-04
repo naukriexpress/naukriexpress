@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
 export const metadata: Metadata = {
   title: "Disclaimer",
   description: "Read the NaukriExpress disclaimer about recruitment information, eligibility, deadlines and the need to verify details on official notifications before applying.",
