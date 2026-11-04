@@ -12,6 +12,7 @@ type HomePanelItem = {
 
 type HomePanelData = {
   admitCards: HomePanelItem[];
+  allAdmitCards: HomePanelItem[];
   results: HomePanelItem[];
   syllabus: HomePanelItem[];
   education: HomePanelItem[];
@@ -71,6 +72,14 @@ function isExternal(url: string) {
 export default function HomepageQuickUpdates() {
   const [data, setData] = useState<HomePanelData | null>(null);
   const [failed, setFailed] = useState(false);
+  const [admitCardSearch, setAdmitCardSearch] = useState("");
+
+  const normalizedAdmitCardSearch = admitCardSearch.trim().toLocaleLowerCase();
+  const admitCardMatches = normalizedAdmitCardSearch
+    ? (data?.allAdmitCards ?? data?.admitCards ?? []).filter((item) =>
+        item.title.toLocaleLowerCase().includes(normalizedAdmitCardSearch)
+      )
+    : [];
 
   useEffect(() => {
     const controller = new AbortController();
@@ -142,6 +151,57 @@ export default function HomepageQuickUpdates() {
                 </p>
               )}
             </div>
+
+            {group.key === "admitCards" && (
+              <div className="border-t border-ink-900/10 bg-white px-3 py-3">
+                <label htmlFor="homepage-admit-card-search" className="sr-only">
+                  Search all Admit Cards
+                </label>
+                <div className="relative">
+                  <svg
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-700/55"
+                  >
+                    <circle cx="10.8" cy="10.8" r="6.8" stroke="currentColor" strokeWidth="1.8" />
+                    <path d="m16 16 4.5 4.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                  </svg>
+                  <input
+                    id="homepage-admit-card-search"
+                    type="search"
+                    value={admitCardSearch}
+                    onChange={(event) => setAdmitCardSearch(event.target.value)}
+                    placeholder="Search Admit Card..."
+                    autoComplete="off"
+                    className="w-full rounded-lg border border-ink-900/15 bg-white py-2.5 pl-9 pr-3 text-xs text-ink-900 outline-none transition placeholder:text-ink-700/50 focus:border-brand-600 focus:ring-2 focus:ring-brand-100"
+                  />
+                </div>
+
+                {normalizedAdmitCardSearch && (
+                  <div className="mt-2 max-h-56 overflow-y-auto rounded-lg border border-ink-900/10 bg-white">
+                    {admitCardMatches.length > 0 ? (
+                      admitCardMatches.map((item) => (
+                        <Link
+                          key={item.id}
+                          href={item.href}
+                          onClick={() => setAdmitCardSearch("")}
+                          className="flex items-start gap-2 border-b border-ink-900/5 px-3 py-2.5 text-xs font-semibold leading-snug text-ink-900 last:border-b-0 hover:bg-brand-50"
+                        >
+                          <span className="shrink-0 font-black text-brand-700" aria-hidden="true">»</span>
+                          <span className="min-w-0 flex-1 break-words">{item.title}</span>
+                          <span className="shrink-0 text-sm leading-none text-brand-700" aria-hidden="true">›</span>
+                        </Link>
+                      ))
+                    ) : (
+                      <p className="px-3 py-3 text-xs text-ink-700/65">
+                        No matching Admit Card found.
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
           </section>
         );
       })}
