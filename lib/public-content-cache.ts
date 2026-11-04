@@ -3,6 +3,7 @@ import { getPool } from "@/lib/pgClient";
 import type { PoolClient } from "pg";
 import educationDirectory from "@/data/educationDirectory.json";
 import admitCardLinksSnapshot from "@/data/admit-card-links.json";
+import siteUpdateSnapshotData from "@/data/site-updates-snapshot.json";
 
 export const SITE_UPDATE_CATEGORIES = [
   "results",
@@ -29,6 +30,7 @@ export type SiteUpdateItem = {
   cap_url: string | null;
   official_website_url: string | null;
   source_id: string | null;
+  created_at?: string;
 };
 export type AdmitCardLink = { id: number; title: string; url: string };
 
@@ -162,22 +164,38 @@ export async function ensurePublicContentTables(): Promise<void> {
   await contentTablesReady;
 }
 
+const siteUpdateSnapshot = siteUpdateSnapshotData as SiteUpdateItem[];
+
 const cachedSiteUpdates = unstable_cache(
   async (category: string): Promise<SiteUpdateItem[]> => {
-    await ensurePublicContentTables();
-    const pool = getPool();
-    const fields = `id, category, title, organization, description, publish_date,
-      amount, eligibility, last_date, item_url, objection_url, apply_url,
-      education_category, start_date, exam_date, is_new,
-      application_start_display, application_end_display, exam_date_display,
-      academic_year, status_as_of, cap_url, official_website_url, source_id`;
-    const result = category === "all"
-      ? await pool.query(`SELECT ${fields} FROM site_updates ORDER BY created_at DESC`)
-      : await pool.query(`SELECT ${fields} FROM site_updates WHERE category = $1 ORDER BY created_at DESC`, [category]);
-    return result.rows as SiteUpdateItem[];
+    try {
+      await ensurePublicContentTables();
+      const pool = getPool();
+      const fields = `id, category, title, organization, description, publish_date,
+        amount, eligibility, last_date, item_url, objection_url, apply_url,
+        education_category, start_date, exam_date, is_new,
+        application_start_display, application_end_display, exam_date_display,
+        academic_year, status_as_of, cap_url, official_website_url, source_id,
+        created_at`;
+      const result = category === "all"
+        ? await pool.query(`SELECT ${fields} FROM site_updates ORDER BY created_at DESC, id DESC`)
+        : await pool.query(`SELECT ${fields} FROM site_updates WHERE category = $1 ORDER BY created_at DESC, id DESC`, [category]);
+      return result.rows.map((row) => ({ ...row, id: Number(row.id) })) as SiteUpdateItem[];
+    } catch (error) {
+      // GitHub is the read-only backup; Supabase remains the live source when available.
+      console.error("Site updates database unavailable; serving GitHub snapshot:", error);
+      const snapshotRows = category === "all"
+        ? siteUpdateSnapshot
+        : siteUpdateSnapshot.filter((item) => item.category === category);
+      if (category === "all") {
+        const educationRows = await getEducationDirectory();
+        return [...educationRows, ...snapshotRows];
+      }
+      return snapshotRows;
+    }
   },
-  ["naukriexpress-public-site-updates-v2"],
-  { revalidate: 300, tags: ["site-updates"] }
+  ["naukriexpress-public-site-updates-v3"],
+  { revalidate: 120, tags: ["site-updates"] }
 );
 
 export function getPublicSiteUpdates(category?: SiteUpdateCategory): Promise<SiteUpdateItem[]> {
@@ -229,26 +247,59 @@ const educationSeed = educationDirectory as EducationSeed;
 
 const cachedEducationOverrides = unstable_cache(
   async (): Promise<EducationOverride[]> => {
-    const pool = getPool();
-    const result = await pool.query(
-      `SELECT id, source_id, start_date, last_date, item_url, apply_url,
-              cap_url, official_website_url
-       FROM site_updates
-       WHERE category = 'education' AND source_id IS NOT NULL
-       ORDER BY id ASC`
-    );
-    return result.rows as EducationOverride[];
+    try {
+      await ensurePublicContentTables();
+      const pool = getPool();
+      const result = await pool.query(
+        `SELECT id, source_id, start_date, last_date, item_url, apply_url,
+                cap_url, official_website_url
+         FROM site_updates
+         WHERE category = 'education' AND source_id IS NOT NULL
+         ORDER BY id ASC`
+      );
+      return result.rows.map((row) => ({ ...row, id: Number(row.id) })) as EducationOverride[];
+    } catch (error) {
+      console.error("Education date overrides unavailable; using GitHub dates:", error);
+      return [];
+    }
   },
-  ["naukriexpress-education-editable-overrides-v1"],
-  { revalidate: 300, tags: ["education-overrides"] }
+  ["naukriexpress-education-editable-overrides-v2"],
+  { revalidate: 120, tags: ["education-overrides"] }
+);
+
+const cachedDynamicEducationRecords = unstable_cache(
+  async (): Promise<SiteUpdateItem[]> => {
+    try {
+      await ensurePublicContentTables();
+      const pool = getPool();
+      const result = await pool.query(
+        `SELECT id, category, title, organization, description, publish_date,
+                amount, eligibility, last_date, item_url, objection_url, apply_url,
+                education_category, start_date, exam_date, is_new,
+                application_start_display, application_end_display, exam_date_display,
+                academic_year, status_as_of, cap_url, official_website_url, source_id,
+                created_at
+         FROM site_updates
+         WHERE category = 'education' AND source_id IS NULL
+         ORDER BY created_at DESC, id DESC`
+      );
+      return result.rows.map((row) => ({ ...row, id: Number(row.id) })) as SiteUpdateItem[];
+    } catch (error) {
+      console.error("New Education records unavailable:", error);
+      return [];
+    }
+  },
+  ["naukriexpress-dynamic-education-records-v1"],
+  { revalidate: 120, tags: ["education-dynamic-records"] }
 );
 
 /** GitHub owns all fixed exam content; the database stores only admin-editable dates and URLs. */
 export async function getEducationDirectory(): Promise<SiteUpdateItem[]> {
   const overrides = await cachedEducationOverrides();
   const bySourceId = new Map(overrides.map((item) => [item.source_id, item]));
+  const dynamicRecords = await cachedDynamicEducationRecords();
 
-  return educationSeed.exams.map((exam, index) => {
+  const staticRecords = educationSeed.exams.map((exam, index) => {
     const override = bySourceId.get(exam.id);
     const startDate = override ? override.start_date : exam.application.start_date;
     const lastDate = override
@@ -299,56 +350,60 @@ export async function getEducationDirectory(): Promise<SiteUpdateItem[]> {
       source_id: exam.id,
     };
   });
+
+  return [...dynamicRecords, ...staticRecords];
 }
 
 type AdmitCardSnapshotItem = AdmitCardLink & { created_at: string };
 const admitCardSnapshot = admitCardLinksSnapshot as AdmitCardSnapshotItem[];
 const admitCardSnapshotIds = admitCardSnapshot.map((item) => item.id);
-const maxAdmitCardSnapshotId = Math.max(...admitCardSnapshotIds);
 
 /**
- * Existing Admit Card links are served from the checked-in JSON snapshot.
- * The database is used to keep deleted legacy IDs hidden and to append links
- * created after this snapshot. Admin POST/DELETE continue to use the database.
+ * GitHub stores the current baseline. Supabase hides deleted snapshot links
+ * and supplies every post-snapshot link, regardless of the generated ID value.
  */
 const cachedAdmitCards = unstable_cache(
   async (): Promise<AdmitCardLink[]> => {
-    await ensurePublicContentTables();
-    const pool = getPool();
+    try {
+      await ensurePublicContentTables();
+      const pool = getPool();
 
-    const [activeSnapshotResult, newLinksResult] = await Promise.all([
-      pool.query(
-        `SELECT id FROM admit_card_links WHERE id = ANY($1::bigint[])`,
-        [admitCardSnapshotIds]
-      ),
-      pool.query(
-        `SELECT id, title, url
-         FROM admit_card_links
-         WHERE id > $1
-         ORDER BY created_at DESC, id DESC`,
-        [maxAdmitCardSnapshotId]
-      ),
-    ]);
+      const [activeSnapshotResult, newLinksResult] = await Promise.all([
+        pool.query(
+          `SELECT id FROM admit_card_links WHERE id = ANY($1::bigint[])`,
+          [admitCardSnapshotIds]
+        ),
+        pool.query(
+          `SELECT id, title, url
+           FROM admit_card_links
+           WHERE NOT (id = ANY($1::bigint[]))
+           ORDER BY created_at DESC, id DESC`,
+          [admitCardSnapshotIds]
+        ),
+      ]);
 
-    const activeSnapshotIds = new Set(
-      activeSnapshotResult.rows.map((row) => Number(row.id))
-    );
-    const snapshotLinks = admitCardSnapshot
-      .filter((item) => activeSnapshotIds.has(item.id))
-      .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
-      .map(({ id, title, url }) => ({ id, title, url }));
+      const activeSnapshotIds = new Set(
+        activeSnapshotResult.rows.map((row) => Number(row.id))
+      );
+      const snapshotLinks = admitCardSnapshot
+        .filter((item) => activeSnapshotIds.has(item.id))
+        .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+        .map(({ id, title, url }) => ({ id, title, url }));
 
-    const newDatabaseLinks = newLinksResult.rows.map((row) => ({
-      id: Number(row.id),
-      title: String(row.title),
-      url: String(row.url),
-    }));
+      const newDatabaseLinks = newLinksResult.rows.map((row) => ({
+        id: Number(row.id),
+        title: String(row.title),
+        url: String(row.url),
+      }));
 
-    // New database entries are created later than the frozen snapshot, so place them first.
-    return [...newDatabaseLinks, ...snapshotLinks];
+      return [...newDatabaseLinks, ...snapshotLinks];
+    } catch (error) {
+      console.error("Admit Card database unavailable; serving GitHub snapshot:", error);
+      return admitCardSnapshot.map(({ id, title, url }) => ({ id, title, url }));
+    }
   },
-  ["naukriexpress-admit-card-links-v2"],
-  { revalidate: 300, tags: ["admit-cards"] }
+  ["naukriexpress-admit-card-links-v3"],
+  { revalidate: 120, tags: ["admit-cards"] }
 );
 
 export function getPublicAdmitCardLinks(): Promise<AdmitCardLink[]> {
