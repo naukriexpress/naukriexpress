@@ -41,20 +41,20 @@ export default function Footer() {
           <ul className="space-y-2 text-sm text-white/80">
             <li><Link href="/answer-key" className="hover:text-white">Answer Key</Link></li>
             <li><Link href="/syllabus" className="hover:text-white">Syllabus</Link></li>
-            <li><Link href="/contact" className="hover:text-white">Contact Us</Link></li>
             <li><Link href="/admin/login" className="hover:text-white">Admin Login</Link></li>
           </ul>
         </div>
 
         <div>
           <h3 className="font-display text-sm font-semibold uppercase tracking-wide text-white/50 mb-3">
-            Legal
+            Company &amp; Legal
           </h3>
           <ul className="space-y-2 text-sm text-white/80">
             <li><Link href="/about" className="hover:text-white">About Us</Link></li>
             <li><Link href="/privacy-policy" className="hover:text-white">Privacy Policy</Link></li>
             <li><Link href="/disclaimer" className="hover:text-white">Disclaimer</Link></li>
             <li><Link href="/terms" className="hover:text-white">Terms &amp; Conditions</Link></li>
+            <li><Link href="/contact" className="hover:text-white">Contact Us</Link></li>
           </ul>
         </div>
       </div>
