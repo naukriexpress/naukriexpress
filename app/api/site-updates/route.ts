@@ -147,13 +147,6 @@ export async function POST(request: Request) {
     const category = typeof body.category === "string" ? body.category : "";
     const title = typeof body.title === "string" ? body.title.trim() : "";
 
-    if (category === "education") {
-      return NextResponse.json(
-        { error: "Education exam details GitHub dataset mein fixed hain. Admin se sirf dates aur links edit karein." },
-        { status: 403 }
-      );
-    }
-
     if (!SITE_UPDATE_CATEGORIES.includes(category as SiteUpdateCategory) || !title || title.length > 300) {
       return NextResponse.json({ error: "Valid category aur title zaroori hain" }, { status: 400 });
     }
@@ -245,6 +238,7 @@ export async function POST(request: Request) {
     );
 
     revalidateTag("site-updates");
+    if (category === "education") revalidateTag("education-dynamic-records");
     for (const revalidate of ["/api/site-updates", "/sitemap-content.xml", "/education", "/scholarship", "/syllabus", "/answer-key", "/results"]) {
       revalidatePath(revalidate);
     }
@@ -339,14 +333,14 @@ export async function DELETE(request: Request) {
 
     await ensurePublicContentTables();
     const pool = getPool();
-    const existing = await pool.query("SELECT category FROM site_updates WHERE id = $1", [id]);
+    const existing = await pool.query("SELECT category, source_id FROM site_updates WHERE id = $1", [id]);
     if (existing.rowCount === 0) {
       return NextResponse.json({ error: "Update nahi mila" }, { status: 404 });
     }
     const category = existing.rows[0].category as SiteUpdateCategory;
-    if (category === "education") {
+    if (category === "education" && existing.rows[0].source_id !== null) {
       return NextResponse.json(
-        { error: "Education exam records GitHub dataset mein fixed hain; admin se delete nahi kiye ja sakte." },
+        { error: "GitHub ke fixed Education directory records delete nahi kiye ja sakte." },
         { status: 403 }
       );
     }
@@ -359,6 +353,7 @@ export async function DELETE(request: Request) {
     }
 
     revalidateTag("site-updates");
+    if (category === "education") revalidateTag("education-dynamic-records");
     revalidatePath(`/${category}`);
     revalidatePath("/api/site-updates");
     revalidatePath("/sitemap-content.xml");
