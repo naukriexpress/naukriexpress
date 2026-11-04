@@ -181,24 +181,28 @@ export default function HighestVacancyApprentice({
                     <span className="highest-vacancy-job-title min-w-0 flex-1 whitespace-normal break-words text-[13px] font-extrabold leading-snug sm:text-[15px]">
                       {job.title}
                     </span>
-                    <span
-                      className="highest-vacancy-post-badge highest-vacancy-row-post inline-flex shrink-0 items-center rounded-full !px-2 !py-1 !text-[10px] font-extrabold sm:!text-xs"
-                      data-tone={tone}
-                    >
-                      {formatVacancies(vacancies)} Posts
+                    <span className="flex shrink-0 flex-col items-center gap-1 sm:contents">
+                      <span
+                        className="order-2 highest-vacancy-post-badge highest-vacancy-row-post inline-flex shrink-0 items-center rounded-full !px-2 !py-1 !text-[10px] font-extrabold sm:order-none sm:!text-xs"
+                        data-tone={tone}
+                      >
+                        {formatVacancies(vacancies)} Posts
+                      </span>
+                      <span
+                        className="order-3 inline-flex shrink-0 items-center rounded-md border border-ink-900/10 bg-white px-2 py-1 text-[9px] font-bold leading-none text-ink-800 sm:order-none sm:text-[11px]"
+                        aria-label={`Last date ${formatLastDate(job.dates.lastDate)}`}
+                        title={`Last date: ${formatLastDate(job.dates.lastDate)}`}
+                      >
+                        {formatLastDate(job.dates.lastDate)}
+                      </span>
+                      <span className="order-1 sm:order-none">
+                        <CountdownCircle
+                          daysLeft={daysLeft}
+                          tone={tone}
+                          lastDate={job.dates.lastDate}
+                        />
+                      </span>
                     </span>
-                    <span
-                      className="inline-flex shrink-0 items-center rounded-md border border-ink-900/10 bg-white px-2 py-1 text-[9px] font-bold leading-none text-ink-800 sm:text-[11px]"
-                      aria-label={`Last date ${formatLastDate(job.dates.lastDate)}`}
-                      title={`Last date: ${formatLastDate(job.dates.lastDate)}`}
-                    >
-                      {formatLastDate(job.dates.lastDate)}
-                    </span>
-                    <CountdownCircle
-                      daysLeft={daysLeft}
-                      tone={tone}
-                      lastDate={job.dates.lastDate}
-                    />
                   </Link>
                 );
               })
