@@ -52,7 +52,7 @@ function getCountdownCopy(daysLeft: number): { accessible: string } {
   return { accessible: `${daysLeft} days remaining` };
 }
 
-/** Animate the number and circular progress ring together, stopping at the real deadline. */
+/** Show the remaining deadline as a plain, static circular number. */
 function CountdownCircle({
   daysLeft,
   tone,
