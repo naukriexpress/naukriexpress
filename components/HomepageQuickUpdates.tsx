@@ -105,6 +105,9 @@ export default function HomepageQuickUpdates() {
       </div>
       {GROUPS.map((group) => {
         const items = data?.[group.key] ?? [];
+        const visibleItems = group.key === "admitCards" && normalizedAdmitCardSearch
+          ? admitCardMatches
+          : items;
         return (
           <section
             key={group.key}
@@ -123,37 +126,8 @@ export default function HomepageQuickUpdates() {
               </Link>
             </div>
 
-            <div className="homepage-quick-panel-divider divide-y">
-              {data === null && !failed ? (
-                Array.from({ length: 3 }).map((_, index) => (
-                  <div key={index} className="flex h-9 items-center gap-2 px-3" aria-hidden="true">
-                    <span className="h-2 w-2 rounded-full bg-brand-200" />
-                    <span className="h-3 flex-1 rounded bg-brand-100" />
-                  </div>
-                ))
-              ) : items.length > 0 ? (
-                items.slice(0, 4).map((item) => (
-                  <a
-                    key={item.id}
-                    href={item.href}
-                    target={isExternal(item.href) ? "_blank" : undefined}
-                    rel={isExternal(item.href) ? "noopener noreferrer" : undefined}
-                    className="homepage-quick-row group flex min-w-0 items-start gap-2 px-3 py-2 text-[12px] font-semibold leading-snug transition-colors sm:text-[13px]"
-                  >
-                    <span className="mt-0.5 shrink-0 font-black text-brand-700" aria-hidden="true">»</span>
-                    <span className="min-w-0 flex-1 whitespace-normal break-words">{item.title}</span>
-                    <span className="shrink-0 text-base leading-none text-brand-700" aria-hidden="true">›</span>
-                  </a>
-                ))
-              ) : (
-                <p className="homepage-quick-empty px-3 py-3 text-xs">
-                  {failed ? "Updates could not be loaded." : "New updates will appear here."}
-                </p>
-              )}
-            </div>
-
             {group.key === "admitCards" && (
-              <div className="border-t border-ink-900/10 bg-white px-3 py-3">
+              <div className="border-b border-ink-900/10 bg-white px-3 py-2.5">
                 <label htmlFor="homepage-admit-card-search" className="sr-only">
                   Search all Admit Cards
                 </label>
@@ -177,31 +151,44 @@ export default function HomepageQuickUpdates() {
                     className="w-full rounded-lg border border-ink-900/15 bg-white py-2.5 pl-9 pr-3 text-xs text-ink-900 outline-none transition placeholder:text-ink-700/50 focus:border-brand-600 focus:ring-2 focus:ring-brand-100"
                   />
                 </div>
-
-                {normalizedAdmitCardSearch && (
-                  <div className="mt-2 max-h-56 overflow-y-auto rounded-lg border border-ink-900/10 bg-white">
-                    {admitCardMatches.length > 0 ? (
-                      admitCardMatches.map((item) => (
-                        <Link
-                          key={item.id}
-                          href={item.href}
-                          onClick={() => setAdmitCardSearch("")}
-                          className="flex items-start gap-2 border-b border-ink-900/5 px-3 py-2.5 text-xs font-semibold leading-snug text-ink-900 last:border-b-0 hover:bg-brand-50"
-                        >
-                          <span className="shrink-0 font-black text-brand-700" aria-hidden="true">»</span>
-                          <span className="min-w-0 flex-1 break-words">{item.title}</span>
-                          <span className="shrink-0 text-sm leading-none text-brand-700" aria-hidden="true">›</span>
-                        </Link>
-                      ))
-                    ) : (
-                      <p className="px-3 py-3 text-xs text-ink-700/65">
-                        No matching Admit Card found.
-                      </p>
-                    )}
-                  </div>
-                )}
               </div>
             )}
+
+            <div className="homepage-quick-panel-divider divide-y">
+              {data === null && !failed ? (
+                Array.from({ length: 3 }).map((_, index) => (
+                  <div key={index} className="flex h-9 items-center gap-2 px-3" aria-hidden="true">
+                    <span className="h-2 w-2 rounded-full bg-brand-200" />
+                    <span className="h-3 flex-1 rounded bg-brand-100" />
+                  </div>
+                ))
+              ) : visibleItems.length > 0 ? (
+                (group.key === "admitCards" && !normalizedAdmitCardSearch
+                  ? visibleItems.slice(0, 4)
+                  : visibleItems
+                ).map((item) => (
+                  <a
+                    key={item.id}
+                    href={item.href}
+                    target={isExternal(item.href) ? "_blank" : undefined}
+                    rel={isExternal(item.href) ? "noopener noreferrer" : undefined}
+                    className="homepage-quick-row group flex min-w-0 items-start gap-2 px-3 py-2 text-[12px] font-semibold leading-snug transition-colors sm:text-[13px]"
+                  >
+                    <span className="mt-0.5 shrink-0 font-black text-brand-700" aria-hidden="true">»</span>
+                    <span className="min-w-0 flex-1 whitespace-normal break-words">{item.title}</span>
+                    <span className="shrink-0 text-base leading-none text-brand-700" aria-hidden="true">›</span>
+                  </a>
+                ))
+              ) : (
+                <p className="homepage-quick-empty px-3 py-3 text-xs">
+                  {failed
+                    ? "Updates could not be loaded."
+                    : group.key === "admitCards" && normalizedAdmitCardSearch
+                      ? "No matching Admit Card found."
+                      : "New updates will appear here."}
+                </p>
+              )}
+            </div>
           </section>
         );
       })}
