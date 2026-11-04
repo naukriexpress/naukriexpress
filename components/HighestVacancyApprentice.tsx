@@ -42,7 +42,7 @@ function formatVacancies(value: number): string {
 
 function formatLastDate(value: string): string {
   const [year, month, day] = value.slice(0, 10).split("-");
-  return year && month && day ? `${day}/${month}/${year}` : "—";
+  return year && month && day ? `${day}/${month}/${year.slice(-2)}` : "—";
 }
 
 function getCountdownCopy(daysLeft: number): { accessible: string } {
@@ -192,7 +192,7 @@ export default function HighestVacancyApprentice({
                       aria-label={`Last date ${formatLastDate(job.dates.lastDate)}`}
                       title={`Last date: ${formatLastDate(job.dates.lastDate)}`}
                     >
-                      Last: {formatLastDate(job.dates.lastDate)}
+                      {formatLastDate(job.dates.lastDate)}
                     </span>
                     <CountdownCircle
                       daysLeft={daysLeft}
