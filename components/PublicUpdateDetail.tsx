@@ -39,16 +39,21 @@ function dateLabel(value: string | null | undefined): string | null {
 function ActionLink({
   href,
   children,
-  variant = "primary",
+  variant = "green",
 }: {
   href: string | null;
   children: React.ReactNode;
-  variant?: "primary" | "secondary";
+  variant?: "green" | "orange" | "blue" | "secondary";
 }) {
   if (!href) return null;
-  const styles = variant === "primary"
-    ? "border-[#356F66] bg-[#356F66] text-white hover:border-[#2F625B] hover:bg-[#2F625B]"
-    : "border-[#D5D9DF] bg-white text-[#19334D] hover:bg-[#F7F9FA]";
+
+  const styles = {
+    green: "border-[#287A62] bg-[#287A62] text-white hover:border-[#21644F] hover:bg-[#21644F]",
+    orange: "border-[#D97706] bg-[#D97706] text-white hover:border-[#B45309] hover:bg-[#B45309]",
+    blue: "border-[#2563EB] bg-[#2563EB] text-white hover:border-[#1D4ED8] hover:bg-[#1D4ED8]",
+    secondary: "border-[#D5D9DF] bg-white text-[#19334D] hover:bg-[#F1F5F9]",
+  }[variant];
+
   return (
     <a
       href={href}
@@ -141,11 +146,11 @@ export default function PublicUpdateDetail({ record }: { record: RecordData }) {
           </section>
         )}
         <div className="mt-7 flex flex-wrap gap-2 border-t border-ink-900/10 pt-5">
-          <ActionLink href={primaryUrl}>{category === "results" ? "Check Official Result ↗" : category === "answer-key" ? "Open Official Answer Key ↗" : category === "syllabus" ? "View Official Syllabus ↗" : category === "education" ? "Open Notification / PDF ↗" : "Open Official Notification ↗"}</ActionLink>
-          <ActionLink href={applyUrl}>Apply Online ↗</ActionLink>
+          <ActionLink href={applyUrl} variant="green">Apply Online ↗</ActionLink>
+          <ActionLink href={primaryUrl} variant="orange}>{category === "results" ? "Check Official Result ↗" : category === "answer-key" ? "Open Official Answer Key ↗" : category === "syllabus" ? "View Official Syllabus ↗" : category === "education" ? "Official Notification (PDF) ↗" : "Official Notification ↗"}</ActionLink>
+          <ActionLink href={officialUrl} variant="blue">Official Website ↗</ActionLink>
           <ActionLink href={objectionUrl} variant="secondary">Submit Objection ↗</ActionLink>
           <ActionLink href={capUrl} variant="secondary">CAP / Admission ↗</ActionLink>
-          <ActionLink href={officialUrl} variant="secondary">Official Website ↗</ActionLink>
         </div>
       </article>
     </main>
