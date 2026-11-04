@@ -172,11 +172,18 @@ export default function HighestVacancyApprentice({
                     data-tone={tone}
                   >
                     <span
-                      className="highest-vacancy-job-icon grid !h-8 !w-8 shrink-0 place-items-center rounded-full text-lg sm:!h-9 sm:!w-9 sm:text-xl"
+                      className="highest-vacancy-job-icon !hidden !h-8 !w-8 shrink-0 place-items-center rounded-full text-lg sm:!grid sm:!h-9 sm:!w-9 sm:text-xl"
                       data-tone={tone}
                       aria-hidden="true"
                     >
                       {getJobIcon(job)}
+                    </span>
+                    <span className="sm:hidden">
+                      <CountdownCircle
+                        daysLeft={daysLeft}
+                        tone={tone}
+                        lastDate={job.dates.lastDate}
+                      />
                     </span>
                     <span className="highest-vacancy-job-title min-w-0 flex-1 whitespace-normal break-words text-[20px] font-extrabold leading-snug sm:text-[15px]">
                       {job.title}
@@ -195,7 +202,7 @@ export default function HighestVacancyApprentice({
                       >
                         {formatLastDate(job.dates.lastDate)}
                       </span>
-                      <span className="order-1 sm:order-none">
+                      <span className="hidden sm:inline-flex">
                         <CountdownCircle
                           daysLeft={daysLeft}
                           tone={tone}
