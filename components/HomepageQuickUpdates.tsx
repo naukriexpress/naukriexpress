@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import HeroSearch from "./HeroSearch";
 
 type HomePanelItem = {
   id: string | number;
@@ -99,10 +98,7 @@ export default function HomepageQuickUpdates() {
   }, []);
 
   return (
-    <aside className="min-w-0 space-y-3" aria-label="Search, admit cards, results, syllabus, education, answer key and scholarship updates">
-      <div className="homepage-search-spacer mb-1 pt-6">
-        <HeroSearch />
-      </div>
+    <aside className="min-w-0 space-y-3" aria-label="Admit cards, results, syllabus, education, answer key and scholarship updates">
       {GROUPS.map((group) => {
         const items = data?.[group.key] ?? [];
         const visibleItems = group.key === "admitCards" && normalizedAdmitCardSearch
