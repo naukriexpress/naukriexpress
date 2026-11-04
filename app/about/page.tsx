@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
 export const metadata: Metadata = {
   title: "About Us",
   description: "Learn about NaukriExpress, an independent recruitment information portal operated by BGI Cybercafe, and how we compile job notifications, eligibility details and official links.",
