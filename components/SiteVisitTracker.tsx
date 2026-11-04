@@ -5,12 +5,28 @@ import { usePathname } from "next/navigation";
 
 const SESSION_KEY = "naukriexpress-visitor-counted";
 
+// These informational pages are static GitHub-backed pages and do not need
+// the background database visitor-count request.
+const STATIC_INFO_PATHS = new Set([
+  "/about",
+  "/privacy-policy",
+  "/disclaimer",
+  "/terms",
+  "/contact",
+]);
+
 export default function SiteVisitTracker() {
   const pathname = usePathname();
   const requestStarted = useRef(false);
 
   useEffect(() => {
-    if (!pathname || pathname.startsWith("/admin") || requestStarted.current) return;
+    const normalizedPath = pathname?.replace(/\/+$/, "") || "/";
+    if (
+      !pathname ||
+      pathname.startsWith("/admin") ||
+      STATIC_INFO_PATHS.has(normalizedPath) ||
+      requestStarted.current
+    ) return;
 
     try {
       if (window.sessionStorage.getItem(SESSION_KEY)) return;
