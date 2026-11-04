@@ -147,7 +147,7 @@ export default function PublicUpdateDetail({ record }: { record: RecordData }) {
         )}
         <div className="mt-7 flex flex-wrap gap-2 border-t border-ink-900/10 pt-5">
           <ActionLink href={applyUrl} variant="green">Apply Online ↗</ActionLink>
-          <ActionLink href={primaryUrl} variant="orange}>{category === "results" ? "Check Official Result ↗" : category === "answer-key" ? "Open Official Answer Key ↗" : category === "syllabus" ? "View Official Syllabus ↗" : category === "education" ? "Official Notification (PDF) ↗" : "Official Notification ↗"}</ActionLink>
+          <ActionLink href={primaryUrl} variant="orange">{category === "results" ? "Check Official Result ↗" : category === "answer-key" ? "Open Official Answer Key ↗" : category === "syllabus" ? "View Official Syllabus ↗" : category === "education" ? "Official Notification (PDF) ↗" : "Official Notification ↗"}</ActionLink>
           <ActionLink href={officialUrl} variant="blue">Official Website ↗</ActionLink>
           <ActionLink href={objectionUrl} variant="secondary">Submit Objection ↗</ActionLink>
           <ActionLink href={capUrl} variant="secondary">CAP / Admission ↗</ActionLink>
