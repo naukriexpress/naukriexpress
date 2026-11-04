@@ -31,6 +31,7 @@ export type SiteUpdateItem = {
   official_website_url: string | null;
   source_id: string | null;
   created_at?: string;
+  is_deleted?: boolean;
 };
 export type AdmitCardLink = { id: number; title: string; url: string };
 
@@ -113,7 +114,8 @@ export async function ensurePublicContentTables(): Promise<void> {
             category TEXT NOT NULL,
             title TEXT NOT NULL, organization TEXT, description TEXT, publish_date DATE,
             amount TEXT, eligibility TEXT, last_date DATE, item_url TEXT,
-            objection_url TEXT, apply_url TEXT, created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+            objection_url TEXT, apply_url TEXT, is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
+            created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
           )
         `);
         await client.query(`
@@ -133,6 +135,7 @@ export async function ensurePublicContentTables(): Promise<void> {
           ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS cap_url TEXT;
           ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS official_website_url TEXT;
           ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS source_id TEXT;
+          ALTER TABLE site_updates ADD COLUMN IF NOT EXISTS is_deleted BOOLEAN NOT NULL DEFAULT FALSE;
           CREATE UNIQUE INDEX IF NOT EXISTS site_updates_source_id_all_unique
             ON site_updates(source_id);
         `);
@@ -168,6 +171,10 @@ const siteUpdateSnapshot = siteUpdateSnapshotData as SiteUpdateItem[];
 
 const cachedSiteUpdates = unstable_cache(
   async (category: string): Promise<SiteUpdateItem[]> => {
+    const snapshotRows = category === "all"
+      ? siteUpdateSnapshot
+      : siteUpdateSnapshot.filter((item) => item.category === category);
+
     try {
       await ensurePublicContentTables();
       const pool = getPool();
@@ -176,17 +183,53 @@ const cachedSiteUpdates = unstable_cache(
         education_category, start_date, exam_date, is_new,
         application_start_display, application_end_display, exam_date_display,
         academic_year, status_as_of, cap_url, official_website_url, source_id,
-        created_at`;
-      const result = category === "all"
-        ? await pool.query(`SELECT ${fields} FROM site_updates ORDER BY created_at DESC, id DESC`)
-        : await pool.query(`SELECT ${fields} FROM site_updates WHERE category = $1 ORDER BY created_at DESC, id DESC`, [category]);
-      return result.rows.map((row) => ({ ...row, id: Number(row.id) })) as SiteUpdateItem[];
+        created_at, is_deleted`;
+      const result = await pool.query(
+        `SELECT ${fields} FROM site_updates
+         ${category === "all" ? "" : "WHERE category = $1"}
+         ORDER BY created_at DESC, id DESC`,
+        category === "all" ? [] : [category]
+      );
+      const liveRows = result.rows.map((row) => ({ ...row, id: Number(row.id) }));
+      const snapshotIds = new Set(snapshotRows.map((item) => String(item.id)));
+      const liveById = new Map(liveRows.map((item) => [String(item.id), item]));
+      const deletedIds = new Set(
+        liveRows.filter((item) => item.is_deleted === true).map((item) => String(item.id))
+      );
+
+      const mergedSnapshot = snapshotRows
+        .filter((item) => !deletedIds.has(String(item.id)))
+        .map((snapshotItem) => {
+          const liveItem = liveById.get(String(snapshotItem.id));
+          if (!liveItem) return snapshotItem;
+          liveById.delete(String(snapshotItem.id));
+          const { is_deleted: _isDeleted, ...visibleItem } = liveItem;
+          return { ...snapshotItem, ...visibleItem } as SiteUpdateItem;
+        });
+
+      const newLiveRecords = liveRows
+        .filter((item) =>
+          !snapshotIds.has(String(item.id)) &&
+          item.is_deleted !== true &&
+          (category !== "all" || item.category !== "education")
+        )
+        .map(({ is_deleted: _isDeleted, ...item }) => item as SiteUpdateItem);
+
+      const updates = [...newLiveRecords, ...mergedSnapshot].sort((a, b) => {
+        const dateA = new Date(a.created_at || a.publish_date || 0).getTime();
+        const dateB = new Date(b.created_at || b.publish_date || 0).getTime();
+        return dateB - dateA;
+      });
+
+      if (category === "all") {
+        const educationRows = await getEducationDirectory();
+        return [...educationRows, ...updates];
+      }
+      return updates;
     } catch (error) {
-      // GitHub is the read-only backup; Supabase remains the live source when available.
+      // Keep all checked-in baseline records readable during a temporary DB outage.
       console.error("Site updates database unavailable; serving GitHub snapshot:", error);
-      const snapshotRows = category === "all"
-        ? siteUpdateSnapshot
-        : siteUpdateSnapshot.filter((item) => item.category === category);
+      if (category === "education") return getEducationDirectory();
       if (category === "all") {
         const educationRows = await getEducationDirectory();
         return [...educationRows, ...snapshotRows];
@@ -194,11 +237,12 @@ const cachedSiteUpdates = unstable_cache(
       return snapshotRows;
     }
   },
-  ["naukriexpress-public-site-updates-v3"],
+  ["naukriexpress-public-site-updates-v4"],
   { revalidate: 120, tags: ["site-updates"] }
 );
 
 export function getPublicSiteUpdates(category?: SiteUpdateCategory): Promise<SiteUpdateItem[]> {
+  if (category === "education") return getEducationDirectory();
   return cachedSiteUpdates(category ?? "all");
 }
 
@@ -255,6 +299,7 @@ const cachedEducationOverrides = unstable_cache(
                 cap_url, official_website_url
          FROM site_updates
          WHERE category = 'education' AND source_id IS NOT NULL
+           AND is_deleted IS NOT TRUE
          ORDER BY id ASC`
       );
       return result.rows.map((row) => ({ ...row, id: Number(row.id) })) as EducationOverride[];
@@ -281,6 +326,7 @@ const cachedDynamicEducationRecords = unstable_cache(
                 created_at
          FROM site_updates
          WHERE category = 'education' AND source_id IS NULL
+           AND is_deleted IS NOT TRUE
          ORDER BY created_at DESC, id DESC`
       );
       return result.rows.map((row) => ({ ...row, id: Number(row.id) })) as SiteUpdateItem[];
