@@ -5680,3 +5680,83 @@ html[data-theme="dark"] .human-sitemap-section-heading p { color: #eaf1ed !impor
 html[data-theme="dark"] .human-sitemap-list a,
 html[data-theme="dark"] .human-sitemap-footer a { color: #b8ddcf !important; }
 
+
+
+/* Gold enrollment-card theme for the seven quick-navigation buttons. */
+.site-quicknav-link {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-color: #d9ad3f;
+  background: linear-gradient(112deg, #e6b431 0%, #f0ca5d 48%, #d9a72f 100%);
+  color: #3d2b08;
+  box-shadow: 0 2px 7px rgb(126 91 19 / 10%);
+}
+.site-quicknav-link::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  right: -48px;
+  width: 132px;
+  height: 132px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: repeating-radial-gradient(
+    circle,
+    transparent 0 24px,
+    rgb(255 255 255 / 22%) 25px 26px,
+    transparent 27px 43px
+  );
+  pointer-events: none;
+}
+.site-quicknav-link > span,
+.site-quicknav-link > svg {
+  position: relative;
+  z-index: 1;
+}
+.site-quicknav-link[data-tone="sage"] .site-quicknav-icon,
+.site-quicknav-link[data-tone="mist"] .site-quicknav-icon,
+.site-quicknav-link[data-tone="sand"] .site-quicknav-icon {
+  color: #765819;
+}
+.site-quicknav-link:hover {
+  transform: translateY(-1px);
+  border-color: #c89926;
+  background: linear-gradient(112deg, #edc14b 0%, #f6d878 48%, #e2b23d 100%);
+  color: #322304;
+  box-shadow: 0 4px 10px rgb(126 91 19 / 16%);
+}
+.site-quicknav-link[data-active="true"] {
+  border-color: #bc8d1e;
+  background: linear-gradient(112deg, #dca928 0%, #edc456 48%, #c99520 100%);
+  color: #302204;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 25%), 0 3px 9px rgb(126 91 19 / 18%);
+}
+.site-quicknav-link[data-active="true"] .site-quicknav-icon {
+  color: #765819;
+}
+.site-quicknav-link:focus-visible {
+  outline-color: rgb(193 145 34 / 55%);
+}
+html[data-theme="dark"] .site-quicknav-link {
+  border-color: #b58a2b;
+  background: linear-gradient(112deg, #8f6b1d 0%, #b58c36 48%, #8e691b 100%);
+  color: #fff8e6;
+}
+html[data-theme="dark"] .site-quicknav-link[data-tone="sage"] .site-quicknav-icon,
+html[data-theme="dark"] .site-quicknav-link[data-tone="mist"] .site-quicknav-icon,
+html[data-theme="dark"] .site-quicknav-link[data-tone="sand"] .site-quicknav-icon,
+html[data-theme="dark"] .site-quicknav-link[data-active="true"] .site-quicknav-icon {
+  color: #fff1c7;
+}
+html[data-theme="dark"] .site-quicknav-link:hover {
+  border-color: #d6b45e;
+  background: linear-gradient(112deg, #a78026 0%, #c49a43 48%, #a17a22 100%);
+  color: #ffffff;
+}
+html[data-theme="dark"] .site-quicknav-link[data-active="true"] {
+  border-color: #e0bd65;
+  background: linear-gradient(112deg, #a47b21 0%, #c69d43 48%, #9e761f 100%);
+  color: #ffffff;
+}
