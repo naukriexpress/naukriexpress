@@ -5760,3 +5760,68 @@ html[data-theme="dark"] .site-quicknav-link[data-active="true"] {
   background: linear-gradient(112deg, #a47b21 0%, #c69d43 48%, #9e761f 100%);
   color: #ffffff;
 }
+
+
+/* Site-wide static mode: disable decorative motion and transitions for a calmer,
+   lighter interface. Core controls and navigation remain fully functional. */
+*, *::before, *::after {
+  animation: none !important;
+  animation-delay: 0s !important;
+  animation-duration: 0s !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+  will-change: auto !important;
+}
+
+/* Larger wordmark; the tagline is removed from the header component. */
+.site-header-brand-title {
+  font-size: 27px !important;
+  font-weight: 900 !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.045em !important;
+}
+
+@media (max-width: 640px) {
+  .site-header-brand-title {
+    font-size: 21px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .site-header-brand-title {
+    font-size: 19px !important;
+  }
+}
+
+/* Deadline is a plain circular number, with no "Days" label or flip effect. */
+.highest-vacancy-countdown {
+  display: grid !important;
+  width: 44px !important;
+  min-width: 44px !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  place-items: center !important;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  box-shadow: 0 1px 3px rgb(16 39 68 / 10%) !important;
+}
+
+@media (min-width: 640px) {
+  .highest-vacancy-countdown {
+    width: 48px !important;
+    min-width: 48px !important;
+    height: 48px !important;
+    min-height: 48px !important;
+  }
+}
+
+.highest-vacancy-countdown-value {
+  border: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
