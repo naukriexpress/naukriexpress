@@ -345,7 +345,7 @@ export async function DELETE(request: Request) {
       );
     }
     const result = await pool.query(
-      "DELETE FROM site_updates WHERE id = $1 RETURNING id",
+      "UPDATE site_updates SET is_deleted = TRUE WHERE id = $1 AND is_deleted IS NOT TRUE RETURNING id",
       [id]
     );
     if (result.rowCount === 0) {
