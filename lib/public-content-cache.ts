@@ -367,7 +367,7 @@ export async function getEducationDirectory(): Promise<SiteUpdateItem[]> {
 
     return {
       id: override?.id ?? index + 1,
-      category: "education",
+      category: "education" as const,
       title: exam.name,
       organization: exam.conducting_authority || null,
       description: description || null,
