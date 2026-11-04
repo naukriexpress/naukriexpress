@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { JobPosting } from "@/lib/types";
 import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
 import { hasPendingVacancyDetails } from "@/lib/jobMarkers";
+import HeroSearch from "./HeroSearch";
 
 const CARD_TONES = ["blue"] as const;
 
@@ -150,7 +151,7 @@ export default function HighestVacancyJobs({
   return (
     <section className="min-w-0" aria-labelledby="highest-vacancy-heading">
       <div className="highest-vacancy-panel rounded-2xl border border-brand-100 bg-brand-50/70 p-3 shadow-card sm:p-3.5">
-        <div className="mb-3 flex items-center justify-between gap-2">
+        <div className="mb-3 flex flex-wrap items-center gap-2">
           <div className="flex min-w-0 items-center gap-3">
             <span
               className="highest-vacancy-icon grid h-9 w-9 shrink-0 place-items-center rounded-full bg-brand-100 text-xl"
@@ -158,21 +159,25 @@ export default function HighestVacancyJobs({
             >
               🏆
             </span>
-            <div className="min-w-0">
-              <h2
-                id="highest-vacancy-heading"
-                className="highest-vacancy-heading font-display text-lg font-black tracking-tight text-ink-900 sm:text-xl"
-              >
-                Highest Vacancy Jobs
-              </h2>
-            </div>
+            <h2
+              id="highest-vacancy-heading"
+              className="highest-vacancy-heading font-display text-lg font-black tracking-tight text-ink-900 sm:text-xl"
+            >
+              Highest Vacancy Jobs
+            </h2>
           </div>
-          <span
-            className="highest-vacancy-count shrink-0 rounded-full bg-white px-3 py-1 text-xs font-bold text-brand-700 shadow-sm"
-            aria-live="polite"
-          >
-            {jobs ? `${topJobs.length} Jobs` : "Loading…"}
-          </span>
+
+          <div className="ml-auto flex w-full min-w-0 items-center gap-2 sm:w-auto sm:flex-1 sm:justify-end">
+            <div className="homepage-search-inline min-w-0 flex-1 sm:max-w-[390px]">
+              <HeroSearch />
+            </div>
+            <span
+              className="highest-vacancy-count shrink-0 rounded-full bg-white px-3 py-1 text-xs font-bold text-brand-700 shadow-sm"
+              aria-live="polite"
+            >
+              {jobs ? `${topJobs.length} Jobs` : "Loading…"}
+            </span>
+          </div>
         </div>
 
         <div className="flex flex-col gap-2" aria-busy={!jobs}>
