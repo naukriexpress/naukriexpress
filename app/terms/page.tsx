@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
 export const metadata: Metadata = {
   title: "Terms & Conditions",
   description: "Review the terms for using NaukriExpress, an independent job information website providing recruitment summaries and links to official sources.",
