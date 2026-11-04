@@ -33,8 +33,7 @@ export default function CompactJobRow({ job }: { job: JobPosting }) {
   const closed = job.status === "expired" || (rawDaysLeft !== null && rawDaysLeft < 0);
   const daysLeft = closed ? null : rawDaysLeft;
   const urgent = daysLeft !== null && daysLeft >= 0 && daysLeft <= 3;
-  const value = closed ? "Closed" : daysLeft === null ? "—" : daysLeft === 0 ? "Today" : String(daysLeft);
-  const unit = closed ? "Applications" : daysLeft === 0 ? "Last Day" : daysLeft === 1 ? "Day" : daysLeft === null ? "Deadline" : "Days";
+  const value = closed || daysLeft === null ? "—" : String(daysLeft);
   const vacancyLabel = vacancies > 0 ? vacancies.toLocaleString("en-IN") + " Posts" : "Vacancy Awaited";
 
   return (
@@ -56,16 +55,13 @@ export default function CompactJobRow({ job }: { job: JobPosting }) {
         {vacancyLabel}
       </span>
       <span
-        className="highest-vacancy-countdown inline-flex h-8 w-[76px] shrink-0 items-center justify-center gap-1 rounded-full border px-1 py-0 sm:h-10 sm:w-[94px] sm:gap-1.5 sm:px-1.5"
+        className="highest-vacancy-countdown !grid !h-11 !w-11 !shrink-0 !place-items-center !rounded-full !p-0 !text-base !font-black sm:!h-12 sm:!w-12"
         data-tone="emerald"
         data-urgent={urgent ? "true" : "false"}
         data-closed={closed ? "true" : "false"}
         aria-label={closed ? "Applications closed" : daysLeft === 0 ? "Last date today" : daysLeft === null ? "Deadline unavailable" : daysLeft + " days remaining"}
       >
-        <span className={`highest-vacancy-countdown-value grid h-[22px] w-[22px] shrink-0 place-items-center rounded-full border border-current text-xs font-black leading-none sm:h-[27px] sm:w-[27px] sm:text-sm ${daysLeft === 0 ? "highest-vacancy-countdown-today h-auto w-auto border-0 px-1 text-[10px] sm:text-xs" : ""}`}>
-          {value}
-        </span>
-        <span className="highest-vacancy-countdown-unit mt-0 text-[9px] sm:text-[11px]">{unit}</span>
+        {value}
       </span>
     </Link>
   );
