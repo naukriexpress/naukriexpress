@@ -41,7 +41,12 @@ export async function GET() {
       );
 
     const payload = {
+      // Keep the four latest rows for the homepage panel and provide the complete
+      // active list for the search field shown directly below those rows.
       admitCards: admitCards.slice(0, 4).map((item) =>
+        toItem(item.id, item.title, `/updates/admit-card/${item.id}`)
+      ),
+      allAdmitCards: admitCards.map((item) =>
         toItem(item.id, item.title, `/updates/admit-card/${item.id}`)
       ),
       results: newestFirst(results).slice(0, 4).map((item) =>
