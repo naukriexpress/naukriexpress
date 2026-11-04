@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description: "Learn how NaukriExpress handles contact messages, browser storage, site visits and Google advertising technologies.",
