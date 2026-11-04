@@ -187,6 +187,13 @@ export default function HighestVacancyApprentice({
                     >
                       {formatVacancies(vacancies)} Posts
                     </span>
+                    <span
+                      className="inline-flex shrink-0 items-center rounded-md border border-ink-900/10 bg-white px-2 py-1 text-[9px] font-bold leading-none text-ink-800 sm:text-[11px]"
+                      aria-label={`Last date ${formatLastDate(job.dates.lastDate)}`}
+                      title={`Last date: ${formatLastDate(job.dates.lastDate)}`}
+                    >
+                      Last: {formatLastDate(job.dates.lastDate)}
+                    </span>
                     <CountdownCircle
                       daysLeft={daysLeft}
                       tone={tone}
