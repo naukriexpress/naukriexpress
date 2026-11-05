@@ -212,7 +212,7 @@ export default async function JobsPage({ searchParams }: { searchParams: SP }) {
               </Link>
             </div>
           ) : (
-            <div className="flex flex-col gap-2" aria-label="Job listings">
+            <div className="grid grid-cols-1 gap-2 md:grid-cols-2" aria-label="Job listings">
               {results.map((job) => (
                 <CompactJobRow key={job.id} job={job} />
               ))}
