@@ -58,7 +58,7 @@ function parseVacancyRows(formData: FormData): VacancyRow[] {
       qualification: qualifications[i]?.trim() || "",
       category: cats[i] || "",
       count: Math.max(0, Number(counts[i]) || 0),
-      applyOnline: applyLinks[i]?.trim() || "",
+      applyOnline: stripChatGptUtmSource(applyLinks[i]) || "",
     } as VacancyRow);
   }
 
