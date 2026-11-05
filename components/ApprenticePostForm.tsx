@@ -4,6 +4,7 @@ import { useState } from "react";
 import { createJobAction } from "@/lib/actions";
 import { JOB_LOCATION_OPTIONS } from "@/lib/locations";
 import RichTextEditor from "@/components/RichTextEditor";
+import { stripChatGptUtmSource } from "@/lib/url-utils";
 
 type Trade = {
   id: number;
@@ -238,6 +239,13 @@ export default function ApprenticePostForm() {
                           event.target.value
                         )
                       }
+                      onBlur={(event) =>
+                        updateTrade(
+                          trade.id,
+                          "applyOnline",
+                          stripChatGptUtmSource(event.currentTarget.value)
+                        )
+                      }
                       className={inputClass}
                       placeholder="https://..."
                     />
@@ -418,6 +426,9 @@ export default function ApprenticePostForm() {
 
       <section className="space-y-4">
         <h3 className="text-lg font-bold">Official Links</h3>
+        <p className="text-xs text-gray-600">
+          The utm_source=chatgpt.com tracking parameter is automatically removed from these links.
+        </p>
 
         <label className="block space-y-1.5">
           <span className="text-sm font-semibold">
@@ -428,6 +439,9 @@ export default function ApprenticePostForm() {
             type="url"
             className={inputClass}
             placeholder="https://example.com/notification.pdf"
+            onBlur={(event) => {
+              event.currentTarget.value = stripChatGptUtmSource(event.currentTarget.value);
+            }}
           />
         </label>
 
@@ -438,6 +452,9 @@ export default function ApprenticePostForm() {
             type="url"
             className={inputClass}
             placeholder="https://example.com"
+            onBlur={(event) => {
+              event.currentTarget.value = stripChatGptUtmSource(event.currentTarget.value);
+            }}
           />
         </label>
 
@@ -450,6 +467,9 @@ export default function ApprenticePostForm() {
             type="url"
             className={inputClass}
             placeholder="https://example.com/apply"
+            onBlur={(event) => {
+              event.currentTarget.value = stripChatGptUtmSource(event.currentTarget.value);
+            }}
           />
         </label>
       </section>
@@ -464,30 +484,6 @@ export default function ApprenticePostForm() {
           label="Eligibility Details"
           placeholder="Example: Age Limit | 18–25 years (one Label | Value item per line)"
         />
-      </section>
-
-      <section className="space-y-4">
-        <h3 className="text-lg font-bold">Additional Information</h3>
-
-        <label className="block space-y-1.5">
-          <span className="text-sm font-semibold">Selection Process</span>
-          <textarea
-            name="content_selectionProcess"
-            rows={3}
-            className={inputClass}
-            placeholder="Selection process..."
-          />
-        </label>
-
-        <label className="block space-y-1.5">
-          <span className="text-sm font-semibold">How to Apply</span>
-          <textarea
-            name="content_howToApply"
-            rows={3}
-            className={inputClass}
-            placeholder="Application steps..."
-          />
-        </label>
       </section>
 
       <section className="space-y-3">
