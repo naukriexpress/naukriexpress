@@ -16,15 +16,9 @@ function vacancyCount(job: JobPosting): number {
   return Math.max(Math.max(0, Number(job.totalVacancies) || 0), rowTotal);
 }
 
-function jobIcon(job: JobPosting): string {
-  const name = (job.title + " " + job.organization).toLowerCase();
-  if (/railway|\brrb\b|train|locomotive/.test(name)) return "🚆";
-  if (/police|crpf|army|defence|defense|itbp|assam rifles|coast guard/.test(name)) return "🛡️";
-  if (/bank|nicl|lic\b|insurance/.test(name)) return "🏦";
-  if (/apprentice|apprenticeship|trainee/.test(name)) return "🎓";
-  if (/hospital|health|aiims|medical/.test(name)) return "🏥";
-  if (/teacher|teaching|school|university|college/.test(name)) return "🎓";
-  return "🏛️";
+function formatLastDate(value: string): string {
+  const [year, month, day] = value.slice(0, 10).split("-");
+  return year && month && day ? day + "/" + month + "/" + year.slice(-2) : "—";
 }
 
 export default function CompactJobRow({ job }: { job: JobPosting }) {
@@ -45,8 +39,15 @@ export default function CompactJobRow({ job }: { job: JobPosting }) {
       className="highest-vacancy-card compact-job-row group flex min-h-[58px] h-auto w-full min-w-0 items-center gap-2 rounded-xl border px-2.5 py-2 transition-all duration-200 focus-visible:outline-offset-4 sm:gap-3 sm:px-3"
       data-tone="emerald"
     >
-      <span className="highest-vacancy-job-icon grid h-9 w-9 shrink-0 place-items-center rounded-full text-xl" data-tone="emerald" aria-hidden="true">
-        {jobIcon(job)}
+      <span
+        className="highest-vacancy-countdown !grid !h-9 !w-9 !shrink-0 !place-items-center !rounded-full !p-0 !text-sm !font-black sm:!h-10 sm:!w-10"
+        data-tone="emerald"
+        data-urgent={urgent ? "true" : "false"}
+        data-closed={closed ? "true" : "false"}
+        aria-label={closed ? "Applications closed" : daysLeft === 0 ? "Last date today" : daysLeft === null ? "Deadline unavailable" : daysLeft + " days remaining"}
+        title={job.dates.lastDate ? "Last date: " + formatLastDate(job.dates.lastDate) : "Last date not specified"}
+      >
+        {value}
       </span>
       <span className="highest-vacancy-job-title min-w-0 flex-1 whitespace-normal break-words text-[13px] font-extrabold leading-snug sm:text-[15px]">
         {job.title}
@@ -55,13 +56,11 @@ export default function CompactJobRow({ job }: { job: JobPosting }) {
         {vacancyLabel}
       </span>
       <span
-        className="highest-vacancy-countdown !grid !h-11 !w-11 !shrink-0 !place-items-center !rounded-full !p-0 !text-base !font-black sm:!h-12 sm:!w-12"
-        data-tone="emerald"
-        data-urgent={urgent ? "true" : "false"}
-        data-closed={closed ? "true" : "false"}
-        aria-label={closed ? "Applications closed" : daysLeft === 0 ? "Last date today" : daysLeft === null ? "Deadline unavailable" : daysLeft + " days remaining"}
+        className="inline-flex shrink-0 items-center rounded-md border border-ink-900/10 bg-white px-2 py-1 text-[9px] font-bold leading-none text-ink-800 sm:text-[11px]"
+        aria-label={"Last date " + formatLastDate(job.dates.lastDate)}
+        title={"Last date: " + formatLastDate(job.dates.lastDate)}
       >
-        {value}
+        {formatLastDate(job.dates.lastDate)}
       </span>
     </Link>
   );
