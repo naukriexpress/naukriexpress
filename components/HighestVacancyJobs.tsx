@@ -173,7 +173,7 @@ export default function HighestVacancyJobs({
                     key={job.id}
                     href={`/jobs/${job.slug}`}
                     aria-label={`View details for ${job.title}; ${formatVacancies(vacancies)} vacancies; last date ${formatLastDate(job.dates.lastDate)}; ${countdown.accessible}`}
-                    title={`View details for ${job.title} — ${formatVacancies(vacancies)} Posts — Last date: ${formatLastDate(job.dates.lastDate)}`}
+                    title={`View details for ${job.title} — ${formatVacancies(vacancies)} vacancies — Last date: ${formatLastDate(job.dates.lastDate)}`}
                     className="highest-vacancy-card group flex min-h-[58px] h-auto w-full min-w-0 items-center !gap-1.5 rounded-xl border !px-2 !py-2 transition-all duration-200 focus-visible:outline-offset-4 sm:!gap-2 sm:!px-3"
                     data-tone={tone}
                   >
@@ -185,9 +185,18 @@ export default function HighestVacancyJobs({
                         compact
                       />
                     </span>
-                    <span className="hidden sm:grid !h-9 !w-9 shrink-0 place-items-center rounded-full text-xl" data-tone={tone} aria-hidden="true">
-                      {getJobIcon(job)}
-                    </span>
+                    <span className="hidden sm:grid lg:hidden !h-9 !w-9 shrink-0 place-items-center rounded-full text-xl" data-tone={tone} aria-hidden="true">
+  {getJobIcon(job)}
+</span>
+<span className="hidden lg:grid !h-9 !w-9 shrink-0 place-items-center rounded-full text-xl" data-tone={tone} aria-hidden="true">
+  {getJobIcon(job)}
+</span>
+<span className="hidden lg:inline-flex shrink-0 items-center gap-2">
+  <CountdownCircle daysLeft={daysLeft} tone={tone} lastDate={job.dates.lastDate} />
+  <span className="inline-flex items-center rounded-md border border-ink-900/10 bg-white px-2 py-1 text-[10px] font-bold leading-none text-ink-800">
+    {formatLastDate(job.dates.lastDate)}
+  </span>
+</span>
                     <span className={`min-w-0 flex-1 highest-vacancy-job-title whitespace-normal break-words text-[15px] font-extrabold leading-snug ${daysLeft === 0 ? "text-red-700" : "text-ink-900"}`}>
                       {job.title}
                     </span>
@@ -199,18 +208,18 @@ export default function HighestVacancyJobs({
                         {formatLastDate(job.dates.lastDate)}
                       </span>
                     </span>
-                    <span className="hidden sm:inline-flex shrink-0 items-center">
-                      <span
-                        className="highest-vacancy-post-badge highest-vacancy-row-post inline-flex shrink-0 items-center rounded-full !px-2 !py-1 !text-[10px] font-extrabold sm:!text-xs"
-                        data-tone={tone}
-                      >
-                        {formatVacancies(vacancies)} Posts
-                      </span>
-                    </span>
-                    <span className="hidden sm:inline-flex shrink-0 items-center rounded-md border border-ink-900/10 bg-white px-2 py-1 text-[9px] font-bold leading-none text-ink-800 sm:text-[11px]">
+                    <span className="hidden sm:inline-flex lg:hidden shrink-0 items-center">
+  <span className="highest-vacancy-post-badge highest-vacancy-row-post inline-flex shrink-0 items-center rounded-full !px-2 !py-1 !text-[10px] font-extrabold sm:!text-xs" data-tone={tone}>
+    {formatVacancies(vacancies)} Posts
+  </span>
+</span>
+<span className="highest-vacancy-post-badge highest-vacancy-row-post hidden lg:inline-flex shrink-0 items-center rounded-full !px-2.5 !py-1.5 !text-xs font-extrabold" data-tone={tone} aria-label={formatVacancies(vacancies) + " vacancies"}>
+  {formatVacancies(vacancies)}
+</span>
+                    <span className="hidden sm:inline-flex lg:hidden shrink-0 items-center rounded-md border border-ink-900/10 bg-white px-2 py-1 text-[9px] font-bold leading-none text-ink-800 sm:text-[11px]">
                       {formatLastDate(job.dates.lastDate)}
                     </span>
-                    <span className="hidden sm:inline-flex">
+                    <span className="hidden sm:inline-flex lg:hidden">
                       <CountdownCircle
                         daysLeft={daysLeft}
                         tone={tone}
