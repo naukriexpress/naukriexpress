@@ -41,31 +41,31 @@ export async function GET() {
       );
 
     const payload = {
-      // Keep the four latest rows for the homepage panel and provide the complete
-      // active list for the search field shown directly below those rows.
-      admitCards: admitCards.slice(0, 4).map((item) =>
+      // Return up to seven rows per homepage panel. The complete Admit Card list
+      // remains available for the sidebar search field.
+      admitCards: admitCards.slice(0, 7).map((item) =>
         toItem(item.id, item.title, `/updates/admit-card/${item.id}`)
       ),
       allAdmitCards: admitCards.map((item) =>
         toItem(item.id, item.title, `/updates/admit-card/${item.id}`)
       ),
-      results: newestFirst(results).slice(0, 4).map((item) =>
+      results: newestFirst(results).slice(0, 7).map((item) =>
         toItem(item.id, item.title, `/updates/results/${item.id}`)
       ),
-      syllabus: newestFirst(syllabus).slice(0, 4).map((item) =>
+      syllabus: newestFirst(syllabus).slice(0, 7).map((item) =>
         toItem(item.id, item.title, `/updates/syllabus/${item.id}`)
       ),
-      education: upcomingEducation.slice(0, 4).map((item) =>
+      education: upcomingEducation.slice(0, 7).map((item) =>
         toItem(
           item.id,
           item.title,
           `/updates/education/${item.id}`
         )
       ),
-      answerKey: newestFirst(answerKey).slice(0, 4).map((item) =>
+      answerKey: newestFirst(answerKey).slice(0, 7).map((item) =>
         toItem(item.id, item.title, `/updates/answer-key/${item.id}`)
       ),
-      scholarship: newestFirst(scholarship).slice(0, 4).map((item) =>
+      scholarship: newestFirst(scholarship).slice(0, 7).map((item) =>
         toItem(item.id, item.title, `/updates/scholarship/${item.id}`)
       ),
     };

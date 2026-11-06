@@ -159,16 +159,13 @@ export default function HomepageQuickUpdates() {
                   </div>
                 ))
               ) : visibleItems.length > 0 ? (
-                (group.key === "admitCards" && !normalizedAdmitCardSearch
-                  ? visibleItems.slice(0, 4)
-                  : visibleItems
-                ).map((item) => (
+                visibleItems.map((item, index) => (
                   <a
                     key={item.id}
                     href={item.href}
                     target={isExternal(item.href) ? "_blank" : undefined}
                     rel={isExternal(item.href) ? "noopener noreferrer" : undefined}
-                    className="homepage-quick-row group flex min-w-0 items-start gap-2 px-3 py-2 text-[12px] font-semibold leading-snug transition-colors sm:text-[13px]"
+                    className={`homepage-quick-row group flex min-w-0 items-start gap-2 px-3 py-2 text-[12px] font-semibold leading-snug transition-colors sm:text-[13px] ${index >= 4 && !(group.key === "admitCards" && normalizedAdmitCardSearch) ? "hidden lg:flex" : ""}`}
                   >
                     <span className="mt-0.5 shrink-0 font-black text-brand-700" aria-hidden="true">»</span>
                     <span className="min-w-0 flex-1 whitespace-normal break-words">{item.title}</span>
