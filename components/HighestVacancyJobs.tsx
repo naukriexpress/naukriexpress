@@ -191,11 +191,11 @@ export default function HighestVacancyJobs({
                     <span className={`min-w-0 flex-1 highest-vacancy-job-title whitespace-normal break-words text-[15px] font-extrabold leading-snug ${daysLeft === 0 ? "text-red-700" : "text-ink-900"}`}>
                       {job.title}
                     </span>
-                    <span className="ml-auto flex shrink-0 flex-col items-end justify-center gap-0.5 sm:hidden">
-                      <span className={`text-xs font-black ${daysLeft === 0 ? "text-red-700" : "text-ink-900"}`}>
-                        {formatVacancies(vacancies)} Posts
+                    <span className="ml-auto flex shrink-0 flex-col items-end justify-center gap-1 sm:hidden">
+                      <span className={`highest-vacancy-post-badge inline-flex items-center rounded-full px-2 py-1 text-[10px] font-extrabold ${daysLeft === 0 ? "text-red-700" : ""}`} data-tone={tone}>
+                        {formatVacancies(vacancies)}
                       </span>
-                      <span className={`text-xs font-black ${daysLeft === 0 ? "text-red-700" : "text-ink-700"}`}>
+                      <span className={`inline-flex items-center rounded-md border px-2 py-1 text-[10px] font-bold leading-none ${daysLeft === 0 ? "border-red-300 bg-red-50 text-red-700" : "border-ink-900/10 bg-white text-ink-800"}`}>
                         {formatLastDate(job.dates.lastDate)}
                       </span>
                     </span>
