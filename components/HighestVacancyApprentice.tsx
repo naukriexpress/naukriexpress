@@ -119,11 +119,7 @@ export default function HighestVacancyApprentice({
         // Keep the item visible through its published last date; hide it from the next day.
         return vacancies > 0 && daysLeft !== null && daysLeft >= 0;
       })
-      .sort((a, b) => {
-        const vacancyDifference = getVerifiedVacancyCount(b) - getVerifiedVacancyCount(a);
-        if (vacancyDifference !== 0) return vacancyDifference;
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-      })
+      // Preserve the API/admin sequence. Do not reorder by vacancy count here.
 ;
   }, [jobs, today]);
 
