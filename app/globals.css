@@ -5829,3 +5829,10 @@ html[data-theme="dark"] .site-quicknav-link[data-active="true"] {
   border-radius: 0 !important;
 }
 
+
+/* Home highest-vacancy job titles: increase only on desktop screens. */
+@media (min-width: 1024px) {
+  .highest-vacancy-job-title {
+    font-size: 21px !important;
+  }
+}
