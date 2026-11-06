@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { JobPosting } from "@/lib/types";
-import HighestVacancyJobs from "./HighestVacancyJobs";
-import HighestVacancyApprentice from "./HighestVacancyApprentice";
+import HomeLatestJobs from "./HomeLatestJobs";
 import HomepageQuickUpdates from "./HomepageQuickUpdates";
 
 // Both vacancy highlights and Latest Job Updates reuse one cached homepage request.
@@ -72,9 +71,8 @@ export default function HighestVacancySections() {
     <>
       <div className="container-page mt-6 sm:mt-8">
         <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)]">
-          <div className="min-w-0 space-y-4">
-            <HighestVacancyJobs jobs={jobs} loadFailed={loadFailed} />
-            <HighestVacancyApprentice jobs={jobs} loadFailed={loadFailed} />
+          <div className="min-w-0">
+            <HomeLatestJobs sourceJobs={jobs} loadFailed={loadFailed} />
           </div>
           <HomepageQuickUpdates />
         </div>
