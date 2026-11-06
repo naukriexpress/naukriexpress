@@ -2,6 +2,7 @@
 
 import CompactJobRow from "@/components/CompactJobRow";
 import type { JobPosting } from "@/lib/types";
+import HeroSearch from "./HeroSearch";
 
 /**
  * Keep the Latest Job Updates heading as a section marker on the homepage.
@@ -19,16 +20,21 @@ export default function HomeLatestJobs(_props: {
       className="container-page mt-6 scroll-mt-24 sm:mt-8"
       aria-labelledby="latest-job-updates-heading"
     >
-      <div className="mb-4 flex items-center justify-between gap-3">
-        <h2
-          id="latest-job-updates-heading"
-          className="font-display text-xl font-bold text-ink-900 sm:text-2xl"
-        >
-          Latest Job Updates
-        </h2>
-        <span className="shrink-0 rounded-full bg-brand-50 px-3 py-1 text-xs font-bold text-brand-700">
-          {jobs ? `${jobs.length} Jobs` : "Loading…"}
-        </span>
+      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex min-w-0 items-center justify-between gap-3">
+          <h2
+            id="latest-job-updates-heading"
+            className="font-display text-xl font-bold text-ink-900 sm:text-2xl"
+          >
+            Latest Job Updates
+          </h2>
+          <span className="shrink-0 rounded-full bg-brand-50 px-3 py-1 text-xs font-bold text-brand-700">
+            {jobs ? `${jobs.length} Jobs` : "Loading…"}
+          </span>
+        </div>
+        <div className="w-full sm:max-w-[390px]">
+          <HeroSearch />
+        </div>
       </div>
 
       {jobs === null ? (
