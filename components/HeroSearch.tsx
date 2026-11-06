@@ -118,17 +118,29 @@ export default function HeroSearch() {
                   className={`block border-b border-ink-900/10 px-3 py-2.5 last:border-b-0 hover:bg-brand-50 ${today ? "bg-red-50/40" : ""}`}
                 >
                   <div className="flex items-center gap-2">
-                    <span className={`highest-vacancy-countdown !grid !h-8 !w-8 !shrink-0 !text-[10px] ${today ? "text-red-700" : ""}`}>
+                    <span
+                      className={`highest-vacancy-countdown !grid !h-9 !w-9 !shrink-0 !text-sm ${today ? "text-red-700" : ""}`}
+                      data-tone="emerald"
+                      data-urgent={today ? "true" : "false"}
+                      aria-label={daysLeft === null || daysLeft < 0 ? "Deadline unavailable" : today ? "Last date today" : `${daysLeft} days remaining`}
+                    >
                       {daysLeft === null || daysLeft < 0 ? "—" : daysLeft}
                     </span>
-                    <div className={`min-w-0 flex-1 font-extrabold text-sm leading-snug ${today ? "text-red-700" : "text-ink-900"}`}>
+
+                    <div className={`highest-vacancy-job-title min-w-0 flex-1 whitespace-normal break-words text-[13px] font-extrabold leading-snug sm:text-[15px] ${today ? "text-red-700" : "text-ink-900"`}>
                       {job.title}
                     </div>
-                    <div className="ml-auto flex shrink-0 flex-col items-end justify-center gap-0.5">
-                      <span className={`text-[10px] font-black ${today ? "text-red-700" : "text-ink-900"}`}>
-                        {vacancies > 0 ? vacancies.toLocaleString("en-IN") + " Posts" : "Vacancy Awaited"}
+
+                    <div className="ml-auto flex shrink-0 flex-col items-end justify-center gap-1">
+                      <span
+                        className={`highest-vacancy-post-badge inline-flex items-center rounded-full px-2 py-1 text-[10px] font-extrabold ${today ? "text-red-700" : ""}`}
+                        data-tone="emerald"
+                      >
+                        {vacancies > 0 ? vacancies.toLocaleString("en-IN") : "Vacancy Awaited"}
                       </span>
-                      <span className={`text-[10px] font-black ${today ? "text-red-700" : "text-ink-700"}`}>
+                      <span
+                        className={`inline-flex items-center rounded-md border px-2 py-1 text-[10px] font-bold leading-none ${today ? "border-red-300 bg-red-50 text-red-700" : "border-ink-900/10 bg-white text-ink-800"`}
+                      >
                         {formatLastDate(job.dates.lastDate)}
                       </span>
                     </div>
