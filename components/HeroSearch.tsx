@@ -139,7 +139,7 @@ export default function HeroSearch() {
                         {vacancies > 0 ? vacancies.toLocaleString("en-IN") : "Vacancy Awaited"}
                       </span>
                       <span
-                        className={`inline-flex items-center rounded-md border px-2 py-1 text-[10px] font-bold leading-none ${today ? "border-red-300 bg-red-50 text-red-700" : "border-ink-900/10 bg-white text-ink-800"`}
+                        className={`inline-flex items-center rounded-md border px-2 py-1 text-[10px] font-bold leading-none ${today ? "border-red-300 bg-red-50 text-red-700" : "border-ink-900/10 bg-white text-ink-800"}`}
                       >
                         {formatLastDate(job.dates.lastDate)}
                       </span>
