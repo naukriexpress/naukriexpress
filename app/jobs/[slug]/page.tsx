@@ -410,7 +410,7 @@ export default async function JobDetailsPage({
 
           {/* Post-wise Vacancy Details and Apply Online Links */}
           <section className={`${cardFont.className} job-detail-panel mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7`}>
-            <h2 className="job-section-heading mb-4 font-display text-lg lg:text-[1.6875rem] font-extrabold tracking-tight text-ink-900">
+            <h2 className="job-section-heading mb-4 font-display text-lg font-extrabold tracking-tight text-ink-900">
               Post-wise Vacancy Details
             </h2>
 
@@ -470,7 +470,7 @@ export default async function JobDetailsPage({
 
                       <div role="cell" className="min-w-0">
                         <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.13em] text-sky-700 lg:hidden">Post</p>
-                        <span className="vacancy-post-badge inline-flex max-w-full whitespace-normal break-words rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-sm lg:text-[1.3125rem] font-extrabold leading-relaxed text-emerald-800">
+                        <span className="vacancy-post-badge inline-flex max-w-full whitespace-normal break-words rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-sm font-extrabold leading-relaxed text-emerald-800">
                           {row.post}
                         </span>
                       </div>
@@ -520,7 +520,7 @@ export default async function JobDetailsPage({
 
           {/* Important Dates and Fee */}
           <section className={`${cardFont.className} job-detail-panel mt-5 rounded-xl2 border border-slate-200 bg-white p-5 shadow-card sm:p-7`}>
-            <h2 className="job-section-heading job-dates-fee-heading mb-4 font-display text-lg lg:text-[1.6875rem] font-extrabold tracking-tight text-ink-900">
+            <h2 className="job-section-heading job-dates-fee-heading mb-4 font-display text-lg font-extrabold tracking-tight text-ink-900">
               Important Dates &amp; Fee
             </h2>
 
@@ -581,7 +581,7 @@ export default async function JobDetailsPage({
 
           {/* Eligibility */}
           <section className={`${cardFont.className} job-detail-panel mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7`}>
-            <h2 className="job-section-heading job-eligibility-heading mb-4 font-display text-lg lg:text-[1.6875rem] font-extrabold tracking-tight text-ink-900">
+            <h2 className="job-section-heading job-eligibility-heading mb-4 font-display text-lg font-extrabold tracking-tight text-ink-900">
               Eligibility
             </h2>
 
@@ -635,7 +635,7 @@ export default async function JobDetailsPage({
 
           {job.content.eligibility && (
             <section className={`${cardFont.className} job-detail-panel mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7`}>
-              <h2 className="job-section-heading mb-4 font-display text-lg lg:text-[1.6875rem] font-extrabold tracking-tight text-ink-900">
+              <h2 className="job-section-heading mb-4 font-display text-lg font-extrabold tracking-tight text-ink-900">
                 Eligibility Details
               </h2>
 
