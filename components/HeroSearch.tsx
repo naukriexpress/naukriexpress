@@ -127,7 +127,7 @@ export default function HeroSearch() {
                       {daysLeft === null || daysLeft < 0 ? "—" : daysLeft}
                     </span>
 
-                    <div className={`highest-vacancy-job-title min-w-0 flex-1 whitespace-normal break-words text-[13px] font-extrabold leading-snug sm:text-[15px] ${today ? "text-red-700" : "text-ink-900"`}>
+                    <div className={`highest-vacancy-job-title min-w-0 flex-1 whitespace-normal break-words text-[13px] font-extrabold leading-snug sm:text-[15px] ${today ? "text-red-700" : "text-ink-900"}>
                       {job.title}
                     </div>
 
