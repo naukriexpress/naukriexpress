@@ -6,8 +6,8 @@ export default function Footer() {
       <div className="container-page grid grid-cols-2 gap-8 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div className="col-span-2 lg:col-span-1">
           <div className="flex items-center gap-2.5 mb-3">
-            <span className="grid h-9 w-9 place-items-center rounded-lg bg-saffron-500 font-display text-sm font-bold text-white">
-              NX
+            <span className="grid h-9 w-9 place-items-center rounded-lg bg-saffron-500 font-display text-lg font-bold text-white">
+              BGi
             </span>
             <span className="font-display text-lg font-bold">NaukriExpress</span>
           </div>
