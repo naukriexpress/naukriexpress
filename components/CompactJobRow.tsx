@@ -30,6 +30,11 @@ export default function CompactJobRow({ job }: { job: JobPosting }) {
   const value = closed || daysLeft === null ? "—" : String(daysLeft);
   const vacancyLabel = vacancies > 0 ? vacancies.toLocaleString("en-IN") + " Posts" : "Vacancy Awaited";
 
+  const lastDateClass = daysLeft === 0
+    ? "border-red-300 bg-red-50 text-red-700"
+    : "border-ink-900/10 bg-white text-ink-800";
+  const titleClass = daysLeft === 0 ? "text-red-700" : "text-ink-900";
+
   return (
     <Link
       href={`/jobs/${job.slug}`}
@@ -49,18 +54,49 @@ export default function CompactJobRow({ job }: { job: JobPosting }) {
       >
         {value}
       </span>
-      <span className="highest-vacancy-job-title min-w-0 flex-1 whitespace-normal break-words text-[13px] font-extrabold leading-snug sm:text-[15px]">
+
+      <span className={`highest-vacancy-job-title min-w-0 flex-1 whitespace-normal break-words text-[13px] font-extrabold leading-snug sm:text-[15px] ${titleClass}`}>
         {job.title}
       </span>
+
       <span className="highest-vacancy-post-badge highest-vacancy-row-post inline-flex shrink-0 items-center rounded-full px-2 py-1 text-[10px] font-extrabold sm:text-xs" data-tone="emerald">
         {vacancyLabel}
       </span>
+
       <span
-        className="inline-flex shrink-0 items-center rounded-md border border-ink-900/10 bg-white px-2 py-1 text-[9px] font-bold leading-none text-ink-800 sm:text-[11px]"
+        className={`inline-flex shrink-0 items-center rounded-md border px-2 py-1 text-[9px] font-bold leading-none sm:text-[11px] ${lastDateClass}`}
         aria-label={"Last date " + formatLastDate(job.dates.lastDate)}
         title={"Last date: " + formatLastDate(job.dates.lastDate)}
       >
         {formatLastDate(job.dates.lastDate)}
+      </span>
+
+      <span className="highest-vacancy-countdown !hidden sm:!grid !h-10 !w-10 !shrink-0 !place-items-center !rounded-full !p-0 !text-sm !font-black"
+        data-tone="emerald"
+        data-urgent={urgent ? "true" : "false"}
+        data-closed={closed ? "true" : "false"}
+        aria-label={closed ? "Applications closed" : daysLeft === 0 ? "Last date today" : daysLeft === null ? "Deadline unavailable" : daysLeft + " days remaining"}
+      >
+        {value}
+      </span>
+
+      <span className="sm:hidden mt-1 w-full basis-full flex items-center justify-between gap-2">
+        <span className="flex min-w-0 flex-col">
+          <span className="text-[10px] font-bold text-ink-700/70">Posts</span>
+          <span className="text-xs font-black text-ink-900">{vacancyLabel}</span>
+        </span>
+        <span className={`flex min-w-0 flex-col ${daysLeft === 0 ? "text-red-700" : "text-ink-700"}`}>
+          <span className="text-[10px] font-bold">Last Date</span>
+          <span className="text-xs font-black">{formatLastDate(job.dates.lastDate)}</span>
+        </span>
+        <span className={`highest-vacancy-countdown !grid !h-10 !w-10 !shrink-0 !text-sm ${daysLeft === 0 ? "text-red-700" : ""}`}
+          data-tone="emerald"
+          data-urgent={urgent ? "true" : "false"}
+          data-closed={closed ? "true" : "false"}
+          aria-label={closed ? "Applications closed" : daysLeft === 0 ? "Last date today" : daysLeft === null ? "Deadline unavailable" : daysLeft + " days remaining"}
+        >
+          {value}
+        </span>
       </span>
     </Link>
   );
