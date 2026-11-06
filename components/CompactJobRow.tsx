@@ -41,30 +41,19 @@ export default function CompactJobRow({ job }: { job: JobPosting }) {
       prefetch={false}
       aria-label={`View ${job.title}; ${vacancyLabel}; ${closed ? "Applications closed" : daysLeft === 0 ? "Last date today" : daysLeft === null ? "Deadline unavailable" : daysLeft + " days remaining"}`}
       title={`${job.title} — ${vacancyLabel} — Last date: ${job.dates.lastDate || "Not specified"}`}
-      className="highest-vacancy-card compact-job-row group flex min-h-[58px] h-auto w-full min-w-0 items-center gap-2 rounded-xl border px-2.5 py-2 transition-all duration-200 focus-visible:outline-offset-4 sm:gap-3 sm:px-3"
+      className="highest-vacancy-card compact-job-row group flex min-h-[58px] h-auto w-full min-w-0 flex-wrap items-center gap-2 rounded-xl border px-2.5 py-2 transition-all duration-200 focus-visible:outline-offset-4 sm:gap-3 sm:px-3"
       data-tone="emerald"
     >
-      <span
-        className="highest-vacancy-countdown !grid !h-9 !w-9 !shrink-0 !place-items-center !rounded-full !p-0 !text-sm !font-black sm:!h-10 sm:!w-10"
-        data-tone="emerald"
-        data-urgent={urgent ? "true" : "false"}
-        data-closed={closed ? "true" : "false"}
-        aria-label={closed ? "Applications closed" : daysLeft === 0 ? "Last date today" : daysLeft === null ? "Deadline unavailable" : daysLeft + " days remaining"}
-        title={job.dates.lastDate ? "Last date: " + formatLastDate(job.dates.lastDate) : "Last date not specified"}
-      >
-        {value}
-      </span>
-
       <span className={`highest-vacancy-job-title min-w-0 flex-1 whitespace-normal break-words text-[13px] font-extrabold leading-snug sm:text-[15px] ${titleClass}`}>
         {job.title}
       </span>
 
-      <span className="highest-vacancy-post-badge highest-vacancy-row-post inline-flex shrink-0 items-center rounded-full px-2 py-1 text-[10px] font-extrabold sm:text-xs" data-tone="emerald">
+      <span className="highest-vacancy-post-badge highest-vacancy-row-post hidden sm:inline-flex shrink-0 items-center rounded-full px-2 py-1 text-[10px] font-extrabold sm:text-xs" data-tone="emerald">
         {vacancyLabel}
       </span>
 
       <span
-        className={`inline-flex shrink-0 items-center rounded-md border px-2 py-1 text-[9px] font-bold leading-none sm:text-[11px] ${lastDateClass}`}
+        className={`hidden sm:inline-flex shrink-0 items-center rounded-md border px-2 py-1 text-[9px] font-bold leading-none sm:text-[11px] ${lastDateClass}`}
         aria-label={"Last date " + formatLastDate(job.dates.lastDate)}
         title={"Last date: " + formatLastDate(job.dates.lastDate)}
       >
