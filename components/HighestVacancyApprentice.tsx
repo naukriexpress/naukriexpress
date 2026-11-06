@@ -169,30 +169,26 @@ export default function HighestVacancyApprentice({
                     className="highest-vacancy-card group flex min-h-[58px] h-auto w-full min-w-0 items-center !gap-1.5 rounded-xl border !px-2 !py-2 transition-all duration-200 focus-visible:outline-offset-4 sm:!gap-2 sm:!px-3"
                     data-tone={tone}
                   >
+                    <span className="sm:hidden">
+                      <CountdownCircle
+                        daysLeft={daysLeft}
+                        tone={tone}
+                        lastDate={job.dates.lastDate}
+                        compact
+                      />
+                    </span>
                     <span className="hidden sm:grid !h-9 !w-9 shrink-0 place-items-center rounded-full text-xl" data-tone={tone} aria-hidden="true">
                       {getJobIcon(job)}
                     </span>
-                    <span className="min-w-0 flex-1">
-                      <span className={`block highest-vacancy-job-title whitespace-normal break-words text-[15px] font-extrabold leading-snug ${daysLeft === 0 ? "text-red-700" : "text-ink-900"}`}>
-                        {job.title}
+                    <span className={`min-w-0 flex-1 highest-vacancy-job-title whitespace-normal break-words text-[15px] font-extrabold leading-snug ${daysLeft === 0 ? "text-red-700" : "text-ink-900"}`}>
+                      {job.title}
+                    </span>
+                    <span className="ml-auto flex shrink-0 flex-col items-end justify-center gap-0.5 sm:hidden">
+                      <span className={`text-xs font-black ${daysLeft === 0 ? "text-red-700" : "text-ink-900"}`}>
+                        {formatVacancies(vacancies)} Posts
                       </span>
-                      <span className="mt-2 flex items-center justify-between gap-2 sm:hidden">
-                        <span className="flex min-w-0 flex-col">
-                          <span className="text-[9px] font-bold text-ink-700/70">Posts</span>
-                          <span className={`text-xs font-black ${daysLeft === 0 ? "text-red-700" : "text-ink-900"}`}>
-                            {formatVacancies(vacancies)} Posts
-                          </span>
-                        </span>
-                        <span className={`flex min-w-0 flex-col ${daysLeft === 0 ? "text-red-700" : "text-ink-700"}`}>
-                          <span className="text-[9px] font-bold">Last Date</span>
-                          <span className="text-xs font-black">{formatLastDate(job.dates.lastDate)}</span>
-                        </span>
-                        <CountdownCircle
-                          daysLeft={daysLeft}
-                          tone={tone}
-                          lastDate={job.dates.lastDate}
-                          compact
-                        />
+                      <span className={`text-xs font-black ${daysLeft === 0 ? "text-red-700" : "text-ink-700"}`}>
+                        {formatLastDate(job.dates.lastDate)}
                       </span>
                     </span>
                     <span className="hidden sm:inline-flex shrink-0 items-center">
