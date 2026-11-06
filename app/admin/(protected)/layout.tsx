@@ -1,4 +1,9 @@
 import Link from "next/link";
+
+// Admin pages read/write Supabase at request time. Keep the protected area dynamic
+// so Vercel does not prerender database-heavy admin routes during build.
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 import { logoutAction } from "@/lib/actions";
 
 const NAV = [
