@@ -117,19 +117,21 @@ export default function HeroSearch() {
                   onClick={() => setOpen(false)}
                   className={`block border-b border-ink-900/10 px-3 py-2.5 last:border-b-0 hover:bg-brand-50 ${today ? "bg-red-50/40" : ""}`}
                 >
-                  <div className={`font-extrabold text-sm leading-snug ${today ? "text-red-700" : "text-ink-900"}`}>
-                    {job.title}
-                  </div>
-                  <div className="mt-1 flex items-center gap-2 text-[10px] font-bold">
-                    <span className="rounded-full bg-brand-50 px-2 py-1 text-brand-700">
-                      {vacancies > 0 ? vacancies.toLocaleString("en-IN") + " Posts" : "Vacancy Awaited"}
-                    </span>
-                    <span className={today ? "rounded-md bg-red-50 px-2 py-1 text-red-700" : "rounded-md bg-ink-900/5 px-2 py-1 text-ink-700"}>
-                      Last Date: {formatLastDate(job.dates.lastDate)}
-                    </span>
-                    <span className={`highest-vacancy-countdown !grid !h-7 !w-7 !text-[10px] ${today ? "text-red-700" : ""}`}>
+                  <div className="flex items-center gap-2">
+                    <span className={`highest-vacancy-countdown !grid !h-8 !w-8 !shrink-0 !text-[10px] ${today ? "text-red-700" : ""}`}>
                       {daysLeft === null || daysLeft < 0 ? "—" : daysLeft}
                     </span>
+                    <div className={`min-w-0 flex-1 font-extrabold text-sm leading-snug ${today ? "text-red-700" : "text-ink-900"}`}>
+                      {job.title}
+                    </div>
+                    <div className="ml-auto flex shrink-0 flex-col items-end justify-center gap-0.5">
+                      <span className={`text-[10px] font-black ${today ? "text-red-700" : "text-ink-900"}`}>
+                        {vacancies > 0 ? vacancies.toLocaleString("en-IN") + " Posts" : "Vacancy Awaited"}
+                      </span>
+                      <span className={`text-[10px] font-black ${today ? "text-red-700" : "text-ink-700"}`}>
+                        {formatLastDate(job.dates.lastDate)}
+                      </span>
+                    </div>
                   </div>
                 </Link>
               );
