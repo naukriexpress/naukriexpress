@@ -5870,7 +5870,7 @@ html[data-theme="dark"] .site-quicknav-link[data-active="true"] {
   object-fit: contain !important;
   object-position: left center !important;
   image-rendering: -webkit-optimize-contrast;
-  filter: contrast(1.035) saturate(1.02);
+  filter: url(#naukriexpress-transparent-logo) contrast(1.035) saturate(1.02);
   border-radius: 3px;
 }
 @media (max-width: 640px) {
