@@ -5842,7 +5842,7 @@ html[data-theme="dark"] .site-quicknav-link[data-active="true"] {
 
 /* Header main brand area: solid black backdrop behind the logo and controls on all screen sizes. */
 .site-header-main-row {
-  background: #05070b !important;
+  background: #163f36 !important;
   color: #f8fafc !important;
   border-bottom: 1px solid rgb(255 255 255 / 10%);
   max-width: none !important;
@@ -5851,7 +5851,7 @@ html[data-theme="dark"] .site-quicknav-link[data-active="true"] {
 }
 
 html[data-theme="dark"] .site-header-main-row {
-  background: #05070b !important;
+  background: #163f36 !important;
   color: #f8fafc !important;
 }
 
