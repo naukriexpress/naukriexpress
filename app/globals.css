@@ -5908,3 +5908,12 @@ html[data-theme="dark"] .site-header-main-row {
     max-height: 37px !important;
   }
 }
+
+/* Compact header height */
+.site-header-main-row {
+  padding-top: 3px !important;
+  padding-bottom: 3px !important;
+}
+.site-header-main-row .site-header-brand-image {
+  max-height: 62px !important;
+}
