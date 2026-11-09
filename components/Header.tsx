@@ -39,11 +39,11 @@ export default function Header() {
           <span className="site-header-brand-copy flex min-w-0 flex-col leading-tight">
             <span className="site-header-brand-titleline">
               <img
-                className="site-header-brand-image"
+                className="site-header-brand-image block h-auto w-[300px] max-w-[58vw] object-contain sm:w-[420px] lg:w-[520px]"
                 src={NAUKRIEXPRESS_WORDMARK}
                 alt="Naukr!Express.space"
-                width={960}
-                height={167}
+                width={1600}
+                height={320}
                 loading="eager"
                 fetchPriority="high"
               />
