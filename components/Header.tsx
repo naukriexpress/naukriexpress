@@ -10,20 +10,22 @@ export default function Header() {
   return (
     <header className={`site-header-shell sticky top-0 z-40 border-b ${styles.referenceShell}`}>
       <div className="site-header-main-row container-page flex items-center justify-between gap-3">
-        <Link href="/" className="site-header-brand flex min-w-0 shrink items-center">
-          <img
-            className="site-header-brand-image block h-auto object-contain"
-            src={NAUKRIEXPRESS_WORDMARK}
-            alt="Naukr!Express.space"
-            width={1600}
-            height={320}
-            loading="eager"
-            fetchPriority="high"
-          />
-        </Link>
+        <div className="site-header-brand-stack">
+          <Link href="/" className="site-header-brand flex min-w-0 shrink items-center">
+            <img
+              className="site-header-brand-image block h-auto object-contain"
+              src={NAUKRIEXPRESS_WORDMARK}
+              alt="Naukr!Express.space"
+              width={1600}
+              height={320}
+              loading="eager"
+              fetchPriority="high"
+            />
+          </Link>
 
-        <div className="site-header-live-desktop">
-          <HeaderLiveStats />
+          <div className="site-header-live-desktop">
+            <HeaderLiveStats />
+          </div>
         </div>
 
         <div className="site-header-actions flex shrink-0 items-center gap-2">
