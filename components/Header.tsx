@@ -20,12 +20,17 @@ export default function Header() {
       <div className="site-header-main-row container-page flex items-center justify-between gap-3 py-3">
         <Link href="/" className="site-header-brand flex min-w-0 shrink items-center gap-0">
           <span className="site-header-brand-copy flex min-w-0 flex-col leading-tight">
-            <span className="site-header-brand-titleline inline-flex min-w-0 items-center gap-1.5">
-              <span className="site-header-brand-title font-display text-2xl font-extrabold sm:text-3xl" aria-label="NaukriExpress.space">
-                <span className="site-header-brand-word site-header-brand-word--silver">Naukr</span><span className="site-header-brand-inverted-i" aria-hidden="true">¡</span><span className="site-header-brand-word site-header-brand-word--gold">Express</span><span className="site-header-domain-suffix site-header-brand-word--silver">.space</span>
-              </span>
+            <span className="site-header-brand-titleline">
+              <img
+                className="site-header-brand-image"
+                src="/naukriexpress-wordmark.png"
+                alt="Naukr!Express.space"
+                width={600}
+                height={101}
+                loading="eager"
+                fetchPriority="high"
+              />
             </span>
-            <span className="site-header-brand-underline" aria-hidden="true" />
           </span>
         </Link>
 
