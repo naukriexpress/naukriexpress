@@ -3,6 +3,7 @@ import HeaderLiveStats from "./HeaderLiveStats";
 import ThemeToggle from "./ThemeToggle";
 import AnnouncementChatWidget from "./AnnouncementChatWidget";
 import QuickNavigation from "./QuickNavigation";
+import { NAUKRIEXPRESS_WORDMARK } from "./naukriexpressWordmark";
 
 export default function Header() {
   return (
@@ -23,7 +24,7 @@ export default function Header() {
             <span className="site-header-brand-titleline">
               <img
                 className="site-header-brand-image"
-                src="/naukriexpress-wordmark.png"
+                src={NAUKRIEXPRESS_WORDMARK}
                 alt="Naukr!Express.space"
                 width={600}
                 height={101}
