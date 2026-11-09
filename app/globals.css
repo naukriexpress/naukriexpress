@@ -5914,3 +5914,75 @@ html[data-theme="dark"] .site-header-brand-inverted-i {
 @media (prefers-reduced-motion: reduce) {
   .site-header-brand-underline { box-shadow: none; }
 }
+
+
+/* Final compact wordmark alignment: separate the inverted exclamation glyph,
+   remove seasonal/icon clutter, and keep the metallic gold underline attached to the name. */
+.site-header-brand {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  gap: 0 !important;
+}
+.site-header-brand-copy {
+  flex: 0 1 auto !important;
+  width: max-content !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+.site-header-brand-titleline {
+  display: inline-flex !important;
+  width: max-content !important;
+  max-width: 100% !important;
+  align-items: baseline !important;
+  gap: 0 !important;
+}
+.site-header-brand-title {
+  display: inline-flex !important;
+  width: max-content !important;
+  max-width: 100% !important;
+  align-items: baseline !important;
+  white-space: nowrap !important;
+  font-size: clamp(14px, 4.1vw, 27px) !important;
+  font-weight: 900 !important;
+  line-height: 1.08 !important;
+  letter-spacing: -0.035em !important;
+}
+.site-header-brand-inverted-i {
+  display: inline-block !important;
+  flex: 0 0 auto !important;
+  margin-left: .105em !important;
+  margin-right: .14em !important;
+  padding: 0 !important;
+  color: #bd8724 !important;
+  -webkit-text-fill-color: currentColor !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 1.06em !important;
+  font-weight: 900 !important;
+  line-height: .9 !important;
+  letter-spacing: 0 !important;
+  transform: none !important;
+  vertical-align: baseline !important;
+  text-shadow: 0 1px 0 rgb(255 255 255 / 24%);
+}
+.site-header-brand-underline {
+  width: 100% !important;
+  height: 2.5px !important;
+  margin-top: 5px !important;
+  border-radius: 999px !important;
+  background: linear-gradient(90deg, transparent 0%, #a97619 8%, #f4d36e 48%, #bd8a28 90%, transparent 100%) !important;
+}
+.site-header-brand-mark,
+.site-header-brand-titleline > .diwali-kandil {
+  display: none !important;
+}
+html[data-theme="dark"] .site-header-brand-inverted-i {
+  color: #e1b447 !important;
+}
+@media (max-width: 640px) {
+  .site-header-brand-title { font-size: clamp(14px, 4.1vw, 20px) !important; }
+}
+@media (max-width: 380px) {
+  .site-header-brand-title { font-size: 13.5px !important; letter-spacing: -0.04em !important; }
+  .site-header-brand-inverted-i { margin-left: .09em !important; margin-right: .12em !important; }
+  .site-header-brand-underline { height: 2px !important; margin-top: 4px !important; }
+}
