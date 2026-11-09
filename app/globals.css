@@ -5836,3 +5836,81 @@ html[data-theme="dark"] .site-quicknav-link[data-active="true"] {
     font-size: 17.5px !important;
   }
 }
+
+
+/* Metallic gold/silver responsive header wordmark; respects the site's existing theme surfaces. */
+.site-header-brand-title {
+  display: inline-flex !important;
+  align-items: baseline !important;
+  white-space: nowrap !important;
+  font-size: clamp(14.5px, 4.1vw, 27px) !important;
+  font-weight: 900 !important;
+  line-height: 1.08 !important;
+  letter-spacing: -0.045em !important;
+  max-width: 100%;
+}
+.site-header-brand-word--silver {
+  background: linear-gradient(180deg, #66717d 0%, #263440 48%, #77828c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 1px 0 rgb(255 255 255 / 20%);
+}
+.site-header-brand-word--gold {
+  background: linear-gradient(180deg, #ffe9a0 0%, #d8a532 42%, #986514 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 1px 0 rgb(255 255 255 / 18%);
+}
+.site-header-brand-inverted-i {
+  display: inline-block;
+  color: #bf8a23 !important;
+  -webkit-text-fill-color: currentColor;
+  transform: rotate(180deg);
+  transform-origin: 50% 50%;
+  vertical-align: -0.02em;
+  margin-inline: -0.015em;
+  font-weight: 900;
+}
+.site-header-domain-suffix {
+  font-size: .88em !important;
+  font-weight: 850 !important;
+  letter-spacing: -.035em !important;
+}
+.site-header-brand-underline {
+  display: block;
+  width: 100%;
+  height: 2.5px;
+  margin-top: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent 0%, #a97619 8%, #f4d36e 48%, #bd8a28 90%, transparent 100%);
+  box-shadow: 0 1px 4px rgb(183 133 31 / 24%);
+}
+html[data-theme="dark"] .site-header-brand-word--silver {
+  background: linear-gradient(180deg, #ffffff 0%, #d5dce4 48%, #9ca9b7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 1px 0 rgb(0 0 0 / 25%);
+}
+html[data-theme="dark"] .site-header-brand-word--gold {
+  background: linear-gradient(180deg, #fff0b7 0%, #e1b447 44%, #a9791e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent;
+}
+html[data-theme="dark"] .site-header-brand-inverted-i {
+  color: #e1b447 !important;
+}
+@media (max-width: 380px) {
+  .site-header-brand-title { font-size: 14px !important; }
+  .site-header-brand-underline { height: 2px; margin-top: 3px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-header-brand-underline { box-shadow: none; }
+}
