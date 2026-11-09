@@ -4,10 +4,11 @@ import ThemeToggle from "./ThemeToggle";
 import AnnouncementChatWidget from "./AnnouncementChatWidget";
 import QuickNavigation from "./QuickNavigation";
 import { NAUKRIEXPRESS_WORDMARK } from "./naukriexpressWordmark";
+import styles from "./HeaderReference.module.css";
 
 export default function Header() {
   return (
-    <header className="site-header-shell sticky top-0 z-40 border-b">
+    <header className={`site-header-shell sticky top-0 z-40 border-b ${styles.referenceShell}`}>
       <div className="site-header-main-row container-page flex items-center justify-between gap-3">
         <Link href="/" className="site-header-brand flex min-w-0 shrink items-center">
           <img
