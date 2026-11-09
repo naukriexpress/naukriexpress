@@ -1,8 +1,18 @@
 import Link from "next/link";
+import HeaderLiveStats from "./HeaderLiveStats";
 
 export default function Footer() {
   return (
     <footer className="site-footer mt-16 text-white">
+      <div className="site-header-live-strip text-xs text-white sm:text-sm">
+        <div className="container-page flex items-center gap-2 overflow-x-auto whitespace-nowrap py-1.5">
+          <span className="site-header-live-label inline-flex items-center gap-1 font-bold">
+            <span className="site-header-live-dot h-1.5 w-1.5 animate-pulse rounded-full" aria-hidden="true" />
+            LIVE
+          </span>
+          <HeaderLiveStats />
+        </div>
+      </div>
       <div className="container-page grid grid-cols-2 gap-8 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div className="col-span-2 lg:col-span-1">
           <div className="flex items-center gap-2.5 mb-3">
