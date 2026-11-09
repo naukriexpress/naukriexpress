@@ -5840,6 +5840,28 @@ html[data-theme="dark"] .site-quicknav-link[data-active="true"] {
 
 
 
+/* Header main brand area: solid black backdrop behind the logo and controls on all screen sizes. */
+.site-header-main-row {
+  background: #05070b !important;
+  color: #f8fafc !important;
+  border-bottom: 1px solid rgb(255 255 255 / 10%);
+  max-width: none !important;
+  padding-left: max(1rem, calc((100vw - 1280px) / 2 + 1rem)) !important;
+  padding-right: max(1rem, calc((100vw - 1280px) / 2 + 1rem)) !important;
+}
+
+html[data-theme="dark"] .site-header-main-row {
+  background: #05070b !important;
+  color: #f8fafc !important;
+}
+
+@media (max-width: 640px) {
+  .site-header-main-row {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+}
+
 /* Exact 3D logo image supplied as the brand wordmark. It includes its own
    black gradient backdrop, metallic lettering, punctuation and gold underline. */
 .site-header-brand {
