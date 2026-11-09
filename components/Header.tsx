@@ -8,6 +8,22 @@ import { NAUKRIEXPRESS_WORDMARK } from "./naukriexpressWordmark";
 export default function Header() {
   return (
     <header className="site-header-shell sticky top-0 z-40 border-b">
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        width="0"
+        height="0"
+        style={{ position: "absolute" }}
+      >
+        <defs>
+          <filter id="naukriexpress-transparent-logo" colorInterpolationFilters="sRGB">
+            <feColorMatrix
+              type="matrix"
+              values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 1.3 0.3 0.2 0 -0.0784314"
+            />
+          </filter>
+        </defs>
+      </svg>
       <div className="site-header-live-strip text-xs text-white sm:text-sm">
         <div className="container-page flex items-center gap-2 overflow-x-auto whitespace-nowrap py-1.5">
           <span className="site-header-live-label inline-flex items-center gap-1 font-bold">
