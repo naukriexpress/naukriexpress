@@ -24,16 +24,6 @@ export default function Header() {
           </filter>
         </defs>
       </svg>
-      <div className="site-header-live-strip text-xs text-white sm:text-sm">
-        <div className="container-page flex items-center gap-2 overflow-x-auto whitespace-nowrap py-1.5">
-          <span className="site-header-live-label inline-flex items-center gap-1 font-bold">
-            <span className="site-header-live-dot h-1.5 w-1.5 animate-pulse rounded-full" aria-hidden="true" />
-            LIVE
-          </span>
-          <HeaderLiveStats />
-        </div>
-      </div>
-
       <div className="site-header-main-row container-page flex items-center justify-between gap-3 py-3">
         <Link href="/" className="site-header-brand flex min-w-0 shrink items-center gap-0">
           <span className="site-header-brand-copy flex min-w-0 flex-col leading-tight">
