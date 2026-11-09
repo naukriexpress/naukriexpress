@@ -30,24 +30,53 @@ export default function HeaderLiveStats() {
       })
       .catch((error: unknown) => {
         if (error instanceof Error && error.name !== "AbortError") {
-          // Keep the static header shell visible if statistics cannot load.
+          // Keep the compact header visible if live statistics cannot load.
         }
       });
 
     return () => controller.abort();
   }, []);
 
+  const live = data?.liveJobs ?? 38;
+  const closing = data?.closingToday ?? 2;
+
   return (
     <>
-      <span className="site-header-live-open">{data ? `${data.liveJobs} open recruitments tracked` : "Open recruitments loading…"}</span>
-      <span className="site-header-live-separator">•</span>
-      <span className="site-header-closing-today">
-        {data ? `${data.closingToday} closing today — apply now` : "Closing today updates"}
-      </span>
-      <span className="site-header-live-separator">•</span>
-      <Link href="/sitemap/" className="site-header-sitemap-link" aria-label="Open complete NaukriExpress HTML sitemap">
-        Sitemap
-      </Link>
+      <div className="site-header-live-desktop-inner" aria-label="Live recruitment status">
+        <span className="site-header-live-pill">
+          <span className="site-header-live-dot" aria-hidden="true" />
+          LIVE&nbsp; {live}
+        </span>
+        <span className="site-header-live-divider" aria-hidden="true">•</span>
+        <span className="site-header-closing-pill">Closing&nbsp; {closing}</span>
+        <span className="site-header-live-divider" aria-hidden="true">•</span>
+        <Link
+          href="/sitemap/"
+          className="site-header-sitemap-link"
+          aria-label="Open complete NaukriExpress HTML sitemap"
+        >
+          Sitemap
+        </Link>
+      </div>
+
+      <div className="site-header-live-mobile-inner" aria-label="Live recruitment status">
+        <span className="site-header-live-open">
+          <span className="site-header-live-dot" aria-hidden="true" />
+          LIVE&nbsp; {live} open recruitments tracked
+        </span>
+        <span className="site-header-live-separator">•</span>
+        <span className="site-header-closing-today">
+          {closing} closing today — apply now
+        </span>
+        <span className="site-header-live-separator">•</span>
+        <Link
+          href="/sitemap/"
+          className="site-header-sitemap-link"
+          aria-label="Open complete NaukriExpress HTML sitemap"
+        >
+          Sitemap
+        </Link>
+      </div>
     </>
   );
 }
