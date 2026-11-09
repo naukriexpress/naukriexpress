@@ -352,3 +352,18 @@
     font-size: 7px !important;
   }
 }
+
+
+/* Desktop: trim only the green brand/header band to a fine 1px breathing gap. */
+@media (min-width: 1024px) {
+  .referenceShell :global(.site-header-main-row) {
+    min-height: 0 !important;
+    height: auto !important;
+    padding-top: 1px !important;
+    padding-bottom: 1px !important;
+    align-items: center !important;
+  }
+  .referenceShell :global(.site-header-brand-image) {
+    max-height: 68px !important;
+  }
+}
