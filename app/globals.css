@@ -5863,24 +5863,26 @@ html[data-theme="dark"] .site-quicknav-link[data-active="true"] {
 .site-header-brand-image {
   display: block !important;
   flex: 0 1 auto !important;
-  width: clamp(205px, 42vw, 440px) !important;
+  width: clamp(220px, 34vw, 400px) !important;
   max-width: 100% !important;
   height: auto !important;
-  max-height: 74px !important;
+  max-height: 64px !important;
   object-fit: contain !important;
   object-position: left center !important;
+  image-rendering: -webkit-optimize-contrast;
+  filter: contrast(1.035) saturate(1.02);
   border-radius: 3px;
 }
 @media (max-width: 640px) {
   .site-header-main-row { gap: 4px !important; }
   .site-header-brand-image {
-    width: clamp(205px, 43vw, 315px) !important;
-    max-height: 54px !important;
+    width: clamp(190px, 62vw, 250px) !important;
+    max-height: 40px !important;
   }
 }
 @media (max-width: 380px) {
   .site-header-brand-image {
-    width: clamp(195px, 57vw, 230px) !important;
-    max-height: 40px !important;
+    width: clamp(185px, 62vw, 230px) !important;
+    max-height: 37px !important;
   }
 }
