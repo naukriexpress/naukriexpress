@@ -26,8 +26,8 @@ export default function Header() {
                 className="site-header-brand-image"
                 src={NAUKRIEXPRESS_WORDMARK}
                 alt="Naukr!Express.space"
-                width={600}
-                height={101}
+                width={960}
+                height={167}
                 loading="eager"
                 fetchPriority="high"
               />
