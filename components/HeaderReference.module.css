@@ -352,3 +352,72 @@
     font-size: 7px !important;
   }
 }
+
+
+/* Desktop-only layout: move the compact LIVE / Closing / Sitemap line
+   directly below the wordmark underline. Mobile markup/layout stays unchanged. */
+@media (min-width: 1024px) {
+  .referenceShell :global(.site-header-main-row) {
+    grid-template-columns: minmax(300px, 420px) minmax(0, 1fr) !important;
+    align-items: center !important;
+  }
+
+  .referenceShell :global(.site-header-brand-stack) {
+    display: flex !important;
+    flex: 0 1 auto !important;
+    width: min(420px, 100%) !important;
+    min-width: 0 !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+  }
+
+  .referenceShell :global(.site-header-brand) {
+    display: flex !important;
+    width: 100% !important;
+    flex: 0 0 auto !important;
+    align-items: center !important;
+  }
+
+  .referenceShell :global(.site-header-live-desktop) {
+    display: flex !important;
+    width: auto !important;
+    min-width: 0 !important;
+    flex: 0 0 auto !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    margin-top: -1px !important;
+    margin-left: 8px !important;
+  }
+
+  .referenceShell :global(.site-header-live-desktop-inner) {
+    width: max-content !important;
+    max-width: none !important;
+    justify-content: flex-start !important;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .referenceShell :global(.site-header-main-row) {
+    grid-template-columns: minmax(245px, 320px) minmax(0, 1fr) !important;
+  }
+
+  .referenceShell :global(.site-header-brand-stack) {
+    width: min(320px, 100%) !important;
+  }
+
+  .referenceShell :global(.site-header-brand-image) {
+    width: 285px !important;
+    max-height: 58px !important;
+  }
+
+  .referenceShell :global(.site-header-live-desktop) {
+    margin-left: 5px !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  .referenceShell :global(.site-header-brand-stack) {
+    display: contents !important;
+  }
+}
