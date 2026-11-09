@@ -28,6 +28,7 @@ export default function Header() {
               </span>
               <DiwaliKandil />
             </span>
+            <span className="site-header-brand-underline" aria-hidden="true" />
           </span>
         </Link>
 
