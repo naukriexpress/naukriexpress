@@ -1,6 +1,6 @@
 import { cache } from "react";
 import * as local from "./db.local";
-import type { JobFilters, JobPosting } from "./types";
+import type { HomepageJobSummary, JobFilters, JobPosting } from "./types";
 
 // Whenever DATABASE_URL is present (e.g. set in Vercel or .env.local from
 // your Supabase connection string), every function below reads/writes
@@ -34,6 +34,29 @@ export const getJobBySlug = cache(async (slug: string): Promise<JobPosting | und
   if (usePg()) return (await import("./db.pg")).getJobBySlug(slug);
   return local.getJobBySlug(slug);
 });
+
+export async function getHomepageJobSummaries(): Promise<HomepageJobSummary[]> {
+  if (usePg()) return (await import("./db.pg")).getHomepageJobSummaries();
+
+  const today = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Kolkata",
+  }).format(new Date());
+  const jobs = await local.getAllJobsRaw();
+  return jobs
+    .filter((job) => job.status === "published" && job.dates.lastDate >= today)
+    .map((job) => ({
+      id: job.id,
+      slug: job.slug,
+      title: job.title,
+      organization: job.organization,
+      jobType: job.jobType,
+      status: job.status,
+      noticeDetailsPending: job.noticeDetailsPending,
+      totalVacancies: job.totalVacancies,
+      vacancyBreakdown: job.vacancyBreakdown.map((row) => ({ count: row.count })),
+      dates: { lastDate: job.dates.lastDate },
+    }));
+}
 
 export async function incrementViews(id: string): Promise<void> {
   if (usePg()) return (await import("./db.pg")).incrementViews(id);
