@@ -1,6 +1,7 @@
+import { unstable_cache } from "next/cache";
 import { getPool } from "./pgClient";
 import { slugify } from "./db.local";
-import type { JobFilters, JobPosting, VacancyRow } from "./types";
+import type { HomepageJobSummary, JobFilters, JobPosting, VacancyRow } from "./types";
 
 // This file mirrors lib/db.local.ts function-for-function, but reads/writes
 // PostgreSQL (Supabase) instead of a local JSON file. lib/db.ts picks this
@@ -66,6 +67,7 @@ function mapJobRow(row: any, vacancyRows: VacancyRow[]): JobPosting {
     noticeDetailsPending: row.notice_details_pending === true,
     content: {
       eligibility: row.content_eligibility || undefined,
+      additionalDetails: row.content_additional_details || undefined,
     },
     seo: {
       title: row.seo_title || undefined,
@@ -148,6 +150,59 @@ export async function getJobBySlug(slug: string): Promise<JobPosting | undefined
   if (rows.length === 0) return undefined;
   const vacancyMap = await fetchVacancyRowsForJobs([rows[0].id]);
   return mapJobRow(rows[0], vacancyMap.get(rows[0].id) || []);
+}
+
+const cachedHomepageJobSummaries = unstable_cache(
+  async (): Promise<HomepageJobSummary[]> => {
+    const pool = getPool();
+    const resolvedStatus = `
+      CASE
+        WHEN j.status = 'draft' THEN 'draft'
+        WHEN j.status = 'scheduled' AND j.publish_at IS NOT NULL AND j.publish_at > now() THEN 'scheduled'
+        WHEN j.last_date < (now() AT TIME ZONE 'Asia/Kolkata')::date THEN 'expired'
+        ELSE 'published'
+      END
+    `;
+    const { rows } = await pool.query(
+      `SELECT
+         j.id, j.slug, j.title, j.organization, j.job_type,
+         ${resolvedStatus} AS effective_status,
+         j.notice_details_pending, j.total_vacancies, j.last_date,
+         COALESCE(
+           json_agg(json_build_object('count', v.count) ORDER BY v.sort_order)
+             FILTER (WHERE v.id IS NOT NULL),
+           '[]'::json
+         ) AS vacancy_breakdown
+       FROM jobs j
+       LEFT JOIN job_vacancy_rows v ON v.job_id = j.id
+       WHERE ${resolvedStatus} = 'published'
+       GROUP BY j.id
+       ORDER BY j.created_at DESC`
+    );
+
+    return rows.map((row) => ({
+      id: String(row.id),
+      slug: String(row.slug),
+      title: String(row.title),
+      organization: String(row.organization),
+      jobType: row.job_type,
+      status: row.effective_status,
+      noticeDetailsPending: row.notice_details_pending === true,
+      totalVacancies: Number(row.total_vacancies) || 0,
+      vacancyBreakdown: Array.isArray(row.vacancy_breakdown)
+        ? row.vacancy_breakdown.map((item: { count?: number | string }) => ({
+            count: Number(item.count) || 0,
+          }))
+        : [],
+      dates: { lastDate: toIsoDate(row.last_date) },
+    }));
+  },
+  ["naukriexpress-homepage-job-highlights-v1"],
+  { revalidate: 60, tags: ["homepage-job-highlights"] }
+);
+
+export function getHomepageJobSummaries(): Promise<HomepageJobSummary[]> {
+  return cachedHomepageJobSummaries();
 }
 
 export async function incrementViews(id: string): Promise<void> {
@@ -339,7 +394,7 @@ export async function createJob(
       job_type, salary, application_fee,
       start_date, last_date, exam_date,
       apply_online_url, official_notification_url, official_website_url,
-      content_eligibility,
+      content_eligibility, content_additional_details,
       seo_title, seo_meta_description,
       featured, status, publish_at, last_date_extended, notice_details_pending
     ) values (
@@ -349,10 +404,10 @@ export async function createJob(
       $17,$18,$19,
       $20,$21,$22,
       $23,$24,$25,
-      $26,
-      $27,$28,
-      $29,$30,$31,
-      $32,$33
+      $26,$27,
+      $28,$29,
+      $30,$31,$32,
+      $33,$34
     ) returning *, ${RESOLVED_STATUS_SQL} as effective_status`,
     [
       slug, input.title, input.organization, input.department || null, input.advertisementNumber || null, input.logoUrl || null,
@@ -363,6 +418,7 @@ export async function createJob(
       input.dates.startDate || null, input.dates.lastDate, input.dates.examDate || null,
       input.links.applyOnline || null, input.links.officialNotification || null, input.links.officialWebsite || null,
       input.content.eligibility || null,
+      input.content.additionalDetails || null,
       input.seo.title || null, input.seo.metaDescription || null,
       input.featured, input.status, input.publishAt || null,
       input.lastDateExtended === true, input.noticeDetailsPending === true,
@@ -422,11 +478,11 @@ export async function updateJob(
       job_type=$17, salary=$18, application_fee=$19,
       start_date=$20, last_date=$21, exam_date=$22,
       apply_online_url=$23, official_notification_url=$24, official_website_url=$25,
-      content_eligibility=$26,
-      seo_title=$27, seo_meta_description=$28,
-      featured=$29, status=$30, publish_at=$31,
-      last_date_extended=$32, notice_details_pending=$33
-    where id = $34
+      content_eligibility=$26, content_additional_details=$27,
+      seo_title=$28, seo_meta_description=$29,
+      featured=$30, status=$31, publish_at=$32,
+      last_date_extended=$33, notice_details_pending=$34
+    where id = $35
     returning *, ${RESOLVED_STATUS_SQL} as effective_status`,
     [
       slug, merged.title, merged.organization, merged.department || null, merged.advertisementNumber || null, merged.logoUrl || null,
@@ -437,6 +493,7 @@ export async function updateJob(
       merged.dates.startDate || null, merged.dates.lastDate, merged.dates.examDate || null,
       merged.links.applyOnline || null, merged.links.officialNotification || null, merged.links.officialWebsite || null,
       merged.content.eligibility || null,
+      merged.content.additionalDetails || null,
       merged.seo.title || null, merged.seo.metaDescription || null,
       merged.featured, merged.status, merged.publishAt || null,
       merged.lastDateExtended === true, merged.noticeDetailsPending === true,
