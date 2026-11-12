@@ -118,7 +118,7 @@ export function queryJobs(filters: JobFilters): {
   if (filters.q && filters.q.trim()) {
     const q = filters.q.trim().toLowerCase();
     jobs = jobs.filter((j) =>
-      [j.title, j.organization, j.department, j.advertisementNumber]
+      [j.title, j.organization, j.department, j.advertisementNumber, j.jobType]
         .join(" ")
         .toLowerCase()
         .includes(q)

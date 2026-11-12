@@ -238,7 +238,7 @@ export async function queryJobs(
 
   if (filters.q && filters.q.trim()) {
     addCondition(
-      `(title || ' ' || organization || ' ' || coalesce(department,'') || ' ' || coalesce(advertisement_number,'')) ILIKE ?`,
+      `(title || ' ' || organization || ' ' || coalesce(department,'') || ' ' || coalesce(advertisement_number,'') || ' ' || coalesce(job_type::text,'')) ILIKE ?`,
       `%${filters.q.trim()}%`
     );
   }
