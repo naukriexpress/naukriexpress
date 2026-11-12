@@ -76,7 +76,7 @@ export default function CompactJobRow({ job }: { job: JobPosting }) {
           {vacancyLabel}
         </span>
         <span className={`inline-flex items-center rounded-md border px-2 py-1 text-[10px] font-bold leading-none ${lastDateClass}`}>
-          {formatLastDate(job.dates.lastDate).replace(/\\//g, "-")}
+          {formatLastDate(job.dates.lastDate).split("/").join("-")}
         </span>
       </span>
     </Link>
