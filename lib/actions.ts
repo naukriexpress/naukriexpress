@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { createSession, destroySession, verifyCredentials } from "./auth";
 import { createJob, deleteJob, getJobById, updateJob } from "./db";
 import { stripChatGptUtmSource } from "./url-utils";
@@ -150,6 +150,8 @@ function buildJobFromForm(formData: FormData) {
     content: {
       eligibility:
         String(formData.get("content_eligibility") || "") || undefined,
+      additionalDetails:
+        String(formData.get("content_additional_details") || "").trim() || undefined,
     },
 
     seo: {
@@ -174,6 +176,7 @@ export async function createJobAction(formData: FormData) {
   const job = buildJobFromForm(formData);
   const created = await createJob(job);
 
+  revalidateTag("homepage-job-highlights");
   revalidatePath("/admin/jobs");
   revalidatePath("/admin/apprentice");
   revalidatePath("/jobs");
@@ -189,6 +192,7 @@ export async function updateJobAction(id: string, formData: FormData) {
   const job = buildJobFromForm(formData);
   await updateJob(id, job);
 
+  revalidateTag("homepage-job-highlights");
   revalidatePath("/admin/jobs");
   revalidatePath("/admin/apprentice");
   revalidatePath("/jobs");
@@ -205,6 +209,7 @@ export async function deleteJobAction(formData: FormData) {
 
   if (id) await deleteJob(id);
 
+  revalidateTag("homepage-job-highlights");
   revalidatePath("/admin/jobs");
   revalidatePath("/admin/apprentice");
   revalidatePath("/jobs");
@@ -220,6 +225,7 @@ export async function toggleFeaturedAction(formData: FormData) {
     await updateJob(id, { featured: !job.featured });
   }
 
+  revalidateTag("homepage-job-highlights");
   revalidatePath("/admin/jobs");
   revalidatePath("/admin/apprentice");
   revalidatePath("/");
@@ -235,6 +241,7 @@ export async function toggleExpiredAction(formData: FormData) {
     });
   }
 
+  revalidateTag("homepage-job-highlights");
   revalidatePath("/admin/jobs");
   revalidatePath("/admin/apprentice");
   revalidatePath("/jobs");
