@@ -25,7 +25,7 @@ function getVerifiedVacancyCount(job: HomepageJobSummary): number {
   return Math.max(Math.max(0, Number(job.totalVacancies) || 0), rowTotal);
 }
 
-function getJobIcon(job: JobPosting): string {
+function getJobIcon(job: HomepageJobSummary): string {
   const name = `${job.title} ${job.organization}`.toLowerCase();
   if (/railway|\brrb\b|train|locomotive/.test(name)) return "🚆";
   if (/police|crpf|army|defence|defense|itbp|assam rifles|coast guard/.test(name)) return "🛡️";
