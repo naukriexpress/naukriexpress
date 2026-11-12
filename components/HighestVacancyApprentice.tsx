@@ -2,13 +2,13 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import type { JobPosting } from "@/lib/types";
+import type { HomepageJobSummary } from "@/lib/types";
 import { getDaysUntilDate, getIndiaTodayDate } from "@/lib/deadline";
 import { hasPendingVacancyDetails } from "@/lib/jobMarkers";
 
 const CARD_TONES = ["blue"] as const;
 
-function getVerifiedVacancyCount(job: JobPosting): number {
+function getVerifiedVacancyCount(job: HomepageJobSummary): number {
   const pending = hasPendingVacancyDetails({
     noticeDetailsPending: job.noticeDetailsPending,
     totalVacancies: job.totalVacancies,
@@ -97,7 +97,7 @@ export default function HighestVacancyApprentice({
   jobs,
   loadFailed,
 }: {
-  jobs: JobPosting[] | null;
+  jobs: HomepageJobSummary[] | null;
   loadFailed: boolean;
 }) {
   const [today, setToday] = useState(getIndiaTodayDate);
