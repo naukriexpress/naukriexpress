@@ -80,6 +80,8 @@ export interface JobPosting {
 
   content: {
     eligibility?: string;
+    /** Plain-text, admin-managed article guidance rendered below Eligibility Details. */
+    additionalDetails?: string;
   };
 
   seo: {
@@ -93,6 +95,19 @@ export interface JobPosting {
   createdAt: string;
   updatedAt: string;
   views: number;
+}
+
+export interface HomepageJobSummary {
+  id: string;
+  slug: string;
+  title: string;
+  organization: string;
+  jobType: JobType;
+  status: JobStatus;
+  noticeDetailsPending?: boolean;
+  totalVacancies: number;
+  vacancyBreakdown: { count: number }[];
+  dates: { lastDate: string };
 }
 
 export interface JobFilters {

@@ -4,6 +4,11 @@ import HighestVacancySections from "@/components/HighestVacancySections";
 
 const SITE_URL = "https://www.naukriexpress.space";
 
+// Homepage job highlights are rendered from a short-lived server cache so
+// the visitor receives real job rows in the initial HTML rather than waiting
+// for a large client-side /api/jobs download.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: { absolute: "NaukriExpress | Latest Government & Private Jobs in India" },
   description:

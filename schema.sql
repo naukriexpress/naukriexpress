@@ -69,6 +69,7 @@ create table jobs (
   official_website_url text,
 
   content_eligibility text,
+  content_additional_details text,
 
   last_date_extended boolean not null default false,
   notice_details_pending boolean not null default false,
