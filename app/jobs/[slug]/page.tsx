@@ -689,6 +689,18 @@ export default async function JobDetailsPage({
                 )}
             </section>
           )}
+
+          {job.content.additionalDetails?.trim() && (
+            <section className={`${cardFont.className} job-detail-panel mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7`}>
+              <h2 className="job-section-heading mb-4 font-display text-lg font-extrabold tracking-tight text-ink-900">
+                Additional Recruitment Information
+              </h2>
+              <div className="whitespace-pre-line break-words text-sm leading-relaxed text-ink-800">
+                {job.content.additionalDetails}
+              </div>
+            </section>
+          )}
+
 {/* Share */}
           <section className="job-detail-panel mt-5 rounded-xl2 border border-ink-900/10 bg-white p-5 shadow-card sm:p-7">
             <h2 className="mb-3 font-display text-lg font-bold text-ink-900">
