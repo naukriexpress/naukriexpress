@@ -229,6 +229,21 @@ export default function JobForm({
         <RichTextEditor name="content_eligibility" label="Eligibility Details" defaultValue={job?.content.eligibility} placeholder="Example: Model Number | WM118 (one Label | Value item per line)" />
       </Section>
 
+      <Section
+        title="Additional Recruitment Information"
+        hint="This content appears below Eligibility Details on the public job page. Add only verified, job-specific facts and original candidate guidance."
+      >
+        <Field label="Recruitment Guide / Detailed Information">
+          <textarea
+            name="content_additional_details"
+            rows={14}
+            defaultValue={job?.content.additionalDetails}
+            placeholder={"Recruitment overview and key points...\n\nSelection process (as stated in the official notice)...\n\nHow to apply – step by step...\n\nDocuments required...\n\nImportant instructions for applicants...\n\nFrequently asked questions..."}
+            className={`${inputCls} min-h-[280px] resize-y leading-relaxed`}
+          />
+        </Field>
+      </Section>
+
       {/* SEO */}
       <Section title="SEO (optional)" hint="Leave blank to auto-generate from the job title.">
         <Field label="SEO Title">
