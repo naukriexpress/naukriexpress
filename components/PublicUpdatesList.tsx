@@ -1,69 +1,57 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import type { SiteUpdateCategory } from "@/lib/public-content-cache";
-
-type UpdateItem = {
-  id: number;
-  category: SiteUpdateCategory;
-  title: string;
-  organization: string | null;
-  description: string | null;
-  publish_date: string | null;
-  amount: string | null;
-  eligibility: string | null;
-  last_date: string | null;
-  item_url: string | null;
-  objection_url: string | null;
-  apply_url: string | null;
-};
+import {
+  getPublicSiteUpdates,
+  type SiteUpdateCategory,
+  type SiteUpdateItem,
+} from "@/lib/public-content-cache";
 
 type Props = { category: SiteUpdateCategory };
 
-const CATEGORY_PRESENTATION: Record<SiteUpdateCategory, { icon: string; label: string; tone: string; primaryAction: string }> = {
-  results: { icon: "🏆", label: "RESULT", tone: "update-card--emerald", primaryAction: "Check Result" },
-  "answer-key": { icon: "📝", label: "ANSWER KEY", tone: "update-card--emerald", primaryAction: "View Answer Key" },
-  syllabus: { icon: "📚", label: "SYLLABUS", tone: "update-card--emerald", primaryAction: "View Syllabus / PDF" },
-  scholarship: { icon: "🎓", label: "SCHOLARSHIP", tone: "update-card--emerald", primaryAction: "Official Notification" },
-  education: { icon: "🎓", label: "EDUCATION", tone: "update-card--emerald", primaryAction: "View Entrance Exam" },
+const CATEGORY_PRESENTATION: Record<
+  SiteUpdateCategory,
+  { icon: string; label: string; primaryAction: string }
+> = {
+  results: { icon: "🏆", label: "RESULT", primaryAction: "Check Official Result" },
+  "answer-key": { icon: "📝", label: "ANSWER KEY", primaryAction: "Open Official Answer Key" },
+  syllabus: { icon: "📚", label: "SYLLABUS", primaryAction: "View Official Syllabus" },
+  scholarship: { icon: "🎓", label: "SCHOLARSHIP", primaryAction: "Official Scheme Details" },
+  education: { icon: "🎓", label: "EDUCATION", primaryAction: "View Entrance Exam" },
 };
 
-function SkeletonCard() {
-  return (
-    <article className="job-card-skeleton animate-pulse rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5" aria-hidden="true">
-      <div className="flex items-start gap-3">
-        <div className="h-12 w-12 shrink-0 rounded-xl bg-slate-200" />
-        <div className="min-w-0 flex-1 space-y-2 pt-1">
-          <div className="h-3 w-24 rounded bg-slate-100" />
-          <div className="h-4 w-5/6 rounded bg-slate-200" />
-          <div className="h-3 w-2/3 rounded bg-slate-100" />
-        </div>
-      </div>
-      <div className="mt-4 space-y-2">
-        <div className="h-3 w-full rounded bg-slate-100" />
-        <div className="h-3 w-4/5 rounded bg-slate-100" />
-      </div>
-      <div className="mt-4 grid grid-cols-2 gap-2">
-        <div className="h-14 rounded-lg bg-slate-100" />
-        <div className="h-14 rounded-lg bg-slate-100" />
-      </div>
-      <div className="mt-4 grid grid-cols-2 gap-2 border-t border-slate-100 pt-4">
-        <div className="h-10 rounded-lg bg-slate-200" />
-        <div className="h-10 rounded-lg bg-slate-100" />
-      </div>
-    </article>
-  );
-}
+const CATEGORY_LABELS: Record<SiteUpdateCategory, string> = {
+  results: "Results",
+  "answer-key": "Answer Keys",
+  syllabus: "Syllabus",
+  scholarship: "Scholarships",
+  education: "Education",
+};
 
-function formatDate(value: string | null) {
+function formatDate(value: string | null | undefined): string {
   if (!value) return "";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return value.slice(0, 10);
-  return date.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+  const raw = String(value).slice(0, 10);
+  const date = new Date(`${raw}T00:00:00.000Z`);
+  if (Number.isNaN(date.getTime())) return raw;
+  return new Intl.DateTimeFormat("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(date);
 }
 
-function UpdateCard({ item }: { item: UpdateItem }) {
+function safeExternalUrl(value: string | null | undefined): string | null {
+  if (!value) return null;
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" || url.protocol === "http:"
+      ? url.toString()
+      : null;
+  } catch {
+    return null;
+  }
+}
+
+function UpdateCard({ item }: { item: SiteUpdateItem }) {
   const presentation = CATEGORY_PRESENTATION[item.category] || CATEGORY_PRESENTATION.results;
   const initials = (item.organization || item.title)
     .split(/\s+/)
@@ -72,11 +60,53 @@ function UpdateCard({ item }: { item: UpdateItem }) {
     .join("")
     .toUpperCase();
 
+  const rawActions = [
+    {
+      href: item.item_url,
+      label: presentation.primaryAction,
+      style: "border-blue-600 bg-white text-blue-700 hover:bg-blue-50",
+    },
+    {
+      href: item.objection_url,
+      label: "Submit Objection",
+      style: "border-slate-300 bg-white text-slate-700 hover:bg-slate-50",
+    },
+    {
+      href: item.apply_url,
+      label: "Apply Online",
+      style: "border-emerald-700 bg-emerald-700 text-white hover:bg-emerald-800",
+    },
+    {
+      href: item.cap_url,
+      label: "CAP / Admission",
+      style: "border-slate-300 bg-white text-slate-700 hover:bg-slate-50",
+    },
+    {
+      href: item.official_website_url,
+      label: "Official Website",
+      style: "border-slate-300 bg-white text-slate-700 hover:bg-slate-50",
+    },
+  ];
+
+  const seenUrls = new Set<string>();
+  const actions = rawActions.flatMap((action) => {
+    const href = safeExternalUrl(action.href);
+    if (!href || seenUrls.has(href)) return [];
+    seenUrls.add(href);
+    return [{ ...action, href }];
+  });
+
+  const deadlineLabel =
+    item.category === "answer-key" ? "Objection deadline" : "Last date";
+
   return (
-    <article className={`update-listing-card group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg ${presentation.tone}`}>
+    <article className="update-listing-card group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg">
       <div className="flex flex-1 flex-col p-4 sm:p-5">
         <div className="flex items-start gap-3">
-          <div className="update-card-icon grid h-12 w-12 shrink-0 place-items-center rounded-xl border border-sky-100 bg-sky-50 font-display text-sm font-extrabold text-sky-800">
+          <div
+            className="update-card-icon grid h-12 w-12 shrink-0 place-items-center rounded-xl border border-sky-100 bg-sky-50 font-display text-sm font-extrabold text-sky-800"
+            aria-hidden="true"
+          >
             {initials || presentation.icon}
           </div>
           <div className="min-w-0 flex-1">
@@ -84,7 +114,10 @@ function UpdateCard({ item }: { item: UpdateItem }) {
               {presentation.icon} {presentation.label}
             </span>
             <h2 className="update-card-title break-words text-base font-extrabold leading-snug tracking-tight text-slate-950 sm:text-[17px]">
-              <Link href={`/updates/${item.category}/${item.id}`} className="rounded-sm transition-colors hover:text-brand-700 focus-visible:outline-offset-4">
+              <Link
+                href={`/updates/${item.category}/${item.id}`}
+                className="rounded-sm transition-colors hover:text-brand-700 focus-visible:outline-offset-4"
+              >
                 {item.title}
               </Link>
             </h2>
@@ -97,7 +130,7 @@ function UpdateCard({ item }: { item: UpdateItem }) {
         </div>
 
         {item.description && (
-          <p className="update-card-description mt-4 line-clamp-3 whitespace-pre-wrap break-words text-sm leading-relaxed text-slate-700">
+          <p className="update-card-description mt-4 whitespace-pre-line break-words text-sm leading-relaxed text-slate-700">
             {item.description}
           </p>
         )}
@@ -118,7 +151,7 @@ function UpdateCard({ item }: { item: UpdateItem }) {
               <dt className="update-detail-label text-[10px] font-bold uppercase tracking-[0.12em] text-violet-800">
                 Eligibility
               </dt>
-              <dd className="update-detail-value mt-1 line-clamp-3 whitespace-pre-wrap break-words text-sm font-semibold text-slate-950">
+              <dd className="update-detail-value mt-1 whitespace-pre-line break-words text-sm font-semibold text-slate-950">
                 {item.eligibility}
               </dd>
             </div>
@@ -127,101 +160,110 @@ function UpdateCard({ item }: { item: UpdateItem }) {
             <div className="grid grid-cols-2 gap-2">
               {item.publish_date && (
                 <div className="update-detail update-detail--sky min-w-0 rounded-xl border border-sky-100 bg-gradient-to-br from-sky-50 to-white p-3">
-                  <dt className="update-detail-label text-[10px] font-bold uppercase tracking-[0.12em] text-sky-800">Published</dt>
-                  <dd className="update-detail-value mt-1 break-words text-xs font-bold text-slate-950">{formatDate(item.publish_date)}</dd>
+                  <dt className="update-detail-label text-[10px] font-bold uppercase tracking-[0.12em] text-sky-800">
+                    Published
+                  </dt>
+                  <dd className="update-detail-value mt-1 break-words text-xs font-bold text-slate-950">
+                    {formatDate(item.publish_date)}
+                  </dd>
                 </div>
               )}
               {item.last_date && (
                 <div className="update-detail update-detail--rose min-w-0 rounded-xl border border-rose-100 bg-gradient-to-br from-rose-50 to-white p-3">
-                  <dt className="update-detail-label text-[10px] font-bold uppercase tracking-[0.12em] text-rose-800">Last Date</dt>
-                  <dd className="update-detail-value mt-1 break-words text-xs font-bold text-rose-700">{formatDate(item.last_date)}</dd>
+                  <dt className="update-detail-label text-[10px] font-bold uppercase tracking-[0.12em] text-rose-800">
+                    {deadlineLabel}
+                  </dt>
+                  <dd className="update-detail-value mt-1 break-words text-xs font-bold text-rose-700">
+                    {formatDate(item.last_date)}
+                  </dd>
                 </div>
               )}
             </div>
           )}
         </dl>
 
-        <div className="update-card-actions mt-4 flex flex-wrap gap-2 border-t border-slate-100 pt-4">
-          {item.item_url && (
-            <a href={item.item_url} target="_blank" rel="noopener noreferrer" className="update-action update-action--primary inline-flex min-h-10 flex-1 items-center justify-center rounded-lg border border-blue-600 bg-white px-3 py-2 text-center text-xs font-extrabold text-blue-700 transition-colors hover:bg-blue-50 sm:text-sm">
-              {presentation.primaryAction}
-            </a>
-          )}
-          {item.objection_url && (
-            <a href={item.objection_url} target="_blank" rel="noopener noreferrer" className="update-action update-action--secondary inline-flex min-h-10 flex-1 items-center justify-center rounded-lg border border-slate-300 bg-white px-3 py-2 text-center text-xs font-extrabold text-slate-700 transition-colors hover:bg-slate-50 sm:text-sm">
-              Submit Objection
-            </a>
-          )}
-          {item.apply_url && (
-            <a href={item.apply_url} target="_blank" rel="noopener noreferrer" className="update-action update-action--apply inline-flex min-h-10 flex-1 items-center justify-center rounded-lg border border-emerald-700 bg-emerald-700 px-3 py-2 text-center text-xs font-extrabold text-white transition-colors hover:bg-emerald-800 sm:text-sm">
-              Apply Online
-            </a>
-          )}
-        </div>
+        {actions.length > 0 && (
+          <div className="update-card-actions mt-4 flex flex-wrap gap-2 border-t border-slate-100 pt-4">
+            {actions.map((action) => (
+              <a
+                key={action.href}
+                href={action.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`update-action inline-flex min-h-10 flex-1 items-center justify-center rounded-lg border px-3 py-2 text-center text-xs font-extrabold transition-colors sm:text-sm ${action.style}`}
+              >
+                {action.label} ↗
+              </a>
+            ))}
+          </div>
+        )}
       </div>
     </article>
   );
 }
 
-export default function PublicUpdatesList({ category }: Props) {
-  const [items, setItems] = useState<UpdateItem[] | null>(null);
-  const [error, setError] = useState(false);
-  const [retry, setRetry] = useState(0);
+/**
+ * This is deliberately a Server Component. The first HTML response includes
+ * the complete notices and summaries, so visitors and search crawlers do not
+ * have to wait for a browser-only API request to discover the page content.
+ */
+export default async function PublicUpdatesList({ category }: Props) {
+  let items: SiteUpdateItem[] = [];
+  let unavailable = false;
 
-  useEffect(() => {
-    const controller = new AbortController();
-    fetch(`/api/site-updates?category=${encodeURIComponent(category)}`, {
-      cache: "default",
-      signal: controller.signal,
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error("Updates could not be loaded");
-        return response.json();
-      })
-      .then((result: { updates?: UpdateItem[] }) => {
-        if (!Array.isArray(result.updates)) throw new Error("Unexpected updates response");
-        setItems(result.updates);
-        setError(false);
-      })
-      .catch((reason: unknown) => {
-        if (reason instanceof Error && reason.name !== "AbortError") setError(true);
-      });
-
-    return () => controller.abort();
-  }, [category, retry]);
-
-  if (items === null && !error) {
-    return (
-      <section className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3" aria-label="Loading updates" aria-busy="true">
-        {Array.from({ length: 6 }).map((_, index) => <SkeletonCard key={index} />)}
-      </section>
-    );
+  try {
+    items = await getPublicSiteUpdates(category);
+  } catch (error) {
+    console.error(`Public ${category} listing load error:`, error);
+    unavailable = true;
   }
 
-  if (error) {
+  if (unavailable) {
     return (
-      <div role="alert" className="mt-8 rounded-2xl border border-ink-900/10 bg-white p-6 text-center shadow-card">
-        <p className="font-semibold text-ink-900">Updates are temporarily unavailable.</p>
-        <p className="mt-1 text-sm text-ink-700/70">Page open hai; update data dobara load kar sakte hain.</p>
-        <button type="button" onClick={() => { setError(false); setItems(null); setRetry((value) => value + 1); }} className="mt-4 rounded-lg bg-brand-700 px-4 py-2 text-sm font-semibold text-white">
-          Retry
-        </button>
+      <div
+        role="status"
+        className="mt-8 rounded-2xl border border-ink-900/10 bg-white p-6 text-center shadow-card"
+      >
+        <p className="font-semibold text-ink-900">
+          {CATEGORY_LABELS[category]} are temporarily unavailable.
+        </p>
+        <p className="mt-1 text-sm leading-relaxed text-ink-700/70">
+          Please revisit this page later or use the official organisation
+          website for time-sensitive information.
+        </p>
       </div>
     );
   }
 
-  if (!items || items.length === 0) {
+  if (items.length === 0) {
     return (
       <div className="mt-8 rounded-2xl border border-ink-900/10 bg-white p-6 shadow-card">
-        <p className="font-semibold text-ink-900">Abhi koi update publish nahi kiya gaya hai.</p>
-        <p className="mt-1 text-sm text-ink-700/70">Kripya baad mein check karein.</p>
+        <p className="font-semibold text-ink-900">
+          No {CATEGORY_LABELS[category].toLowerCase()} have been published here yet.
+        </p>
+        <p className="mt-1 text-sm leading-relaxed text-ink-700/70">
+          This section will display a notice after the relevant authority
+          releases one. Check the official organisation website for the latest
+          announcement in the meantime.
+        </p>
+        <Link
+          href="/contact"
+          className="mt-3 inline-flex text-sm font-bold text-brand-700 underline underline-offset-4"
+        >
+          Report a missing or incorrect update
+        </Link>
       </div>
     );
   }
 
   return (
-    <section className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3" aria-label="Published updates">
-      {items.map((item) => <UpdateCard key={item.id} item={item} />)}
+    <section
+      className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3"
+      aria-label={`Published ${CATEGORY_LABELS[category]}`}
+    >
+      {items.map((item) => (
+        <UpdateCard key={`${item.category}-${item.id}`} item={item} />
+      ))}
     </section>
   );
 }
