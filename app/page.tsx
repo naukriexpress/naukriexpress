@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: { absolute: "NaukriExpress | Latest Government & Private Jobs in India" },
   description:
-    "NaukriExpress is an independent job update portal for government jobs, private jobs, Maharashtra vacancies, apprenticeships, admit cards, results and recruitment alerts across India.",
+    "NaukriExpress helps candidates compare government jobs, private vacancies, Maharashtra recruitment and apprenticeships using qualification and eligibility filters, with links to official notices.",
   alternates: {
     canonical: `${SITE_URL}/`,
   },
@@ -21,14 +21,14 @@ export const metadata: Metadata = {
     siteName: "NaukriExpress",
     title: "NaukriExpress | Latest Government & Private Jobs in India",
     description:
-      "Explore government jobs, private vacancies, Maharashtra recruitment, apprenticeships, admit cards, results and recruitment updates on NaukriExpress.",
+      "Explore recruitment notices, filter opportunities by eligibility and open the original notification before applying.",
     url: `${SITE_URL}/`,
   },
   twitter: {
     card: "summary",
     title: "NaukriExpress | Latest Government & Private Jobs in India",
     description:
-      "Government jobs, private vacancies, apprenticeships, admit cards and recruitment updates across India.",
+      "Government jobs, private vacancies, apprenticeships and recruitment guidance across India.",
   },
 };
 
@@ -75,6 +75,50 @@ export default function HomePage() {
               </Link>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="container-page mb-10">
+        <div className="rounded-2xl border border-brand-100 bg-white p-5 shadow-sm sm:p-7">
+          <h2 className="font-display text-xl font-extrabold text-ink-900 sm:text-2xl">
+            Find vacancies that match your eligibility
+          </h2>
+          <p className="mt-3 max-w-3xl text-sm leading-7 text-ink-700">
+            A recruitment title alone does not tell you whether a post is
+            suitable. Use the job filters to narrow the list by qualification,
+            age, gender, category, job type, location and application deadline.
+            For multi-post recruitment, check the qualification and age rule
+            against the exact post you intend to apply for.
+          </p>
+          <div className="mt-5 grid gap-4 text-sm sm:grid-cols-3">
+            <div className="rounded-xl bg-slate-50 p-4">
+              <h3 className="font-bold text-ink-900">1. Shortlist</h3>
+              <p className="mt-2 leading-6 text-ink-700">
+                Apply the filters that describe your current qualification and
+                preferred location. A filter result is a starting point, not a
+                final eligibility decision.
+              </p>
+            </div>
+            <div className="rounded-xl bg-slate-50 p-4">
+              <h3 className="font-bold text-ink-900">2. Verify the notice</h3>
+              <p className="mt-2 leading-6 text-ink-700">
+                Open the official notification PDF and confirm the post-wise
+                qualification, age cut-off, category rules, fees and dates.
+              </p>
+            </div>
+            <div className="rounded-xl bg-slate-50 p-4">
+              <h3 className="font-bold text-ink-900">3. Apply at the source</h3>
+              <p className="mt-2 leading-6 text-ink-700">
+                Use the recruiting authority’s own application portal and keep
+                the submitted form and payment receipt for your records.
+              </p>
+            </div>
+          </div>
+          <p className="mt-5 text-xs leading-6 text-ink-700/70">
+            NaukriExpress is an independent information service. The recruiting
+            authority’s notification and website remain the final source for
+            eligibility and application instructions.
+          </p>
         </div>
       </section>
     </>
